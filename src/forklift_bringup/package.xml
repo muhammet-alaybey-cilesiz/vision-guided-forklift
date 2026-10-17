@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>forklift_bringup</name>
+  <version>0.1.0</version>
+  <description>
+    Launch file only. bringup.launch.py starts the simulation (Gazebo window, RViz and, through
+    forklift_gazebo/sim.launch.py, the forklift_safety command chain) and the operator GUI,
+    each switchable by an argument.
+  </description>
+  <maintainer email="muhammetclsz61@gmail.com">muhammet61</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>forklift_gazebo</exec_depend>
+  <exec_depend>forklift_gui</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_cmake_flake8</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
