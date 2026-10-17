@@ -1,0 +1,33 @@
+# =============================================================================
+#  twist_mux 4.5.0 yapılandırması (spesifikasyon §3.3, DECISIONS D-23..D-25)
+# -----------------------------------------------------------------------------
+#  * use_stamped: false ZORUNLU. Verilmezse twist_mux TwistStamped kullanır
+#    (twist_mux.cpp: "defaulting to true"); /cmd_vel köprüsü ise
+#    geometry_msgs/Twist bekler (forklift_gazebo/config/ros_gz_bridge.yaml).
+#    Tip uyuşmazlığında robot hata vermeden hiç hareket etmez.
+#  * twist_mux kilit ya da zaman aşımında yalnız İLETMEYİ keser, sıfır
+#    yayınlamaz; durdurmayı forklift_safety/cmd_vel_gate yapar (D-24).
+#    Çıkış (cmd_vel_out) control.launch.py'de cmd_vel_gate.yaml'daki
+#    input_topic'e yönlendirilir.
+#  * Zaman aşımları duvar saatiyle (use_sim_time: false, D-25).
+#  * Topic adları forklift_gui/config/gui_params.yaml (topics.cmd_vel,
+#    topics.e_stop) ve cmd_vel_gate.yaml ile eşleşmelidir.
+# =============================================================================
+twist_mux:
+  ros__parameters:
+    use_sim_time: false
+    use_stamped: false
+    topics:
+      teleop:                      # operatör GUI'si; manuel komut otonomiyi ezer
+        topic: /cmd_vel/teleop
+        timeout: 0.5               # [s]
+        priority: 100
+      auto:                        # ileride otonomi; şimdilik yayıncısı yok
+        topic: /cmd_vel/auto
+        timeout: 0.5
+        priority: 50
+    locks:
+      e_stop:                      # GUI 10 Hz yayınlar; kesilirse 0.5 s sonra kilit
+        topic: /e_stop
+        timeout: 0.5
+        priority: 255

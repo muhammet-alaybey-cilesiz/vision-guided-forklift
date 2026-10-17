@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>forklift_safety</name>
+  <version>0.1.0</version>
+  <description>
+    Fail-safe stop for the forklift base. cmd_vel_gate sits between twist_mux and the DiffDrive
+    bridge: it forwards commands while /e_stop is released and fresh, and publishes a zero Twist
+    at once on an e-stop rising edge and repeatedly while the e-stop is engaged or stale or the
+    input is silent. twist_mux only masks inputs and gz DiffDrive keeps the last command, so
+    without this node an e-stop or a GUI crash would leave the robot moving (DECISIONS D-24).
+    Also owns the command chain: config/twist_mux.yaml, config/cmd_vel_gate.yaml and
+    launch/control.launch.py, which forklift_gazebo/sim.launch.py starts by default (D-42).
+  </description>
+  <maintainer email="muhammetclsz61@gmail.com">muhammet61</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <!-- launch/control.launch.py (D-42) -->
+  <exec_depend>twist_mux</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_cmake_clang_format</test_depend>
+  <test_depend>ament_cmake_cpplint</test_depend>
+  <test_depend>ament_cmake_flake8</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

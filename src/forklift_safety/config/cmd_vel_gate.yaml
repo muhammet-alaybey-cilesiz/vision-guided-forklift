@@ -1,0 +1,18 @@
+# =============================================================================
+#  forklift_safety/cmd_vel_gate yapılandırması (DECISIONS D-24, D-25, D-42)
+# -----------------------------------------------------------------------------
+#  twist_mux çıkışı → kapı → /cmd_vel (DiffDrive köprüsü). Kapı, e-stop
+#  yükselen kenarında hemen; e-stop etkin, eski (> e_stop_timeout) ya da girdi
+#  sessizken (> input_timeout) zero_rate ile sıfır Twist yayınlar.
+#  Düğümün varsayılan değeri yoktur; bu dosya verilmeden başlamaz.
+# =============================================================================
+cmd_vel_gate:
+  ros__parameters:
+    use_sim_time: false            # duvar saati (D-25)
+    input_topic: /cmd_vel/mux      # twist_mux çıkışı; control.launch.py bunu twist_mux'a da verir
+    output_topic: /cmd_vel         # ros_gz_bridge → gz DiffDrive (geometry_msgs/Twist)
+    e_stop_topic: /e_stop          # twist_mux kilidiyle aynı topic
+    input_timeout: 0.2             # [s] teleop 20 Hz → 4 periyot; GUI çökmesinde durdurma süresi
+    e_stop_timeout: 0.5            # [s] twist_mux kilit zaman aşımıyla aynı
+    zero_rate: 10.0                # [Hz] dururken sıfırın tekrar hızı
+    check_rate: 50.0               # [Hz] zaman aşımı denetimi (20 ms çözünürlük)
