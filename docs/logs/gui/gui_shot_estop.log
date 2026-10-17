@@ -1,0 +1,7 @@
+[WARN] [1792100420.721538017] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1792100420.721574424] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[INFO] [1792100421.183941343] [forklift_gui]: ROS bağlantısı: normal
+[INFO] [1792100421.668892344] [forklift_gui]: Simülasyon saati (/clock): normal
+[INFO] [1792100421.668971252] [forklift_gui]: Genel sağlık: normal
+forklift_gui: ekran görüntüsü kaydedildi: /home/muhammet61/cv_forklift_ws/docs/images/gui_main_estop.png
+forklift_gui: düzenli kapanış tamam

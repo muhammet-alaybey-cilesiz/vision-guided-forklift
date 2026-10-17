@@ -1,0 +1,16 @@
+[WARN] [1792100307.460293495] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1792100307.460331475] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[WARN] [1792100307.932701173] [forklift_gui]: ROS bağlantısı: bekleniyor
+[INFO] [1792100308.892267939] [forklift_gui]: Simülasyon saati (/clock): normal
+[INFO] [1792100308.892332844] [forklift_gui]: Genel sağlık: normal
+[INFO] [1792100308.982848643] [forklift_gui]: ROS bağlantısı: normal
+[WARN] [1792100309.606059632] [forklift_gui]: Simülasyon saati (/clock): uyarı
+[WARN] [1792100309.606152213] [forklift_gui]: Genel sağlık: uyarı
+[INFO] [1792100309.843350158] [forklift_gui]: Simülasyon saati (/clock): normal
+[INFO] [1792100309.843421979] [forklift_gui]: Genel sağlık: normal
+[WARN] [1792100325.572994762] [forklift_gui]: Genel sağlık: uyarı
+[INFO] [1792100325.822759877] [forklift_gui]: Genel sağlık: normal
+[INFO] [1792100327.864051661] [forklift_gui]: E-STOP serbest bırakıldı
+[INFO] [1792100329.495356427] [forklift_gui]: Çatal hedefe ulaştı: 60.0 mm
+[WARN] [1792100336.376054082] [forklift_gui]: E-STOP etkin
+[INFO] [1792100339.915262054] [forklift_gui]: E-STOP serbest bırakıldı

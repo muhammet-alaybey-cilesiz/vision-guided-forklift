@@ -1,0 +1,17 @@
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/Testing/20261015-2138/Test.xml: 14 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/clang_format.xunit.xml: 46 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/cpplint.xunit.xml: 46 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/flake8.xunit.xml: 1 test, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/lint_cmake.xunit.xml: 1 test, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/qmllint.xml: 1 test, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/test_camera.xml: 4 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/test_dataset.xml: 4 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/test_fork.xml: 8 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/test_health.xml: 5 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/test_log.xml: 4 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/test_safety.xml: 5 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/test_telemetry.xml: 6 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/test_teleop.xml: 7 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_gui/test_results/forklift_gui/xmllint.xunit.xml: 1 test, 0 errors, 0 failures, 0 skipped
+
+Summary: 153 tests, 0 errors, 0 failures, 0 skipped

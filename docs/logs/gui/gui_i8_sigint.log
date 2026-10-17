@@ -1,0 +1,7 @@
+[WARN] [1792100459.589924564] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1792100459.589957092] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[INFO] [1792100460.049264001] [forklift_gui]: ROS bağlantısı: normal
+[INFO] [1792100460.515908126] [forklift_gui]: Simülasyon saati (/clock): normal
+[INFO] [1792100460.515980745] [forklift_gui]: Genel sağlık: normal
+forklift_gui: düzenli kapanış tamam
+Xlib:  extension "NV-GLX" missing on display ":1".

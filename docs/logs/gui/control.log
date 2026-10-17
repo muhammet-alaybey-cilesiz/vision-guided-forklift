@@ -1,0 +1,21 @@
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-16-00-40-51-480618-muhammet61-46030
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [twist_mux-1]: process started with pid [46055]
+[INFO] [cmd_vel_gate-2]: process started with pid [46056]
+[cmd_vel_gate-2] [WARN] [1792100451.525766958] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[cmd_vel_gate-2] [WARN] [1792100451.525780203] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[twist_mux-1] [WARN] [1792100451.526027828] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[twist_mux-1] [WARN] [1792100451.526037446] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[twist_mux-1] [INFO] [1792100451.534545309] [twist_mux]: Topic handler 'topics.auto' subscribed to topic '/cmd_vel/auto': timeout = 0.500000s , priority = 50.
+[twist_mux-1] [INFO] [1792100451.535335394] [twist_mux]: Topic handler 'topics.teleop' subscribed to topic '/cmd_vel/teleop': timeout = 0.500000s , priority = 100.
+[twist_mux-1] [INFO] [1792100451.535455207] [twist_mux]: Topic handler 'locks.e_stop' subscribed to topic '/e_stop': timeout = 0.500000s , priority = 255.
+[cmd_vel_gate-2] [INFO] [1792100451.535508918] [cmd_vel_gate]: /cmd_vel/mux -> /cmd_vel (e-stop: /e_stop, girdi zaman aşımı 0.20 s, kilit 0.50 s)
+[cmd_vel_gate-2] [WARN] [1792100451.555595072] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [cmd_vel_gate-2]: sending signal 'SIGINT' to process[cmd_vel_gate-2]
+[INFO] [twist_mux-1]: sending signal 'SIGINT' to process[twist_mux-1]
+[twist_mux-1] [INFO] [1792100466.226492740] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[cmd_vel_gate-2] [INFO] [1792100466.226503104] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[cmd_vel_gate-2] [INFO] [1792100466.227979364] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ERROR] [twist_mux-1]: process has died [pid 46055, exit code -2, cmd '/opt/ros/jazzy/lib/twist_mux/twist_mux --ros-args -r __node:=twist_mux --params-file /home/muhammet61/cv_forklift_ws/install/forklift_bringup/share/forklift_bringup/config/twist_mux.yaml -r cmd_vel_out:=/cmd_vel/mux'].
+[INFO] [cmd_vel_gate-2]: process has finished cleanly [pid 46056]

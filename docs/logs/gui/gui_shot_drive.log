@@ -1,0 +1,13 @@
+[WARN] [1792100429.601149748] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1792100429.601196657] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[INFO] [1792100430.063688431] [forklift_gui]: ROS bağlantısı: normal
+[INFO] [1792100430.560630960] [forklift_gui]: Simülasyon saati (/clock): normal
+[INFO] [1792100430.822881705] [forklift_gui]: Genel sağlık: normal
+[INFO] [1792100432.472327129] [forklift_gui]: E-STOP serbest bırakıldı
+[INFO] [1792100433.510891421] [forklift_gui]: Sürekli kayıt başladı (2 Hz)
+[INFO] [1792100433.511649798] [forklift_gui]: Veri seti oturumu: /tmp/forklift_dataset_test_483bttm6/20261016_004033
+[INFO] [1792100434.143973022] [forklift_gui]: Çatal hedefe ulaştı: 60.0 mm
+[WARN] [1792100450.219502022] [forklift_gui]: E-STOP etkin
+[INFO] [1792100450.219560758] [forklift_gui]: Sürekli kayıt durdu (oturumda 34 kayıt)
+forklift_gui: ekran görüntüsü kaydedildi: /home/muhammet61/cv_forklift_ws/docs/images/gui_main_sim.png
+forklift_gui: düzenli kapanış tamam

@@ -1,0 +1,8 @@
+Starting >>> forklift_gui
+Starting >>> forklift_safety
+Finished <<< forklift_safety [1.15s]
+Finished <<< forklift_gui [5.89s]
+Starting >>> forklift_bringup
+Finished <<< forklift_bringup [1.00s]
+
+Summary: 3 packages finished [6.99s]

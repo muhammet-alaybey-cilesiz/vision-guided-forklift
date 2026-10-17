@@ -1,0 +1,6 @@
+/home/muhammet61/cv_forklift_ws/build/forklift_bringup/Testing/20261015-2138/Test.xml: 3 tests, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_bringup/test_results/forklift_bringup/flake8.xunit.xml: 1 test, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_bringup/test_results/forklift_bringup/lint_cmake.xunit.xml: 1 test, 0 errors, 0 failures, 0 skipped
+/home/muhammet61/cv_forklift_ws/build/forklift_bringup/test_results/forklift_bringup/xmllint.xunit.xml: 1 test, 0 errors, 0 failures, 0 skipped
+
+Summary: 6 tests, 0 errors, 0 failures, 0 skipped
