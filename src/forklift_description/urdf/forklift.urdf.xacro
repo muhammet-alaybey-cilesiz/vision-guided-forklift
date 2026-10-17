@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+  forklift.urdf.xacro — üst seviye montaj
+  Yalnızca argümanları tanımlar, parametre dosyasını yükler ve bileşen
+  makrolarını çağırır. Tüm sayısal değerler params_file içindedir.
+
+  Argümanlar:
+    prefix      : frame ve eklem adlarına eklenen ön ek (varsayılan boş)
+    use_sim     : true ise yalnız-simülasyon içeriği (gazebo/forklift.gazebo.xacro)
+                  dahil edilir
+    params_file : parametre YAML dosyası
+
+  Dahil etmeler göreli yoldur. params_file varsayılanı $(find ...) kullanır,
+  çünkü kurulu xacro 2.1.1 xacro:arg varsayılanında $(dirname) çözemiyor.
+  Paket kurulu değilse params_file:=<yol> verilmelidir.
+-->
+<robot name="forklift" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="use_sim" default="false"/>
+  <xacro:arg name="params_file" default="$(find forklift_description)/config/forklift_params.yaml"/>
+
+  <xacro:property name="prefix" value="$(arg prefix)"/>
+  <xacro:property name="cfg" value="${xacro.load_yaml('$(arg params_file)')}"/>
+
+  <xacro:include filename="common/inertial_macros.xacro"/>
+  <xacro:include filename="common/materials.xacro"/>
+  <xacro:include filename="components/chassis.xacro"/>
+  <xacro:include filename="components/drive_wheel.xacro"/>
+  <xacro:include filename="components/caster.xacro"/>
+  <xacro:include filename="components/mast.xacro"/>
+  <xacro:include filename="components/fork_carriage.xacro"/>
+  <xacro:include filename="components/camera.xacro"/>
+
+  <!-- gövde ve yürüyüş -->
+  <xacro:forklift_base_frames prefix="${prefix}" cfg="${cfg}"/>
+  <xacro:chassis prefix="${prefix}" cfg="${cfg}"/>
+  <xacro:drive_wheel prefix="${prefix}" side="left" cfg="${cfg}"/>
+  <xacro:drive_wheel prefix="${prefix}" side="right" cfg="${cfg}"/>
+  <xacro:caster prefix="${prefix}" cfg="${cfg}"/>
+
+  <!-- direk, kaldırma ve kameralar -->
+  <xacro:mast prefix="${prefix}" cfg="${cfg}"/>
+  <xacro:fork_carriage prefix="${prefix}" cfg="${cfg}"/>
+  <xacro:mast_camera prefix="${prefix}" name="front_camera" cfg="${cfg}"/>
+  <xacro:mast_camera prefix="${prefix}" name="lane_camera" cfg="${cfg}"/>
+
+  <!-- yalnızca simülasyon: plugin'ler, sürtünme, sensör blokları -->
+  <xacro:if value="$(arg use_sim)">
+    <xacro:include filename="gazebo/forklift.gazebo.xacro"/>
+    <xacro:forklift_gazebo prefix="${prefix}" cfg="${cfg}"/>
+  </xacro:if>
+
+</robot>

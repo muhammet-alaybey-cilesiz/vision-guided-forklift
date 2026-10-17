@@ -1,0 +1,164 @@
+# =============================================================================
+#  forklift_params.yaml — forklift robotunun TEK doğruluk kaynağı
+# -----------------------------------------------------------------------------
+#  Robotun tüm ölçü, kütle, limit, sürtünme, kontrol ve sensör parametreleri
+#  bu dosyadadır. Xacro dosyaları bu dosyayı xacro.load_yaml() ile okur.
+#  Xacro içinde yalnızca formül katsayıları (1/2, 1/12, 2/5 ...) ve
+#  konvansiyon sabitleri (optical frame dönüşü için ±π/2) bulunur.
+#
+#  Birimler (REP-103): m, kg, s, rad, N, N·m.  Eksenler: x ileri, y sol, z yukarı.
+#  Referans çerçeve: base_link = tahrik tekerleği aks merkezi.
+#    * x / y / z / center alanları base_link'e göredir.
+#    * ground_z* alanları zeminden MUTLAK yüksekliktir (base_footprint, z = 0).
+#  base_link'in zemin yüksekliği = drive_wheel.radius (düz zeminde aks merkezi).
+#  Türetilen değerler (xacro hesaplar, burada TEKRAR YAZILMAZ):
+#    * tekerlek y konumu = ±drive_wheel.separation / 2
+#    * caster z = caster.radius - drive_wheel.radius  (küre zemine teğet)
+#    * direk üst z = mast.ground_z_bottom + mast.upright.size.z
+#    * çatal x merkezi = fork.x_min + fork.size.x / 2
+#  Spesifikasyondan sapan veya spesifikasyonda olmayan değerler "[D-xx]"
+#  etiketiyle işaretlidir; gerekçeleri workspace kökündeki DECISIONS.md'de.
+# =============================================================================
+
+# ---------------------------------------------------------------- gövde -----
+chassis:
+  size: {x: 0.40, y: 0.30, z: 0.15}     # kutu boyutları
+  mass: 8.0
+  center: {x: -0.12, y: 0.0, z: 0.045}  # kutu merkezi (base_link'e göre)
+  # kontrol: x ∈ [-0.32, +0.08], zemin z ∈ [0.02, 0.17]
+
+# ------------------------------------------------- tahrik tekerlekleri ------
+drive_wheel:
+  radius: 0.05            # base_link yüksekliğini de belirler
+  width: 0.03
+  mass: 0.5               # her biri
+  separation: 0.34        # tekerlek merkezleri arası (DiffDrive wheel_separation)
+  collision_shape: sphere     # cylinder | sphere — [D-20] silindirde yerinde dönüş %9 fazla
+                              # (iki kenar temas noktası); görsel/atalet her zaman silindir
+  joint:                  # continuous eklem, eksen +y
+    effort_limit: 5.0     # [N·m]   [D-14] spesifikasyonda yok
+    velocity_limit: 20.0  # [rad/s] [D-14] spesifikasyonda yok (≈1.0 m/s)
+    damping: 0.0          # [N·m·s/rad] spesifikasyonda yok
+    friction: 0.0         # [N·m]       spesifikasyonda yok
+
+# ------------------------------------------------------- sarhoş teker -------
+caster:
+  radius: 0.025           # küre
+  mass: 0.2
+  x: -0.28                # z türetilir: -0.025 (zemine teğet)
+
+# --------------------------------------------------------------- direk ------
+mast:
+  x: 0.095                # dikmelerin x merkezi
+  ground_z_bottom: 0.02   # dikme alt yüzü; üst yüzü = 0.52
+  mass: 1.0               # dikmeler + üst çubuk TOPLAM; hacim oranıyla dağıtılır [D-04]
+  upright:
+    size: {x: 0.03, y: 0.03, z: 0.50}
+    y: 0.10               # ± konum
+  top_bar:
+    size: {x: 0.03, y: 0.23, z: 0.03}
+    # üst yüzü dikme tepesiyle hizalı: zemin z ∈ [0.49, 0.52]   [D-05]
+
+# ------------------------------------------------- taşıyıcı ve kaldırma -----
+fork_carriage:
+  size: {x: 0.02, y: 0.24, z: 0.12}   # plaka
+  mass: 0.5
+  x: 0.12                 # plaka merkezi
+  ground_z_bottom: 0.01   # eklem 0'da plaka alt kenarı; üst kenar = 0.13
+
+fork_lift_joint:          # prismatic, parent mast_link, eksen +z
+  lower: 0.0
+  upper: 0.15
+  velocity: 0.05          # [m/s]
+  effort: 200.0           # [N]
+  damping: 5.0            # [N·s/m]
+  friction: 0.0           # [N] spesifikasyonda yok
+
+# ------------------------------------------------------------- çatallar -----
+fork:
+  size: {x: 0.25, y: 0.04, z: 0.015}
+  mass: 0.2               # her biri
+  x_min: 0.13             # çatal kökü (taşıyıcı ön yüzü); uç = 0.38
+  y: 0.04                 # ± merkez; dış açıklık = 2·(0.04 + 0.02) = 0.12
+  ground_z_bottom: 0.010  # eklem 0'da alt yüz; üst yüz = 0.025
+
+# ------------------------------------------------------------ kameralar -----
+# İkisi de mast_link'e sabit (çatalla birlikte hareket etmez).
+# Konum = optik merkez. pitch: aşağı bakış pozitif (REP-103'te +y etrafında
+# pozitif dönüş x eksenini aşağı çevirir). Görüntü frame_id'si
+# <isim>_optical_frame'dir (xacro üretir).
+cameras:
+  front_camera:           # koli / mühür kamerası
+    x: 0.10
+    y: 0.0
+    ground_z: 0.45
+    pitch: 0.2617994      # 15°
+    horizontal_fov: 1.047 # 60°
+    image: {width: 640, height: 480, format: R8G8B8}
+    update_rate: 30.0     # [Hz]
+    noise: {type: gaussian, mean: 0.0, stddev: 0.007}
+    clip: {near: 0.05, far: 30.0}             # [D-06] spesifikasyonda yok
+    mass: 0.05
+    body_size: {x: 0.02, y: 0.06, z: 0.025}   # [D-07] spesifikasyonda yok; mercek ön yüzde
+    topic: /front_camera/image_raw
+    camera_info_topic: /front_camera/camera_info
+  lane_camera:            # şerit kamerası
+    x: 0.10
+    y: 0.0
+    ground_z: 0.54
+    pitch: 0.7853982      # 45°
+    horizontal_fov: 1.396 # 80°
+    image: {width: 640, height: 480, format: R8G8B8}
+    update_rate: 30.0
+    noise: {type: gaussian, mean: 0.0, stddev: 0.007}
+    clip: {near: 0.05, far: 30.0}             # [D-06]
+    mass: 0.05
+    body_size: {x: 0.02, y: 0.06, z: 0.025}   # [D-07]
+    topic: /lane_camera/image_raw
+    camera_info_topic: /lane_camera/camera_info
+
+# =============================================================================
+#  Yalnızca simülasyon (forklift.gazebo.xacro okur). Kinematik/dinamik tanım
+#  bu bölümden bağımsızdır.
+# =============================================================================
+gazebo:
+  # <surface><friction><ode><mu>/<mu2>; gz-physics dartsim bu alanları okur
+  friction:
+    drive_wheel: {mu1: 1.0, mu2: 1.0}
+    caster:      {mu1: 0.0, mu2: 0.0}
+    fork:        {mu1: 1.0, mu2: 1.0}
+
+  interface:
+    odom_frame: odom              # DiffDrive frame_id (xacro prefix ekler)
+    cmd_vel_topic: /cmd_vel
+    odom_topic: /odom
+    tf_topic: /tf                 # DiffDrive odom → base_footprint (gz.msgs.Pose_V)
+    joint_states_topic: /joint_states
+    fork_cmd_topic: /fork/cmd_height
+
+  diff_drive:
+    odom_publish_frequency: 50.0  # [Hz]
+    # Hız / ivme sınırlayıcı [D-09]: sınırsız frende yüklü robotun arka
+    # tekeri ~4.5 m/s² üzerinde kalkar; μ=1 ile sınırsız fren ~13.6 m/s².
+    max_linear_velocity: 0.5      # [m/s]
+    min_linear_velocity: -0.5
+    max_angular_velocity: 1.5     # [rad/s]
+    min_angular_velocity: -1.5
+    max_linear_acceleration: 1.0  # [m/s²]
+    min_linear_acceleration: -1.0 # negatif = en büyük yavaşlama
+    max_angular_acceleration: 3.0 # [rad/s²]
+    min_angular_acceleration: -3.0
+
+  fork_controller:                # gz JointPositionController [D-10]
+    # false: PID (kuvvet) modu, cmd_max/cmd_min = ±fork_lift_joint.effort; hız
+    # sınırını (0.05 m/s) DART eklem limiti uygular.
+    # true : hız (servo) modu, cmd_max = fork_lift_joint.velocity. DART 6.13,
+    # eklem alt limitteyken servo kısıtını atladığından çatal 0'dan kalkamıyor.
+    use_velocity_commands: false
+    initial_position: 0.0         # [m]
+    # PID kazançları [N/m, N/(m·s), N·s/m]; i_max/i_min integral terimi sınırı [N]
+    # (yüklü taşıyıcı ağırlığı 13.7 N'u karşılar)
+    pid: {p: 10000.0, i: 2000.0, d: 130.0, i_max: 15.0, i_min: -15.0}
+
+  joint_state_publisher:
+    update_rate: 50.0             # [Hz] [D-11] varsayılan 0 = her adım (1 kHz)

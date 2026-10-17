@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--
+  fork_carriage.xacro
+  Taşıyıcı plaka + iki çatal. fork_lift_joint: prismatic, parent mast_link,
+  eksen +z, alt limit 0 = çatallar en alt konumda.
+  - fork_carriage_link çerçevesi plaka merkezindedir (eklem 0'da).
+  - Çatal çerçeveleri çatal kutusunun merkezindedir.
+  Tüm konumlar YAML'daki base_link / zemin değerlerinden türetilir.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="fork_carriage" params="prefix cfg">
+    <xacro:property name="cr" value="${cfg.fork_carriage}"/>
+    <xacro:property name="lj" value="${cfg.fork_lift_joint}"/>
+    <!-- plaka merkezi, mast_link çerçevesinde (eklem 0) -->
+    <xacro:property name="cr_x" value="${cr.x - cfg.mast.x}"/>
+    <xacro:property name="cr_z" value="${cr.ground_z_bottom + cr.size.z / 2.0 - cfg.mast.ground_z_bottom}"/>
+
+    <link name="${prefix}fork_carriage_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><box size="${cr.size.x} ${cr.size.y} ${cr.size.z}"/></geometry>
+        <material name="forklift_steel"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><box size="${cr.size.x} ${cr.size.y} ${cr.size.z}"/></geometry>
+      </collision>
+      <xacro:box_inertial mass="${cr.mass}" x="${cr.size.x}" y="${cr.size.y}" z="${cr.size.z}">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:box_inertial>
+    </link>
+
+    <joint name="${prefix}fork_lift_joint" type="prismatic">
+      <parent link="${prefix}mast_link"/>
+      <child link="${prefix}fork_carriage_link"/>
+      <origin xyz="${cr_x} 0 ${cr_z}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${lj.lower}" upper="${lj.upper}" effort="${lj.effort}" velocity="${lj.velocity}"/>
+      <dynamics damping="${lj.damping}" friction="${lj.friction}"/>
+    </joint>
+
+    <xacro:fork prefix="${prefix}" side="left" cfg="${cfg}"/>
+    <xacro:fork prefix="${prefix}" side="right" cfg="${cfg}"/>
+  </xacro:macro>
+
+  <!-- Tek çatal; taşıyıcıya sabit. side: left (+y) | right (-y) -->
+  <xacro:macro name="fork" params="prefix side cfg">
+    <xacro:unless value="${side in ('left', 'right')}">
+      ${xacro.fatal('fork: side left veya right olmalı; verilen: ' + str(side))}
+    </xacro:unless>
+    <xacro:property name="fk" value="${cfg.fork}"/>
+    <xacro:property name="cr" value="${cfg.fork_carriage}"/>
+    <xacro:property name="y_sign" value="${1.0 if side == 'left' else -1.0}"/>
+    <!-- çatal merkezi, taşıyıcı plaka merkezine göre -->
+    <xacro:property name="fk_x" value="${fk.x_min + fk.size.x / 2.0 - cr.x}"/>
+    <xacro:property name="fk_z" value="${(fk.ground_z_bottom + fk.size.z / 2.0) - (cr.ground_z_bottom + cr.size.z / 2.0)}"/>
+
+    <link name="${prefix}${side}_fork_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><box size="${fk.size.x} ${fk.size.y} ${fk.size.z}"/></geometry>
+        <material name="forklift_steel"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><box size="${fk.size.x} ${fk.size.y} ${fk.size.z}"/></geometry>
+      </collision>
+      <xacro:box_inertial mass="${fk.mass}" x="${fk.size.x}" y="${fk.size.y}" z="${fk.size.z}">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:box_inertial>
+    </link>
+    <joint name="${prefix}${side}_fork_joint" type="fixed">
+      <parent link="${prefix}fork_carriage_link"/>
+      <child link="${prefix}${side}_fork_link"/>
+      <origin xyz="${fk_x} ${y_sign * fk.y} ${fk_z}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

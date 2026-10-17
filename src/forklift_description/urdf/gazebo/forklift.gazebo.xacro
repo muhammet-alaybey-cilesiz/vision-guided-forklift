@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!--
+  forklift.gazebo.xacro — YALNIZCA simülasyon (Gazebo Sim 8 / Harmonic)
+  Robotun Gazebo'ya özgü tüm içeriği bu dosyadadır; forklift.urdf.xacro bunu
+  yalnızca use_sim:=true iken dahil eder. Üç bağımsız bölüm:
+    1) Yüzey      : sürtünme katsayıları (<gazebo reference> → SDF <surface>)
+    2) Sensörler  : iki kamera sensörü
+    3) Kontrol    : DiffDrive, JointPositionController, JointStatePublisher
+                    (gz_ros2_control'e geçişte YALNIZCA bu bölüm değişir)
+  Tüm değerler forklift_params.yaml → cfg.gazebo ve cfg.cameras.
+  Plugin ve SDF eleman adları kurulu sürümlerin kaynağından doğrulandı
+  (gz-sim 8.15.0, gz-sensors 8.2.2, sdformat 14.9.0; bkz. DECISIONS D-08..D-11).
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- 1) Yüzey: link'in tüm çarpışma elemanlarına mu1/mu2. Birleştirilen
+       (lumped) link'lerde sdformat eşleştirmeyi çarpışma adıyla yapar; bu
+       yüzden URDF <collision> elemanları adsızdır (DECISIONS D-03). -->
+  <xacro:macro name="gz_surface" params="link fr">
+    <gazebo reference="${link}">
+      <mu1>${fr.mu1}</mu1>
+      <mu2>${fr.mu2}</mu2>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- 2) Kamera sensörü. Sensör <name>_link'e bağlıdır (Gazebo kamerası +x'e
+       bakar); mesaj frame_id'si <camera><optical_frame_id> ile optical frame
+       olur (gz-sensors CameraSensor.cc: görüntü ve camera_info başlıkları). -->
+  <xacro:macro name="gz_camera_sensor" params="prefix name cam">
+    <gazebo reference="${prefix}${name}_link">
+      <sensor name="${name}" type="camera">
+        <pose>0 0 0 0 0 0</pose>
+        <always_on>true</always_on>
+        <update_rate>${cam.update_rate}</update_rate>
+        <visualize>false</visualize>
+        <topic>${cam.topic}</topic>
+        <camera name="${name}">
+          <camera_info_topic>${cam.camera_info_topic}</camera_info_topic>
+          <optical_frame_id>${prefix}${name}_optical_frame</optical_frame_id>
+          <horizontal_fov>${cam.horizontal_fov}</horizontal_fov>
+          <image>
+            <width>${cam.image.width}</width>
+            <height>${cam.image.height}</height>
+            <format>${cam.image.format}</format>
+          </image>
+          <clip>
+            <near>${cam.clip.near}</near>
+            <far>${cam.clip.far}</far>
+          </clip>
+          <noise>
+            <type>${cam.noise.type}</type>
+            <mean>${cam.noise.mean}</mean>
+            <stddev>${cam.noise.stddev}</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="forklift_gazebo" params="prefix cfg">
+    <xacro:property name="gzc" value="${cfg.gazebo}"/>
+    <xacro:property name="itf" value="${cfg.gazebo.interface}"/>
+    <xacro:property name="dd" value="${cfg.gazebo.diff_drive}"/>
+    <xacro:property name="fc" value="${cfg.gazebo.fork_controller}"/>
+
+    <!-- ============================ 1) Yüzey ============================ -->
+    <xacro:gz_surface link="${prefix}left_wheel_link" fr="${gzc.friction.drive_wheel}"/>
+    <xacro:gz_surface link="${prefix}right_wheel_link" fr="${gzc.friction.drive_wheel}"/>
+    <xacro:gz_surface link="${prefix}caster_link" fr="${gzc.friction.caster}"/>
+    <xacro:gz_surface link="${prefix}left_fork_link" fr="${gzc.friction.fork}"/>
+    <xacro:gz_surface link="${prefix}right_fork_link" fr="${gzc.friction.fork}"/>
+
+    <!-- =========================== 2) Sensörler ========================= -->
+    <xacro:gz_camera_sensor prefix="${prefix}" name="front_camera" cam="${cfg.cameras.front_camera}"/>
+    <xacro:gz_camera_sensor prefix="${prefix}" name="lane_camera" cam="${cfg.cameras.lane_camera}"/>
+
+    <!-- ============================ 3) Kontrol ========================== -->
+    <gazebo>
+      <!-- Diferansiyel sürüş: /cmd_vel → tekerlek hız komutları; odometri
+           tekerlek eklem konumlarından (DiffDrive.cc). min_* negatif sınırdır. -->
+      <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+        <left_joint>${prefix}left_wheel_joint</left_joint>
+        <right_joint>${prefix}right_wheel_joint</right_joint>
+        <wheel_separation>${cfg.drive_wheel.separation}</wheel_separation>
+        <wheel_radius>${cfg.drive_wheel.radius}</wheel_radius>
+        <odom_publish_frequency>${dd.odom_publish_frequency}</odom_publish_frequency>
+        <max_linear_velocity>${dd.max_linear_velocity}</max_linear_velocity>
+        <min_linear_velocity>${dd.min_linear_velocity}</min_linear_velocity>
+        <max_angular_velocity>${dd.max_angular_velocity}</max_angular_velocity>
+        <min_angular_velocity>${dd.min_angular_velocity}</min_angular_velocity>
+        <max_linear_acceleration>${dd.max_linear_acceleration}</max_linear_acceleration>
+        <min_linear_acceleration>${dd.min_linear_acceleration}</min_linear_acceleration>
+        <max_angular_acceleration>${dd.max_angular_acceleration}</max_angular_acceleration>
+        <min_angular_acceleration>${dd.min_angular_acceleration}</min_angular_acceleration>
+        <topic>${itf.cmd_vel_topic}</topic>
+        <odom_topic>${itf.odom_topic}</odom_topic>
+        <tf_topic>${itf.tf_topic}</tf_topic>
+        <frame_id>${prefix}${itf.odom_frame}</frame_id>
+        <child_frame_id>${prefix}base_footprint</child_frame_id>
+      </plugin>
+
+      <!-- Çatal kaldırma: /fork/cmd_height [m] (DECISIONS D-10).
+           Hız modunda cmd_max hız sınırıdır ve MUTLAKA verilmelidir; aksi halde
+           denetleyici -hata/dt ister (JointPositionController.cc:449-456). -->
+      <plugin filename="gz-sim-joint-position-controller-system"
+              name="gz::sim::systems::JointPositionController">
+        <joint_name>${prefix}fork_lift_joint</joint_name>
+        <topic>${itf.fork_cmd_topic}</topic>
+        <initial_position>${fc.initial_position}</initial_position>
+        <xacro:if value="${fc.use_velocity_commands}">
+          <use_velocity_commands>true</use_velocity_commands>
+          <cmd_max>${cfg.fork_lift_joint.velocity}</cmd_max>
+          <cmd_min>${-cfg.fork_lift_joint.velocity}</cmd_min>
+        </xacro:if>
+        <xacro:unless value="${fc.use_velocity_commands}">
+          <p_gain>${fc.pid.p}</p_gain>
+          <i_gain>${fc.pid.i}</i_gain>
+          <d_gain>${fc.pid.d}</d_gain>
+          <i_max>${fc.pid.i_max}</i_max>
+          <i_min>${fc.pid.i_min}</i_min>
+          <cmd_max>${cfg.fork_lift_joint.effort}</cmd_max>
+          <cmd_min>${-cfg.fork_lift_joint.effort}</cmd_min>
+        </xacro:unless>
+      </plugin>
+
+      <!-- Tüm eklemlerin durumu (joint_name verilmediğinde hepsi yayınlanır) -->
+      <plugin filename="gz-sim-joint-state-publisher-system"
+              name="gz::sim::systems::JointStatePublisher">
+        <topic>${itf.joint_states_topic}</topic>
+        <update_rate>${gzc.joint_state_publisher.update_rate}</update_rate>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+</robot>

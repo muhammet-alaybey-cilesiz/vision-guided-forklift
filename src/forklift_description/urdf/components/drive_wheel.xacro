@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+  drive_wheel.xacro
+  Tahrik tekerleği: continuous eklem, eksen +y. Her iki tekerde de pozitif
+  dönüş robotu +x yönünde ilerletir (DiffDrive konvansiyonu).
+  side: left (+y) | right (-y). Konum: (0, ±separation/2, 0), base_link'e göre.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="drive_wheel" params="prefix side cfg">
+    <xacro:unless value="${side in ('left', 'right')}">
+      ${xacro.fatal('drive_wheel: side left veya right olmalı; verilen: ' + str(side))}
+    </xacro:unless>
+    <xacro:property name="w" value="${cfg.drive_wheel}"/>
+    <xacro:property name="y_sign" value="${1.0 if side == 'left' else -1.0}"/>
+
+    <link name="${prefix}${side}_wheel_link">
+      <!-- URDF silindiri z ekseninde; -π/2 roll ile ekseni +y'ye çevrilir -->
+      <visual>
+        <origin xyz="0 0 0" rpy="${-pi/2} 0 0"/>
+        <geometry><cylinder radius="${w.radius}" length="${w.width}"/></geometry>
+        <material name="forklift_rubber"/>
+      </visual>
+      <!-- collision_shape: cylinder (spesifikasyon) | sphere (tek nokta temas;
+           DECISIONS D-20). Görsel ve atalet her durumda silindirdir. -->
+      <xacro:if value="${w.collision_shape == 'sphere'}">
+        <collision>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry><sphere radius="${w.radius}"/></geometry>
+        </collision>
+      </xacro:if>
+      <xacro:if value="${w.collision_shape == 'cylinder'}">
+        <collision>
+          <origin xyz="0 0 0" rpy="${-pi/2} 0 0"/>
+          <geometry><cylinder radius="${w.radius}" length="${w.width}"/></geometry>
+        </collision>
+      </xacro:if>
+      <xacro:unless value="${w.collision_shape in ('sphere', 'cylinder')}">
+        ${xacro.fatal('drive_wheel: collision_shape cylinder veya sphere olmalı; verilen: ' + str(w.collision_shape))}
+      </xacro:unless>
+      <xacro:cylinder_inertial mass="${w.mass}" radius="${w.radius}" length="${w.width}" axis="y">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:cylinder_inertial>
+    </link>
+
+    <joint name="${prefix}${side}_wheel_joint" type="continuous">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}${side}_wheel_link"/>
+      <origin xyz="0 ${y_sign * w.separation / 2.0} 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="${w.joint.effort_limit}" velocity="${w.joint.velocity_limit}"/>
+      <dynamics damping="${w.joint.damping}" friction="${w.joint.friction}"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

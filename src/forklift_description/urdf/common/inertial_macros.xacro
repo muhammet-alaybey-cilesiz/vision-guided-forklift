@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+  inertial_macros.xacro
+  Atalet değerlerini geometriden hesaplayan makrolar (SI birimleri).
+  - Tensörler daima link çerçevesinin eksenlerine hizalıdır: <origin> bloğu
+    yalnızca kütle merkezinin konumunu verir, rpy her zaman "0 0 0" tutulur.
+    Böylece ixx/iyy/izz doğrudan link eksenlerine karşılık gelir.
+  - Elle girilmiş atalet değeri yoktur; tüm sayılar çağıranın verdiği kütle ve
+    ölçülerden üretilir.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Dolu kutu. x, y, z: kenar uzunlukları. -->
+  <xacro:macro name="box_inertial" params="mass x y z *origin">
+    <inertial>
+      <xacro:insert_block name="origin"/>
+      <mass value="${mass}"/>
+      <inertia ixx="${mass * (y*y + z*z) / 12.0}" ixy="0.0" ixz="0.0"
+               iyy="${mass * (x*x + z*z) / 12.0}" iyz="0.0"
+               izz="${mass * (x*x + y*y) / 12.0}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Dolu silindir. axis: silindir ekseninin hizalandığı link ekseni (x, y, z).
+       Geometri (URDF silindiri z ekseninde) döndürülse de tensör link
+       eksenlerinde verilir. -->
+  <xacro:macro name="cylinder_inertial" params="mass radius length axis *origin">
+    <xacro:unless value="${axis in ('x', 'y', 'z')}">
+      ${xacro.fatal('cylinder_inertial: axis x, y veya z olmalı; verilen: ' + str(axis))}
+    </xacro:unless>
+    <xacro:property name="i_axial" value="${mass * radius*radius / 2.0}"/>
+    <xacro:property name="i_trans" value="${mass * (3.0*radius*radius + length*length) / 12.0}"/>
+    <inertial>
+      <xacro:insert_block name="origin"/>
+      <mass value="${mass}"/>
+      <inertia ixx="${i_axial if axis == 'x' else i_trans}" ixy="0.0" ixz="0.0"
+               iyy="${i_axial if axis == 'y' else i_trans}" iyz="0.0"
+               izz="${i_axial if axis == 'z' else i_trans}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Dolu küre. -->
+  <xacro:macro name="sphere_inertial" params="mass radius *origin">
+    <inertial>
+      <xacro:insert_block name="origin"/>
+      <mass value="${mass}"/>
+      <inertia ixx="${2.0 * mass * radius*radius / 5.0}" ixy="0.0" ixz="0.0"
+               iyy="${2.0 * mass * radius*radius / 5.0}" iyz="0.0"
+               izz="${2.0 * mass * radius*radius / 5.0}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Bileşik kutu ataleti: aynı link'e ait, eksenlere hizalı N kutu → tek
+       <inertial>. boxes: [dict(m=kütle, size=[x, y, z], xyz=[x, y, z]), ...]
+       (xyz: kutu merkezinin link çerçevesindeki konumu).
+       Yöntem: önce link orijinine göre tensör toplanır (kutunun kendi tensörü +
+       paralel eksen terimi), sonra bileşik kütle merkezine taşınır:
+         I_com = I_o - M (|c|² E - c cᵀ)
+       Not: generator gövdeleri yalnızca döngü değişkeni b'yi kullanır; xacro'nun
+       eval kapsamı dış değişkenleri generator içine taşımaz. -->
+  <xacro:macro name="composite_box_inertial" params="boxes">
+    <xacro:property name="M" value="${python.sum(b['m'] for b in boxes)}"/>
+    <xacro:property name="cx" value="${python.sum(b['m'] * b['xyz'][0] for b in boxes) / M}"/>
+    <xacro:property name="cy" value="${python.sum(b['m'] * b['xyz'][1] for b in boxes) / M}"/>
+    <xacro:property name="cz" value="${python.sum(b['m'] * b['xyz'][2] for b in boxes) / M}"/>
+    <!-- link orijinine göre ikinci momentler -->
+    <xacro:property name="ixx_o" value="${python.sum(b['m'] * ((b['size'][1]**2 + b['size'][2]**2) / 12.0 + b['xyz'][1]**2 + b['xyz'][2]**2) for b in boxes)}"/>
+    <xacro:property name="iyy_o" value="${python.sum(b['m'] * ((b['size'][0]**2 + b['size'][2]**2) / 12.0 + b['xyz'][0]**2 + b['xyz'][2]**2) for b in boxes)}"/>
+    <xacro:property name="izz_o" value="${python.sum(b['m'] * ((b['size'][0]**2 + b['size'][1]**2) / 12.0 + b['xyz'][0]**2 + b['xyz'][1]**2) for b in boxes)}"/>
+    <xacro:property name="ixy_o" value="${-python.sum(b['m'] * b['xyz'][0] * b['xyz'][1] for b in boxes)}"/>
+    <xacro:property name="ixz_o" value="${-python.sum(b['m'] * b['xyz'][0] * b['xyz'][2] for b in boxes)}"/>
+    <xacro:property name="iyz_o" value="${-python.sum(b['m'] * b['xyz'][1] * b['xyz'][2] for b in boxes)}"/>
+    <inertial>
+      <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/>
+      <mass value="${M}"/>
+      <inertia ixx="${ixx_o - M * (cy*cy + cz*cz)}" ixy="${ixy_o + M * cx * cy}" ixz="${ixz_o + M * cx * cz}"
+               iyy="${iyy_o - M * (cx*cx + cz*cz)}" iyz="${iyz_o + M * cy * cz}"
+               izz="${izz_o - M * (cx*cx + cy*cy)}"/>
+    </inertial>
+  </xacro:macro>
+
+</robot>

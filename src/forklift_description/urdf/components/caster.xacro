@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+  caster.xacro
+  Sarhoş teker: base_link'e sabit küre. Sürtünmesiz kayma (mu = 0) yalnızca
+  simülasyona özgüdür ve gazebo/forklift.gazebo.xacro içinde tanımlıdır.
+  z konumu türetilir: küre alt noktası zemine teğet olacak şekilde
+  z = yarıçap - base_link yüksekliği.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="caster" params="prefix cfg">
+    <xacro:property name="cs" value="${cfg.caster}"/>
+    <link name="${prefix}caster_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><sphere radius="${cs.radius}"/></geometry>
+        <material name="forklift_steel"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><sphere radius="${cs.radius}"/></geometry>
+      </collision>
+      <xacro:sphere_inertial mass="${cs.mass}" radius="${cs.radius}">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:sphere_inertial>
+    </link>
+    <joint name="${prefix}caster_joint" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}caster_link"/>
+      <origin xyz="${cs.x} 0 ${cs.radius - cfg.drive_wheel.radius}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

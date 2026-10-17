@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+  camera.xacro
+  - camera: genel kamera makrosu. <name>_link (x ileri, gövde + kütle) ve
+    ondan rpy = (-π/2, 0, -π/2) ile türetilen <name>_optical_frame
+    (z ileri, x sağ, y aşağı) oluşturur.
+    cam: kameranın YAML girdisi (poz, FOV, çözünürlük, gürültü, kütle, gövde).
+    FOV / çözünürlük / gürültü / clip değerlerini simülatörden bağımsız tanım
+    kullanmaz; aynı girdiyi gazebo/forklift.gazebo.xacro içindeki sensör bloğu
+    okur (modülerlik kuralı: Gazebo XML'i yalnızca o dosyada).
+  - mast_camera: YAML'daki base_link / zemin konumunu mast_link çerçevesine
+    çevirip camera makrosunu çağırır (iki kamera da direğe sabittir).
+  Mercek (optik merkez) gövdenin ÖN yüzündedir: gövde -x yönünde durur.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="camera" params="prefix name parent xyz rpy cam">
+    <xacro:property name="body" value="${cam.body_size}"/>
+    <link name="${prefix}${name}_link">
+      <visual>
+        <origin xyz="${-body.x / 2.0} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${body.x} ${body.y} ${body.z}"/></geometry>
+        <material name="forklift_camera"/>
+      </visual>
+      <collision>
+        <origin xyz="${-body.x / 2.0} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${body.x} ${body.y} ${body.z}"/></geometry>
+      </collision>
+      <xacro:box_inertial mass="${cam.mass}" x="${body.x}" y="${body.y}" z="${body.z}">
+        <origin xyz="${-body.x / 2.0} 0 0" rpy="0 0 0"/>
+      </xacro:box_inertial>
+    </link>
+    <joint name="${prefix}${name}_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}${name}_link"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+    <!-- REP-103 optical frame: görüntü mesajlarının frame_id'si -->
+    <link name="${prefix}${name}_optical_frame"/>
+    <joint name="${prefix}${name}_optical_joint" type="fixed">
+      <parent link="${prefix}${name}_link"/>
+      <child link="${prefix}${name}_optical_frame"/>
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="mast_camera" params="prefix name cfg">
+    <xacro:property name="cam" value="${cfg.cameras[name]}"/>
+    <xacro:camera prefix="${prefix}" name="${name}" parent="${prefix}mast_link"
+                  xyz="${cam.x - cfg.mast.x} ${cam.y} ${cam.ground_z - cfg.mast.ground_z_bottom}"
+                  rpy="0 ${cam.pitch} 0" cam="${cam}"/>
+  </xacro:macro>
+
+</robot>

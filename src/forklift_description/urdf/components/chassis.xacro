@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+  chassis.xacro
+  - forklift_base_frames: REP-105 kök çerçeveleri.
+      base_footprint: zemindeki izdüşüm, kök link. Atalet İÇERMEZ (KDL kök
+                      link ataleti desteklemez).
+      base_link     : tahrik aksı merkezi, kütlesiz çerçeve link'i.
+  - chassis: şasi kutusu (chassis_link), base_link'e sabit.
+  Not: <collision> elemanları bilinçli olarak adsızdır (DECISIONS D-03).
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="forklift_base_frames" params="prefix cfg">
+    <link name="${prefix}base_footprint"/>
+    <link name="${prefix}base_link"/>
+    <!-- base_link, base_footprint'in tam üstünde; yükseklik = tekerlek yarıçapı -->
+    <joint name="${prefix}base_joint" type="fixed">
+      <parent link="${prefix}base_footprint"/>
+      <child link="${prefix}base_link"/>
+      <origin xyz="0 0 ${cfg.drive_wheel.radius}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="chassis" params="prefix cfg">
+    <xacro:property name="ch" value="${cfg.chassis}"/>
+    <link name="${prefix}chassis_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><box size="${ch.size.x} ${ch.size.y} ${ch.size.z}"/></geometry>
+        <material name="forklift_yellow"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><box size="${ch.size.x} ${ch.size.y} ${ch.size.z}"/></geometry>
+      </collision>
+      <xacro:box_inertial mass="${ch.mass}" x="${ch.size.x}" y="${ch.size.y}" z="${ch.size.z}">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:box_inertial>
+    </link>
+    <!-- chassis_link çerçevesi kutu merkezinde -->
+    <joint name="${prefix}chassis_joint" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}chassis_link"/>
+      <origin xyz="${ch.center.x} ${ch.center.y} ${ch.center.z}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

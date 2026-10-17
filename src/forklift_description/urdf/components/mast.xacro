@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+  mast.xacro
+  Direk: iki dikme + üst bağlantı çubuğu, tek rijit link (mast_link).
+  - mast_link çerçevesi direk TABANININ merkezindedir:
+      x = mast.x, y = 0, zemin z = mast.ground_z_bottom.
+  - Üst çubuğun üst yüzü dikme tepesiyle hizalıdır (DECISIONS D-05).
+  - Toplam kütle parçalara hacim oranıyla dağıtılır; atalet bileşik kutu
+    makrosuyla hesaplanır (DECISIONS D-04).
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="mast" params="prefix cfg">
+    <xacro:property name="ms" value="${cfg.mast}"/>
+    <xacro:property name="up" value="${ms.upright.size}"/>
+    <xacro:property name="bar" value="${ms.top_bar.size}"/>
+    <xacro:property name="v_up" value="${up.x * up.y * up.z}"/>
+    <xacro:property name="v_bar" value="${bar.x * bar.y * bar.z}"/>
+    <xacro:property name="m_up" value="${ms.mass * v_up / (2.0 * v_up + v_bar)}"/>
+    <xacro:property name="m_bar" value="${ms.mass * v_bar / (2.0 * v_up + v_bar)}"/>
+    <!-- parça merkezleri (mast_link çerçevesinde) -->
+    <xacro:property name="up_z" value="${up.z / 2.0}"/>
+    <xacro:property name="bar_z" value="${up.z - bar.z / 2.0}"/>
+
+    <link name="${prefix}mast_link">
+      <!-- sol dikme -->
+      <visual>
+        <origin xyz="0 ${ms.upright.y} ${up_z}" rpy="0 0 0"/>
+        <geometry><box size="${up.x} ${up.y} ${up.z}"/></geometry>
+        <material name="forklift_dark_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 ${ms.upright.y} ${up_z}" rpy="0 0 0"/>
+        <geometry><box size="${up.x} ${up.y} ${up.z}"/></geometry>
+      </collision>
+      <!-- sağ dikme -->
+      <visual>
+        <origin xyz="0 ${-ms.upright.y} ${up_z}" rpy="0 0 0"/>
+        <geometry><box size="${up.x} ${up.y} ${up.z}"/></geometry>
+        <material name="forklift_dark_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 ${-ms.upright.y} ${up_z}" rpy="0 0 0"/>
+        <geometry><box size="${up.x} ${up.y} ${up.z}"/></geometry>
+      </collision>
+      <!-- üst bağlantı çubuğu -->
+      <visual>
+        <origin xyz="0 0 ${bar_z}" rpy="0 0 0"/>
+        <geometry><box size="${bar.x} ${bar.y} ${bar.z}"/></geometry>
+        <material name="forklift_dark_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${bar_z}" rpy="0 0 0"/>
+        <geometry><box size="${bar.x} ${bar.y} ${bar.z}"/></geometry>
+      </collision>
+      <xacro:composite_box_inertial boxes="${[
+          dict(m=m_up,  size=[up.x, up.y, up.z],    xyz=[0.0,  ms.upright.y, up_z]),
+          dict(m=m_up,  size=[up.x, up.y, up.z],    xyz=[0.0, -ms.upright.y, up_z]),
+          dict(m=m_bar, size=[bar.x, bar.y, bar.z], xyz=[0.0, 0.0, bar_z])]}"/>
+    </link>
+
+    <joint name="${prefix}mast_joint" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}mast_link"/>
+      <origin xyz="${ms.x} 0 ${ms.ground_z_bottom - cfg.drive_wheel.radius}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+</robot>
