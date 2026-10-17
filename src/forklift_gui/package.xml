@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>forklift_gui</name>
+  <version>0.1.0</version>
+  <description>
+    Qt 6 / QML operator GUI for the forklift robot: driving with a deadman and ramp, fork
+    targets and presets, a latched e-stop, two camera views with a detection overlay,
+    telemetry, topic health, the /rosout log and dataset capture. C++17 core (Qt only) behind
+    port interfaces, with an rclcpp adapter and a mock adapter (--mock).
+  </description>
+  <maintainer email="muhammetclsz61@gmail.com">muhammet61</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- ROS adaptörü -->
+  <depend>rclcpp</depend>
+  <depend>ament_index_cpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>rosgraph_msgs</depend>
+  <depend>rcl_interfaces</depend>
+  <depend>vision_msgs</depend>
+
+  <!-- Sistem Qt 6 (apt); qt6-base-dev araçları ve QPA eklentilerini,
+       qt6-declarative-dev QML araçlarını (qmllint, qmlcachegen) bağımlılık olarak getirir -->
+  <depend>qt6-base-dev</depend>
+  <depend>qt6-declarative-dev</depend>
+  <depend>qt6-multimedia-dev</depend>
+  <exec_depend>qml6-module-qtqml</exec_depend>
+  <exec_depend>qml6-module-qtqml-models</exec_depend>
+  <exec_depend>qml6-module-qtqml-workerscript</exec_depend>
+  <exec_depend>qml6-module-qtquick</exec_depend>
+  <exec_depend>qml6-module-qtquick-controls</exec_depend>
+  <exec_depend>qml6-module-qtquick-templates</exec_depend>
+  <exec_depend>qml6-module-qtquick-layouts</exec_depend>
+  <exec_depend>qml6-module-qtquick-window</exec_depend>
+  <exec_depend>qml6-module-qtmultimedia</exec_depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <!-- test/integration/integration_test.py (kurulu betik); ayrıca forklift_safety ve
+       forklift_gazebo gerekir (döngüsel bağımlılık olmasın diye burada listelenmez) -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <test_depend>xdotool</test_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_cmake_clang_format</test_depend>
+  <test_depend>ament_cmake_cpplint</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
+  <test_depend>ament_cmake_flake8</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

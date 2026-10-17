@@ -1,0 +1,171 @@
+# =============================================================================
+#  gui_params.yaml — forklift_gui operatör arayüzünün TEK doğruluk kaynağı
+# -----------------------------------------------------------------------------
+#  Topic adları, limitler, oranlar, preset'ler ve eşikler yalnızca burada.
+#  Kodda varsayılan değer YOK: düğüm her parametreyi varsayılansız tanımlar;
+#  eksik anahtar başlangıçta adıyla birlikte hata verir (DECISIONS D-29).
+#  --mock modunda aynı dosya rclcpp::parameter_map_from_yaml_file ile okunur
+#  (ROS grafiği başlatılmaz).
+#  Görsel sabitler (renk, font, boşluk) burada değil: qml/theme/Theme.qml.
+#
+#  Birimler: m, rad, s, Hz.  Ölçülen frekanslar: Faz 1, 2026-10-15
+#  (ros2 topic hz, 10 s; ayrıntı ARCHITECTURE.md §7.7).
+#  Anahtarlar blok stilde yazıldı (rcl_yaml_param_parser, DECISIONS varsayım 8).
+# =============================================================================
+forklift_gui:
+  ros__parameters:
+    # GUI zamanlayıcıları (20 Hz sürüş, 10 Hz e-stop) duvar saatiyle çalışır;
+    # sim zamanı yalnızca /clock'tan okunur (D-25).
+    use_sim_time: false
+
+    ros:
+      executor_threads: 3          # MultiThreadedExecutor: 2 kamera + durum/log (D-27)
+
+    # ------------------------------------------------------------ topic'ler --
+    topics:
+      odom: /odom
+      joint_states: /joint_states
+      clock: /clock
+      rosout: /rosout
+      detections: /cv/detections   # opsiyonel; mesaj yoksa overlay gizli
+      cmd_vel: /cmd_vel/teleop     # twist_mux 'teleop' girdisi, geometry_msgs/Twist (D-23)
+      fork_cmd: /fork/cmd_height   # std_msgs/Float64 [m], yalnız hedef değişince
+      e_stop: /e_stop              # std_msgs/Bool, sürekli; twist_mux kilidi + cmd_vel_gate (D-24)
+
+    # ----------------------------------------------------------- kameralar --
+    cameras:
+      ids: ["front", "lane"]
+      front:
+        label: "Ön kamera"         # yapılandırma verisi; olduğu gibi gösterilir (D-29)
+        image_topic: /front_camera/image_raw
+        info_topic: /front_camera/camera_info
+        detections: true           # DetectionOverlay bu kamerada
+      lane:
+        label: "Şerit kamerası"
+        image_topic: /lane_camera/image_raw
+        info_topic: /lane_camera/camera_info
+        detections: false
+      stale_after: 1.0             # [s] son kare bundan eskiyse "STALE"
+      fps_window: 1.0              # [s] FPS ölçüm penceresi
+      detection_max_age: 0.5       # [s] daha eski tespit kutuları çizilmez
+
+    # --------------------------------------------------------------- sürüş --
+    teleop:
+      publish_rate: 20.0           # [Hz] tuş veya joystick aktifken
+      max_linear: 0.3              # [m/s] mutlak limit (DiffDrive ±0.5, D-09)
+      max_angular: 1.0             # [rad/s] (DiffDrive ±1.5)
+      max_linear_accel: 0.5        # [m/s²] rampa; yüklü kalkış (DiffDrive 1.0)
+      max_angular_accel: 2.0       # [rad/s²] (DiffDrive 3.0)
+      scale_min: 0.1               # hız ölçeği slider'ı: %10
+      scale_max: 1.0               # %100
+      scale_step: 0.1
+      scale_default: 0.5           # açılıştaki ölçek (spesifikasyonda yok)
+
+    # --------------------------------------------------------------- çatal --
+    fork:
+      joint_name: fork_lift_joint  # /joint_states içindeki eklem adı
+      min_height: 0.0              # [m] forklift_params.yaml fork_lift_joint.lower
+      max_height: 0.15             # [m] fork_lift_joint.upper
+      key_step: 0.005              # [m] R / F tuş adımı
+      reached_tolerance: 0.005     # [m] "hedefe ulaşıldı" bandı (±)
+      reach_timeout: 3.0           # [s] hedef değişiminden itibaren; aşılırsa uyarı
+      resync_after: 1.0            # [s] bu süre /joint_states gelmezse sonraki ilk mesaj
+                                   #     yeniden bağlantı sayılır; hedef ölçülene eşitlenir (D-33)
+      # Preset'ler: 1–4 tuşları sırayla. Etiketler yapılandırma verisi (D-29).
+      preset_labels: ["Yer", "Temas", "Taşıma", "Maks"]
+      preset_heights: [0.000, 0.025, 0.060, 0.150]   # [m]
+
+    # ------------------------------------------------------------ güvenlik --
+    safety:
+      e_stop_rate: 10.0            # [Hz] /e_stop sürekli yayın (true/false); kilit zaman aşımı 0.5 s
+      release_hold: 1.5            # [s] e-stop sıfırlama: butonu basılı tutma süresi (D-31)
+
+    # ----------------------------------------------------------- telemetri --
+    telemetry:
+      ui_max_rate: 30.0            # [Hz] QML'e giden güncellemelerin üst sınırı
+      rtf_window: 1.0              # [s] RTF = Δsim / Δduvar penceresi
+      trail_max_points: 2000       # OdomTrail: son N nokta
+      trail_min_step: 0.01         # [m] ardışık iz noktaları arası en küçük mesafe
+      wheel_joints: ["left_wheel_joint", "right_wheel_joint"]   # /joint_states: [sol, sağ]
+
+    # --------------------------------------------------------------- sağlık --
+    # Anahtar = topics.<anahtar> ya da kamera için <id>_image / <id>_info;
+    # topic adı burada TEKRAR yazılmaz. expected_rate 0 → olay tabanlı (hız
+    # kontrolü yok); warn_age / error_age 0 → yaş kontrolü yok; required false →
+    # yokluğu genel sağlığı bozmaz (D-35).
+    health:
+      update_rate: 4.0             # [Hz] sayaçların okunup modelin güncellenmesi
+      rate_window: 1.0             # [s] frekans ölçüm penceresi
+      warn_rate_ratio: 0.8         # ölçülen / beklenen < bu → sarı
+      ids: ["clock", "odom", "joint_states", "front_image", "front_info",
+            "lane_image", "lane_info", "rosout", "detections"]
+      clock:                       # ölçülen 999.98 Hz
+        expected_rate: 1000.0
+        warn_age: 0.1
+        error_age: 1.0
+        required: true
+      odom:                        # ölçülen 50.0 Hz
+        expected_rate: 50.0
+        warn_age: 0.1
+        error_age: 1.0
+        required: true
+      joint_states:                # ölçülen 50.0 Hz
+        expected_rate: 50.0
+        warn_age: 0.1
+        error_age: 1.0
+        required: true
+      front_image:                 # sensör 30 Hz (Python CLI 28.35 Hz saydı)
+        expected_rate: 30.0
+        warn_age: 0.2
+        error_age: 1.0
+        required: true
+      front_info:                  # ölçülen 30.30 Hz
+        expected_rate: 30.0
+        warn_age: 0.2
+        error_age: 1.0
+        required: true
+      lane_image:                  # sensör 30 Hz (Python CLI 25.73 Hz saydı)
+        expected_rate: 30.0
+        warn_age: 0.2
+        error_age: 1.0
+        required: true
+      lane_info:                   # ölçülen 30.31 Hz
+        expected_rate: 30.0
+        warn_age: 0.2
+        error_age: 1.0
+        required: true
+      rosout:                      # olay tabanlı
+        expected_rate: 0.0
+        warn_age: 0.0
+        error_age: 0.0
+        required: false
+      detections:                  # opsiyonel; CV düğümü henüz yok
+        expected_rate: 0.0
+        warn_age: 0.0
+        error_age: 0.0
+        required: false
+
+    # ------------------------------------------------------------------ log --
+    log:
+      max_entries: 500             # LogModel'de tutulan son N kayıt
+
+    # ----------------------------------------------------------- veri seti --
+    dataset:
+      root_dir: "~/forklift_dataset"   # oturum: <root>/<YYYYmmdd_HHMMSS>/{front,lane}/
+      continuous_rate: 2.0         # [Hz] sürekli kayıt modu
+
+    # ------------------------------------------------------- mock (--mock) --
+    # Sahte adaptörün ürettiği veriler; değerler simülasyondaki robota benzer
+    # (forklift_params.yaml cameras.*, gazebo.diff_drive).
+    mock:
+      image_width: 640
+      image_height: 480
+      frame_rate: 30.0             # [Hz] sentetik kare
+      odom_rate: 50.0              # [Hz]
+      clock_rate: 1000.0           # [Hz] sahte /clock (RTF 1); simdeki gibi her adım (1 kHz)
+      linear_accel: 1.0            # [m/s²] sahte DiffDrive ivme sınırı (D-09 ile aynı)
+      angular_accel: 3.0           # [rad/s²]
+      fork_speed: 0.05             # [m/s] fork_lift_joint.velocity ile aynı
+      wheel_radius: 0.05           # [m] sahte tekerlek hızı (drive_wheel.radius)
+      wheel_separation: 0.34       # [m] (drive_wheel.separation)
+      log_period: 2.5              # [s] sahte /rosout satırı aralığı
