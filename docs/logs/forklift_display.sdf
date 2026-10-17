@@ -1,0 +1,427 @@
+<sdf version='1.11'>
+  <model name='forklift'>
+    <link name='base_footprint'>
+      <inertial>
+        <pose>-0.098046937235399784 0 0.12138989810353459 0 0 0</pose>
+        <mass>9.2999999999999989</mass>
+        <inertia>
+          <ixx>0.16849856698774179</ixx>
+          <ixy>0</ixy>
+          <ixz>-0.052499332579383218</ixz>
+          <iyy>0.25754080325847761</iyy>
+          <iyz>0</iyz>
+          <izz>0.2271829950783239</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_footprint_fixed_joint_lump__caster_link_collision'>
+        <pose>-0.28000000000000003 0 0.025000000000000001 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.025000000000000001</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__chassis_link_collision_1'>
+        <pose>-0.12 0 0.095000000000000001 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.40000000000000002 0.29999999999999999 0.14999999999999999</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__mast_link_collision_2'>
+        <pose>0.095000000000000001 0.10000000000000001 0.27000000000000002 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.029999999999999999 0.029999999999999999 0.5</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__mast_link_collision_3'>
+        <pose>0.095000000000000001 -0.10000000000000001 0.27000000000000002 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.029999999999999999 0.029999999999999999 0.5</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__mast_link_collision_4'>
+        <pose>0.095000000000000001 0 0.505 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.029999999999999999 0.23000000000000001 0.029999999999999999</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__front_camera_link_collision_5'>
+        <pose>0.090340741768687449 0 0.45258819056887628 0 0.26179940000000018 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.059999999999999998 0.025000000000000001</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__lane_camera_link_collision_6'>
+        <pose>0.09292893244695366 0 0.54707106807068462 0 0.78539820000000005 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.059999999999999998 0.025000000000000001</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='base_footprint_fixed_joint_lump__caster_link_visual'>
+        <pose>-0.28000000000000003 0 0.025000000000000001 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.025000000000000001</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <diffuse>0.6875 0.699999988 0.75000006 1</diffuse>
+          <ambient>0.6875 0.699999988 0.75000006 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_1'>
+        <pose>-0.12 0 0.095000000000000001 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.40000000000000002 0.29999999999999999 0.14999999999999999</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>1 0.900000036 0.099999994 1</diffuse>
+          <ambient>1 0.900000036 0.099999994 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_2'>
+        <pose>0.095000000000000001 0.10000000000000001 0.27000000000000002 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.029999999999999999 0.029999999999999999 0.5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.25 0.25 0.275000006 1</diffuse>
+          <ambient>0.25 0.25 0.275000006 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_3'>
+        <pose>0.095000000000000001 -0.10000000000000001 0.27000000000000002 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.029999999999999999 0.029999999999999999 0.5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.25 0.25 0.275000006 1</diffuse>
+          <ambient>0.25 0.25 0.275000006 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_4'>
+        <pose>0.095000000000000001 0 0.505 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.029999999999999999 0.23000000000000001 0.029999999999999999</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.25 0.25 0.275000006 1</diffuse>
+          <ambient>0.25 0.25 0.275000006 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__front_camera_link_visual_5'>
+        <pose>0.090340741768687449 0 0.45258819056887628 0 0.26179940000000018 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.059999999999999998 0.025000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.125 0.125 0.149999991 1</diffuse>
+          <ambient>0.125 0.125 0.149999991 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__lane_camera_link_visual_6'>
+        <pose>0.09292893244695366 0 0.54707106807068462 0 0.78539820000000005 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.059999999999999998 0.025000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.125 0.125 0.149999991 1</diffuse>
+          <ambient>0.125 0.125 0.149999991 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='left_wheel_joint' type='revolute'>
+      <pose relative_to='base_footprint'>0 0.17000000000000001 0.050000000000000003 0 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>left_wheel_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <effort>5</effort>
+          <velocity>20</velocity>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <damping>0</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='left_wheel_link'>
+      <pose relative_to='left_wheel_joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.5</mass>
+        <inertia>
+          <ixx>0.0003500000000000001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00062500000000000012</iyy>
+          <iyz>0</iyz>
+          <izz>0.0003500000000000001</izz>
+        </inertia>
+      </inertial>
+      <collision name='left_wheel_link_collision'>
+        <pose>0 0 0 -1.5707963267948959 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.029999999999999999</length>
+            <radius>0.050000000000000003</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='left_wheel_link_visual'>
+        <pose>0 0 0 -1.5707963267948959 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.029999999999999999</length>
+            <radius>0.050000000000000003</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.0625 0.0625 0.0625 1</diffuse>
+          <ambient>0.0625 0.0625 0.0625 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fork_lift_joint' type='prismatic'>
+      <pose relative_to='base_footprint'>0.12 0 0.069999999999999993 0 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>fork_carriage_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0.14999999999999999</upper>
+          <effort>200</effort>
+          <velocity>0.050000000000000003</velocity>
+        </limit>
+        <dynamics>
+          <damping>5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='fork_carriage_link'>
+      <pose relative_to='fork_lift_joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.060000000000000012 0 -0.023333333333333331 0 0 0</pose>
+        <mass>0.89999999999999991</mass>
+        <inertia>
+          <ixx>0.0043133333333333331</ixx>
+          <ixy>0</ixy>
+          <ixz>0.001575</ixz>
+          <iyy>0.0073699999999999998</iyy>
+          <iyz>0</iyz>
+          <izz>0.0092433333333333326</izz>
+        </inertia>
+      </inertial>
+      <collision name='fork_carriage_link_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.23999999999999999 0.12</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='fork_carriage_link_fixed_joint_lump__left_fork_link_collision_1'>
+        <pose>0.13500000000000001 0.040000000000000001 -0.052499999999999991 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.25 0.040000000000000001 0.014999999999999999</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='fork_carriage_link_fixed_joint_lump__right_fork_link_collision_2'>
+        <pose>0.13500000000000001 -0.040000000000000001 -0.052499999999999991 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.25 0.040000000000000001 0.014999999999999999</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='fork_carriage_link_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.23999999999999999 0.12</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.6875 0.699999988 0.75000006 1</diffuse>
+          <ambient>0.6875 0.699999988 0.75000006 1</ambient>
+        </material>
+      </visual>
+      <visual name='fork_carriage_link_fixed_joint_lump__left_fork_link_visual_1'>
+        <pose>0.13500000000000001 0.040000000000000001 -0.052499999999999991 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.25 0.040000000000000001 0.014999999999999999</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.6875 0.699999988 0.75000006 1</diffuse>
+          <ambient>0.6875 0.699999988 0.75000006 1</ambient>
+        </material>
+      </visual>
+      <visual name='fork_carriage_link_fixed_joint_lump__right_fork_link_visual_2'>
+        <pose>0.13500000000000001 -0.040000000000000001 -0.052499999999999991 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.25 0.040000000000000001 0.014999999999999999</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.6875 0.699999988 0.75000006 1</diffuse>
+          <ambient>0.6875 0.699999988 0.75000006 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='right_wheel_joint' type='revolute'>
+      <pose relative_to='base_footprint'>0 -0.17000000000000001 0.050000000000000003 0 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>right_wheel_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <effort>5</effort>
+          <velocity>20</velocity>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <damping>0</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='right_wheel_link'>
+      <pose relative_to='right_wheel_joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.5</mass>
+        <inertia>
+          <ixx>0.0003500000000000001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00062500000000000012</iyy>
+          <iyz>0</iyz>
+          <izz>0.0003500000000000001</izz>
+        </inertia>
+      </inertial>
+      <collision name='right_wheel_link_collision'>
+        <pose>0 0 0 -1.5707963267948959 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.029999999999999999</length>
+            <radius>0.050000000000000003</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='right_wheel_link_visual'>
+        <pose>0 0 0 -1.5707963267948959 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.029999999999999999</length>
+            <radius>0.050000000000000003</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.0625 0.0625 0.0625 1</diffuse>
+          <ambient>0.0625 0.0625 0.0625 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <frame name='caster_joint' attached_to='base_link'>
+      <pose>-0.28000000000000003 0 -0.025000000000000001 0 0 0</pose>
+    </frame>
+    <frame name='caster_link' attached_to='caster_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='chassis_joint' attached_to='base_link'>
+      <pose>-0.12 0 0.044999999999999998 0 0 0</pose>
+    </frame>
+    <frame name='chassis_link' attached_to='chassis_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='front_camera_optical_joint' attached_to='front_camera_link'>
+      <pose>0 0 0 -1.5707963267948959 -5.5511151231257827e-17 -1.5707963267948959</pose>
+    </frame>
+    <frame name='front_camera_optical_frame' attached_to='front_camera_optical_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='front_camera_joint' attached_to='mast_link'>
+      <pose>0.0050000000000000036 0 0.42999999999999999 0 0.26179940000000018 0</pose>
+    </frame>
+    <frame name='front_camera_link' attached_to='front_camera_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='lane_camera_optical_joint' attached_to='lane_camera_link'>
+      <pose>0 0 0 -1.5707963267948959 -5.5511151231257827e-17 -1.5707963267948959</pose>
+    </frame>
+    <frame name='lane_camera_optical_frame' attached_to='lane_camera_optical_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='lane_camera_joint' attached_to='mast_link'>
+      <pose>0.0050000000000000036 0 0.52000000000000002 0 0.78539820000000005 0</pose>
+    </frame>
+    <frame name='lane_camera_link' attached_to='lane_camera_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='mast_joint' attached_to='base_link'>
+      <pose>0.095000000000000001 0 -0.029999999999999999 0 0 0</pose>
+    </frame>
+    <frame name='mast_link' attached_to='mast_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='left_fork_joint' attached_to='fork_carriage_link'>
+      <pose>0.13500000000000001 0.040000000000000001 -0.052499999999999991 0 0 0</pose>
+    </frame>
+    <frame name='left_fork_link' attached_to='left_fork_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='right_fork_joint' attached_to='fork_carriage_link'>
+      <pose>0.13500000000000001 -0.040000000000000001 -0.052499999999999991 0 0 0</pose>
+    </frame>
+    <frame name='right_fork_link' attached_to='right_fork_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='base_joint' attached_to='base_footprint'>
+      <pose>0 0 0.050000000000000003 0 0 0</pose>
+    </frame>
+    <frame name='base_link' attached_to='base_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+  </model>
+</sdf>

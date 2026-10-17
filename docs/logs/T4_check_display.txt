@@ -1,0 +1,5 @@
+TF frame sayısı: 14 (beklenen 14)
+kök(ler): ['base_footprint']
+optical frame'ler: ['front_camera_optical_frame', 'lane_camera_optical_frame']
+eksik: []  beklenmeyen: []
+SONUÇ: GEÇTİ
