@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<!--
+  station_test.sdf — yük istasyonu test dünyası
+  - Fizik, sistemler, ışıklar ve zemin lift_test.sdf ile aynıdır (DART, 1 ms,
+    RTF 1.0; Physics, UserCommands, SceneBroadcaster, Sensors/ogre2; güneş + 2
+    spot, gölgeli). Kamera dokunun ve gölgenin etkisini aynı koşullarda görür.
+  - İstasyonlar ve koliler bu dosyada YOKTUR: launch/stations.launch.py
+    config/stations.yaml'ı okuyup xacro'dan üretir ve spawn eder (yerleşim
+    veriye bağlı, D-43). Robot sim.launch.py ile orijine, +x'e bakacak
+    şekilde spawn edilir.
+  - Bu dosyayı launch/station_sim.launch.py veya
+    forklift_bringup world:=station_test açar.
+-->
+<sdf version="1.11">
+  <world name="station_test">
+
+    <!-- motor seçimi Physics sistemine aittir (varsayılan gz-physics-dartsim) -->
+    <physics name="dart_1ms" type="dart">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <scene>
+      <ambient>0.35 0.35 0.35 1</ambient>
+      <background>0.70 0.72 0.75 1</background>
+      <shadows>true</shadows>
+      <grid>false</grid>
+    </scene>
+
+    <!-- yönlü ışık: eğik güneş -->
+    <light type="directional" name="sun">
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <diffuse>0.75 0.75 0.72 1</diffuse>
+      <specular>0.20 0.20 0.20 1</specular>
+      <direction>-0.4 0.25 -1.0</direction>
+    </light>
+
+    <!-- spot 1: sol-arkadan koli bölgesine -->
+    <light type="spot" name="spot_left">
+      <pose>0.5 1.6 2.2 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <diffuse>0.60 0.60 0.58 1</diffuse>
+      <specular>0.20 0.20 0.20 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <constant>0.4</constant>
+        <linear>0.05</linear>
+        <quadratic>0.01</quadratic>
+      </attenuation>
+      <direction>1.0 -1.6 -2.0</direction>
+      <spot>
+        <inner_angle>0.5</inner_angle>
+        <outer_angle>0.9</outer_angle>
+        <falloff>1.0</falloff>
+      </spot>
+    </light>
+
+    <!-- spot 2: sağ-önden robot bölgesine -->
+    <light type="spot" name="spot_right">
+      <pose>2.6 -1.4 1.8 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <diffuse>0.55 0.56 0.60 1</diffuse>
+      <specular>0.20 0.20 0.20 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <constant>0.4</constant>
+        <linear>0.05</linear>
+        <quadratic>0.01</quadratic>
+      </attenuation>
+      <direction>-1.8 1.4 -1.8</direction>
+      <spot>
+        <inner_angle>0.5</inner_angle>
+        <outer_angle>0.9</outer_angle>
+        <falloff>1.0</falloff>
+      </spot>
+    </light>
+
+    <!-- düz, mat gri zemin; mu = 1.0 (DART min(μA, μB) birleştirir, DECISIONS D-15) -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane><normal>0 0 1</normal><size>20 20</size></plane>
+          </geometry>
+          <surface>
+            <friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane><normal>0 0 1</normal><size>20 20</size></plane>
+          </geometry>
+          <material>
+            <ambient>0.45 0.45 0.45 1</ambient>
+            <diffuse>0.50 0.50 0.50 1</diffuse>
+            <specular>0.0 0.0 0.0 1</specular>
+            <pbr><metal><metalness>0.0</metalness><roughness>1.0</roughness></metal></pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

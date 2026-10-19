@@ -1,0 +1,44 @@
+{
+  "t0_sim": 0.229,
+  "parcels": {
+    "parcel_source_0": {
+      "samples": 590,
+      "span_s": 10.014999999999999,
+      "max_disp_from_spawn_mm": 4.628766814285257e-08,
+      "drift_first_last_mm": 0.0,
+      "max_yaw_change_deg": 1.104500464266182e-19,
+      "max_tilt_deg": 0.0,
+      "final_xyz": [
+        1.61,
+        -0.3,
+        0.15
+      ]
+    },
+    "parcel_source_1": {
+      "samples": 590,
+      "span_s": 10.014999999999999,
+      "max_disp_from_spawn_mm": 4.628766814285257e-08,
+      "drift_first_last_mm": 0.0,
+      "max_yaw_change_deg": 8.641709918739549e-20,
+      "max_tilt_deg": 0.0,
+      "final_xyz": [
+        1.61,
+        -0.0,
+        0.15
+      ]
+    },
+    "parcel_source_2": {
+      "samples": 590,
+      "span_s": 10.014999999999999,
+      "max_disp_from_spawn_mm": 4.628766814285257e-08,
+      "drift_first_last_mm": 0.0,
+      "max_yaw_change_deg": 5.0685269844134475e-20,
+      "max_tilt_deg": 0.0,
+      "final_xyz": [
+        1.61,
+        0.3,
+        0.15
+      ]
+    }
+  }
+}

@@ -128,5 +128,71 @@
       "max_err_m": 2.5000000680730494e-10,
       "run_at": "2026-10-19 19:02:28"
     }
+  },
+  {
+    "id": "S3",
+    "name": "Statik kararlılık",
+    "status": "GEÇTİ",
+    "measured": "parcel_source_0: en çok 0.000000 mm, eğim 0.0000°; parcel_source_1: en çok 0.000000 mm, eğim 0.0000°; parcel_source_2: en çok 0.000000 mm, eğim 0.0000° (10 s sim, spawn pozuna göre)",
+    "criterion": "Tam dünya, 10 s: hiçbir koli 1 mm'den fazla hareket etmiyor",
+    "details": {
+      "parcels": {
+        "parcel_source_0": {
+          "samples": 590,
+          "span_s": 10.014999999999999,
+          "max_disp_from_spawn_mm": 4.628766814285257e-08,
+          "drift_first_last_mm": 0.0,
+          "max_yaw_change_deg": 1.104500464266182e-19,
+          "max_tilt_deg": 0.0,
+          "final_xyz": [
+            1.61,
+            -0.3,
+            0.15
+          ]
+        },
+        "parcel_source_1": {
+          "samples": 590,
+          "span_s": 10.014999999999999,
+          "max_disp_from_spawn_mm": 4.628766814285257e-08,
+          "drift_first_last_mm": 0.0,
+          "max_yaw_change_deg": 8.641709918739549e-20,
+          "max_tilt_deg": 0.0,
+          "final_xyz": [
+            1.61,
+            -0.0,
+            0.15
+          ]
+        },
+        "parcel_source_2": {
+          "samples": 590,
+          "span_s": 10.014999999999999,
+          "max_disp_from_spawn_mm": 4.628766814285257e-08,
+          "drift_first_last_mm": 0.0,
+          "max_yaw_change_deg": 5.0685269844134475e-20,
+          "max_tilt_deg": 0.0,
+          "final_xyz": [
+            1.61,
+            0.3,
+            0.15
+          ]
+        }
+      },
+      "run_at": "2026-10-19 19:11:13"
+    }
+  },
+  {
+    "id": "S8",
+    "name": "Performans",
+    "status": "GEÇTİ",
+    "measured": "RTF 1.001 (20 s duvar; ekransız EGL; 4 istasyon, 3 koli; kameralar: front_camera 30.3 Hz, lane_camera 30.3 Hz)",
+    "criterion": "RTF ≥ 0.9, iki kamera açık",
+    "details": {
+      "rtf": 1.0012464980903049,
+      "camera_hz": {
+        "front_camera": 30.299894024605482,
+        "lane_camera": 30.299894024605482
+      },
+      "run_at": "2026-10-19 19:11:33"
+    }
   }
 ]

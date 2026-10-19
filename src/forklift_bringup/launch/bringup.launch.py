@@ -4,7 +4,10 @@ Komut zinciri (twist_mux + cmd_vel_gate) forklift_gazebo/sim.launch.py içinden
 başlar (DECISIONS D-42); bu dosya yalnız 'control' argümanını iletir.
 
 Argümanlar:
-  sim        : forklift_gazebo/sim.launch.py (varsayılan true)
+  sim        : simülasyonu başlat (varsayılan true)
+  world      : lift_test (varsayılan; forklift_gazebo/sim.launch.py) |
+               station_test (forklift_gazebo/station_sim.launch.py: istasyonlar
+               ve koliler config/stations.yaml'dan)
   sim_gui    : Gazebo istemci penceresi (varsayılan true; false → kameralar
                EGL ile ekransız render edilir, görüntüler operatör GUI'sinde)
   rviz       : RViz (varsayılan true)
@@ -17,7 +20,8 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, NotSubstitution, PathJoinSubstitution
+from launch.substitutions import (
+    AndSubstitution, EqualsSubstitution, LaunchConfiguration, NotSubstitution, PathJoinSubstitution)
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -41,6 +45,7 @@ def generate_launch_description():
     sim_gui = LaunchConfiguration('sim_gui')
     declared_args = [
         DeclareLaunchArgument('sim', default_value='true'),
+        DeclareLaunchArgument('world', default_value='lift_test', choices=['lift_test', 'station_test']),
         DeclareLaunchArgument('sim_gui', default_value='true'),
         DeclareLaunchArgument('rviz', default_value='true'),
         DeclareLaunchArgument('control', default_value='true'),
@@ -51,15 +56,25 @@ def generate_launch_description():
                 [FindPackageShare('forklift_gui'), 'config', 'gui_params.yaml'])),
     ]
 
-    sim = _include(
-        'forklift_gazebo', 'sim.launch.py',
-        {'gui': sim_gui, 'headless': NotSubstitution(sim_gui),
-         'rviz': LaunchConfiguration('rviz'),
-         'control': LaunchConfiguration('control')},
-        IfCondition(LaunchConfiguration('sim')))
+    # world açıkça dosya yolu olarak verilir: kapsamlı grup üst bağlamdaki
+    # world (çıplak ad, ör. 'lift_test') değerini miras alır ve sim.launch.py'nin
+    # varsayılan yolunu ezerdi. lift_test için yol, sim.launch.py varsayılanıyla aynı.
+    sim_args = {'gui': sim_gui, 'headless': NotSubstitution(sim_gui),
+                'rviz': LaunchConfiguration('rviz'),
+                'control': LaunchConfiguration('control'),
+                'world': PathJoinSubstitution([FindPackageShare('forklift_gazebo'), 'worlds',
+                                               [LaunchConfiguration('world'), '.sdf']])}
+
+    def _sim_if(world):
+        return IfCondition(AndSubstitution(
+            LaunchConfiguration('sim'), EqualsSubstitution(LaunchConfiguration('world'), world)))
+
+    # Varsayılan dünya değişmedi: lift_test → sim.launch.py, kendi varsayılan dünyasıyla
+    sim = _include('forklift_gazebo', 'sim.launch.py', sim_args, _sim_if('lift_test'))
+    station_sim = _include('forklift_gazebo', 'station_sim.launch.py', sim_args, _sim_if('station_test'))
     gui = _include(
         'forklift_gui', 'gui.launch.py',
         {'params_file': LaunchConfiguration('gui_params')},
         IfCondition(LaunchConfiguration('gui')))
 
-    return LaunchDescription(declared_args + [sim, gui])
+    return LaunchDescription(declared_args + [sim, station_sim, gui])
