@@ -2,6 +2,7 @@
 
 Status: **Phases 1–4 done**: description, simulation and load tests are implemented, and T1–T14 run automatically. See `REPORT.md` for the results.
 **Operator GUI** (`forklift_gui`, `forklift_bringup`, `forklift_safety`): implemented (phases 1–5, 2026-10-15/16); unit tests U1–U8 and integration tests I1–I12 in `docs/gui_test_results.md`, report in `REPORT_GUI.md`. See §7.
+**Load stations** (`forklift_gazebo`): parametric multi-bay stations with ArUco markers, a `parcel` model and the `station_test` world (2026-10-19). Tests S1–S8 are in `docs/station_test_results.md`, and the report is `REPORT_STATIONS.md`. See §8.
 
 Scope: the robot description and a simulation test bench for a small forklift
 robot. It is the platform for a computer-vision learning project. Perception,
@@ -38,10 +39,20 @@ gz-rendering 8.2.3 (ogre2), gz-transport 13.6.0, ros_gz 1.0.24, xacro 2.1.1.
     │   └── launch/display.launch.py       robot_state_publisher + joint_state_publisher_gui + RViz
     └── forklift_gazebo/                   ament_cmake, Gazebo Sim bench
         ├── worlds/lift_test.sdf           test world (flat floor, rails, parcel, lights)
+        ├── worlds/station_test.sdf        station world: same physics/lights, no objects (§8)
         ├── models/test_parcel/            0.2 m cube with a red seal (model.config, model.sdf)
         ├── config/ros_gz_bridge.yaml      bridge for every non-image topic
+        ├── config/station_params.yaml     single source for station, marker and parcel geometry (§8)
+        ├── config/stations.yaml           station_test layout: poses, bays, bay ids, occupancy
+        ├── xacro/                         station.sdf.xacro, parcel.sdf.xacro, common.sdf.xacro
         ├── launch/sim.launch.py           gz sim + spawn + robot_state_publisher + bridges
-        └── scripts/acceptance_test.py     T3–T14 automation (rclpy), writes to docs/
+        ├── launch/stations.launch.py      stations.yaml → xacro → ros_gz_sim create
+        ├── launch/station_sim.launch.py   sim.launch.py (station_test) + stations.launch.py
+        └── scripts/
+            ├── acceptance_test.py         T3–T14 automation (rclpy), writes to docs/
+            ├── station_acceptance.py      S1–S8 automation (gz-transport only)
+            ├── station_layout.py          shared bay / marker-ID / pose computations
+            └── generate_aruco_textures.py build step: ArUco PNGs + markers.yaml → share/
 ```
 
 ### Modularity rules
@@ -573,3 +584,98 @@ inspected without installing) and the `v6.4.2` qtmultimedia sources.
    overlay and `DatasetRecorder`. Run I6, I9, I10 and I11.
 4. **Phase 5. Polish:** theme, F1 help and screenshots. Run I12 and write
    `REPORT_GUI.md`.
+
+---
+
+## 8. Load stations and parcel (`forklift_gazebo`)
+
+Status: **implemented** on 2026-10-19 (`feature/stations`). Decisions D-43 to
+D-51. The robot, the GUI and the safety packages are not changed.
+
+### 8.1 Frames
+
+```
+world
+└── station (model frame)       origin on the floor, middle of the front edge; +x into the station
+    ├── bay_i (SDF <frame>)     (0, y_i, 0), same axes; y_i = (i − (N−1)/2) · bay_pitch, bay 0 = most −y
+    └── marker (per ID)         OpenCV ArUco frame: x right, y up, z out of the marker (−x_station);
+                                origin at the black-square centre, on the front face x = 0.2985
+```
+
+At full entry the carriage front is at bay x = 0, `base_link` is at bay
+x = −0.13, the fork tip is at 0.25 and the back plate starts at 0.30 (D-43).
+
+### 8.2 Geometry (N = 3, values from `station_params.yaml`; not to scale)
+
+```
+top view: +x up (into the station), +y left; N = 3, metres
+  x
+ 0.32 ┌──────────────────────────────────────────────────────────────────────────────┐
+      │                           back plate (white) 0.02                            │
+ 0.30 ├────────┬────────────┬──────────┬────────────┬──────────┬────────────┬────────┤
+      │ ledge  │  channel   │  ledge   │  channel   │  ledge   │  channel   │ ledge  │
+      │ 0.065  │   bay 2    │   0.13   │   bay 1    │   0.13   │   bay 0    │ 0.065  │
+      │        │    0.17    │          │    0.17    │          │    0.17    │        │
+ 0    ├────────┴────────────┴──────────┴────────────┴──────────┴────────────┴────────┤  ← station front edge (x = 0), origin at its middle
+      │                     apron = base plate (station colour)                      │
+-0.30 └──────────────────────────────────────────────────────────────────────────────┘
+    +0.45           +0.30                     0                     −0.30          −0.45   (y; bay axes y_i)
+
+front view: looking +x as the robot does (+y left, −y right); N = 3
+  z
+ 0.30 ┌──────────────────────────────────────────────────────────────────────────────┐  back plate (white), z 0 … 0.30
+      │             [k₂]                    [k₁]                    [k₀]             │  upper marker 0.08, centre z 0.17
+      │                                                                              │
+ 0.05 ├────────┬────────────┬──────────┬────────────┬──────────┬────────────┬────────┤  ledge top z 0.05; lower marker 0.04, centre z 0.028
+      │ ledge  │  [k₂+25]   │  ledge   │  [k₁+25]   │  ledge   │  [k₀+25]   │ ledge  │
+ 0    └────────┴────────────┴──────────┴────────────┴──────────┴────────────┴────────┘  base plate 0.002
+    +0.45           +0.30                     0                     −0.30          −0.45   (y)
+```
+
+`[k]` is the upper marker ID (bay number k) and `[k+25]` is the lower one.
+Collisions are boxes only: base plate (2 mm), N + 1 ledges (μ 0.8) and the back
+plate. Markers are 1 mm boxes, visual only, 0.5 mm in front of the plate, with
+a PBR `albedo_map` texture.
+
+### 8.3 Data flow
+
+```
+station_params.yaml ─┬─► xacro/station.sdf.xacro ─┐
+                     ├─► xacro/parcel.sdf.xacro ──┼─► stations.launch.py ──► ros_gz_sim create (stations, then parcels)
+stations.yaml ───────┤                            │
+                     └─► generate_aruco_textures.py (CMake, build time)
+                            ├─► share/forklift_gazebo/models/aruco_markers/materials/textures/aruco_4x4_50_idNN.png
+                            └─► share/forklift_gazebo/config/markers.yaml   (every marker: id, station, bay, type, size, poses)
+```
+
+`scripts/station_layout.py` is the only code that computes `y_i`, the marker
+IDs (upper = k, lower = k + 25, D-45), the marker poses and the nominal
+parcel pose. The launch file, the build step and the test all import it.
+
+### 8.4 Launch
+
+* `stations.launch.py`: reads `stations.yaml`, validates it, expands the xacros
+  with the xacro Python API and spawns each model with `ros_gz_sim create
+  -string`, passing the pose through `-x -y -z -Y` (D-47). The creates are
+  chained with `OnProcessExit`: all stations first, then the parcels.
+* `station_sim.launch.py`: `sim.launch.py` with `worlds/station_test.sdf`, plus
+  `stations.launch.py` in a scoped group, so the two `params_file` arguments do
+  not collide.
+* `forklift_bringup/bringup.launch.py world:=lift_test|station_test`: the
+  default stays `lift_test`. The world file path is always passed explicitly,
+  because a scoped include inherits the parent's bare `world` value.
+
+### 8.5 Test infrastructure (`station_acceptance.py`)
+
+* S1 and S2 work offline on the installed xacros, `markers.yaml` and textures.
+* S3–S8 run in one headless session of `station_sim.launch.py control:=false`,
+  in the order S3, S8, S4, S5, S6, S7. S3 is first so it measures from spawn,
+  and S8 is second so the world is still undisturbed.
+* Everything goes through gz-transport: `dynamic_pose/info` (ground truth),
+  `stats` (sim time), the `/joint_states` gz Model message (fork joint),
+  camera image topics, and `/cmd_vel` and `/fork/cmd_height` publishers. Odometry
+  is not used. Service calls (`set_pose`, `create/blocking`,
+  `remove/blocking`) go through the `gz service` CLI (D-49).
+* Test-only models: the S5 camera (gravity off, no collision, moved with
+  `set_pose`) and a static documentation camera for the S6/S7 images. Neither
+  is part of the robot or of the world file.

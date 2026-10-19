@@ -9,8 +9,8 @@
 A small differential-drive forklift robot in simulation, built as the platform
 for a computer-vision learning project. The workspace contains a
 simulator-agnostic robot description, a Gazebo Harmonic test bench with
-automated acceptance tests, a fail-safe velocity command chain and a Qt 6 / QML
-operator GUI.
+automated acceptance tests, parametric load stations with ArUco markers, a
+fail-safe velocity command chain and a Qt 6 / QML operator GUI.
 
 <p align="center">
   <img src="docs/images/gui_main_sim.png" alt="Operator GUI connected to the Gazebo simulation" width="100%">
@@ -31,6 +31,12 @@ operator GUI.
 - **Operator GUI**: C++17 core in a ports-and-adapters design (no ROS in the
   core), with ROS and mock adapters and a QML view. It runs without a ROS graph
   in mock mode.
+- **Load stations**: data-driven multi-bay stations (xacro → SDF, generated
+  from two YAML files). Each bay has two ledges with a fork channel between
+  them and two ArUco markers: an upper one that a parcel hides, for approach
+  and occupancy, and a lower one seen through the channel, for fine alignment.
+  Acceptance tests S1–S8 cover geometry, stability, marker detection, the
+  drop/pick tolerance and performance.
 
 ## Simulation
 
@@ -41,6 +47,22 @@ operator GUI.
     <td align="center" width="33%"><img src="docs/images/gazebo_carrying.png" alt="Robot carrying the parcel"><br><sub>Carrying the 0.5 kg parcel off its rails</sub></td>
   </tr>
 </table>
+
+## Load stations
+
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="docs/images/stations/gazebo_station_overview.png" alt="station_test world"><br><sub><code>station_test</code>: full source station (R/G/B) and three empty destination stations</sub></td>
+    <td align="center" width="50%"><img src="docs/images/stations/s4_empty_0p6m_0deg.png" alt="Front camera detecting the station markers"><br><sub>Front camera at 0.6 m from an empty station: upper (k) and lower (k + 25) markers detected</sub></td>
+  </tr>
+</table>
+
+| Check | Result |
+|---|---|
+| Drop tolerance (fork 0.12 m in a 0.17 m channel) | Clean drop up to ±2.5 cm lateral offset; at ±3 cm the fork lands on a ledge |
+| Pick | 0.5 m reverse with the parcel: 0.00 mm relative slip |
+| Upper marker (front camera, 0.6–1.5 m, ±15°) | Detected on empty bays, hidden by the parcel on full bays |
+| Lower marker (test camera, 0.2–0.8 m) | Detected with and without a parcel; lateral error ≤ 1.6 mm at 0.5 m; yaw not observable at this marker size (see REPORT_STATIONS) |
 
 ## Robot model
 
@@ -132,10 +154,10 @@ Plot labels are in Turkish.
 | Package | Purpose |
 |---|---|
 | [`forklift_description`](src/forklift_description) | Modular xacro model; all parameters in `config/forklift_params.yaml`. `display.launch.py` for RViz. |
-| [`forklift_gazebo`](src/forklift_gazebo) | Test world, sealed test parcel, ROS ↔ Gazebo bridges, `sim.launch.py` and the T1–T14 acceptance test. |
+| [`forklift_gazebo`](src/forklift_gazebo) | Test worlds (`lift_test`, `station_test`), sealed test parcel, parametric station and parcel xacros, ArUco textures, ROS ↔ Gazebo bridges, `sim.launch.py` / `station_sim.launch.py`, and the T1–T14 and S1–S8 acceptance tests. |
 | [`forklift_safety`](src/forklift_safety) | Command chain: `twist_mux` config and the `cmd_vel_gate` node (unit-tested). Started by `sim.launch.py`. |
 | [`forklift_gui`](src/forklift_gui) | Operator GUI: Qt-only core, ROS and mock adapters, QML view, QtTest unit tests and an end-to-end test. |
-| [`forklift_bringup`](src/forklift_bringup) | One launch file for simulation + RViz + GUI. |
+| [`forklift_bringup`](src/forklift_bringup) | One launch file for simulation + RViz + GUI (`world:=lift_test\|station_test`). |
 
 ## Requirements
 
@@ -158,6 +180,10 @@ source install/setup.bash
 ```bash
 # Simulation + RViz + command chain + operator GUI
 ros2 launch forklift_bringup bringup.launch.py
+ros2 launch forklift_bringup bringup.launch.py world:=station_test   # load stations
+
+# Station world only (stations and parcels from config/stations.yaml)
+ros2 launch forklift_gazebo station_sim.launch.py
 
 # Simulation only (also starts the command chain)
 ros2 launch forklift_gazebo sim.launch.py
@@ -179,14 +205,16 @@ GUI controls: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> drive (hold),
 ```bash
 colcon test && colcon test-result --verbose          # unit tests + linters
 ros2 run forklift_gazebo acceptance_test.py           # simulation T1–T14 (~5 min)
+ros2 run forklift_gazebo station_acceptance.py        # stations S1–S8 (~10 min)
 ros2 run forklift_gui integration_test.py             # GUI end-to-end I1–I12
 ```
 
 ## Documentation
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — frames, ROS ↔ Gazebo interface, launch graph, GUI layers and thread model
-- [DECISIONS.md](DECISIONS.md) — design decision log (D-01 … D-42)
+- [DECISIONS.md](DECISIONS.md) — design decision log (D-01 … D-51)
 - [REPORT.md](REPORT.md) — simulation phase report (Turkish)
+- [REPORT_STATIONS.md](REPORT_STATIONS.md) — load station report (Turkish)
 
 ## Roadmap
 

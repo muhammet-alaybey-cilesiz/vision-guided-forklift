@@ -1,290 +1,296 @@
-[
-  {
-    "offset_cm": 0.0,
-    "robot_pitch_deg": -0.4094630448497512,
-    "carried_bottom_z": 0.08858614115634295,
-    "robot_pitch_after_lower_deg": -0.4094630448497512,
-    "robot_roll_after_lower_deg": 4.987119713540003e-18,
-    "fork_q_end_mm": -3.4710243197472886e-11,
-    "placed": {
-      "x": 0.10127688876366525,
-      "y": 1.1664998692822232e-11,
-      "bottom_z": 0.04999976993516922,
-      "tilt_deg": 9.711651770764766e-05,
-      "min_overlap_m": 0.03499999998833499
+{
+  "trials": [
+    {
+      "offset_cm": 0.0,
+      "robot_pitch_deg": -0.409463065662978,
+      "carried_bottom_z": 0.08857992016633831,
+      "robot_pitch_after_lower_deg": -0.409463065662978,
+      "robot_roll_after_lower_deg": -2.089225018228957e-18,
+      "fork_q_end_mm": -3.471024143564435e-11,
+      "placed": {
+        "x": 0.10127692251627574,
+        "y": 3.3258224742672135e-10,
+        "bottom_z": 0.04999958196773688,
+        "tilt_deg": 9.823592440329592e-05,
+        "min_overlap_m": 0.034999999667417736
+      },
+      "final": {
+        "x": 0.10127692251627574,
+        "y": 3.3258224742672135e-10,
+        "bottom_z": 0.04999958196773688,
+        "tilt_deg": 9.823592440329592e-05,
+        "min_overlap_m": 0.034999999667417736
+      },
+      "drag_mm": 0.0,
+      "reverse_m": 0.3520380693154698,
+      "criteria": {
+        "parcel_bottom": 1.0,
+        "tilt": true,
+        "fork_reached_0": true,
+        "no_drag": 1.0,
+        "overlap": 1.0
+      },
+      "success": true
     },
-    "final": {
-      "x": 0.10127688876366525,
-      "y": 1.1664998692822232e-11,
-      "bottom_z": 0.04999976993516922,
-      "tilt_deg": 9.711651770764766e-05,
-      "min_overlap_m": 0.03499999998833499
+    {
+      "offset_cm": 1.0,
+      "robot_pitch_deg": -0.4094630599004557,
+      "carried_bottom_z": 0.08858690363002539,
+      "robot_pitch_after_lower_deg": -0.4094630599004557,
+      "robot_roll_after_lower_deg": -6.448389647115475e-17,
+      "fork_q_end_mm": -3.471024027012703e-11,
+      "placed": {
+        "x": 0.10127688009239866,
+        "y": 0.010000000438930061,
+        "bottom_z": 0.0499998244868439,
+        "tilt_deg": 9.471886578517153e-05,
+        "min_overlap_m": 0.02499999956106992
+      },
+      "final": {
+        "x": 0.10127688009239866,
+        "y": 0.010000000438930061,
+        "bottom_z": 0.0499998244868439,
+        "tilt_deg": 9.471886578517153e-05,
+        "min_overlap_m": 0.02499999956106992
+      },
+      "drag_mm": 0.0,
+      "reverse_m": 0.35233806159580067,
+      "criteria": {
+        "parcel_bottom": 1.0,
+        "tilt": true,
+        "fork_reached_0": true,
+        "no_drag": 1.0,
+        "overlap": 1.0
+      },
+      "success": true
     },
-    "drag_mm": 0.0,
-    "reverse_m": 0.3523381404214246,
-    "criteria": {
-      "parcel_bottom": 1.0,
-      "tilt": true,
-      "fork_reached_0": true,
-      "no_drag": 1.0,
-      "overlap": 1.0
+    {
+      "offset_cm": -1.0,
+      "robot_pitch_deg": -0.40946306409355926,
+      "carried_bottom_z": 0.08858265513054872,
+      "robot_pitch_after_lower_deg": -0.40946306409355926,
+      "robot_roll_after_lower_deg": -5.274874697273093e-17,
+      "fork_q_end_mm": -3.4710242330111174e-11,
+      "placed": {
+        "x": 0.10127705867490078,
+        "y": -0.010000000834932894,
+        "bottom_z": 0.04999995911054442,
+        "tilt_deg": 1.0933637455190016e-05,
+        "min_overlap_m": 0.024999999165067094
+      },
+      "final": {
+        "x": 0.10127705867490078,
+        "y": -0.010000000834932894,
+        "bottom_z": 0.04999995911054442,
+        "tilt_deg": 1.0933637455190016e-05,
+        "min_overlap_m": 0.024999999165067094
+      },
+      "drag_mm": 0.0,
+      "reverse_m": 0.35023811567597773,
+      "criteria": {
+        "parcel_bottom": 1.0,
+        "tilt": true,
+        "fork_reached_0": true,
+        "no_drag": 1.0,
+        "overlap": 1.0
+      },
+      "success": true
     },
-    "success": true
-  },
-  {
-    "offset_cm": 1.0,
-    "robot_pitch_deg": -0.40946306121159315,
-    "carried_bottom_z": 0.08858169241243483,
-    "robot_pitch_after_lower_deg": -0.40946306121159315,
-    "robot_roll_after_lower_deg": 6.0519808829084605e-18,
-    "fork_q_end_mm": -3.47102386709288e-11,
-    "placed": {
-      "x": 0.10127707794708218,
-      "y": 0.010000146017097785,
-      "bottom_z": 0.04999966754857582,
-      "tilt_deg": 8.669481787211012e-05,
-      "min_overlap_m": 0.024999853982902207
+    {
+      "offset_cm": 2.0,
+      "robot_pitch_deg": -0.40946307295977075,
+      "carried_bottom_z": 0.08858289001701805,
+      "robot_pitch_after_lower_deg": -0.40946307295977075,
+      "robot_roll_after_lower_deg": 1.012725749631724e-17,
+      "fork_q_end_mm": -3.471023276202693e-11,
+      "placed": {
+        "x": 0.1012769225256378,
+        "y": 0.02000000055724957,
+        "bottom_z": 0.04999972428686028,
+        "tilt_deg": 8.67578549035409e-05,
+        "min_overlap_m": 0.01499999944275042
+      },
+      "final": {
+        "x": 0.1012769225256378,
+        "y": 0.02000000055724957,
+        "bottom_z": 0.04999972428686028,
+        "tilt_deg": 8.67578549035409e-05,
+        "min_overlap_m": 0.01499999944275042
+      },
+      "drag_mm": 0.0,
+      "reverse_m": 0.35278804997034396,
+      "criteria": {
+        "parcel_bottom": 1.0,
+        "tilt": true,
+        "fork_reached_0": true,
+        "no_drag": 1.0,
+        "overlap": 1.0
+      },
+      "success": true
     },
-    "final": {
-      "x": 0.10127707794708218,
-      "y": 0.010000146017097785,
-      "bottom_z": 0.04999966754857582,
-      "tilt_deg": 8.669481787211012e-05,
-      "min_overlap_m": 0.024999853982902207
+    {
+      "offset_cm": -2.0,
+      "robot_pitch_deg": -0.4094630625215654,
+      "carried_bottom_z": 0.0885804538691009,
+      "robot_pitch_after_lower_deg": -0.4094630625215654,
+      "robot_roll_after_lower_deg": 5.263881249156207e-18,
+      "fork_q_end_mm": -3.471023926724002e-11,
+      "placed": {
+        "x": 0.10127707102694661,
+        "y": -0.01999985050510004,
+        "bottom_z": 0.04999957580809944,
+        "tilt_deg": 0.00010041191164755951,
+        "min_overlap_m": 0.015000149494899945
+      },
+      "final": {
+        "x": 0.10127707102694661,
+        "y": -0.01999985050510004,
+        "bottom_z": 0.04999957580809944,
+        "tilt_deg": 0.00010041191164755951,
+        "min_overlap_m": 0.015000149494899945
+      },
+      "drag_mm": 0.0,
+      "reverse_m": 0.35293799705709666,
+      "criteria": {
+        "parcel_bottom": 1.0,
+        "tilt": true,
+        "fork_reached_0": true,
+        "no_drag": 1.0,
+        "overlap": 1.0
+      },
+      "success": true
     },
-    "drag_mm": 0.0,
-    "reverse_m": 0.3536879806517905,
-    "criteria": {
-      "parcel_bottom": 1.0,
-      "tilt": true,
-      "fork_reached_0": true,
-      "no_drag": 1.0,
-      "overlap": 1.0
+    {
+      "offset_cm": 2.5,
+      "robot_pitch_deg": -0.40946307322152786,
+      "carried_bottom_z": 0.08857876049543936,
+      "robot_pitch_after_lower_deg": -0.40946307322152786,
+      "robot_roll_after_lower_deg": 2.512430046292125e-17,
+      "fork_q_end_mm": -3.471023311439271e-11,
+      "placed": {
+        "x": 0.10127693426299267,
+        "y": 0.024999909876833128,
+        "bottom_z": 0.04999950472252668,
+        "tilt_deg": 9.885725562207257e-05,
+        "min_overlap_m": 0.010000090123166869
+      },
+      "final": {
+        "x": 0.10127693426299267,
+        "y": 0.024999909876833128,
+        "bottom_z": 0.04999950472252668,
+        "tilt_deg": 9.885725562207257e-05,
+        "min_overlap_m": 0.010000090123166869
+      },
+      "drag_mm": 0.0,
+      "reverse_m": 0.35128808862108046,
+      "criteria": {
+        "parcel_bottom": 1.0,
+        "tilt": true,
+        "fork_reached_0": true,
+        "no_drag": 1.0,
+        "overlap": 1.0
+      },
+      "success": true
     },
-    "success": true
-  },
-  {
-    "offset_cm": -1.0,
-    "robot_pitch_deg": -0.40946307607519206,
-    "carried_bottom_z": 0.0885809095541322,
-    "robot_pitch_after_lower_deg": -0.40946307607519206,
-    "robot_roll_after_lower_deg": -2.974398305779575e-17,
-    "fork_q_end_mm": -3.471024317036782e-11,
-    "placed": {
-      "x": 0.10127706626592037,
-      "y": -0.009999999774213094,
-      "bottom_z": 0.049999945692900755,
-      "tilt_deg": 1.2749559400407728e-05,
-      "min_overlap_m": 0.025000000225786898
+    {
+      "offset_cm": -2.5,
+      "robot_pitch_deg": -0.40946308357047634,
+      "carried_bottom_z": 0.08857481615647655,
+      "robot_pitch_after_lower_deg": -0.40946308357047634,
+      "robot_roll_after_lower_deg": -3.3691548893391286e-18,
+      "fork_q_end_mm": -3.471024336010321e-11,
+      "placed": {
+        "x": 0.10127709504605131,
+        "y": -0.024999927505665046,
+        "bottom_z": 0.049999312878215935,
+        "tilt_deg": 0.00010444342514080513,
+        "min_overlap_m": 0.010000072494334947
+      },
+      "final": {
+        "x": 0.10127709504605131,
+        "y": -0.024999927505665046,
+        "bottom_z": 0.049999312878215935,
+        "tilt_deg": 0.00010444342514080513,
+        "min_overlap_m": 0.010000072494334947
+      },
+      "drag_mm": 0.0,
+      "reverse_m": 0.35263800817932833,
+      "criteria": {
+        "parcel_bottom": 1.0,
+        "tilt": true,
+        "fork_reached_0": true,
+        "no_drag": 1.0,
+        "overlap": 1.0
+      },
+      "success": true
     },
-    "final": {
-      "x": 0.10127706626592037,
-      "y": -0.009999999774213094,
-      "bottom_z": 0.049999945692900755,
-      "tilt_deg": 1.2749559400407728e-05,
-      "min_overlap_m": 0.025000000225786898
+    {
+      "offset_cm": 3.0,
+      "robot_pitch_deg": -0.4094630838264526,
+      "carried_bottom_z": 0.08857465776889781,
+      "robot_pitch_after_lower_deg": -4.399178798499013,
+      "robot_roll_after_lower_deg": 6.518594866386066,
+      "fork_q_end_mm": 2.1490553667693524,
+      "placed": {
+        "x": 0.09169339937859156,
+        "y": 0.018535021413500073,
+        "bottom_z": 0.0673186311394181,
+        "tilt_deg": 6.645165810409609,
+        "min_overlap_m": 0.01646497858649991
+      },
+      "final": {
+        "x": 0.05952285874521812,
+        "y": -0.012870120661542096,
+        "bottom_z": 0.06551678068329675,
+        "tilt_deg": 7.858875849693287,
+        "min_overlap_m": 0.022129879338457892
+      },
+      "drag_mm": 44.95969580709206,
+      "reverse_m": 0.010302404541565953,
+      "criteria": {
+        "parcel_bottom": 0.0,
+        "tilt": false,
+        "fork_reached_0": false,
+        "no_drag": 0.0,
+        "overlap": 1.0
+      },
+      "success": false
     },
-    "drag_mm": 0.0,
-    "reverse_m": 0.35023811567618673,
-    "criteria": {
-      "parcel_bottom": 1.0,
-      "tilt": true,
-      "fork_reached_0": true,
-      "no_drag": 1.0,
-      "overlap": 1.0
-    },
-    "success": true
-  },
-  {
-    "offset_cm": 2.0,
-    "robot_pitch_deg": -0.4094630656629752,
-    "carried_bottom_z": 0.08858077610753692,
-    "robot_pitch_after_lower_deg": -0.4094630656629752,
-    "robot_roll_after_lower_deg": -2.4269580006714198e-17,
-    "fork_q_end_mm": -3.471023015994174e-11,
-    "placed": {
-      "x": 0.10127691814632933,
-      "y": 0.02000000055246496,
-      "bottom_z": 0.04999957612591452,
-      "tilt_deg": 0.00010043731630619436,
-      "min_overlap_m": 0.014999999447535037
-    },
-    "final": {
-      "x": 0.10127691814632933,
-      "y": 0.02000000055246496,
-      "bottom_z": 0.04999957612591452,
-      "tilt_deg": 0.00010043731630619436,
-      "min_overlap_m": 0.014999999447535037
-    },
-    "drag_mm": 0.0,
-    "reverse_m": 0.35458800363146176,
-    "criteria": {
-      "parcel_bottom": 1.0,
-      "tilt": true,
-      "fork_reached_0": true,
-      "no_drag": 1.0,
-      "overlap": 1.0
-    },
-    "success": true
-  },
-  {
-    "offset_cm": -2.0,
-    "robot_pitch_deg": -0.4094630448497081,
-    "carried_bottom_z": 0.08858507085408346,
-    "robot_pitch_after_lower_deg": -0.4094630448497081,
-    "robot_roll_after_lower_deg": -6.478590593797033e-17,
-    "fork_q_end_mm": -3.4710242709581876e-11,
-    "placed": {
-      "x": 0.10127698531326135,
-      "y": -0.020000000948183577,
-      "bottom_z": 0.049999880387682605,
-      "tilt_deg": 4.445365799594644e-05,
-      "min_overlap_m": 0.014999999051816412
-    },
-    "final": {
-      "x": 0.10127698531326135,
-      "y": -0.020000000948183577,
-      "bottom_z": 0.049999880387682605,
-      "tilt_deg": 4.445365799594644e-05,
-      "min_overlap_m": 0.014999999051816412
-    },
-    "drag_mm": 0.0,
-    "reverse_m": 0.35293804618846464,
-    "criteria": {
-      "parcel_bottom": 1.0,
-      "tilt": true,
-      "fork_reached_0": true,
-      "no_drag": 1.0,
-      "overlap": 1.0
-    },
-    "success": true
-  },
-  {
-    "offset_cm": 2.5,
-    "robot_pitch_deg": -0.40946307218002226,
-    "carried_bottom_z": 0.08857847402244218,
-    "robot_pitch_after_lower_deg": -0.40946307218002226,
-    "robot_roll_after_lower_deg": -1.1041790244907439e-16,
-    "fork_q_end_mm": -3.471023577068791e-11,
-    "placed": {
-      "x": 0.10127693539915339,
-      "y": 0.02499990928395911,
-      "bottom_z": 0.04999950151971663,
-      "tilt_deg": 9.860253981431941e-05,
-      "min_overlap_m": 0.010000090716040883
-    },
-    "final": {
-      "x": 0.10127693539915339,
-      "y": 0.02499990928395911,
-      "bottom_z": 0.04999950151971663,
-      "tilt_deg": 9.860253981431941e-05,
-      "min_overlap_m": 0.010000090716040883
-    },
-    "drag_mm": 0.0,
-    "reverse_m": 0.3544380075013906,
-    "criteria": {
-      "parcel_bottom": 1.0,
-      "tilt": true,
-      "fork_reached_0": true,
-      "no_drag": 1.0,
-      "overlap": 1.0
-    },
-    "success": true
-  },
-  {
-    "offset_cm": -2.5,
-    "robot_pitch_deg": -0.40946306487727285,
-    "carried_bottom_z": 0.08857817412929858,
-    "robot_pitch_after_lower_deg": -0.40946306487727285,
-    "robot_roll_after_lower_deg": 7.504867027805047e-18,
-    "fork_q_end_mm": -3.471024010749669e-11,
-    "placed": {
-      "x": 0.10127693169776464,
-      "y": -0.02499999995546266,
-      "bottom_z": 0.04999950134401843,
-      "tilt_deg": 9.998269013639946e-05,
-      "min_overlap_m": 0.010000000044537327
-    },
-    "final": {
-      "x": 0.10127693169776464,
-      "y": -0.02499999995546266,
-      "bottom_z": 0.04999950134401843,
-      "tilt_deg": 9.998269013639946e-05,
-      "min_overlap_m": 0.010000000044537327
-    },
-    "drag_mm": 0.0,
-    "reverse_m": 0.3509880963905122,
-    "criteria": {
-      "parcel_bottom": 1.0,
-      "tilt": true,
-      "fork_reached_0": true,
-      "no_drag": 1.0,
-      "overlap": 1.0
-    },
-    "success": true
-  },
-  {
-    "offset_cm": 3.0,
-    "robot_pitch_deg": -0.409463066967971,
-    "carried_bottom_z": 0.08857932871780974,
-    "robot_pitch_after_lower_deg": -4.3991533712309945,
-    "robot_roll_after_lower_deg": 6.5185307802234105,
-    "fork_q_end_mm": 2.149045925608158,
-    "placed": {
-      "x": 0.09169338659313087,
-      "y": 0.018535127069820984,
-      "bottom_z": 0.06731863578306102,
-      "tilt_deg": 6.6451703920984455,
-      "min_overlap_m": 0.01646487293017901
-    },
-    "final": {
-      "x": 0.05961745832652321,
-      "y": -0.0128686342666271,
-      "bottom_z": 0.06551375376374458,
-      "tilt_deg": 7.858889398350252,
-      "min_overlap_m": 0.02213136573337289
-    },
-    "drag_mm": 44.889435285389276,
-    "reverse_m": 0.01030631995856658,
-    "criteria": {
-      "parcel_bottom": 0.0,
-      "tilt": false,
-      "fork_reached_0": false,
-      "no_drag": 0.0,
-      "overlap": 1.0
-    },
-    "success": false
-  },
-  {
-    "offset_cm": -3.0,
-    "robot_pitch_deg": -0.40946306409296435,
-    "carried_bottom_z": 0.08858206602969687,
-    "robot_pitch_after_lower_deg": -4.399214161201456,
-    "robot_roll_after_lower_deg": -6.518645489431652,
-    "fork_q_end_mm": 2.149046571085854,
-    "placed": {
-      "x": 0.09169338916800718,
-      "y": -0.018535149192904426,
-      "bottom_z": 0.06731863705436048,
-      "tilt_deg": 6.6451707366593045,
-      "min_overlap_m": 0.01646485080709556
-    },
-    "final": {
-      "x": 0.05955689844139744,
-      "y": 0.012859712369759897,
-      "bottom_z": 0.06551751670242772,
-      "tilt_deg": 7.85887577728586,
-      "min_overlap_m": 0.02214028763024009
-    },
-    "drag_mm": 44.92651075657146,
-    "reverse_m": 0.010305575275567842,
-    "criteria": {
-      "parcel_bottom": 0.0,
-      "tilt": false,
-      "fork_reached_0": false,
-      "no_drag": 0.0,
-      "overlap": 1.0
-    },
-    "success": false
+    {
+      "offset_cm": -3.0,
+      "robot_pitch_deg": -0.4094630625215073,
+      "carried_bottom_z": 0.08858117558045894,
+      "robot_pitch_after_lower_deg": -4.399187321189958,
+      "robot_roll_after_lower_deg": -6.518594833081162,
+      "fork_q_end_mm": 2.149053975436454,
+      "placed": {
+        "x": 0.09169353028999128,
+        "y": -0.018535067190277827,
+        "bottom_z": 0.0673186444771676,
+        "tilt_deg": 6.645170485592359,
+        "min_overlap_m": 0.016464932809722166
+      },
+      "final": {
+        "x": 0.05961116726816562,
+        "y": 0.012867054061208192,
+        "bottom_z": 0.06551397932407707,
+        "tilt_deg": 7.8588828655383285,
+        "min_overlap_m": 0.022132945938791795
+      },
+      "drag_mm": 44.8928862533613,
+      "reverse_m": 0.010308353915834002,
+      "criteria": {
+        "parcel_bottom": 0.0,
+        "tilt": false,
+        "fork_reached_0": false,
+        "no_drag": 0.0,
+        "overlap": 1.0
+      },
+      "success": false
+    }
+  ],
+  "neighbour_displacement_mm": {
+    "parcel_source_0": 0.0,
+    "parcel_source_2": 0.0
   }
-]
+}

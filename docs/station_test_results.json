@@ -113,7 +113,7 @@
           "stderr": ""
         }
       ],
-      "run_at": "2026-10-19 19:40:26"
+      "run_at": "2026-10-19 19:51:20"
     }
   },
   {
@@ -126,20 +126,20 @@
       "failures": [],
       "checks": 1154,
       "max_err_m": 2.5000000680730494e-10,
-      "run_at": "2026-10-19 19:40:27"
+      "run_at": "2026-10-19 19:51:21"
     }
   },
   {
     "id": "S3",
     "name": "Statik kararlılık",
     "status": "GEÇTİ",
-    "measured": "parcel_source_0: en çok 0.000000 mm, eğim 0.0000°; parcel_source_1: en çok 0.000000 mm, eğim 0.0000°; parcel_source_2: en çok 0.000000 mm, eğim 0.0000° (10 s sim, spawn pozuna göre)",
+    "measured": "parcel_source_0: en çok 4.63e-08 mm, eğim 0°; parcel_source_1: en çok 4.63e-08 mm, eğim 0°; parcel_source_2: en çok 4.63e-08 mm, eğim 0° (10 s sim, spawn pozuna göre)",
     "criterion": "Tam dünya, 10 s: hiçbir koli 1 mm'den fazla hareket etmiyor",
     "details": {
       "parcels": {
         "parcel_source_0": {
-          "samples": 590,
-          "span_s": 10.014999999999999,
+          "samples": 589,
+          "span_s": 10.001,
           "max_disp_from_spawn_mm": 4.628766814285257e-08,
           "drift_first_last_mm": 0.0,
           "max_yaw_change_deg": 1.104500464266182e-19,
@@ -151,8 +151,8 @@
           ]
         },
         "parcel_source_1": {
-          "samples": 590,
-          "span_s": 10.014999999999999,
+          "samples": 589,
+          "span_s": 10.001,
           "max_disp_from_spawn_mm": 4.628766814285257e-08,
           "drift_first_last_mm": 0.0,
           "max_yaw_change_deg": 8.641709918739549e-20,
@@ -164,8 +164,8 @@
           ]
         },
         "parcel_source_2": {
-          "samples": 590,
-          "span_s": 10.014999999999999,
+          "samples": 589,
+          "span_s": 10.001,
           "max_disp_from_spawn_mm": 4.628766814285257e-08,
           "drift_first_last_mm": 0.0,
           "max_yaw_change_deg": 5.0685269844134475e-20,
@@ -177,14 +177,14 @@
           ]
         }
       },
-      "run_at": "2026-10-19 19:11:13"
+      "run_at": "2026-10-19 19:51:34"
     }
   },
   {
     "id": "S4",
     "name": "Üst işaret tespiti",
     "status": "GEÇTİ",
-    "measured": "boş bölme (ID 4): 9/9 görüşte ≥4/5 karede tespit, uzaklık hatası ≤ 108.4 mm; dolu bölme (ID 1): 9/9 görüşte hiç tespit yok; bilgi — komşular dolu, bölme boş: 9/9 görüş",
+    "measured": "boş bölme (ID 4): 9/9 görüşte ≥4/5 karede tespit, uzaklık hatası ≤ 108.5 mm; dolu bölme (ID 1): 9/9 görüşte hiç tespit yok; bilgi — komşular dolu, bölme boş: 9/9 görüş",
     "criterion": "Ön kamera, 0.6/1.0/1.5 m × 0°/±15°: boş bölmede doğru ID; dolu bölmenin üst işareti tespit edilmez; bilinmeyen ID yok",
     "details": {
       "fails": [],
@@ -199,8 +199,8 @@
             28,
             29
           ],
-          "true_plane_dist": 0.580206378035279,
-          "dist_err_mm": 10.260742095237529,
+          "true_plane_dist": 0.5802063780352812,
+          "dist_err_mm": 10.277804048187678,
           "group": "boş bölme",
           "station": "dest_red",
           "bay": 1,
@@ -222,8 +222,8 @@
             29,
             30
           ],
-          "true_plane_dist": 0.6000231689552054,
-          "dist_err_mm": 9.068433419137323,
+          "true_plane_dist": 0.6000231689436686,
+          "dist_err_mm": 9.078251455858721,
           "group": "boş bölme",
           "station": "dest_red",
           "bay": 1,
@@ -243,8 +243,8 @@
             29,
             30
           ],
-          "true_plane_dist": 0.580224429288507,
-          "dist_err_mm": 10.233231292761547,
+          "true_plane_dist": 0.5802083937833872,
+          "dist_err_mm": 10.248799031322076,
           "group": "boş bölme",
           "station": "dest_red",
           "bay": 1,
@@ -262,11 +262,12 @@
             3,
             4,
             5,
+            28,
             29,
             30
           ],
-          "true_plane_dist": 0.9659465959005578,
-          "dist_err_mm": 23.01264154228133,
+          "true_plane_dist": 0.9659465958505979,
+          "dist_err_mm": 23.03733029039701,
           "group": "boş bölme",
           "station": "dest_red",
           "bay": 1,
@@ -284,10 +285,12 @@
             3,
             4,
             5,
+            28,
+            29,
             30
           ],
-          "true_plane_dist": 0.9999999918271625,
-          "dist_err_mm": 24.967352247723618,
+          "true_plane_dist": 0.9999999918271536,
+          "dist_err_mm": 24.937529730262973,
           "group": "boş bölme",
           "station": "dest_red",
           "bay": 1,
@@ -305,10 +308,12 @@
             3,
             4,
             5,
+            28,
+            29,
             30
           ],
-          "true_plane_dist": 0.9659258183927784,
-          "dist_err_mm": 23.365555268830775,
+          "true_plane_dist": 0.9659258183927875,
+          "dist_err_mm": 23.364412820247928,
           "group": "boş bölme",
           "station": "dest_red",
           "bay": 1,
@@ -328,8 +333,8 @@
             5,
             30
           ],
-          "true_plane_dist": 1.4488887315373289,
-          "dist_err_mm": 108.4135807332176,
+          "true_plane_dist": 1.448888731537327,
+          "dist_err_mm": 108.47338492480674,
           "group": "boş bölme",
           "station": "dest_red",
           "bay": 1,
@@ -349,8 +354,8 @@
             5,
             30
           ],
-          "true_plane_dist": 1.4999999918271723,
-          "dist_err_mm": 54.98385765024905,
+          "true_plane_dist": 1.4999999918271856,
+          "dist_err_mm": 54.91437904698437,
           "group": "boş bölme",
           "station": "dest_red",
           "bay": 1,
@@ -367,10 +372,11 @@
           "seen": [
             3,
             4,
-            5
+            5,
+            29
           ],
-          "true_plane_dist": 1.4488887315373227,
-          "dist_err_mm": 44.9010296807586,
+          "true_plane_dist": 1.448888731537295,
+          "dist_err_mm": 44.88732138170359,
           "group": "boş bölme",
           "station": "dest_red",
           "bay": 1,
@@ -385,7 +391,7 @@
           "ang": -15.0,
           "hits": 0,
           "seen": [],
-          "true_plane_dist": 0.5802244402183695,
+          "true_plane_dist": 0.5802104094791802,
           "dist_err_mm": null,
           "group": "dolu bölme",
           "station": "source",
@@ -401,7 +407,7 @@
           "ang": 0.0,
           "hits": 0,
           "seen": [],
-          "true_plane_dist": 0.6000231690159915,
+          "true_plane_dist": 0.6000231689442012,
           "dist_err_mm": null,
           "group": "dolu bölme",
           "station": "source",
@@ -417,7 +423,7 @@
           "ang": 15.0,
           "hits": 0,
           "seen": [],
-          "true_plane_dist": 0.580208415527125,
+          "true_plane_dist": 0.5802244510505062,
           "dist_err_mm": null,
           "group": "dolu bölme",
           "station": "source",
@@ -433,7 +439,7 @@
           "ang": -15.0,
           "hits": 0,
           "seen": [],
-          "true_plane_dist": 0.9659465959098268,
+          "true_plane_dist": 0.9659465959485989,
           "dist_err_mm": null,
           "group": "dolu bölme",
           "station": "source",
@@ -449,7 +455,7 @@
           "ang": 0.0,
           "hits": 0,
           "seen": [],
-          "true_plane_dist": 0.9999999918271569,
+          "true_plane_dist": 0.9999999918271594,
           "dist_err_mm": null,
           "group": "dolu bölme",
           "station": "source",
@@ -465,7 +471,7 @@
           "ang": 15.0,
           "hits": 0,
           "seen": [],
-          "true_plane_dist": 0.9659258183396876,
+          "true_plane_dist": 0.9659258183396877,
           "dist_err_mm": null,
           "group": "dolu bölme",
           "station": "source",
@@ -481,7 +487,7 @@
           "ang": -15.0,
           "hits": 0,
           "seen": [],
-          "true_plane_dist": 1.4488887316169432,
+          "true_plane_dist": 1.4488887316169512,
           "dist_err_mm": null,
           "group": "dolu bölme",
           "station": "source",
@@ -497,7 +503,7 @@
           "ang": 0.0,
           "hits": 0,
           "seen": [],
-          "true_plane_dist": 1.499999991827171,
+          "true_plane_dist": 1.4999999918271816,
           "dist_err_mm": null,
           "group": "dolu bölme",
           "station": "source",
@@ -513,7 +519,7 @@
           "ang": 15.0,
           "hits": 0,
           "seen": [],
-          "true_plane_dist": 1.4488887314576913,
+          "true_plane_dist": 1.4488887314576882,
           "dist_err_mm": null,
           "group": "dolu bölme",
           "station": "source",
@@ -532,8 +538,8 @@
             1,
             26
           ],
-          "true_plane_dist": 0.5801913816169919,
-          "dist_err_mm": 10.625620419202232,
+          "true_plane_dist": 0.5802074240687682,
+          "dist_err_mm": 10.56947109441342,
           "group": "boş bölme, komşular dolu (bilgi)",
           "station": "source",
           "bay": 1,
@@ -551,8 +557,8 @@
             1,
             26
           ],
-          "true_plane_dist": 0.6000231689037622,
-          "dist_err_mm": 9.220500462584269,
+          "true_plane_dist": 0.6000231689618251,
+          "dist_err_mm": 9.231220681489628,
           "group": "boş bölme, komşular dolu (bilgi)",
           "station": "source",
           "bay": 1,
@@ -570,8 +576,8 @@
             1,
             26
           ],
-          "true_plane_dist": 0.5801913924184918,
-          "dist_err_mm": 10.500081071688093,
+          "true_plane_dist": 0.580207434875935,
+          "dist_err_mm": 10.465709314339545,
           "group": "boş bölme, komşular dolu (bilgi)",
           "station": "source",
           "bay": 1,
@@ -589,8 +595,8 @@
             1,
             26
           ],
-          "true_plane_dist": 0.9659465958557795,
-          "dist_err_mm": 23.79430120100445,
+          "true_plane_dist": 0.9659465959368038,
+          "dist_err_mm": 23.80631850872561,
           "group": "boş bölme, komşular dolu (bilgi)",
           "station": "source",
           "bay": 1,
@@ -605,10 +611,11 @@
           "ang": 0.0,
           "hits": 5,
           "seen": [
-            1
+            1,
+            26
           ],
-          "true_plane_dist": 0.9999999918271723,
-          "dist_err_mm": 25.43855236984438,
+          "true_plane_dist": 0.9999999918271624,
+          "dist_err_mm": 25.440059551041116,
           "group": "boş bölme, komşular dolu (bilgi)",
           "station": "source",
           "bay": 1,
@@ -623,10 +630,11 @@
           "ang": 15.0,
           "hits": 5,
           "seen": [
-            1
+            1,
+            26
           ],
           "true_plane_dist": 0.9659258183396842,
-          "dist_err_mm": 24.214552658173183,
+          "dist_err_mm": 24.232254845900194,
           "group": "boş bölme, komşular dolu (bilgi)",
           "station": "source",
           "bay": 1,
@@ -643,8 +651,8 @@
           "seen": [
             1
           ],
-          "true_plane_dist": 1.4488887316169297,
-          "dist_err_mm": 80.48231491487856,
+          "true_plane_dist": 1.4488887316169228,
+          "dist_err_mm": 80.26894043918898,
           "group": "boş bölme, komşular dolu (bilgi)",
           "station": "source",
           "bay": 1,
@@ -661,8 +669,8 @@
           "seen": [
             1
           ],
-          "true_plane_dist": 1.499999991827171,
-          "dist_err_mm": 53.05424015862492,
+          "true_plane_dist": 1.4999999918271882,
+          "dist_err_mm": 53.063972773713,
           "group": "boş bölme, komşular dolu (bilgi)",
           "station": "source",
           "bay": 1,
@@ -679,8 +687,8 @@
           "seen": [
             1
           ],
-          "true_plane_dist": 1.448888731457676,
-          "dist_err_mm": 44.628680922400356,
+          "true_plane_dist": 1.4488887314576722,
+          "dist_err_mm": 44.70282102090151,
           "group": "boş bölme, komşular dolu (bilgi)",
           "station": "source",
           "bay": 1,
@@ -691,20 +699,20 @@
           "full_bay_ids_seen": []
         }
       ],
-      "run_at": "2026-10-19 19:37:56"
+      "run_at": "2026-10-19 19:52:20"
     }
   },
   {
     "id": "S5",
     "name": "Alt işaret tespiti",
     "status": "KALDI",
-    "measured": "ID 26 tespiti (≥ kare-1): z0.02_dolu: 7/7 mesafe; z0.02_bos: 7/7 mesafe; z0.08_bos: 7/7 mesafe; z0.08_dolu: 1/7 mesafe. Bilgi z0.08_dolu (beklenen: yok): 0.2: kolinin içi, 0.3: 0, 0.4: 0, 0.5: 0, 0.6: 0, 0.7: 0, 0.8: 0. Poz: z0.02_dolu @0.5 m: yanal -0.81±0.00 mm, yaw +21.61±0.00° (n=30); z0.02_bos @0.5 m: yanal -0.81±0.00 mm, yaw +21.64±0.00° (n=30); z0.08_bos @0.5 m: yanal -0.72±0.00 mm, yaw +16.91±0.00° (n=30) — 30 kare birebir aynı (kamera gürültüsü uygulanmıyor). Bilgi taraması @0.5 m: yaw -5° → hata +21.4°, yaw -2° → hata +21.4°, yaw +2° → hata +21.5°, yaw +5° → hata +21.4°, yanal -2 cm → hata -0.46 mm, yanal -1 cm → hata -0.54 mm, yanal +1 cm → hata -1.05 mm, yanal +2 cm → hata -1.07 mm",
+    "measured": "ID 26 tespiti (≥ kare-1): z0.02_dolu: 7/7 mesafe; z0.02_bos: 7/7 mesafe; z0.08_bos: 7/7 mesafe; z0.08_dolu: 1/7 mesafe. Bilgi z0.08_dolu (beklenen: yok): 0.2: kolinin içi, 0.3: 0, 0.4: 0, 0.5: 0, 0.6: 0, 0.7: 0, 0.8: 0. Poz: z0.02_dolu @0.5 m: yanal -0.81±0.00 mm, yaw +21.62±0.00° (n=30); z0.02_bos @0.5 m: yanal -0.81±0.00 mm, yaw +21.62±0.00° (n=30); z0.08_bos @0.5 m: yanal -0.72±0.00 mm, yaw +16.92±0.00° (n=30) — 30 kare birebir aynı (kamera gürültüsü uygulanmıyor). Bilgi taraması @0.5 m: yaw -5° → hata +21.4°, yaw -2° → hata +21.4°, yaw +2° → hata +21.5°, yaw +5° → hata +21.4°, yanal -2 cm → hata -0.46 mm, yanal -1 cm → hata -0.54 mm, yanal +1 cm → hata -1.05 mm, yanal +2 cm → hata -1.09 mm",
     "criterion": "0.2–0.8 m, z = 0.02 koli var/yok ve z = 0.08 koli yok (D-48): doğru ID; 0.5 m'de 30 kare ortalaması yanal < 5 mm, yaw < 1°",
     "details": {
       "fails": [
-        "z0.02_dolu poz: yanal -0.81 mm, yaw 21.61°",
-        "z0.02_bos poz: yanal -0.81 mm, yaw 21.64°",
-        "z0.08_bos poz: yanal -0.72 mm, yaw 16.91°"
+        "z0.02_dolu poz: yanal -0.81 mm, yaw 21.62°",
+        "z0.02_bos poz: yanal -0.81 mm, yaw 21.62°",
+        "z0.08_bos poz: yanal -0.72 mm, yaw 16.92°"
       ],
       "views": [
         {
@@ -764,13 +772,13 @@
           "pose": {
             "case": "z0.02_dolu",
             "n": 30,
-            "lat_mean_mm": -0.8145888416810171,
-            "lat_std_mm": 2.1684043449710089e-16,
-            "depth_mean_mm": -9.171786279997484,
+            "lat_mean_mm": -0.8147590214445108,
+            "lat_std_mm": 0.0,
+            "depth_mean_mm": -9.183152145963657,
             "depth_std_mm": 0.0,
-            "yaw_mean_deg": 21.614639204001303,
-            "yaw_std_deg": 1.0658141036401503e-14,
-            "yaw_max_abs_deg": 21.614639204001314,
+            "yaw_mean_deg": 21.617077340427304,
+            "yaw_std_deg": 7.105427357601002e-15,
+            "yaw_max_abs_deg": 21.61707734042731,
             "ok": false
           },
           "ok": true
@@ -876,13 +884,13 @@
           "pose": {
             "case": "z0.02_bos",
             "n": 30,
-            "lat_mean_mm": -0.812929606766593,
-            "lat_std_mm": 2.1684043449710089e-16,
-            "depth_mean_mm": -9.061732099323594,
+            "lat_mean_mm": -0.8095564149033775,
+            "lat_std_mm": 1.0842021724855044e-16,
+            "depth_mean_mm": -9.071762980672027,
             "depth_std_mm": 0.0,
-            "yaw_mean_deg": 21.638430680750403,
-            "yaw_std_deg": 3.552713678800501e-15,
-            "yaw_max_abs_deg": 21.638430680750407,
+            "yaw_mean_deg": 21.61925327023922,
+            "yaw_std_deg": 7.105427357601002e-15,
+            "yaw_max_abs_deg": 21.619253270239213,
             "ok": false
           },
           "ok": true
@@ -992,13 +1000,13 @@
           "pose": {
             "case": "z0.08_bos",
             "n": 30,
-            "lat_mean_mm": -0.7161132051849716,
-            "lat_std_mm": 2.1684043449710089e-16,
-            "depth_mean_mm": 1.8345308334555277,
+            "lat_mean_mm": -0.7150694287555531,
+            "lat_std_mm": 1.0842021724855044e-16,
+            "depth_mean_mm": 1.8308260203682147,
             "depth_std_mm": 0.0,
-            "yaw_mean_deg": 16.914987074483008,
-            "yaw_std_deg": 0.0,
-            "yaw_max_abs_deg": 16.914987074483008,
+            "yaw_mean_deg": 16.923824422889524,
+            "yaw_std_deg": 3.552713678800501e-15,
+            "yaw_max_abs_deg": 16.92382442288952,
             "ok": false
           },
           "ok": true
@@ -1140,37 +1148,37 @@
         {
           "case": "z0.02_dolu",
           "n": 30,
-          "lat_mean_mm": -0.8145888416810171,
-          "lat_std_mm": 2.1684043449710089e-16,
-          "depth_mean_mm": -9.171786279997484,
+          "lat_mean_mm": -0.8147590214445108,
+          "lat_std_mm": 0.0,
+          "depth_mean_mm": -9.183152145963657,
           "depth_std_mm": 0.0,
-          "yaw_mean_deg": 21.614639204001303,
-          "yaw_std_deg": 1.0658141036401503e-14,
-          "yaw_max_abs_deg": 21.614639204001314,
+          "yaw_mean_deg": 21.617077340427304,
+          "yaw_std_deg": 7.105427357601002e-15,
+          "yaw_max_abs_deg": 21.61707734042731,
           "ok": false
         },
         {
           "case": "z0.02_bos",
           "n": 30,
-          "lat_mean_mm": -0.812929606766593,
-          "lat_std_mm": 2.1684043449710089e-16,
-          "depth_mean_mm": -9.061732099323594,
+          "lat_mean_mm": -0.8095564149033775,
+          "lat_std_mm": 1.0842021724855044e-16,
+          "depth_mean_mm": -9.071762980672027,
           "depth_std_mm": 0.0,
-          "yaw_mean_deg": 21.638430680750403,
-          "yaw_std_deg": 3.552713678800501e-15,
-          "yaw_max_abs_deg": 21.638430680750407,
+          "yaw_mean_deg": 21.61925327023922,
+          "yaw_std_deg": 7.105427357601002e-15,
+          "yaw_max_abs_deg": 21.619253270239213,
           "ok": false
         },
         {
           "case": "z0.08_bos",
           "n": 30,
-          "lat_mean_mm": -0.7161132051849716,
-          "lat_std_mm": 2.1684043449710089e-16,
-          "depth_mean_mm": 1.8345308334555277,
+          "lat_mean_mm": -0.7150694287555531,
+          "lat_std_mm": 1.0842021724855044e-16,
+          "depth_mean_mm": 1.8308260203682147,
           "depth_std_mm": 0.0,
-          "yaw_mean_deg": 16.914987074483008,
-          "yaw_std_deg": 0.0,
-          "yaw_max_abs_deg": 16.914987074483008,
+          "yaw_mean_deg": 16.923824422889524,
+          "yaw_std_deg": 3.552713678800501e-15,
+          "yaw_max_abs_deg": 16.92382442288952,
           "ok": false
         }
       ],
@@ -1180,108 +1188,108 @@
           "yaw_deg": -5.0,
           "detected": true,
           "true_x_mm": -43.57787137382908,
-          "est_x_mm": -43.57059101568841,
-          "lat_err_mm": 0.007280358140675236,
-          "yaw_err_deg": 21.358109063782116
+          "est_x_mm": -43.57048054532795,
+          "lat_err_mm": 0.007390828501131763,
+          "yaw_err_deg": 21.358490050569387
         },
         {
           "lateral_m": 0.0,
           "yaw_deg": -2.0,
           "detected": true,
           "true_x_mm": -17.449748351250488,
-          "est_x_mm": -17.961671247551823,
-          "lat_err_mm": -0.5119228963013367,
-          "yaw_err_deg": 21.435947306100534
+          "est_x_mm": -17.960127632244227,
+          "lat_err_mm": -0.510379280993737,
+          "yaw_err_deg": 21.44902576338629
         },
         {
           "lateral_m": 0.0,
           "yaw_deg": 2.0,
           "detected": true,
           "true_x_mm": 17.449748351250488,
-          "est_x_mm": 16.393478323797986,
-          "lat_err_mm": -1.0562700274525036,
-          "yaw_err_deg": 21.461626825027086
+          "est_x_mm": 16.39393334705406,
+          "lat_err_mm": -1.0558150041964296,
+          "yaw_err_deg": 21.458392236547155
         },
         {
           "lateral_m": 0.0,
           "yaw_deg": 5.0,
           "detected": true,
           "true_x_mm": 43.57787137382908,
-          "est_x_mm": 42.01833228454376,
-          "lat_err_mm": -1.559539089285321,
-          "yaw_err_deg": 21.43703428312872
+          "est_x_mm": 42.0186130279861,
+          "lat_err_mm": -1.559258345842987,
+          "yaw_err_deg": 21.436047283227612
         },
         {
           "lateral_m": -0.02,
           "yaw_deg": 0.0,
           "detected": true,
           "true_x_mm": -20.0,
-          "est_x_mm": -20.46182131970116,
-          "lat_err_mm": -0.461821319701159,
-          "yaw_err_deg": 19.13205686145272
+          "est_x_mm": -20.461873228598986,
+          "lat_err_mm": -0.46187322859898505,
+          "yaw_err_deg": 19.129454496058248
         },
         {
           "lateral_m": -0.01,
           "yaw_deg": 0.0,
           "detected": true,
           "true_x_mm": -10.0,
-          "est_x_mm": -10.539228506479741,
-          "lat_err_mm": -0.5392285064797411,
-          "yaw_err_deg": 20.281501436057194
+          "est_x_mm": -10.538524592823602,
+          "lat_err_mm": -0.538524592823603,
+          "yaw_err_deg": 20.276619266320694
         },
         {
           "lateral_m": 0.01,
           "yaw_deg": 0.0,
           "detected": true,
           "true_x_mm": 10.0,
-          "est_x_mm": 8.946643736000649,
-          "lat_err_mm": -1.053356263999352,
-          "yaw_err_deg": 22.252267087587335
+          "est_x_mm": 8.945923300062647,
+          "lat_err_mm": -1.054076699937352,
+          "yaw_err_deg": 22.24450592079747
         },
         {
           "lateral_m": 0.02,
           "yaw_deg": 0.0,
           "detected": true,
           "true_x_mm": 20.0,
-          "est_x_mm": 18.927682978517684,
-          "lat_err_mm": -1.0723170214823157,
-          "yaw_err_deg": 23.616044848690496
+          "est_x_mm": 18.91233689190061,
+          "lat_err_mm": -1.087663108099393,
+          "yaw_err_deg": 23.72805392835067
         }
       ],
-      "run_at": "2026-10-19 19:41:01"
+      "run_at": "2026-10-19 19:52:50"
     }
   },
   {
     "id": "S6",
     "name": "Bırakma toleransı",
     "status": "GEÇTİ",
-    "measured": "+0.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +1.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -1.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +2.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -2.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +2.5 cm (bilgi): başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -2.5 cm (bilgi): başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +3.0 cm: başarısız (q 2.1 mm, taban 65.5 mm, eğim 7.86°, sürükleme 44.9 mm, geri 0.01 m, robot yunuslama -4.40°); -3.0 cm: başarısız (q 2.1 mm, taban 65.5 mm, eğim 7.86°, sürükleme 44.9 mm, geri 0.01 m, robot yunuslama -4.40°). Gözlenen sınır: +2.5 / -2.5 cm. Tam girişte robot yunuslama -0.41° (D-46)",
-    "criterion": "0–±2 cm: koli bölmede (taban 0.05 ± 2 mm, örtüşme ≥ 1 cm), eğim < 2°, çatal 0'a ulaşıyor (< 2 mm), sürükleme < 5 mm; ±3 cm: başarısızlık bekleniyor",
+    "measured": "+0.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +1.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -1.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +2.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -2.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +2.5 cm (bilgi): başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -2.5 cm (bilgi): başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +3.0 cm: başarısız (q 2.1 mm, taban 65.5 mm, eğim 7.86°, sürükleme 45.0 mm, geri 0.01 m, robot yunuslama -4.40°); -3.0 cm: başarısız (q 2.1 mm, taban 65.5 mm, eğim 7.86°, sürükleme 44.9 mm, geri 0.01 m, robot yunuslama -4.40°). Gözlenen sınır: +2.5 / -2.5 cm. Tam girişte robot yunuslama -0.41° (D-46). Komşu koliler tüm denemeler sonunda: parcel_source_0 0.000 mm, parcel_source_2 0.000 mm",
+    "criterion": "0–±2 cm: koli bölmede (taban 0.05 ± 2 mm, örtüşme ≥ 1 cm), eğim < 2°, çatal 0'a ulaşıyor (< 2 mm), sürükleme < 5 mm; ±3 cm: başarısızlık bekleniyor; komşu koliler < 1 mm",
     "details": {
       "trials": [
         {
           "offset_cm": 0.0,
-          "robot_pitch_deg": -0.4094630448497512,
-          "carried_bottom_z": 0.08858614115634295,
-          "robot_pitch_after_lower_deg": -0.4094630448497512,
-          "robot_roll_after_lower_deg": 4.987119713540003e-18,
-          "fork_q_end_mm": -3.4710243197472886e-11,
+          "robot_pitch_deg": -0.409463065662978,
+          "carried_bottom_z": 0.08857992016633831,
+          "robot_pitch_after_lower_deg": -0.409463065662978,
+          "robot_roll_after_lower_deg": -2.089225018228957e-18,
+          "fork_q_end_mm": -3.471024143564435e-11,
           "placed": {
-            "x": 0.10127688876366525,
-            "y": 1.1664998692822232e-11,
-            "bottom_z": 0.04999976993516922,
-            "tilt_deg": 9.711651770764766e-05,
-            "min_overlap_m": 0.03499999998833499
+            "x": 0.10127692251627574,
+            "y": 3.3258224742672135e-10,
+            "bottom_z": 0.04999958196773688,
+            "tilt_deg": 9.823592440329592e-05,
+            "min_overlap_m": 0.034999999667417736
           },
           "final": {
-            "x": 0.10127688876366525,
-            "y": 1.1664998692822232e-11,
-            "bottom_z": 0.04999976993516922,
-            "tilt_deg": 9.711651770764766e-05,
-            "min_overlap_m": 0.03499999998833499
+            "x": 0.10127692251627574,
+            "y": 3.3258224742672135e-10,
+            "bottom_z": 0.04999958196773688,
+            "tilt_deg": 9.823592440329592e-05,
+            "min_overlap_m": 0.034999999667417736
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.3523381404214246,
+          "reverse_m": 0.3520380693154698,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1293,27 +1301,27 @@
         },
         {
           "offset_cm": 1.0,
-          "robot_pitch_deg": -0.40946306121159315,
-          "carried_bottom_z": 0.08858169241243483,
-          "robot_pitch_after_lower_deg": -0.40946306121159315,
-          "robot_roll_after_lower_deg": 6.0519808829084605e-18,
-          "fork_q_end_mm": -3.47102386709288e-11,
+          "robot_pitch_deg": -0.4094630599004557,
+          "carried_bottom_z": 0.08858690363002539,
+          "robot_pitch_after_lower_deg": -0.4094630599004557,
+          "robot_roll_after_lower_deg": -6.448389647115475e-17,
+          "fork_q_end_mm": -3.471024027012703e-11,
           "placed": {
-            "x": 0.10127707794708218,
-            "y": 0.010000146017097785,
-            "bottom_z": 0.04999966754857582,
-            "tilt_deg": 8.669481787211012e-05,
-            "min_overlap_m": 0.024999853982902207
+            "x": 0.10127688009239866,
+            "y": 0.010000000438930061,
+            "bottom_z": 0.0499998244868439,
+            "tilt_deg": 9.471886578517153e-05,
+            "min_overlap_m": 0.02499999956106992
           },
           "final": {
-            "x": 0.10127707794708218,
-            "y": 0.010000146017097785,
-            "bottom_z": 0.04999966754857582,
-            "tilt_deg": 8.669481787211012e-05,
-            "min_overlap_m": 0.024999853982902207
+            "x": 0.10127688009239866,
+            "y": 0.010000000438930061,
+            "bottom_z": 0.0499998244868439,
+            "tilt_deg": 9.471886578517153e-05,
+            "min_overlap_m": 0.02499999956106992
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.3536879806517905,
+          "reverse_m": 0.35233806159580067,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1325,27 +1333,27 @@
         },
         {
           "offset_cm": -1.0,
-          "robot_pitch_deg": -0.40946307607519206,
-          "carried_bottom_z": 0.0885809095541322,
-          "robot_pitch_after_lower_deg": -0.40946307607519206,
-          "robot_roll_after_lower_deg": -2.974398305779575e-17,
-          "fork_q_end_mm": -3.471024317036782e-11,
+          "robot_pitch_deg": -0.40946306409355926,
+          "carried_bottom_z": 0.08858265513054872,
+          "robot_pitch_after_lower_deg": -0.40946306409355926,
+          "robot_roll_after_lower_deg": -5.274874697273093e-17,
+          "fork_q_end_mm": -3.4710242330111174e-11,
           "placed": {
-            "x": 0.10127706626592037,
-            "y": -0.009999999774213094,
-            "bottom_z": 0.049999945692900755,
-            "tilt_deg": 1.2749559400407728e-05,
-            "min_overlap_m": 0.025000000225786898
+            "x": 0.10127705867490078,
+            "y": -0.010000000834932894,
+            "bottom_z": 0.04999995911054442,
+            "tilt_deg": 1.0933637455190016e-05,
+            "min_overlap_m": 0.024999999165067094
           },
           "final": {
-            "x": 0.10127706626592037,
-            "y": -0.009999999774213094,
-            "bottom_z": 0.049999945692900755,
-            "tilt_deg": 1.2749559400407728e-05,
-            "min_overlap_m": 0.025000000225786898
+            "x": 0.10127705867490078,
+            "y": -0.010000000834932894,
+            "bottom_z": 0.04999995911054442,
+            "tilt_deg": 1.0933637455190016e-05,
+            "min_overlap_m": 0.024999999165067094
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.35023811567618673,
+          "reverse_m": 0.35023811567597773,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1357,27 +1365,27 @@
         },
         {
           "offset_cm": 2.0,
-          "robot_pitch_deg": -0.4094630656629752,
-          "carried_bottom_z": 0.08858077610753692,
-          "robot_pitch_after_lower_deg": -0.4094630656629752,
-          "robot_roll_after_lower_deg": -2.4269580006714198e-17,
-          "fork_q_end_mm": -3.471023015994174e-11,
+          "robot_pitch_deg": -0.40946307295977075,
+          "carried_bottom_z": 0.08858289001701805,
+          "robot_pitch_after_lower_deg": -0.40946307295977075,
+          "robot_roll_after_lower_deg": 1.012725749631724e-17,
+          "fork_q_end_mm": -3.471023276202693e-11,
           "placed": {
-            "x": 0.10127691814632933,
-            "y": 0.02000000055246496,
-            "bottom_z": 0.04999957612591452,
-            "tilt_deg": 0.00010043731630619436,
-            "min_overlap_m": 0.014999999447535037
+            "x": 0.1012769225256378,
+            "y": 0.02000000055724957,
+            "bottom_z": 0.04999972428686028,
+            "tilt_deg": 8.67578549035409e-05,
+            "min_overlap_m": 0.01499999944275042
           },
           "final": {
-            "x": 0.10127691814632933,
-            "y": 0.02000000055246496,
-            "bottom_z": 0.04999957612591452,
-            "tilt_deg": 0.00010043731630619436,
-            "min_overlap_m": 0.014999999447535037
+            "x": 0.1012769225256378,
+            "y": 0.02000000055724957,
+            "bottom_z": 0.04999972428686028,
+            "tilt_deg": 8.67578549035409e-05,
+            "min_overlap_m": 0.01499999944275042
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.35458800363146176,
+          "reverse_m": 0.35278804997034396,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1389,27 +1397,27 @@
         },
         {
           "offset_cm": -2.0,
-          "robot_pitch_deg": -0.4094630448497081,
-          "carried_bottom_z": 0.08858507085408346,
-          "robot_pitch_after_lower_deg": -0.4094630448497081,
-          "robot_roll_after_lower_deg": -6.478590593797033e-17,
-          "fork_q_end_mm": -3.4710242709581876e-11,
+          "robot_pitch_deg": -0.4094630625215654,
+          "carried_bottom_z": 0.0885804538691009,
+          "robot_pitch_after_lower_deg": -0.4094630625215654,
+          "robot_roll_after_lower_deg": 5.263881249156207e-18,
+          "fork_q_end_mm": -3.471023926724002e-11,
           "placed": {
-            "x": 0.10127698531326135,
-            "y": -0.020000000948183577,
-            "bottom_z": 0.049999880387682605,
-            "tilt_deg": 4.445365799594644e-05,
-            "min_overlap_m": 0.014999999051816412
+            "x": 0.10127707102694661,
+            "y": -0.01999985050510004,
+            "bottom_z": 0.04999957580809944,
+            "tilt_deg": 0.00010041191164755951,
+            "min_overlap_m": 0.015000149494899945
           },
           "final": {
-            "x": 0.10127698531326135,
-            "y": -0.020000000948183577,
-            "bottom_z": 0.049999880387682605,
-            "tilt_deg": 4.445365799594644e-05,
-            "min_overlap_m": 0.014999999051816412
+            "x": 0.10127707102694661,
+            "y": -0.01999985050510004,
+            "bottom_z": 0.04999957580809944,
+            "tilt_deg": 0.00010041191164755951,
+            "min_overlap_m": 0.015000149494899945
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.35293804618846464,
+          "reverse_m": 0.35293799705709666,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1421,27 +1429,27 @@
         },
         {
           "offset_cm": 2.5,
-          "robot_pitch_deg": -0.40946307218002226,
-          "carried_bottom_z": 0.08857847402244218,
-          "robot_pitch_after_lower_deg": -0.40946307218002226,
-          "robot_roll_after_lower_deg": -1.1041790244907439e-16,
-          "fork_q_end_mm": -3.471023577068791e-11,
+          "robot_pitch_deg": -0.40946307322152786,
+          "carried_bottom_z": 0.08857876049543936,
+          "robot_pitch_after_lower_deg": -0.40946307322152786,
+          "robot_roll_after_lower_deg": 2.512430046292125e-17,
+          "fork_q_end_mm": -3.471023311439271e-11,
           "placed": {
-            "x": 0.10127693539915339,
-            "y": 0.02499990928395911,
-            "bottom_z": 0.04999950151971663,
-            "tilt_deg": 9.860253981431941e-05,
-            "min_overlap_m": 0.010000090716040883
+            "x": 0.10127693426299267,
+            "y": 0.024999909876833128,
+            "bottom_z": 0.04999950472252668,
+            "tilt_deg": 9.885725562207257e-05,
+            "min_overlap_m": 0.010000090123166869
           },
           "final": {
-            "x": 0.10127693539915339,
-            "y": 0.02499990928395911,
-            "bottom_z": 0.04999950151971663,
-            "tilt_deg": 9.860253981431941e-05,
-            "min_overlap_m": 0.010000090716040883
+            "x": 0.10127693426299267,
+            "y": 0.024999909876833128,
+            "bottom_z": 0.04999950472252668,
+            "tilt_deg": 9.885725562207257e-05,
+            "min_overlap_m": 0.010000090123166869
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.3544380075013906,
+          "reverse_m": 0.35128808862108046,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1453,27 +1461,27 @@
         },
         {
           "offset_cm": -2.5,
-          "robot_pitch_deg": -0.40946306487727285,
-          "carried_bottom_z": 0.08857817412929858,
-          "robot_pitch_after_lower_deg": -0.40946306487727285,
-          "robot_roll_after_lower_deg": 7.504867027805047e-18,
-          "fork_q_end_mm": -3.471024010749669e-11,
+          "robot_pitch_deg": -0.40946308357047634,
+          "carried_bottom_z": 0.08857481615647655,
+          "robot_pitch_after_lower_deg": -0.40946308357047634,
+          "robot_roll_after_lower_deg": -3.3691548893391286e-18,
+          "fork_q_end_mm": -3.471024336010321e-11,
           "placed": {
-            "x": 0.10127693169776464,
-            "y": -0.02499999995546266,
-            "bottom_z": 0.04999950134401843,
-            "tilt_deg": 9.998269013639946e-05,
-            "min_overlap_m": 0.010000000044537327
+            "x": 0.10127709504605131,
+            "y": -0.024999927505665046,
+            "bottom_z": 0.049999312878215935,
+            "tilt_deg": 0.00010444342514080513,
+            "min_overlap_m": 0.010000072494334947
           },
           "final": {
-            "x": 0.10127693169776464,
-            "y": -0.02499999995546266,
-            "bottom_z": 0.04999950134401843,
-            "tilt_deg": 9.998269013639946e-05,
-            "min_overlap_m": 0.010000000044537327
+            "x": 0.10127709504605131,
+            "y": -0.024999927505665046,
+            "bottom_z": 0.049999312878215935,
+            "tilt_deg": 0.00010444342514080513,
+            "min_overlap_m": 0.010000072494334947
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.3509880963905122,
+          "reverse_m": 0.35263800817932833,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1485,27 +1493,27 @@
         },
         {
           "offset_cm": 3.0,
-          "robot_pitch_deg": -0.409463066967971,
-          "carried_bottom_z": 0.08857932871780974,
-          "robot_pitch_after_lower_deg": -4.3991533712309945,
-          "robot_roll_after_lower_deg": 6.5185307802234105,
-          "fork_q_end_mm": 2.149045925608158,
+          "robot_pitch_deg": -0.4094630838264526,
+          "carried_bottom_z": 0.08857465776889781,
+          "robot_pitch_after_lower_deg": -4.399178798499013,
+          "robot_roll_after_lower_deg": 6.518594866386066,
+          "fork_q_end_mm": 2.1490553667693524,
           "placed": {
-            "x": 0.09169338659313087,
-            "y": 0.018535127069820984,
-            "bottom_z": 0.06731863578306102,
-            "tilt_deg": 6.6451703920984455,
-            "min_overlap_m": 0.01646487293017901
+            "x": 0.09169339937859156,
+            "y": 0.018535021413500073,
+            "bottom_z": 0.0673186311394181,
+            "tilt_deg": 6.645165810409609,
+            "min_overlap_m": 0.01646497858649991
           },
           "final": {
-            "x": 0.05961745832652321,
-            "y": -0.0128686342666271,
-            "bottom_z": 0.06551375376374458,
-            "tilt_deg": 7.858889398350252,
-            "min_overlap_m": 0.02213136573337289
+            "x": 0.05952285874521812,
+            "y": -0.012870120661542096,
+            "bottom_z": 0.06551678068329675,
+            "tilt_deg": 7.858875849693287,
+            "min_overlap_m": 0.022129879338457892
           },
-          "drag_mm": 44.889435285389276,
-          "reverse_m": 0.01030631995856658,
+          "drag_mm": 44.95969580709206,
+          "reverse_m": 0.010302404541565953,
           "criteria": {
             "parcel_bottom": 0.0,
             "tilt": false,
@@ -1517,27 +1525,27 @@
         },
         {
           "offset_cm": -3.0,
-          "robot_pitch_deg": -0.40946306409296435,
-          "carried_bottom_z": 0.08858206602969687,
-          "robot_pitch_after_lower_deg": -4.399214161201456,
-          "robot_roll_after_lower_deg": -6.518645489431652,
-          "fork_q_end_mm": 2.149046571085854,
+          "robot_pitch_deg": -0.4094630625215073,
+          "carried_bottom_z": 0.08858117558045894,
+          "robot_pitch_after_lower_deg": -4.399187321189958,
+          "robot_roll_after_lower_deg": -6.518594833081162,
+          "fork_q_end_mm": 2.149053975436454,
           "placed": {
-            "x": 0.09169338916800718,
-            "y": -0.018535149192904426,
-            "bottom_z": 0.06731863705436048,
-            "tilt_deg": 6.6451707366593045,
-            "min_overlap_m": 0.01646485080709556
+            "x": 0.09169353028999128,
+            "y": -0.018535067190277827,
+            "bottom_z": 0.0673186444771676,
+            "tilt_deg": 6.645170485592359,
+            "min_overlap_m": 0.016464932809722166
           },
           "final": {
-            "x": 0.05955689844139744,
-            "y": 0.012859712369759897,
-            "bottom_z": 0.06551751670242772,
-            "tilt_deg": 7.85887577728586,
-            "min_overlap_m": 0.02214028763024009
+            "x": 0.05961116726816562,
+            "y": 0.012867054061208192,
+            "bottom_z": 0.06551397932407707,
+            "tilt_deg": 7.8588828655383285,
+            "min_overlap_m": 0.022132945938791795
           },
-          "drag_mm": 44.92651075657146,
-          "reverse_m": 0.010305575275567842,
+          "drag_mm": 44.8928862533613,
+          "reverse_m": 0.010308353915834002,
           "criteria": {
             "parcel_bottom": 0.0,
             "tilt": false,
@@ -1554,52 +1562,56 @@
       },
       "ok_within_2cm": true,
       "fails_at_3cm": true,
-      "run_at": "2026-10-19 19:49:25"
+      "neighbour_displacement_mm": {
+        "parcel_source_0": 0.0,
+        "parcel_source_2": 0.0
+      },
+      "run_at": "2026-10-19 19:59:48"
     }
   },
   {
     "id": "S7",
     "name": "Alma",
     "status": "GEÇTİ",
-    "measured": "girişte koli 0.00 mm oynadı; kaldırınca taban 88.8 mm (çıkıntı 50 mm); 0.502 m geri çekilme sonrası koli çatalda (bölme x -0.392 m), bağıl kayma 0.00 mm",
+    "measured": "girişte koli 0.00 mm oynadı; kaldırınca taban 88.8 mm (çıkıntı 50 mm); 0.501 m geri çekilme sonrası koli çatalda (bölme x -0.390 m), bağıl kayma 0.00 mm",
     "criterion": "Eklem 0'da tam giriş → 0.06 → 0.5 m geri: koli çatalda, bağıl kayma < 1 cm",
     "details": {
       "before": {
-        "x": 0.11000000000001209,
-        "y": -6.278212323349533e-16,
-        "bottom_z": 0.04999999990789192,
+        "x": 0.11000000000000498,
+        "y": 1.1691128803804869e-14,
+        "bottom_z": 0.049999999907896026,
         "tilt_deg": 0.0,
-        "min_overlap_m": 0.034999999999999365
+        "min_overlap_m": 0.034999999999988304
       },
       "disturbed_on_entry_mm": 0.0,
       "fork_reached": true,
       "lifted": {
-        "x": 0.1090079337907095,
-        "y": -9.921917124186842e-16,
-        "bottom_z": 0.08880705605447109,
+        "x": 0.10900793378994633,
+        "y": -1.0064387720888944e-18,
+        "bottom_z": 0.08880705605411643,
         "tilt_deg": 0.40938813630463167,
-        "min_overlap_m": 0.034999999999999004
+        "min_overlap_m": 0.03499999999999999
       },
       "after": {
-        "x": -0.39168706540254306,
-        "y": -4.40420447178304e-13,
-        "bottom_z": 0.08503766639656388,
+        "x": -0.39018706578779083,
+        "y": 6.331608034598895e-17,
+        "bottom_z": 0.085038499251688,
         "tilt_deg": 1.4787793334710982e-06,
-        "min_overlap_m": 0.034999999999559564
+        "min_overlap_m": 0.03499999999999992
       },
       "rel0": [
-        0.12069604594919259,
-        -1.504880426671309e-13,
-        0.05499995954417487
+        0.12069604589955096,
+        -1.553886193152822e-19,
+        0.05499995954417494
       ],
       "rel1": [
-        0.1206993918689403,
-        -9.043177281047702e-14,
-        0.05499999593432606
+        0.1206993918175766,
+        7.063218177596978e-18,
+        0.05499999593432714
       ],
-      "slip_mm": 0.0033461176311094356,
-      "reverse_m": 0.5020284684631173,
-      "run_at": "2026-10-19 19:49:35"
+      "slip_mm": 0.003346115909155359,
+      "reverse_m": 0.5005285071225629,
+      "run_at": "2026-10-19 19:59:58"
     }
   },
   {
@@ -1609,12 +1621,12 @@
     "measured": "RTF 1.001 (20 s duvar; ekransız EGL; 4 istasyon, 3 koli; kameralar: front_camera 30.3 Hz, lane_camera 30.3 Hz)",
     "criterion": "RTF ≥ 0.9, iki kamera açık",
     "details": {
-      "rtf": 1.0012464980903049,
+      "rtf": 1.0007969596790744,
       "camera_hz": {
-        "front_camera": 30.299894024605482,
-        "lane_camera": 30.299894024605482
+        "front_camera": 30.299907951914427,
+        "lane_camera": 30.299907951914427
       },
-      "run_at": "2026-10-19 19:11:33"
+      "run_at": "2026-10-19 19:51:54"
     }
   }
 ]

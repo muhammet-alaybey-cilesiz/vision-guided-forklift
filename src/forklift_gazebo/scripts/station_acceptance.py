@@ -1373,6 +1373,9 @@ def s6(st, rep, gz, parcels):
     ensure_doc_camera(st, gz, src, i)
     bay = bay_pose(st, src, i)
     stage_xy = bay.apply([-1.0, 0.0, 0.0])[:2]
+    # komşu bölmelerdeki koliler: S6 boyunca yer değiştirmemeli (D-43, robot gövdesi/temas)
+    neighbours = [n for n, _, _ in parcels if n.startswith('parcel_source_') and n != name]
+    nb0 = {n: gz.model(n).p.copy() for n in neighbours}
     rows = []
     for off in S6_OFFSETS:
         place_robot(gz, stage_xy, src['pose'][2])
@@ -1415,11 +1418,12 @@ def s6(st, rep, gz, parcels):
         rows.append(row)
         print(f'  S6 ofset {off * 100:+.0f} cm: başarı={row["success"]} {crit} q={row["fork_q_end_mm"]:.1f} mm '
               f'taban={final["bottom_z"]:.4f} eğim={final["tilt_deg"]:.2f}° sürükleme={drag * 1000:.1f} mm', flush=True)
+    nb_disp = {n: float(np.linalg.norm(gz.model(n).p - nb0[n])) * 1000 for n in neighbours}
     place_robot(gz, stage_xy, src['pose'][2])
     gz.set_pose(name, nominal.p, nominal.R)
     gz.wait_sim(1.0)
     with open(os.path.join(st.logs, 'S6_trials.json'), 'w') as f:
-        json.dump(rows, f, indent=2, default=float)
+        json.dump({'trials': rows, 'neighbour_displacement_mm': nb_disp}, f, indent=2, default=float)
     ok_small = all(r['success'] for r in rows if abs(r['offset_cm']) <= 2.0 + 1e-9)
     # ±2.5 cm yalnız bilgi: çatal dış kenarı tam kanal kenarında (0.085)
     fail_3 = all(not r['success'] for r in rows if abs(r['offset_cm']) > 2.5)
@@ -1434,11 +1438,14 @@ def s6(st, rep, gz, parcels):
                      f'geri {r["reverse_m"]:.2f} m, robot yunuslama {r["robot_pitch_after_lower_deg"]:+.2f}°)'
                      for r in rows)
     meas += (f'. Gözlenen sınır: +{limit["+"]} / -{limit["-"]} cm. Tam girişte robot yunuslama '
-             f'{rows[0]["robot_pitch_deg"]:.2f}° (D-46)')
-    rep.add(Result('S6', TEST_NAMES['S6'], PASS if ok_small and fail_3 else FAIL, meas,
+             f'{rows[0]["robot_pitch_deg"]:.2f}° (D-46). Komşu koliler tüm denemeler sonunda: '
+             f'{", ".join(f"{n} {d:.3f} mm" for n, d in nb_disp.items())}')
+    nb_ok = all(d < 1.0 for d in nb_disp.values())
+    rep.add(Result('S6', TEST_NAMES['S6'], PASS if ok_small and fail_3 and nb_ok else FAIL, meas,
                    '0–±2 cm: koli bölmede (taban 0.05 ± 2 mm, örtüşme ≥ 1 cm), eğim < 2°, çatal 0\'a ulaşıyor '
-                   '(< 2 mm), sürükleme < 5 mm; ±3 cm: başarısızlık bekleniyor',
-                   {'trials': rows, 'limit_cm': limit, 'ok_within_2cm': ok_small, 'fails_at_3cm': fail_3}))
+                   '(< 2 mm), sürükleme < 5 mm; ±3 cm: başarısızlık bekleniyor; komşu koliler < 1 mm',
+                   {'trials': rows, 'limit_cm': limit, 'ok_within_2cm': ok_small, 'fails_at_3cm': fail_3,
+                    'neighbour_displacement_mm': nb_disp}))
 
 
 def s7(st, rep, gz, parcels):
