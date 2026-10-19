@@ -925,6 +925,68 @@ the floor).
   bottom 0.05 ± 2 mm, tilt < 2°, fork joint < 2 mm, drag while reversing
   < 5 mm.
 
+## D-49 Test service calls go through the `gz service` CLI (Accepted, Measured)
+The test process subscribes to five continuous gz topics: dynamic poses (60 Hz),
+joint states (50 Hz) and two cameras (30 Hz, about 1 MB per frame). While those
+subscriptions were active, gz-transport's Python `Node.request()` was not
+reliable. `/create/blocking` never returned, even for an empty box and even with
+a 60 s timeout, and `set_pose` sometimes waited out its 5 s timeout before a
+retry worked. The same requests from a separate process return in about
+0.3 s. A second `Node` in the same process did not help. Probable cause:
+gz-transport shares one receive path per process, and the Python callbacks
+compete with it. A minimal script with one image subscription did **not**
+reproduce the problem, so the mechanism is not proven. Decision: `Gz._req` in
+`station_acceptance.py` builds the request as protobuf text and calls
+`gz service` in a subprocess. Two more facts were measured:
+* `/world/<w>/create` (async) returns `data: true` even when the name already
+  exists, and it returns before the entity exists. The test uses
+  `/create/blocking` and `/remove/blocking`, because only they report the
+  real outcome.
+* Creating a new render camera can take longer than 5 s. The S5 test camera
+  is therefore spawned **once**, as a dynamic model with gravity off, no
+  collision and 10 g of mass. For each view it is moved with `set_pose`, and
+  its real pose is checked in `dynamic_pose/info`. A static model has neither
+  of these properties.
+
+## D-50 ArUco detector parameters (Accepted, Measured on S4/S5 frames)
+`station_params.yaml → markers.detector`: `CORNER_REFINE_SUBPIX` and
+`perspectiveRemoveIgnoredMarginPerCell = 0.3` (OpenCV default 0.13). With the
+default, the lower marker was missed at 0.6 m (z = 0.02) and at 0.7–0.8 m
+(z = 0.08), but it was found at 0.5 and 0.7 m. That non-monotonic pattern
+comes from texture sampling: at 25–30 px (about 4 px per cell) the cell edges
+move by ±1 px, and bit sampling at the cell borders fails. The parameter was
+swept offline on the 46 saved S4/S5 frames. 0.25–0.45 all give 21/21 lower
+marker detections, unchanged S4 results and no wrong or hidden IDs. 0.3 is
+inside that range. Caveat: the value was tuned on the test frames, and the
+plateau is the evidence that it is not overfitted. The future detection node
+should read the same block.
+
+## D-51 Findings from S4/S5 that affect the fork-camera step (Open: owner decision on the S5 yaw criterion)
+1. **Camera noise is not applied.** Both robot cameras and the S5 camera
+   declare Gaussian noise with σ = 0.007. Consecutive frames are identical
+   (mean difference 0.001 grey levels), and the sky region has a spatial
+   standard deviation of exactly 0. This was measured in headless EGL **and**
+   in windowed mode (`lift_test`, 2026-10-19). The 30-frame averages in S5
+   are therefore one deterministic sample. Robot scope, not changed here; see
+   REPORT_STATIONS §9.
+2. **Pose of the 4 cm lower marker at 0.5 m:** the lateral error is
+   −0.8 mm, and ≤ 1.6 mm in the ±1/±2 cm and ±2/±5° sweeps. The yaw error is
+   +21.6°. The two IPPE solutions are +21.6° and −21.9°, with reprojection
+   errors of 0.17 and 0.29 px. The detected corners are up to 1.5 px from the
+   true projection: the black square renders about 1–2 px smaller, more at
+   its lower edge. In the sweeps the estimated yaw barely moves when the true
+   viewing angle changes (lateral ±2 cm → ±2.3°), so yaw relative to the
+   viewing ray is not observable at this size. This matches the Phase 1
+   estimate of 0.043 px per degree. The S5 yaw criterion (< 1°) fails.
+   A detector setting cannot fix it. Meeting it would need a geometry change
+   (owner's decision), for example a horizontal baseline of two lower markers
+   per bay, or a criterion change, for example yaw from lateral offsets measured
+   at two distances along the approach.
+3. **Upper-marker distance bias (front camera):** estimates are too long by
+   +1.5 % at 0.6 m, +2.5 % at 1.0 m and +3.7 % at 1.5 m. This is the same
+   inward corner shift. It is information only and not part of the S4
+   criterion.
+
 ---
 
 ## Spec deviations (summary)

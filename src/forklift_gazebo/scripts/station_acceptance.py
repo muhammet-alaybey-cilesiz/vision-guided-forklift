@@ -79,6 +79,7 @@ class Setup:
                                                'config', 'forklift_params.yaml'))
         self.world = 'station_test'
         self.gui = False
+        self.raw_dir = None
         self.logs = os.path.join(docs, 'logs', 'stations')
         self.images = os.path.join(docs, 'images', 'stations')
         os.makedirs(self.logs, exist_ok=True)
@@ -627,9 +628,13 @@ class Gz:
 
     # -------------------------------------------------------------- zaman
     def wait_sim(self, dt, timeout=None):
-        t0 = self.now()
         w0 = time.time()
         limit = timeout if timeout is not None else 10 * dt + 10
+        while self.now() is None:
+            if time.time() - w0 > limit:
+                raise TimeoutError('sim zamanı gelmiyor (/stats)')
+            time.sleep(0.05)
+        t0 = self.now()
         while self.now() is None or self.now() - t0 < dt:
             if time.time() - w0 > limit:
                 raise TimeoutError(f'sim zamanı {dt} s ilerlemedi')
@@ -654,11 +659,26 @@ class Gz:
         m.data = q
         self.fork_pub.publish(m)
 
-    def _req(self, service, req, req_t, rep_t, timeout_ms=3000):
-        ok, rep = self.node.request(service, req, req_t, rep_t, timeout_ms)
-        if not ok or (hasattr(rep, 'data') and not rep.data):
-            raise RuntimeError(f'{service} başarısız')
-        return rep
+    def _req(self, service, req, req_t, rep_t, timeout_ms=5000, attempts=3):
+        """Servis isteği AYRI SÜREÇTEN (gz service CLI) gönderilir (D-49).
+
+        Bu süreçteki sürekli abonelikler (poz 60 Hz, eklem 50 Hz, iki kamera 30 Hz)
+        varken gz-transport Python Node.request() yanıtları zaman aşımına düşüyor
+        (create/blocking hiç dönmedi, set_pose ara sıra 5 s bekledi); ayrı süreçte
+        aynı istekler ~0.3 s'de dönüyor.
+        """
+        from google.protobuf import text_format
+        text = text_format.MessageToString(req, as_one_line=True)
+        cmd = ['gz', 'service', '-s', service, '--reqtype', f'gz.msgs.{req_t.__name__}',
+               '--reptype', f'gz.msgs.{rep_t.__name__}', '--timeout', str(timeout_ms), '--req', text]
+        tried = []
+        for _ in range(attempts):
+            p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout_ms / 1000.0 + 20)
+            if 'data: true' in p.stdout:
+                return True
+            tried.append((p.stdout + p.stderr).strip()[:120] or 'yanıt yok')
+            time.sleep(0.5)
+        raise RuntimeError(f'{service} başarısız: {tried}')
 
     def set_pose(self, name, p, R):
         from gz.msgs10.boolean_pb2 import Boolean
@@ -670,7 +690,7 @@ class Gz:
         m.orientation.w, m.orientation.x, m.orientation.y, m.orientation.z = (float(v) for v in q)
         self._req(f'/world/{self.w}/set_pose', m, PoseMsg, Boolean)
 
-    def spawn(self, name, sdf, p, R):
+    def spawn(self, name, sdf, p, R, timeout_ms=60000):
         from gz.msgs10.boolean_pb2 import Boolean
         from gz.msgs10.entity_factory_pb2 import EntityFactory
         m = EntityFactory()
@@ -679,14 +699,17 @@ class Gz:
         q = R_to_quat(np.asarray(R))
         m.pose.orientation.w, m.pose.orientation.x, m.pose.orientation.y, m.pose.orientation.z = \
             (float(v) for v in q)
-        self._req(f'/world/{self.w}/create', m, EntityFactory, Boolean)
+        # blocking: model gerçekten eklenince döner; ad çakışmasında data=false
+        # (async /create her durumda true döner, Faz 4'te ölçüldü)
+        # tek deneme, uzun zaman aşımı: tekrar denemek ad çakışması (data=false) verir
+        self._req(f'/world/{self.w}/create/blocking', m, EntityFactory, Boolean, timeout_ms, attempts=1)
 
     def remove(self, name):
         from gz.msgs10.boolean_pb2 import Boolean
         from gz.msgs10.entity_pb2 import Entity
         m = Entity()
         m.name, m.type = name, Entity.MODEL
-        self._req(f'/world/{self.w}/remove', m, Entity, Boolean)
+        self._req(f'/world/{self.w}/remove/blocking', m, Entity, Boolean, attempts=1)
 
     def close(self):
         with self.lock:
@@ -709,6 +732,11 @@ def wait_world_ready(st, gz, sess, parcels, timeout=120):
             have = set(gz.poses)
         return gz.now() is not None and all(n in have for n in names) and sess.spawned()
     gz.wait_until(ready, timeout, f'dünya hazır değil ({names})')
+    # Başlangıçta sunucu sensör/render başlatmasıyla meşgul olabilir: sim zamanı
+    # gerçekten akana kadar bekle. Kayıt şimdiden başlar; S3 onu sürdürür, böylece
+    # S3 penceresi spawn bitiminden başlar.
+    gz.record(True)
+    gz.wait_sim(1.0, timeout=timeout)
 
 
 # =============================================================================
@@ -721,9 +749,12 @@ S3_TOL = 0.001
 def s3(st, rep, gz, parcels):
     nominal = {n: np.array([x, y, z]) for n, _, (x, y, z, yaw) in parcels}
     nominal_yaw = {n: yaw for n, _, (x, y, z, yaw) in parcels}
-    gz.record(True)
-    t0 = gz.now()
-    gz.wait_sim(S3_DURATION)
+    # kayıt wait_world_ready'de başladı; ilk örnekten itibaren S3_DURATION
+    with gz.lock:
+        t_first = gz._rec[0][0] if gz._rec else gz.pose_t
+    gz.wait_until(lambda: gz.pose_t is not None and gz.pose_t - t_first >= S3_DURATION,
+                  10 * S3_DURATION + 30, 'S3 kaydı tamamlanmadı')
+    t0 = t_first
     rec = gz.record(False)
     rows, worst = {}, 0.0
     for n in nominal:
@@ -770,15 +801,17 @@ def s8(st, rep, gz):
 
 
 def run_sim_tests(st, rep, tests):
-    """S3–S8: tek oturum; S3 spawn anından ölçmek için ilk sırada."""
+    """S3–S8: tek oturum. S3 spawn anından ölçmek için ilk, S8 dünya bozulmadan ikinci sırada."""
     parcels = sl.parcels(st.params, st.layout)
-    order = [t for t in ('S3', 'S4', 'S5', 'S6', 'S7', 'S8') if t in tests]
+    order = [t for t in ('S3', 'S8', 'S4', 'S5', 'S6', 'S7') if t in tests]
     done = set()
     with SimSession(st, 'stations') as sess:
         gz = None
         try:
             gz = Gz(st)
             wait_world_ready(st, gz, sess, parcels)
+            if 'S3' not in order:
+                gz.record(False)
             for t in order:
                 done.add(t)
                 try:
@@ -803,7 +836,657 @@ def run_sim_tests(st, rep, tests):
                 gz.close()
 
 
-SIM_TESTS = {}
+# =============================================================================
+#  ArUco yardımcıları (OpenCV 4.6 API, D-47)
+# =============================================================================
+# Kamera bağlantı çerçevesinden (x ileri, y sol, z yukarı) OpenCV optik
+# çerçeveye (x sağ, y aşağı, z ileri): sütunlar link çerçevesinde.
+R_LINK_OPT = np.array([[0.0, 0.0, 1.0], [-1.0, 0.0, 0.0], [0.0, -1.0, 0.0]])
+
+
+def rpy_to_R(rpy):
+    r, p, y = rpy
+    cr, sr, cp, sp, cy, sy = math.cos(r), math.sin(r), math.cos(p), math.sin(p), math.cos(y), math.sin(y)
+    return np.array([[cy * cp, cy * sp * sr - sy * cr, cy * sp * cr + sy * sr],
+                     [sy * cp, sy * sp * sr + cy * cr, sy * sp * cr - cy * sr],
+                     [-sp, cp * sr, cp * cr]])
+
+
+class Aruco:
+    def __init__(self, st):
+        import cv2
+        self.cv2 = cv2
+        self.dict = cv2.aruco.Dictionary_get(getattr(cv2.aruco, st.params['markers']['dictionary']))
+        det = st.params['markers']['detector']
+        self.prm = cv2.aruco.DetectorParameters_create()
+        self.prm.cornerRefinementMethod = getattr(cv2.aruco, det['corner_refinement'])
+        self.prm.perspectiveRemoveIgnoredMarginPerCell = det['perspective_remove_ignored_margin_per_cell']
+        self.markers = {m['id']: m for m in sl.markers(st.params, st.layout)}
+
+    def detect(self, rgb):
+        """{id: köşeler (4×2, TL TR BR BL)}"""
+        gray = self.cv2.cvtColor(rgb, self.cv2.COLOR_RGB2GRAY)
+        corners, ids, _ = self.cv2.aruco.detectMarkers(gray, self.dict, parameters=self.prm)
+        if ids is None:
+            return {}
+        return {int(i): c.reshape(4, 2) for i, c in zip(ids.ravel(), corners)}
+
+    def pose(self, corners, size, K):
+        """IPPE_SQUARE; işaret pozu optik çerçevede (R, t)."""
+        h = size / 2.0
+        obj = np.array([[-h, h, 0], [h, h, 0], [h, -h, 0], [-h, -h, 0]], np.float64)
+        ok, rvec, tvec = self.cv2.solvePnP(obj, corners.astype(np.float64), K, None,
+                                           flags=self.cv2.SOLVEPNP_IPPE_SQUARE)
+        R, _ = self.cv2.Rodrigues(rvec)
+        return R, tvec.ravel()
+
+    def marker_world(self, mid):
+        m = self.markers[mid]
+        return Pose(m['pose_world']['xyz'], rpy_to_R(m['pose_world']['rpy']))
+
+    def annotate(self, rgb, det, label):
+        cv2 = self.cv2
+        img = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR).copy()
+        if det:
+            ids = np.array(list(det.keys())).reshape(-1, 1)
+            cv2.aruco.drawDetectedMarkers(img, [c.reshape(1, 4, 2).astype(np.float32) for c in det.values()], ids)
+        cv2.rectangle(img, (0, 0), (img.shape[1], 26), (0, 0, 0), -1)
+        # Hershey yazı tipi yalnız ASCII çizer: Türkçe harfler sadeleştirilir
+        label = label.translate(str.maketrans('çğıöşüÇĞİÖŞÜ°', 'cgiosuCGIOSU ')).replace('—', '-')
+        cv2.putText(img, label, (6, 18), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        return img
+
+
+def K_from(hfov, w, h):
+    f = (w / 2.0) / math.tan(hfov / 2.0)
+    return np.array([[f, 0, w / 2.0], [0, f, h / 2.0], [0, 0, 1]])
+
+
+def montage(tiles, cols, path, scale=0.5):
+    import cv2
+    small = [cv2.resize(t, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA) for t in tiles]
+    h, w = small[0].shape[:2]
+    rows = (len(small) + cols - 1) // cols
+    canvas = np.full((rows * h, cols * w, 3), 255, np.uint8)
+    for k, t in enumerate(small):
+        r, c = divmod(k, cols)
+        canvas[r * h:(r + 1) * h, c * w:(c + 1) * w] = t
+    cv2.imwrite(path, canvas)
+
+
+def station_entry(st, name):
+    return next(s for s in st.layout['stations'] if s['name'] == name)
+
+
+def yaw_err_deg(R_est, R_true):
+    """İşaretin optik y (≈ düşey) ekseni etrafındaki yönelim farkı."""
+    a = math.atan2(R_est[0, 2], R_est[2, 2])
+    b = math.atan2(R_true[0, 2], R_true[2, 2])
+    return math.degrees(math.atan2(math.sin(a - b), math.cos(a - b)))
+
+
+# Park yerleri: dünya çerçevesinde, istasyon ayak izleri ve robotun test
+# yollarından uzakta (stations.yaml yerleşimine göre; testin kendi seçimi).
+PARK_PARCEL = (0.6, -1.2)
+PARK_ROBOT = (-0.9, -1.0)
+
+
+class RobotGeom:
+    """Robot ölçüleri forklift_params.yaml'dan (base_footprint çerçevesinde)."""
+
+    def __init__(self, st):
+        r = st.robot
+        fc, fk, cam = r['fork_carriage'], r['fork'], r['cameras']['front_camera']
+        self.carriage_front_x = fc['x'] + fc['size']['x'] / 2.0
+        self.fork_top0 = fk['ground_z_bottom'] + fk['size']['z']
+        self.fork_len = fk['size']['x']
+        self.cam = cam
+        self.fork_v = r['fork_lift_joint']['velocity']
+
+    def front_cam_opt(self, bf):
+        """Ön kamera optik çerçevesinin dünya pozu (bf: base_footprint dünya pozu)."""
+        c = self.cam
+        return bf * Pose([c['x'], c['y'], c['ground_z']], Ry(c['pitch']) @ R_LINK_OPT)
+
+
+def robot_bf(gz):
+    bf = gz.link(gz.MODEL, 'base_footprint')
+    return bf if bf is not None else gz.model(gz.MODEL)
+
+
+def place_robot(gz, p_xy, yaw, z=0.003, settle=0.5):
+    gz.cmd(0.0)
+    gz.set_pose(gz.MODEL, [p_xy[0], p_xy[1], z], Rz(yaw))
+    gz.wait_sim(settle)
+
+
+def park_parcel(gz, name):
+    gz.set_pose(name, [PARK_PARCEL[0], PARK_PARCEL[1], 0.105], np.eye(3))
+    gz.wait_sim(0.3)
+
+
+def fork_to(gz, rg, q, timeout=None):
+    """Çatal hedefi; |q - hedef| < 1 mm olunca döner. (ulaştı mı, son q)"""
+    gz.set_fork(q)
+    t_lim = timeout if timeout is not None else 2.0 + 2.0 * 0.15 / rg.fork_v
+    t0 = gz.now()
+    while gz.now() - t0 < t_lim:
+        f = gz.fork()
+        if f is not None and abs(f - q) < 0.001:
+            gz.wait_sim(0.3)
+            return True, gz.fork()
+        time.sleep(0.02)
+    return False, gz.fork()
+
+
+# =============================================================================
+#  S4 — üst işaret tespiti (robotun ön kamerası)
+# =============================================================================
+S4_DIST = (0.6, 1.0, 1.5)
+S4_ANG = (-15.0, 0.0, 15.0)
+S4_FRAMES = 5
+S4_MIN_HITS = 4
+
+
+def view_pose_for(gz, rg, marker_pose, yaw_s, D, ang):
+    """Kameranın işarete D (yatay) uzaklıkta, işaret normalinden ang açıda durduğu robot pozu."""
+    psi = yaw_s + math.radians(ang)          # robotun bakış yönü (işarete doğru)
+    m = marker_pose.p
+    cam_xy = m[:2] - D * np.array([math.cos(psi), math.sin(psi)])
+    bf_xy = cam_xy - rg.cam['x'] * np.array([math.cos(psi), math.sin(psi)])
+    return bf_xy, psi
+
+
+def s4_view(st, gz, ar, rg, target_id, yaw_s, D, ang):
+    mp = ar.marker_world(target_id)
+    bf_xy, psi = view_pose_for(gz, rg, mp, yaw_s, D, ang)
+    place_robot(gz, bf_xy, psi, settle=0.6)
+    t_set = gz.now()
+    hits, seen, d_err, frame, det_last = 0, set(), [], None, {}
+    K = K_from(rg.cam['horizontal_fov'], rg.cam['image']['width'], rg.cam['image']['height'])
+    for _ in range(S4_FRAMES):
+        img = gz.image('front_camera', newer_than=t_set)
+        if img is None:
+            raise RuntimeError('ön kamera görüntüsü gelmiyor')
+        t_set = gz.now()
+        det = ar.detect(img)
+        seen |= set(det)
+        if target_id in det:
+            hits += 1
+            _, tvec = ar.pose(det[target_id], ar.markers[target_id]['size'], K)
+            cam = rg.front_cam_opt(robot_bf(gz))
+            true_t = (cam.inv() * mp).p
+            d_err.append(np.linalg.norm(tvec) - np.linalg.norm(true_t))
+        frame, det_last = img, det
+    if st.raw_dir:
+        save_rgb(frame, os.path.join(st.raw_dir, f's4_ID{target_id}_{D:.1f}_{ang:+.0f}.png'))
+    cam = rg.front_cam_opt(robot_bf(gz))
+    true_D = abs(np.dot(mp.p - cam.p, -mp.R[:, 2]))   # işaret düzlemine yatay/normal uzaklık
+    return {'D': D, 'ang': ang, 'hits': hits, 'seen': sorted(seen), 'true_plane_dist': true_D,
+            'dist_err_mm': (float(np.mean(d_err)) * 1000 if d_err else None)}, frame, det_last
+
+
+def s4(st, rep, gz, parcels):
+    ar, rg = Aruco(st), RobotGeom(st)
+    known = set(ar.markers)
+    groups = []
+    # (etiket, istasyon, bölme, beklenen tespit, gizlenecek koli)
+    dest, src = station_entry(st, 'dest_red'), station_entry(st, 'source')
+    groups.append(('boş bölme', dest, 1, True, None))
+    groups.append(('dolu bölme', src, 1, False, None))
+    green = next(n for n, c, _ in parcels if n.endswith('_1') and n.startswith('parcel_source'))
+    groups.append(('boş bölme, komşular dolu (bilgi)', src, 1, True, green))
+    rows, tiles, fails = [], [], []
+    for label, stn, i, expect, hide in groups:
+        target = sl.marker_ids(st.params, stn['bay_ids'][i])['upper']
+        nominal = None
+        if hide:
+            nominal = gz.model(hide)
+            park_parcel(gz, hide)
+        for D in S4_DIST:
+            for ang in S4_ANG:
+                r, img, det = s4_view(st, gz, ar, rg, target, stn['pose'][2], D, ang)
+                r.update({'group': label, 'station': stn['name'], 'bay': i, 'target': target, 'expect': expect})
+                unknown = sorted(set(r['seen']) - known)
+                full_bays = {sl.marker_ids(st.params, s['bay_ids'][j])['upper']
+                             for s in st.layout['stations'] for j, c in enumerate(s['occupancy']) if c}
+                if hide:
+                    full_bays.discard(target)
+                hidden_seen = sorted(set(r['seen']) & full_bays)
+                ok = (r['hits'] >= S4_MIN_HITS) if expect else (r['hits'] == 0)
+                ok = ok and not unknown and not hidden_seen
+                r.update({'ok': ok, 'unknown_ids': unknown, 'full_bay_ids_seen': hidden_seen})
+                rows.append(r)
+                if not ok and 'bilgi' not in label:
+                    fails.append(f'{label} D={D} {ang:+.0f}°: {r["hits"]}/{S4_FRAMES}')
+                tiles.append(ar.annotate(img, det, f'{label} | ID {target} | D {D} m {ang:+.0f} deg | '
+                                                   f'{r["hits"]}/{S4_FRAMES}'))
+        if hide:
+            gz.set_pose(hide, nominal.p, nominal.R)
+            gz.wait_sim(0.5)
+    import cv2
+    # karo indeksi = grup·9 + mesafe·3 + açı (S4_DIST × S4_ANG sırası)
+    for k, name in ((1, 's4_empty_0p6m_0deg.png'), (8, 's4_empty_1p5m_p15deg.png'),
+                    (13, 's4_full_1p0m_0deg.png'), (24, 's4_neighbours_full_1p5m_-15deg.png')):
+        cv2.imwrite(os.path.join(st.images, name), tiles[k])
+    for g in range(3):
+        montage(tiles[g * 9:(g + 1) * 9], 3, os.path.join(st.images, f's4_montage_{g}.png'))
+    with open(os.path.join(st.logs, 'S4_views.json'), 'w') as f:
+        json.dump(rows, f, indent=2, default=float)
+    main = [r for r in rows if 'bilgi' not in r['group']]
+    emp = [r for r in main if r['expect']]
+    ful = [r for r in main if not r['expect']]
+    info = [r for r in rows if 'bilgi' in r['group']]
+    derr = [abs(r['dist_err_mm']) for r in emp if r['dist_err_mm'] is not None]
+    meas = (f'boş bölme (ID {emp[0]["target"]}): {sum(r["ok"] for r in emp)}/{len(emp)} görüşte '
+            f'≥{S4_MIN_HITS}/{S4_FRAMES} karede tespit, uzaklık hatası ≤ {max(derr):.1f} mm; '
+            f'dolu bölme (ID {ful[0]["target"]}): {sum(r["ok"] for r in ful)}/{len(ful)} görüşte hiç tespit yok; '
+            f'bilgi — komşular dolu, bölme boş: {sum(r["ok"] for r in info)}/{len(info)} görüş')
+    rep.add(Result('S4', TEST_NAMES['S4'], PASS if not fails else FAIL, meas,
+                   'Ön kamera, 0.6/1.0/1.5 m × 0°/±15°: boş bölmede doğru ID; dolu bölmenin üst işareti '
+                   'tespit edilmez; bilinmeyen ID yok', {'fails': fails, 'views': rows}))
+
+
+# =============================================================================
+#  S5 — alt işaret tespiti (teste özel statik kamera; araçta değişiklik yok, D-48)
+# =============================================================================
+S5_NAME = 's5_test_camera'
+S5_TOPIC = 's5_test_camera/image'
+S5_HFOV = math.radians(80.0)
+S5_W, S5_H = 640, 480
+S5_PITCH = math.radians(5.0)          # aşağı bakış
+S5_Z = (0.02, 0.08)
+S5_DIST = (0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+S5_FRAMES = 5
+S5_POSE_FRAMES = 30
+S5_POSE_D = 0.5
+S5_LAT_TOL = 0.005
+S5_YAW_TOL = 1.0
+
+
+def s5_camera_sdf(st):
+    # gürültü robot kameralarıyla aynı (forklift_params.yaml cameras.*.noise)
+    n = st.robot['cameras']['front_camera']['noise']
+    # Dinamik ama yerçekimsiz ve collision'sız: hiçbir kuvvet almaz, set_pose ile
+    # taşınır ve gerçek pozu dynamic_pose'ta görünür (statik modelde ikisi de yok).
+    return f'''<?xml version="1.0"?>
+<sdf version="1.11"><model name="{S5_NAME}"><static>false</static><link name="link">
+  <gravity>false</gravity>
+  <inertial><mass>0.01</mass><inertia><ixx>1e-6</ixx><iyy>1e-6</iyy><izz>1e-6</izz></inertia></inertial>
+  <sensor name="camera" type="camera">
+    <topic>{S5_TOPIC}</topic><update_rate>30</update_rate><always_on>1</always_on>
+    <camera>
+      <horizontal_fov>{S5_HFOV}</horizontal_fov>
+      <image><width>{S5_W}</width><height>{S5_H}</height><format>R8G8B8</format></image>
+      <clip><near>0.005</near><far>10</far></clip>
+      <noise><type>{n['type']}</type><mean>{n['mean']}</mean><stddev>{n['stddev']}</stddev></noise>
+    </camera>
+  </sensor>
+</link></model></sdf>'''
+
+
+S5_SWEEP_YAW = (-5.0, -2.0, 2.0, 5.0)        # [°] bilgi: yaw duyarlılığı
+S5_SWEEP_LAT = (-0.02, -0.01, 0.01, 0.02)    # [m] bilgi: yanal ofset duyarlılığı
+
+
+def s5_view(st, gz, ar, sdf, stn, i, z, D, frames, lateral=0.0, yaw_deg=0.0):
+    """Kamerayı bölme ekseninde (± lateral), işaret yüzünden D uzakta, z yüksekliğinde kurar."""
+    bay = bay_pose(st, stn, i)
+    cam_link = bay * Pose([sl.marker_face_x(st.params) - D, lateral, z], Rz(math.radians(yaw_deg)) @ Ry(S5_PITCH))
+    if not getattr(gz, 's5_cam', False):
+        gz.spawn(S5_NAME, sdf, cam_link.p, cam_link.R)
+        gz.s5_cam = True
+    else:
+        gz.set_pose(S5_NAME, cam_link.p, cam_link.R)
+    gz.wait_sim(0.3)
+    actual = gz.model(S5_NAME)
+    if actual is None or np.linalg.norm(actual.p - cam_link.p) > 1e-4:
+        raise RuntimeError(f'test kamerası pozu tutmadı: {None if actual is None else actual.p}')
+    t = gz.now()
+    for _ in range(3):                      # taşımadan önceki/sıradaki kareleri at
+        if gz.image('s5', newer_than=t, timeout=10) is None:
+            raise RuntimeError('test kamerası görüntüsü gelmiyor')
+        t = gz.now()
+    imgs = []
+    for _ in range(frames):
+        img = gz.image('s5', newer_than=t, timeout=5)
+        t = gz.now()
+        imgs.append(img)
+    return cam_link * Pose([0, 0, 0], R_LINK_OPT), imgs
+
+
+def _inside_parcel(st, p, parcel_pose):
+    P = st.params['parcel']['size']
+    local = parcel_pose.inv().apply(p)
+    return all(abs(local[k]) < P[a] / 2.0 for k, a in enumerate('xyz'))
+
+
+def s5(st, rep, gz, parcels):
+    ar = Aruco(st)
+    K = K_from(S5_HFOV, S5_W, S5_H)
+    sdf = s5_camera_sdf(st)
+    gz.subscribe_camera('s5', S5_TOPIC)
+    src = station_entry(st, 'source')
+    i = 1
+    target = sl.marker_ids(st.params, src['bay_ids'][i])['lower']
+    green = f'parcel_source_{i}'
+    nominal = gz.model(green)
+    place_robot(gz, PARK_ROBOT, 0.0)
+    size = ar.markers[target]['size']
+    mp = ar.marker_world(target)
+    cases = [('z0.02_dolu', 0.02, True, True), ('z0.02_bos', 0.02, False, True),
+             ('z0.08_bos', 0.08, False, True), ('z0.08_dolu', 0.08, True, False)]
+    rows, tiles, fails, pose_rows = [], [], [], []
+    import cv2
+    for tag, z, full, judged in cases:
+        if full:
+            gz.set_pose(green, nominal.p, nominal.R)
+        else:
+            park_parcel(gz, green)
+        gz.wait_sim(0.5)
+        for D in S5_DIST:
+            n = S5_POSE_FRAMES if (abs(D - S5_POSE_D) < 1e-9 and judged) else S5_FRAMES
+            cam_opt, imgs = s5_view(st, gz, ar, sdf, src, i, z, D, n)
+            if st.raw_dir:
+                save_rgb(imgs[0], os.path.join(st.raw_dir, f's5_{tag}_{D:.1f}.png'))
+            dets = [ar.detect(im) for im in imgs]
+            hits = sum(target in d for d in dets)
+            # kamera koli gövdesinin içinde mi (render arka yüzleri çizmez → geçersiz görüş)
+            inside = full and _inside_parcel(st, cam_opt.p, gz.model(green))
+            seen = sorted(set().union(*[set(d) for d in dets]))
+            r = {'case': tag, 'z': z, 'D': D, 'parcel': full, 'hits': hits, 'frames': len(imgs), 'seen': seen,
+                 'judged': judged, 'camera_inside_parcel': bool(inside)}
+            if hits and n == S5_POSE_FRAMES:
+                true = cam_opt.inv() * mp
+                lat, dep, yaw = [], [], []
+                for d in dets:
+                    if target not in d:
+                        continue
+                    R, t = ar.pose(d[target], size, K)
+                    lat.append(t[0] - true.p[0])
+                    dep.append(t[2] - true.p[2])
+                    yaw.append(yaw_err_deg(R, true.R))
+                pr = {'case': tag, 'n': len(lat),
+                      'lat_mean_mm': float(np.mean(lat)) * 1000, 'lat_std_mm': float(np.std(lat)) * 1000,
+                      'depth_mean_mm': float(np.mean(dep)) * 1000, 'depth_std_mm': float(np.std(dep)) * 1000,
+                      'yaw_mean_deg': float(np.mean(yaw)), 'yaw_std_deg': float(np.std(yaw)),
+                      'yaw_max_abs_deg': float(np.max(np.abs(yaw)))}
+                pr['ok'] = abs(pr['lat_mean_mm']) < S5_LAT_TOL * 1000 and abs(pr['yaw_mean_deg']) < S5_YAW_TOL
+                pose_rows.append(pr)
+                r['pose'] = pr
+                if not pr['ok']:
+                    fails.append(f'{tag} poz: yanal {pr["lat_mean_mm"]:.2f} mm, yaw {pr["yaw_mean_deg"]:.2f}°')
+            ok = (hits >= len(imgs) - 1) if judged else True
+            if inside:
+                r['note'] = 'kamera koli gövdesinin içinde: arka yüzler çizilmez, görüş geçersiz'
+            r['ok'] = ok
+            if judged and not ok:
+                fails.append(f'{tag} D={D}: {hits}/{len(imgs)}')
+            if any(m not in ar.markers for m in seen):
+                fails.append(f'{tag} D={D}: bilinmeyen ID {seen}')
+            rows.append(r)
+            tiles.append(ar.annotate(imgs[-1], dets[-1], f'{tag} | ID {target} | D {D} m | {hits}/{len(imgs)}'))
+            if D in (0.2, 0.5, 0.8):
+                cv2.imwrite(os.path.join(st.images, f's5_{tag.replace(".", "p")}_{str(D).replace(".", "p")}m.png'),
+                            tiles[-1])
+    # Bilgi: bilinen yaw / yanal ofsetlerde kestirim (D = 0.5 m, z = 0.02, koli yok)
+    park_parcel(gz, green)
+    sweep = []
+    for lat, yd in [(0.0, y) for y in S5_SWEEP_YAW] + [(lo, 0.0) for lo in S5_SWEEP_LAT]:
+        cam_opt, imgs = s5_view(st, gz, ar, sdf, src, i, 0.02, S5_POSE_D, 3, lateral=lat, yaw_deg=yd)
+        d = ar.detect(imgs[0])
+        row = {'lateral_m': lat, 'yaw_deg': yd, 'detected': target in d}
+        if target in d:
+            true = cam_opt.inv() * mp
+            R, t = ar.pose(d[target], size, K)
+            row.update({'true_x_mm': true.p[0] * 1000, 'est_x_mm': t[0] * 1000,
+                        'lat_err_mm': (t[0] - true.p[0]) * 1000, 'yaw_err_deg': yaw_err_deg(R, true.R)})
+        sweep.append(row)
+    gz.remove(S5_NAME)
+    gz.s5_cam = False
+    gz.set_pose(green, nominal.p, nominal.R)
+    gz.wait_sim(0.5)
+    for k, (tag, *_rest) in enumerate(cases):
+        montage(tiles[k * len(S5_DIST):(k + 1) * len(S5_DIST)], 4,
+                os.path.join(st.images, f's5_montage_{tag.replace(".", "p")}.png'))
+    with open(os.path.join(st.logs, 'S5_views.json'), 'w') as f:
+        json.dump({'camera': {'hfov_deg': 80, 'size': [S5_W, S5_H], 'pitch_down_deg': 5,
+                              'noise': st.robot['cameras']['front_camera']['noise']},
+                   'views': rows, 'pose': pose_rows, 'sweep': sweep}, f, indent=2, default=float)
+    det_summary = '; '.join(
+        f'{tag}: {sum(r["hits"] >= r["frames"] - 1 for r in rows if r["case"] == tag)}/{len(S5_DIST)} mesafe'
+        for tag, *_ in cases)
+    pose_summary = '; '.join(
+        f'{p["case"]} @0.5 m: yanal {p["lat_mean_mm"]:+.2f}±{p["lat_std_mm"]:.2f} mm, '
+        f'yaw {p["yaw_mean_deg"]:+.2f}±{p["yaw_std_deg"]:.2f}° (n={p["n"]})' for p in pose_rows)
+    info = [r for r in rows if r['case'] == 'z0.08_dolu']
+    info_txt = ', '.join(f'{r["D"]}: {"kolinin içi" if r["camera_inside_parcel"] else r["hits"]}' for r in info)
+    same = all(p['lat_std_mm'] < 1e-6 and p['yaw_std_deg'] < 1e-6 for p in pose_rows)
+    sw = [r for r in sweep if r['detected']]
+    sweep_txt = ', '.join(
+        (f'yaw {r["yaw_deg"]:+.0f}° → hata {r["yaw_err_deg"]:+.1f}°' if r['yaw_deg'] else
+         f'yanal {r["lateral_m"] * 100:+.0f} cm → hata {r["lat_err_mm"]:+.2f} mm') for r in sw)
+    rep.add(Result('S5', TEST_NAMES['S5'], PASS if not fails else FAIL,
+                   f'ID {target} tespiti (≥ kare-1): {det_summary}. Bilgi z0.08_dolu (beklenen: yok): {info_txt}. '
+                   f'Poz: {pose_summary}{" — 30 kare birebir aynı (kamera gürültüsü uygulanmıyor)" if same else ""}'
+                   f'. Bilgi taraması @0.5 m: {sweep_txt}',
+                   '0.2–0.8 m, z = 0.02 koli var/yok ve z = 0.08 koli yok (D-48): doğru ID; 0.5 m\'de '
+                   '30 kare ortalaması yanal < 5 mm, yaw < 1°',
+                   {'fails': fails, 'views': rows, 'pose': pose_rows, 'sweep': sweep}))
+
+
+# =============================================================================
+#  S6 / S7 — bırakma ve alma (kaynak istasyonun orta bölmesi, komşular dolu)
+# =============================================================================
+S6_OFFSETS = (0.0, 0.01, -0.01, 0.02, -0.02, 0.025, -0.025, 0.03, -0.03)   # ±2.5 cm: bilgi (sınır)
+S6_CARRY_Q = 0.06
+S6_REVERSE = 0.35
+S7_REVERSE = 0.5
+REVERSE_V = 0.15
+S6_PARCEL_GAP = 0.002          # koli ön yüzü ↔ taşıyıcı ön yüzü (yerleştirme)
+DOC_CAM = 'doc_camera'
+
+
+def doc_camera_sdf():
+    return f'''<?xml version="1.0"?>
+<sdf version="1.11"><model name="{DOC_CAM}"><static>true</static><link name="link">
+  <sensor name="camera" type="camera"><topic>{DOC_CAM}/image</topic><update_rate>10</update_rate>
+    <always_on>1</always_on>
+    <camera><horizontal_fov>1.0</horizontal_fov>
+      <image><width>960</width><height>720</height><format>R8G8B8</format></image>
+      <clip><near>0.02</near><far>20</far></clip></camera>
+  </sensor></link></model></sdf>'''
+
+
+def ensure_doc_camera(st, gz, stn, i):
+    """Belgeleme kamerası (statik, bölmeye önden-yandan-yukarıdan bakar); yoksa ekler."""
+    if getattr(gz, 'doc_cam', False):
+        return
+    gz.subscribe_camera('doc', f'{DOC_CAM}/image')
+    # önden-soldan-yukarıdan, bölme merkezine (0.1, 0, 0.1) bakış
+    doc = bay_pose(st, stn, i) * Pose([-0.8, 0.8, 0.8], Rz(math.radians(-41.6)) @ Ry(math.radians(30)))
+    gz.spawn(DOC_CAM, doc_camera_sdf(), doc.p, doc.R)
+    gz.doc_cam = True
+    gz.wait_sim(0.5)
+
+
+def doc_shot(st, gz, name):
+    t = gz.now()
+    img = gz.image('doc', newer_than=t, timeout=5)
+    if img is not None:
+        save_rgb(img, os.path.join(st.images, name))
+
+
+def entry_pose(st, rg, stn, i, offset):
+    """Tam giriş: taşıyıcı ön yüzü bölme x = 0'da, yanal ofsetli; base_footprint dünya xy ve yaw."""
+    bay = bay_pose(st, stn, i)
+    p = bay.apply([-rg.carriage_front_x, offset, 0.0])
+    return p[:2], stn['pose'][2]
+
+
+def reverse(gz, dist):
+    """Gerçek poza göre dist kadar geri; (gerçek mesafe, kayıt)."""
+    bf0 = robot_bf(gz)
+    fwd = bf0.R[:, 0]
+    stop_at = dist - REVERSE_V ** 2 / (2 * 1.0)        # DiffDrive yavaşlama 1 m/s² (forklift_params)
+    gz.record(True)
+    t0 = time.time()
+    while np.dot(robot_bf(gz).p - bf0.p, -fwd) < stop_at:
+        gz.cmd(-REVERSE_V)
+        if time.time() - t0 > 30:
+            break
+        time.sleep(0.02)
+    gz.cmd(0.0)
+    gz.wait_sim(1.0)
+    gz.cmd(0.0)
+    rec = gz.record(False)
+    return float(np.dot(robot_bf(gz).p - bf0.p, -fwd)), rec
+
+
+def parcel_on_fork_pose(st, rg, gz, q):
+    bf = robot_bf(gz)
+    P = st.params['parcel']['size']
+    local = [rg.carriage_front_x + S6_PARCEL_GAP + P['x'] / 2.0, 0.0,
+             rg.fork_top0 + q + P['z'] / 2.0 + 0.002]
+    return bf * Pose(local, np.eye(3))
+
+
+def parcel_state(st, gz, name, stn, i):
+    pp = gz.model(name)
+    bay = bay_pose(st, stn, i)
+    rel = bay.inv() * pp
+    P = st.params['parcel']['size']
+    S = st.params['station']
+    bottom = rel.p[2] - P['z'] / 2.0
+    overlap = P['y'] / 2.0 - abs(rel.p[1]) - S['channel_width'] / 2.0
+    return {'x': rel.p[0], 'y': rel.p[1], 'bottom_z': bottom, 'tilt_deg': tilt_deg(pp.R),
+            'min_overlap_m': overlap}
+
+
+def s6(st, rep, gz, parcels):
+    rg = RobotGeom(st)
+    src = station_entry(st, 'source')
+    i = 1
+    name = f'parcel_source_{i}'
+    nominal = gz.model(name)
+    S = st.params['station']
+    ensure_doc_camera(st, gz, src, i)
+    bay = bay_pose(st, src, i)
+    stage_xy = bay.apply([-1.0, 0.0, 0.0])[:2]
+    rows = []
+    for off in S6_OFFSETS:
+        place_robot(gz, stage_xy, src['pose'][2])
+        fork_to(gz, rg, S6_CARRY_Q)
+        park_parcel(gz, name)
+        xy, yaw = entry_pose(st, rg, src, i, off)
+        place_robot(gz, xy, yaw, settle=0.8)
+        bf = robot_bf(gz)
+        pitch = math.degrees(math.asin(-bf.R[2, 0]))
+        pp = parcel_on_fork_pose(st, rg, gz, gz.fork())
+        gz.set_pose(name, pp.p, pp.R)
+        gz.wait_sim(1.0)
+        carried = parcel_state(st, gz, name, src, i)
+        reached, q_end = fork_to(gz, rg, 0.0, timeout=6.0)
+        gz.wait_sim(1.0)
+        q_end = gz.fork()
+        placed = parcel_state(st, gz, name, src, i)
+        bf_low = robot_bf(gz)
+        pitch_low = math.degrees(math.asin(-bf_low.R[2, 0]))
+        roll_low = math.degrees(math.atan2(bf_low.R[2, 1], bf_low.R[2, 2]))
+        if off in (0.0, 0.02, 0.03):
+            doc_shot(st, gz, f's6_lowered_offset_{int(round(off * 100))}cm.png')
+        before = gz.model(name).p
+        dist, rec = reverse(gz, S6_REVERSE)
+        drag = max(np.linalg.norm(d[name][0][:2] - before[:2]) for _, d in rec if name in d)
+        final = parcel_state(st, gz, name, src, i)
+        if off == 0.0:
+            doc_shot(st, gz, 's6_after_reverse_offset_0cm.png')
+        crit = {
+            'parcel_bottom': abs(final['bottom_z'] - S['ledge_height']) <= 0.002,
+            'tilt': final['tilt_deg'] < 2.0,
+            'fork_reached_0': q_end is not None and abs(q_end) < 0.002,
+            'no_drag': drag < 0.005,
+            'overlap': final['min_overlap_m'] >= 0.01,
+        }
+        row = {'offset_cm': off * 100, 'robot_pitch_deg': pitch, 'carried_bottom_z': carried['bottom_z'],
+               'robot_pitch_after_lower_deg': pitch_low, 'robot_roll_after_lower_deg': roll_low,
+               'fork_q_end_mm': (q_end or 0) * 1000, 'placed': placed, 'final': final, 'drag_mm': drag * 1000,
+               'reverse_m': dist, 'criteria': crit, 'success': all(crit.values())}
+        rows.append(row)
+        print(f'  S6 ofset {off * 100:+.0f} cm: başarı={row["success"]} {crit} q={row["fork_q_end_mm"]:.1f} mm '
+              f'taban={final["bottom_z"]:.4f} eğim={final["tilt_deg"]:.2f}° sürükleme={drag * 1000:.1f} mm', flush=True)
+    place_robot(gz, stage_xy, src['pose'][2])
+    gz.set_pose(name, nominal.p, nominal.R)
+    gz.wait_sim(1.0)
+    with open(os.path.join(st.logs, 'S6_trials.json'), 'w') as f:
+        json.dump(rows, f, indent=2, default=float)
+    ok_small = all(r['success'] for r in rows if abs(r['offset_cm']) <= 2.0 + 1e-9)
+    # ±2.5 cm yalnız bilgi: çatal dış kenarı tam kanal kenarında (0.085)
+    fail_3 = all(not r['success'] for r in rows if abs(r['offset_cm']) > 2.5)
+    limit = {}
+    for sgn in (1, -1):
+        good = [abs(r['offset_cm']) for r in rows if r['success'] and r['offset_cm'] * sgn >= 0]
+        limit['+' if sgn > 0 else '-'] = max(good) if good else None
+    meas = '; '.join(f'{r["offset_cm"]:+.1f} cm{" (bilgi)" if abs(abs(r["offset_cm"]) - 2.5) < 1e-6 else ""}: '
+                     f'{"başarılı" if r["success"] else "başarısız"} '
+                     f'(q {r["fork_q_end_mm"]:.1f} mm, taban {r["final"]["bottom_z"] * 1000:.1f} mm, '
+                     f'eğim {r["final"]["tilt_deg"]:.2f}°, sürükleme {r["drag_mm"]:.1f} mm, '
+                     f'geri {r["reverse_m"]:.2f} m, robot yunuslama {r["robot_pitch_after_lower_deg"]:+.2f}°)'
+                     for r in rows)
+    meas += (f'. Gözlenen sınır: +{limit["+"]} / -{limit["-"]} cm. Tam girişte robot yunuslama '
+             f'{rows[0]["robot_pitch_deg"]:.2f}° (D-46)')
+    rep.add(Result('S6', TEST_NAMES['S6'], PASS if ok_small and fail_3 else FAIL, meas,
+                   '0–±2 cm: koli bölmede (taban 0.05 ± 2 mm, örtüşme ≥ 1 cm), eğim < 2°, çatal 0\'a ulaşıyor '
+                   '(< 2 mm), sürükleme < 5 mm; ±3 cm: başarısızlık bekleniyor',
+                   {'trials': rows, 'limit_cm': limit, 'ok_within_2cm': ok_small, 'fails_at_3cm': fail_3}))
+
+
+def s7(st, rep, gz, parcels):
+    rg = RobotGeom(st)
+    src = station_entry(st, 'source')
+    i = 1
+    name = f'parcel_source_{i}'
+    bay = bay_pose(st, src, i)
+    stage_xy = bay.apply([-1.0, 0.0, 0.0])[:2]
+    ensure_doc_camera(st, gz, src, i)
+    place_robot(gz, stage_xy, src['pose'][2])
+    fork_to(gz, rg, 0.0)
+    before = parcel_state(st, gz, name, src, i)
+    p_before = gz.model(name).p
+    xy, yaw = entry_pose(st, rg, src, i, 0.0)
+    place_robot(gz, xy, yaw, settle=0.8)
+    disturbed = np.linalg.norm(gz.model(name).p - p_before)
+    reached, q = fork_to(gz, rg, S6_CARRY_Q)
+    gz.wait_sim(1.0)
+    rel0 = (gz.carriage().inv() * gz.model(name)).p
+    lifted = parcel_state(st, gz, name, src, i)
+    dist, _ = reverse(gz, S7_REVERSE)
+    rel1 = (gz.carriage().inv() * gz.model(name)).p
+    after = parcel_state(st, gz, name, src, i)
+    slip = float(np.linalg.norm(rel1 - rel0))
+    doc_shot(st, gz, 's7_after_pickup.png')
+    fork_top = rg.fork_top0 + (gz.fork() or 0.0)
+    on_fork = after['x'] < 0 and abs(after['bottom_z'] - fork_top) < 0.01
+    ok = slip < 0.01 and on_fork and reached
+    rows = {'before': before, 'disturbed_on_entry_mm': disturbed * 1000, 'fork_reached': reached,
+            'lifted': lifted, 'after': after, 'rel0': rel0.tolist(), 'rel1': rel1.tolist(),
+            'slip_mm': slip * 1000, 'reverse_m': dist}
+    with open(os.path.join(st.logs, 'S7_pick.json'), 'w') as f:
+        json.dump(rows, f, indent=2, default=float)
+    try:
+        gz.remove(DOC_CAM)
+        gz.doc_cam = False
+    except RuntimeError:
+        pass
+    rep.add(Result('S7', TEST_NAMES['S7'], PASS if ok else FAIL,
+                   f'girişte koli {disturbed * 1000:.2f} mm oynadı; '
+                   f'kaldırınca taban {lifted["bottom_z"] * 1000:.1f} mm '
+                   f'(çıkıntı {st.params["station"]["ledge_height"] * 1000:.0f} mm); {dist:.3f} m geri çekilme sonrası '
+                   f'koli çatalda (bölme x {after["x"]:.3f} m), bağıl kayma {slip * 1000:.2f} mm',
+                   'Eklem 0\'da tam giriş → 0.06 → 0.5 m geri: koli çatalda, bağıl kayma < 1 cm', rows))
+
+
+SIM_TESTS = {'S4': s4, 'S5': s5, 'S6': s6, 'S7': s7}
 
 
 # =============================================================================
@@ -816,10 +1499,14 @@ def main():
     ap.add_argument('--ws', default=os.path.expanduser('~/cv_forklift_ws'))
     ap.add_argument('--docs', default=None)
     ap.add_argument('--gui', action='store_true')
+    ap.add_argument('--raw-dir', default=None, help='S4/S5 ham karelerini bu dizine kaydet (detektör ayarı için)')
     a = ap.parse_args()
     docs = a.docs or os.path.join(a.ws, 'docs')
     st = Setup(a.ws, docs)
     st.gui = a.gui
+    st.raw_dir = a.raw_dir
+    if st.raw_dir:
+        os.makedirs(st.raw_dir, exist_ok=True)
     rep = Report(docs)
     tests = [t.strip() for t in a.tests.split(',') if t.strip()]
     for t in tests:

@@ -1,0 +1,557 @@
+{
+  "camera": {
+    "hfov_deg": 80,
+    "size": [
+      640,
+      480
+    ],
+    "pitch_down_deg": 5,
+    "noise": {
+      "type": "gaussian",
+      "mean": 0.0,
+      "stddev": 0.007
+    }
+  },
+  "views": [
+    {
+      "case": "z0.02_dolu",
+      "z": 0.02,
+      "D": 0.2,
+      "parcel": true,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_dolu",
+      "z": 0.02,
+      "D": 0.3,
+      "parcel": true,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_dolu",
+      "z": 0.02,
+      "D": 0.4,
+      "parcel": true,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_dolu",
+      "z": 0.02,
+      "D": 0.5,
+      "parcel": true,
+      "hits": 30,
+      "frames": 30,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "pose": {
+        "case": "z0.02_dolu",
+        "n": 30,
+        "lat_mean_mm": -0.8145888416810171,
+        "lat_std_mm": 2.1684043449710089e-16,
+        "depth_mean_mm": -9.171786279997484,
+        "depth_std_mm": 0.0,
+        "yaw_mean_deg": 21.614639204001303,
+        "yaw_std_deg": 1.0658141036401503e-14,
+        "yaw_max_abs_deg": 21.614639204001314,
+        "ok": false
+      },
+      "ok": true
+    },
+    {
+      "case": "z0.02_dolu",
+      "z": 0.02,
+      "D": 0.6,
+      "parcel": true,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_dolu",
+      "z": 0.02,
+      "D": 0.7,
+      "parcel": true,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_dolu",
+      "z": 0.02,
+      "D": 0.8,
+      "parcel": true,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_bos",
+      "z": 0.02,
+      "D": 0.2,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_bos",
+      "z": 0.02,
+      "D": 0.3,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_bos",
+      "z": 0.02,
+      "D": 0.4,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_bos",
+      "z": 0.02,
+      "D": 0.5,
+      "parcel": false,
+      "hits": 30,
+      "frames": 30,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "pose": {
+        "case": "z0.02_bos",
+        "n": 30,
+        "lat_mean_mm": -0.812929606766593,
+        "lat_std_mm": 2.1684043449710089e-16,
+        "depth_mean_mm": -9.061732099323594,
+        "depth_std_mm": 0.0,
+        "yaw_mean_deg": 21.638430680750403,
+        "yaw_std_deg": 3.552713678800501e-15,
+        "yaw_max_abs_deg": 21.638430680750407,
+        "ok": false
+      },
+      "ok": true
+    },
+    {
+      "case": "z0.02_bos",
+      "z": 0.02,
+      "D": 0.6,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_bos",
+      "z": 0.02,
+      "D": 0.7,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.02_bos",
+      "z": 0.02,
+      "D": 0.8,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_bos",
+      "z": 0.08,
+      "D": 0.2,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_bos",
+      "z": 0.08,
+      "D": 0.3,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_bos",
+      "z": 0.08,
+      "D": 0.4,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_bos",
+      "z": 0.08,
+      "D": 0.5,
+      "parcel": false,
+      "hits": 30,
+      "frames": 30,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "pose": {
+        "case": "z0.08_bos",
+        "n": 30,
+        "lat_mean_mm": -0.7161132051849716,
+        "lat_std_mm": 2.1684043449710089e-16,
+        "depth_mean_mm": 1.8345308334555277,
+        "depth_std_mm": 0.0,
+        "yaw_mean_deg": 16.914987074483008,
+        "yaw_std_deg": 0.0,
+        "yaw_max_abs_deg": 16.914987074483008,
+        "ok": false
+      },
+      "ok": true
+    },
+    {
+      "case": "z0.08_bos",
+      "z": 0.08,
+      "D": 0.6,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_bos",
+      "z": 0.08,
+      "D": 0.7,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_bos",
+      "z": 0.08,
+      "D": 0.8,
+      "parcel": false,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        1,
+        26
+      ],
+      "judged": true,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_dolu",
+      "z": 0.08,
+      "D": 0.2,
+      "parcel": true,
+      "hits": 5,
+      "frames": 5,
+      "seen": [
+        26
+      ],
+      "judged": false,
+      "camera_inside_parcel": true,
+      "note": "kamera koli g\u00f6vdesinin i\u00e7inde: arka y\u00fczler \u00e7izilmez, g\u00f6r\u00fc\u015f ge\u00e7ersiz",
+      "ok": true
+    },
+    {
+      "case": "z0.08_dolu",
+      "z": 0.08,
+      "D": 0.3,
+      "parcel": true,
+      "hits": 0,
+      "frames": 5,
+      "seen": [],
+      "judged": false,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_dolu",
+      "z": 0.08,
+      "D": 0.4,
+      "parcel": true,
+      "hits": 0,
+      "frames": 5,
+      "seen": [],
+      "judged": false,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_dolu",
+      "z": 0.08,
+      "D": 0.5,
+      "parcel": true,
+      "hits": 0,
+      "frames": 5,
+      "seen": [],
+      "judged": false,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_dolu",
+      "z": 0.08,
+      "D": 0.6,
+      "parcel": true,
+      "hits": 0,
+      "frames": 5,
+      "seen": [],
+      "judged": false,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_dolu",
+      "z": 0.08,
+      "D": 0.7,
+      "parcel": true,
+      "hits": 0,
+      "frames": 5,
+      "seen": [],
+      "judged": false,
+      "camera_inside_parcel": false,
+      "ok": true
+    },
+    {
+      "case": "z0.08_dolu",
+      "z": 0.08,
+      "D": 0.8,
+      "parcel": true,
+      "hits": 0,
+      "frames": 5,
+      "seen": [],
+      "judged": false,
+      "camera_inside_parcel": false,
+      "ok": true
+    }
+  ],
+  "pose": [
+    {
+      "case": "z0.02_dolu",
+      "n": 30,
+      "lat_mean_mm": -0.8145888416810171,
+      "lat_std_mm": 2.1684043449710089e-16,
+      "depth_mean_mm": -9.171786279997484,
+      "depth_std_mm": 0.0,
+      "yaw_mean_deg": 21.614639204001303,
+      "yaw_std_deg": 1.0658141036401503e-14,
+      "yaw_max_abs_deg": 21.614639204001314,
+      "ok": false
+    },
+    {
+      "case": "z0.02_bos",
+      "n": 30,
+      "lat_mean_mm": -0.812929606766593,
+      "lat_std_mm": 2.1684043449710089e-16,
+      "depth_mean_mm": -9.061732099323594,
+      "depth_std_mm": 0.0,
+      "yaw_mean_deg": 21.638430680750403,
+      "yaw_std_deg": 3.552713678800501e-15,
+      "yaw_max_abs_deg": 21.638430680750407,
+      "ok": false
+    },
+    {
+      "case": "z0.08_bos",
+      "n": 30,
+      "lat_mean_mm": -0.7161132051849716,
+      "lat_std_mm": 2.1684043449710089e-16,
+      "depth_mean_mm": 1.8345308334555277,
+      "depth_std_mm": 0.0,
+      "yaw_mean_deg": 16.914987074483008,
+      "yaw_std_deg": 0.0,
+      "yaw_max_abs_deg": 16.914987074483008,
+      "ok": false
+    }
+  ],
+  "sweep": [
+    {
+      "lateral_m": 0.0,
+      "yaw_deg": -5.0,
+      "detected": true,
+      "true_x_mm": -43.57787137382908,
+      "est_x_mm": -43.57059101568841,
+      "lat_err_mm": 0.007280358140675236,
+      "yaw_err_deg": 21.358109063782116
+    },
+    {
+      "lateral_m": 0.0,
+      "yaw_deg": -2.0,
+      "detected": true,
+      "true_x_mm": -17.449748351250488,
+      "est_x_mm": -17.961671247551823,
+      "lat_err_mm": -0.5119228963013367,
+      "yaw_err_deg": 21.435947306100534
+    },
+    {
+      "lateral_m": 0.0,
+      "yaw_deg": 2.0,
+      "detected": true,
+      "true_x_mm": 17.449748351250488,
+      "est_x_mm": 16.393478323797986,
+      "lat_err_mm": -1.0562700274525036,
+      "yaw_err_deg": 21.461626825027086
+    },
+    {
+      "lateral_m": 0.0,
+      "yaw_deg": 5.0,
+      "detected": true,
+      "true_x_mm": 43.57787137382908,
+      "est_x_mm": 42.01833228454376,
+      "lat_err_mm": -1.559539089285321,
+      "yaw_err_deg": 21.43703428312872
+    },
+    {
+      "lateral_m": -0.02,
+      "yaw_deg": 0.0,
+      "detected": true,
+      "true_x_mm": -20.0,
+      "est_x_mm": -20.46182131970116,
+      "lat_err_mm": -0.461821319701159,
+      "yaw_err_deg": 19.13205686145272
+    },
+    {
+      "lateral_m": -0.01,
+      "yaw_deg": 0.0,
+      "detected": true,
+      "true_x_mm": -10.0,
+      "est_x_mm": -10.539228506479741,
+      "lat_err_mm": -0.5392285064797411,
+      "yaw_err_deg": 20.281501436057194
+    },
+    {
+      "lateral_m": 0.01,
+      "yaw_deg": 0.0,
+      "detected": true,
+      "true_x_mm": 10.0,
+      "est_x_mm": 8.946643736000649,
+      "lat_err_mm": -1.053356263999352,
+      "yaw_err_deg": 22.252267087587335
+    },
+    {
+      "lateral_m": 0.02,
+      "yaw_deg": 0.0,
+      "detected": true,
+      "true_x_mm": 20.0,
+      "est_x_mm": 18.927682978517684,
+      "lat_err_mm": -1.0723170214823157,
+      "yaw_err_deg": 23.616044848690496
+    }
+  ]
+}

@@ -53,6 +53,11 @@ markers:
   upper:                       # ön kamera: kaba yaklaşım ve doluluk
     size: 0.08
     center_z: 0.17
+  detector:                    # OpenCV 4.6 DetectorParameters (testler ve ileride algılama node'u)
+    corner_refinement: CORNER_REFINE_SUBPIX
+    # [D-50] varsayılan 0.13; 25–30 px'lik alt işarette doku örneklemesi hücre
+    # kenarlarını ±1 px oynatıyor. 0.25–0.45 arası kararlı; 0.3 seçildi.
+    perspective_remove_ignored_margin_per_cell: 0.3
 
 # ----------------------------------------------------------------- koli -----
 parcel:

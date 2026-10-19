@@ -1,0 +1,290 @@
+[
+  {
+    "offset_cm": 0.0,
+    "robot_pitch_deg": -0.4094630448497512,
+    "carried_bottom_z": 0.08858614115634295,
+    "robot_pitch_after_lower_deg": -0.4094630448497512,
+    "robot_roll_after_lower_deg": 4.987119713540003e-18,
+    "fork_q_end_mm": -3.4710243197472886e-11,
+    "placed": {
+      "x": 0.10127688876366525,
+      "y": 1.1664998692822232e-11,
+      "bottom_z": 0.04999976993516922,
+      "tilt_deg": 9.711651770764766e-05,
+      "min_overlap_m": 0.03499999998833499
+    },
+    "final": {
+      "x": 0.10127688876366525,
+      "y": 1.1664998692822232e-11,
+      "bottom_z": 0.04999976993516922,
+      "tilt_deg": 9.711651770764766e-05,
+      "min_overlap_m": 0.03499999998833499
+    },
+    "drag_mm": 0.0,
+    "reverse_m": 0.3523381404214246,
+    "criteria": {
+      "parcel_bottom": 1.0,
+      "tilt": true,
+      "fork_reached_0": true,
+      "no_drag": 1.0,
+      "overlap": 1.0
+    },
+    "success": true
+  },
+  {
+    "offset_cm": 1.0,
+    "robot_pitch_deg": -0.40946306121159315,
+    "carried_bottom_z": 0.08858169241243483,
+    "robot_pitch_after_lower_deg": -0.40946306121159315,
+    "robot_roll_after_lower_deg": 6.0519808829084605e-18,
+    "fork_q_end_mm": -3.47102386709288e-11,
+    "placed": {
+      "x": 0.10127707794708218,
+      "y": 0.010000146017097785,
+      "bottom_z": 0.04999966754857582,
+      "tilt_deg": 8.669481787211012e-05,
+      "min_overlap_m": 0.024999853982902207
+    },
+    "final": {
+      "x": 0.10127707794708218,
+      "y": 0.010000146017097785,
+      "bottom_z": 0.04999966754857582,
+      "tilt_deg": 8.669481787211012e-05,
+      "min_overlap_m": 0.024999853982902207
+    },
+    "drag_mm": 0.0,
+    "reverse_m": 0.3536879806517905,
+    "criteria": {
+      "parcel_bottom": 1.0,
+      "tilt": true,
+      "fork_reached_0": true,
+      "no_drag": 1.0,
+      "overlap": 1.0
+    },
+    "success": true
+  },
+  {
+    "offset_cm": -1.0,
+    "robot_pitch_deg": -0.40946307607519206,
+    "carried_bottom_z": 0.0885809095541322,
+    "robot_pitch_after_lower_deg": -0.40946307607519206,
+    "robot_roll_after_lower_deg": -2.974398305779575e-17,
+    "fork_q_end_mm": -3.471024317036782e-11,
+    "placed": {
+      "x": 0.10127706626592037,
+      "y": -0.009999999774213094,
+      "bottom_z": 0.049999945692900755,
+      "tilt_deg": 1.2749559400407728e-05,
+      "min_overlap_m": 0.025000000225786898
+    },
+    "final": {
+      "x": 0.10127706626592037,
+      "y": -0.009999999774213094,
+      "bottom_z": 0.049999945692900755,
+      "tilt_deg": 1.2749559400407728e-05,
+      "min_overlap_m": 0.025000000225786898
+    },
+    "drag_mm": 0.0,
+    "reverse_m": 0.35023811567618673,
+    "criteria": {
+      "parcel_bottom": 1.0,
+      "tilt": true,
+      "fork_reached_0": true,
+      "no_drag": 1.0,
+      "overlap": 1.0
+    },
+    "success": true
+  },
+  {
+    "offset_cm": 2.0,
+    "robot_pitch_deg": -0.4094630656629752,
+    "carried_bottom_z": 0.08858077610753692,
+    "robot_pitch_after_lower_deg": -0.4094630656629752,
+    "robot_roll_after_lower_deg": -2.4269580006714198e-17,
+    "fork_q_end_mm": -3.471023015994174e-11,
+    "placed": {
+      "x": 0.10127691814632933,
+      "y": 0.02000000055246496,
+      "bottom_z": 0.04999957612591452,
+      "tilt_deg": 0.00010043731630619436,
+      "min_overlap_m": 0.014999999447535037
+    },
+    "final": {
+      "x": 0.10127691814632933,
+      "y": 0.02000000055246496,
+      "bottom_z": 0.04999957612591452,
+      "tilt_deg": 0.00010043731630619436,
+      "min_overlap_m": 0.014999999447535037
+    },
+    "drag_mm": 0.0,
+    "reverse_m": 0.35458800363146176,
+    "criteria": {
+      "parcel_bottom": 1.0,
+      "tilt": true,
+      "fork_reached_0": true,
+      "no_drag": 1.0,
+      "overlap": 1.0
+    },
+    "success": true
+  },
+  {
+    "offset_cm": -2.0,
+    "robot_pitch_deg": -0.4094630448497081,
+    "carried_bottom_z": 0.08858507085408346,
+    "robot_pitch_after_lower_deg": -0.4094630448497081,
+    "robot_roll_after_lower_deg": -6.478590593797033e-17,
+    "fork_q_end_mm": -3.4710242709581876e-11,
+    "placed": {
+      "x": 0.10127698531326135,
+      "y": -0.020000000948183577,
+      "bottom_z": 0.049999880387682605,
+      "tilt_deg": 4.445365799594644e-05,
+      "min_overlap_m": 0.014999999051816412
+    },
+    "final": {
+      "x": 0.10127698531326135,
+      "y": -0.020000000948183577,
+      "bottom_z": 0.049999880387682605,
+      "tilt_deg": 4.445365799594644e-05,
+      "min_overlap_m": 0.014999999051816412
+    },
+    "drag_mm": 0.0,
+    "reverse_m": 0.35293804618846464,
+    "criteria": {
+      "parcel_bottom": 1.0,
+      "tilt": true,
+      "fork_reached_0": true,
+      "no_drag": 1.0,
+      "overlap": 1.0
+    },
+    "success": true
+  },
+  {
+    "offset_cm": 2.5,
+    "robot_pitch_deg": -0.40946307218002226,
+    "carried_bottom_z": 0.08857847402244218,
+    "robot_pitch_after_lower_deg": -0.40946307218002226,
+    "robot_roll_after_lower_deg": -1.1041790244907439e-16,
+    "fork_q_end_mm": -3.471023577068791e-11,
+    "placed": {
+      "x": 0.10127693539915339,
+      "y": 0.02499990928395911,
+      "bottom_z": 0.04999950151971663,
+      "tilt_deg": 9.860253981431941e-05,
+      "min_overlap_m": 0.010000090716040883
+    },
+    "final": {
+      "x": 0.10127693539915339,
+      "y": 0.02499990928395911,
+      "bottom_z": 0.04999950151971663,
+      "tilt_deg": 9.860253981431941e-05,
+      "min_overlap_m": 0.010000090716040883
+    },
+    "drag_mm": 0.0,
+    "reverse_m": 0.3544380075013906,
+    "criteria": {
+      "parcel_bottom": 1.0,
+      "tilt": true,
+      "fork_reached_0": true,
+      "no_drag": 1.0,
+      "overlap": 1.0
+    },
+    "success": true
+  },
+  {
+    "offset_cm": -2.5,
+    "robot_pitch_deg": -0.40946306487727285,
+    "carried_bottom_z": 0.08857817412929858,
+    "robot_pitch_after_lower_deg": -0.40946306487727285,
+    "robot_roll_after_lower_deg": 7.504867027805047e-18,
+    "fork_q_end_mm": -3.471024010749669e-11,
+    "placed": {
+      "x": 0.10127693169776464,
+      "y": -0.02499999995546266,
+      "bottom_z": 0.04999950134401843,
+      "tilt_deg": 9.998269013639946e-05,
+      "min_overlap_m": 0.010000000044537327
+    },
+    "final": {
+      "x": 0.10127693169776464,
+      "y": -0.02499999995546266,
+      "bottom_z": 0.04999950134401843,
+      "tilt_deg": 9.998269013639946e-05,
+      "min_overlap_m": 0.010000000044537327
+    },
+    "drag_mm": 0.0,
+    "reverse_m": 0.3509880963905122,
+    "criteria": {
+      "parcel_bottom": 1.0,
+      "tilt": true,
+      "fork_reached_0": true,
+      "no_drag": 1.0,
+      "overlap": 1.0
+    },
+    "success": true
+  },
+  {
+    "offset_cm": 3.0,
+    "robot_pitch_deg": -0.409463066967971,
+    "carried_bottom_z": 0.08857932871780974,
+    "robot_pitch_after_lower_deg": -4.3991533712309945,
+    "robot_roll_after_lower_deg": 6.5185307802234105,
+    "fork_q_end_mm": 2.149045925608158,
+    "placed": {
+      "x": 0.09169338659313087,
+      "y": 0.018535127069820984,
+      "bottom_z": 0.06731863578306102,
+      "tilt_deg": 6.6451703920984455,
+      "min_overlap_m": 0.01646487293017901
+    },
+    "final": {
+      "x": 0.05961745832652321,
+      "y": -0.0128686342666271,
+      "bottom_z": 0.06551375376374458,
+      "tilt_deg": 7.858889398350252,
+      "min_overlap_m": 0.02213136573337289
+    },
+    "drag_mm": 44.889435285389276,
+    "reverse_m": 0.01030631995856658,
+    "criteria": {
+      "parcel_bottom": 0.0,
+      "tilt": false,
+      "fork_reached_0": false,
+      "no_drag": 0.0,
+      "overlap": 1.0
+    },
+    "success": false
+  },
+  {
+    "offset_cm": -3.0,
+    "robot_pitch_deg": -0.40946306409296435,
+    "carried_bottom_z": 0.08858206602969687,
+    "robot_pitch_after_lower_deg": -4.399214161201456,
+    "robot_roll_after_lower_deg": -6.518645489431652,
+    "fork_q_end_mm": 2.149046571085854,
+    "placed": {
+      "x": 0.09169338916800718,
+      "y": -0.018535149192904426,
+      "bottom_z": 0.06731863705436048,
+      "tilt_deg": 6.6451707366593045,
+      "min_overlap_m": 0.01646485080709556
+    },
+    "final": {
+      "x": 0.05955689844139744,
+      "y": 0.012859712369759897,
+      "bottom_z": 0.06551751670242772,
+      "tilt_deg": 7.85887577728586,
+      "min_overlap_m": 0.02214028763024009
+    },
+    "drag_mm": 44.92651075657146,
+    "reverse_m": 0.010305575275567842,
+    "criteria": {
+      "parcel_bottom": 0.0,
+      "tilt": false,
+      "fork_reached_0": false,
+      "no_drag": 0.0,
+      "overlap": 1.0
+    },
+    "success": false
+  }
+]

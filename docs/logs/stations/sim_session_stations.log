@@ -1,23 +1,23 @@
-[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-19-19-10-59-903655-muhammet61-25814
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-19-19-46-24-523142-muhammet61-37349
 [INFO] [launch]: Default logging verbosity is set to INFO
-[INFO] [gazebo-1]: process started with pid [25829]
-[INFO] [image_bridge-2]: process started with pid [25830]
-[INFO] [robot_state_publisher-3]: process started with pid [25832]
-[INFO] [create-4]: process started with pid [25833]
-[INFO] [parameter_bridge-5]: process started with pid [25834]
-[INFO] [create-6]: process started with pid [25835]
-[robot_state_publisher-3] [WARN] [1792426260.278489681] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[robot_state_publisher-3] [WARN] [1792426260.278504231] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[create-4] [WARN] [1792426260.286030021] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[create-4] [WARN] [1792426260.286042640] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[create-6] [WARN] [1792426260.286383115] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[create-6] [WARN] [1792426260.286396810] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[robot_state_publisher-3] [INFO] [1792426260.295377338] [robot_state_publisher]: Robot initialized
-[parameter_bridge-5] [WARN] [1792426260.296582308] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[parameter_bridge-5] [WARN] [1792426260.296596416] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[create-4] [INFO] [1792426260.298034729] [ros_gz_sim]: Requesting list of world names.
-[image_bridge-2] [WARN] [1792426260.298938297] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[image_bridge-2] [WARN] [1792426260.298952420] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[INFO] [gazebo-1]: process started with pid [37364]
+[INFO] [image_bridge-2]: process started with pid [37365]
+[INFO] [robot_state_publisher-3]: process started with pid [37367]
+[INFO] [create-4]: process started with pid [37368]
+[INFO] [parameter_bridge-5]: process started with pid [37369]
+[INFO] [create-6]: process started with pid [37370]
+[robot_state_publisher-3] [WARN] [1792428384.855191310] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[robot_state_publisher-3] [WARN] [1792428384.855206769] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-4] [WARN] [1792428384.862127592] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-4] [WARN] [1792428384.862141775] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-6] [WARN] [1792428384.862603343] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-6] [WARN] [1792428384.862615040] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[robot_state_publisher-3] [INFO] [1792428384.872405154] [robot_state_publisher]: Robot initialized
+[parameter_bridge-5] [WARN] [1792428384.873541268] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[parameter_bridge-5] [WARN] [1792428384.873555237] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[image_bridge-2] [WARN] [1792428384.873541970] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[image_bridge-2] [WARN] [1792428384.873555415] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-4] [INFO] [1792428384.874627520] [ros_gz_sim]: Requesting list of world names.
 [gazebo-1] [1;32m[Msg] [0m[1;32mGazebo Sim Server v[0m[1;32m8.15.0[0m[1;32m[0m
 [gazebo-1] [1;32m[Msg] [0m[1;32mLoading SDF world file[[0m[1;32m/home/muhammet61/cv_forklift_ws/install/forklift_gazebo/share/forklift_gazebo/worlds/station_test.sdf[0m[1;32m].[0m
 [gazebo-1] [1;32m[Msg] [0m[1;32mServing entity system service on [[0m[1;32m/[0m[1;32mentity/system/add[0m[1;32m][0m[1;32m[0m
@@ -46,75 +46,76 @@
 [gazebo-1] [1;32m[Msg] [0m[1;32mLoaded level [[0m[1;32mdefault[0m[1;32m][0m[1;32m[0m
 [gazebo-1] [1;32m[Msg] [0m[1;32mServing world controls on [[0m[1;32m/world/station_test[0m[1;32m/control], [[0m[1;32m/world/station_test[0m[1;32m/control/state] and [[0m[1;32m/world/station_test[0m[1;32m/playback/control][0m[1;32m[0m
 [gazebo-1] [1;32m[Msg] [0m[1;32mServing GUI information on [[0m[1;32m/world/station_test[0m[1;32m/[0m[1;32mgui/info[0m[1;32m][0m[1;32m[0m
-[create-4] [INFO] [1792426260.693631274] [ros_gz_sim]: Waiting messages on topic [robot_description].
-[create-4] [INFO] [1792426260.793207485] [ros_gz_sim]: Entity creation successful.
-[create-6] [INFO] [1792426260.793338343] [spawn_source]: Entity creation successful.
-[INFO] [create-4]: process has finished cleanly [pid 25833]
-[INFO] [create-6]: process has finished cleanly [pid 25835]
-[INFO] [create-7]: process started with pid [25936]
-[create-7] [WARN] [1792426260.920841253] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[create-7] [WARN] [1792426260.920857328] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[create-7] [INFO] [1792426261.133300320] [spawn_dest_red]: Entity creation successful.
-[INFO] [create-7]: process has finished cleanly [pid 25936]
-[INFO] [create-8]: process started with pid [25956]
-[create-8] [WARN] [1792426261.257615876] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[create-8] [WARN] [1792426261.257627655] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[parameter_bridge-5] [INFO] [1792426261.309821450] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
-[parameter_bridge-5] [INFO] [1792426261.310473441] [ros_gz_bridge]: Creating ROS->GZ Bridge: [/cmd_vel (geometry_msgs/msg/Twist) -> /cmd_vel (gz.msgs.Twist)] (Lazy 0)
-[parameter_bridge-5] [INFO] [1792426261.312051251] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/odom (gz.msgs.Odometry) -> /odom (nav_msgs/msg/Odometry)] (Lazy 0)
-[parameter_bridge-5] [INFO] [1792426261.313164907] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/tf (gz.msgs.Pose_V) -> /tf (tf2_msgs/msg/TFMessage)] (Lazy 0)
-[parameter_bridge-5] [INFO] [1792426261.314182902] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/joint_states (gz.msgs.Model) -> /joint_states (sensor_msgs/msg/JointState)] (Lazy 0)
-[parameter_bridge-5] [INFO] [1792426261.315153679] [ros_gz_bridge]: Creating ROS->GZ Bridge: [/fork/cmd_height (std_msgs/msg/Float64) -> /fork/cmd_height (gz.msgs.Double)] (Lazy 0)
-[parameter_bridge-5] [INFO] [1792426261.315547053] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/front_camera/camera_info (gz.msgs.CameraInfo) -> /front_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
-[parameter_bridge-5] [INFO] [1792426261.315938928] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/lane_camera/camera_info (gz.msgs.CameraInfo) -> /lane_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
-[create-8] [INFO] [1792426261.468236947] [spawn_dest_green]: Entity creation successful.
-[INFO] [create-8]: process has finished cleanly [pid 25956]
-[INFO] [create-9]: process started with pid [25976]
-[create-9] [WARN] [1792426261.591923973] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[create-9] [WARN] [1792426261.591935807] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[create-9] [INFO] [1792426261.802192773] [spawn_dest_blue]: Entity creation successful.
-[INFO] [create-9]: process has finished cleanly [pid 25976]
-[INFO] [create-10]: process started with pid [25996]
-[create-10] [WARN] [1792426261.926398422] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[create-10] [WARN] [1792426261.926411303] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[create-10] [INFO] [1792426262.137162793] [spawn_parcel_source_0]: Entity creation successful.
-[INFO] [create-10]: process has finished cleanly [pid 25996]
-[INFO] [create-11]: process started with pid [26016]
-[create-11] [WARN] [1792426262.261555167] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[create-11] [WARN] [1792426262.261568749] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[create-11] [INFO] [1792426262.472906868] [spawn_parcel_source_1]: Entity creation successful.
-[gazebo-1] libEGL warning: pci id for fd 57: 10de:2d18, driver (null)
+[create-6] [INFO] [1792428385.265016678] [spawn_source]: Entity creation successful.
+[create-4] [INFO] [1792428385.365907794] [ros_gz_sim]: Waiting messages on topic [robot_description].
+[INFO] [create-6]: process has finished cleanly [pid 37370]
+[INFO] [create-7]: process started with pid [37471]
+[create-4] [INFO] [1792428385.378344972] [ros_gz_sim]: Entity creation successful.
+[create-7] [WARN] [1792428385.390742967] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-7] [WARN] [1792428385.390753455] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[INFO] [create-4]: process has finished cleanly [pid 37368]
+[create-7] [INFO] [1792428385.601277333] [spawn_dest_red]: Entity creation successful.
+[INFO] [create-7]: process has finished cleanly [pid 37471]
+[INFO] [create-8]: process started with pid [37491]
+[create-8] [WARN] [1792428385.726402937] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-8] [WARN] [1792428385.726416371] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[parameter_bridge-5] [INFO] [1792428385.886489876] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792428385.887118938] [ros_gz_bridge]: Creating ROS->GZ Bridge: [/cmd_vel (geometry_msgs/msg/Twist) -> /cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792428385.888623857] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/odom (gz.msgs.Odometry) -> /odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792428385.889666141] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/tf (gz.msgs.Pose_V) -> /tf (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792428385.890635842] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/joint_states (gz.msgs.Model) -> /joint_states (sensor_msgs/msg/JointState)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792428385.891649774] [ros_gz_bridge]: Creating ROS->GZ Bridge: [/fork/cmd_height (std_msgs/msg/Float64) -> /fork/cmd_height (gz.msgs.Double)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792428385.892054727] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/front_camera/camera_info (gz.msgs.CameraInfo) -> /front_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792428385.892465708] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/lane_camera/camera_info (gz.msgs.CameraInfo) -> /lane_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[create-8] [INFO] [1792428385.936857744] [spawn_dest_green]: Entity creation successful.
+[INFO] [create-8]: process has finished cleanly [pid 37491]
+[INFO] [create-9]: process started with pid [37511]
+[create-9] [WARN] [1792428386.060455707] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-9] [WARN] [1792428386.060468611] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-9] [INFO] [1792428386.271133388] [spawn_dest_blue]: Entity creation successful.
+[INFO] [create-9]: process has finished cleanly [pid 37511]
+[INFO] [create-10]: process started with pid [37531]
+[create-10] [WARN] [1792428386.395788533] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-10] [WARN] [1792428386.395800596] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-10] [INFO] [1792428386.605486585] [spawn_parcel_source_0]: Entity creation successful.
+[INFO] [create-10]: process has finished cleanly [pid 37531]
+[INFO] [create-11]: process started with pid [37551]
+[create-11] [WARN] [1792428386.729303212] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-11] [WARN] [1792428386.729316283] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-11] [INFO] [1792428386.939446550] [spawn_parcel_source_1]: Entity creation successful.
+[INFO] [create-11]: process has finished cleanly [pid 37551]
+[INFO] [create-12]: process started with pid [37573]
+[create-12] [WARN] [1792428387.065049197] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-12] [WARN] [1792428387.065063063] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[gazebo-1] libEGL warning: pci id for fd 56: 10de:2d18, driver (null)
 [gazebo-1] 
+[gazebo-1] pci id for fd 58: 10de:2d18, driver (null)
 [gazebo-1] pci id for fd 59: 10de:2d18, driver (null)
-[gazebo-1] pci id for fd 60: 10de:2d18, driver (null)
 [gazebo-1] libEGL warning: egl: failed to create dri2 screen
-[gazebo-1] libEGL warning: pci id for fd 57: 10de:2d18, driver (null)
+[gazebo-1] libEGL warning: pci id for fd 56: 10de:2d18, driver (null)
 [gazebo-1] 
+[gazebo-1] pci id for fd 58: 10de:2d18, driver (null)
 [gazebo-1] pci id for fd 59: 10de:2d18, driver (null)
-[gazebo-1] pci id for fd 60: 10de:2d18, driver (null)
 [gazebo-1] libEGL warning: egl: failed to create dri2 screen
-[gazebo-1] libEGL warning: pci id for fd 57: 10de:2d18, driver (null)
+[gazebo-1] libEGL warning: pci id for fd 56: 10de:2d18, driver (null)
 [gazebo-1] 
+[create-12] [INFO] [1792428387.275657077] [spawn_parcel_source_2]: Entity creation successful.
 [gazebo-1] [1;33m[Wrn] [Ogre2Camera.cc:423] [0m[1;33mOgre2Camera::SetVisibilityMask: Mask bits [0m[1;33mc0000000[0m[1;33m are set but will be ignored as they conflict with the [0m[1;33mreserved bits used internally by the ogre2 backend.[0m[1;33m[0m
 [gazebo-1] [1;33m[Wrn] [Ogre2Camera.cc:423] [0m[1;33mOgre2Camera::SetVisibilityMask: Mask bits [0m[1;33mc0000000[0m[1;33m are set but will be ignored as they conflict with the [0m[1;33mreserved bits used internally by the ogre2 backend.[0m[1;33m[0m
-[INFO] [create-11]: process has finished cleanly [pid 26016]
-[INFO] [create-12]: process started with pid [26109]
-[create-12] [WARN] [1792426262.833134409] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[create-12] [WARN] [1792426262.833146959] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[create-12] [INFO] [1792426263.043325477] [spawn_parcel_source_2]: Entity creation successful.
-[INFO] [create-12]: process has finished cleanly [pid 26109]
+[INFO] [create-12]: process has finished cleanly [pid 37573]
 [INFO] [launch.user]: stations.launch: 7 model eklendi (station_test)
+[gazebo-1] [1;33m[Wrn] [Ogre2Camera.cc:423] [0m[1;33mOgre2Camera::SetVisibilityMask: Mask bits [0m[1;33mc0000000[0m[1;33m are set but will be ignored as they conflict with the [0m[1;33mreserved bits used internally by the ogre2 backend.[0m[1;33m[0m
 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
 [INFO] [parameter_bridge-5]: sending signal 'SIGINT' to process[parameter_bridge-5]
 [INFO] [robot_state_publisher-3]: sending signal 'SIGINT' to process[robot_state_publisher-3]
 [INFO] [image_bridge-2]: sending signal 'SIGINT' to process[image_bridge-2]
 [INFO] [gazebo-1]: sending signal 'SIGINT' to process[gazebo-1]
-[robot_state_publisher-3] [INFO] [1792426293.250980578] [rclcpp]: signal_handler(SIGINT/SIGTERM)
-[image_bridge-2] [INFO] [1792426293.250975712] [rclcpp]: signal_handler(SIGINT/SIGTERM)
-[parameter_bridge-5] [INFO] [1792426293.250982078] [rclcpp]: signal_handler(SIGINT/SIGTERM)
-[parameter_bridge-5] [INFO] [1792426293.253177104] [rclcpp]: signal_handler(SIGINT/SIGTERM)
-[image_bridge-2] [INFO] [1792426293.254364756] [rclcpp]: signal_handler(SIGINT/SIGTERM)
-[ERROR] [robot_state_publisher-3]: process has died [pid 25832, exit code -2, cmd '/opt/ros/jazzy/lib/robot_state_publisher/robot_state_publisher --ros-args --params-file /tmp/launch_params_6r2enlv6'].
+[parameter_bridge-5] [INFO] [1792428575.662811438] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[image_bridge-2] [INFO] [1792428575.662811278] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-3] [INFO] [1792428575.663448497] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[parameter_bridge-5] [INFO] [1792428575.664827751] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-3] [INFO] [1792428575.665377471] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[image_bridge-2] [INFO] [1792428575.665900401] [rclcpp]: signal_handler(SIGINT/SIGTERM)
 [gazebo-1] [1;32m[Msg] [0m[1;32mWorld [[0m[1;32mstation_test[0m[1;32m] initialized with [[0m[1;32mdart_1ms[0m[1;32m] physics profile.[0m[1;32m[0m
 [gazebo-1] [1;32m[Msg] [0m[1;32mServing world SDF generation service on [[0m[1;32m/world/station_test[0m[1;32m/[0m[1;32mgenerate_world_sdf[0m[1;32m][0m[1;32m[0m
 [gazebo-1] [1;32m[Msg] [0m[1;32mServing world names on [[0m[1;32m/gazebo/worlds[0m[1;32m][0m[1;32m[0m
@@ -137,7 +138,8 @@
 [gazebo-1] [1;32m[Msg] [0m[1;32mPublishing state changes on [[0m[1;32m/world/station_test/state[0m[1;32m][0m[1;32m[0m
 [gazebo-1] [1;32m[Msg] [0m[1;32mPublishing pose messages on [[0m[1;32m/world/station_test[0m[1;32m/[0m[1;32mpose/info[0m[1;32m][0m[1;32m[0m
 [gazebo-1] [1;32m[Msg] [0m[1;32mPublishing dynamic pose messages on [[0m[1;32m/world/station_test[0m[1;32m/[0m[1;32mdynamic_pose/info[0m[1;32m][0m[1;32m[0m
-[ERROR] [gazebo-1]: process has died [pid 25829, exit code -2, cmd 'ruby /opt/ros/jazzy/opt/gz_tools_vendor/bin/gz sim -r -v 3 /home/muhammet61/cv_forklift_ws/install/forklift_gazebo/share/forklift_gazebo/worlds/station_test.sdf -s --headless-rendering --force-version 8'].
+[ERROR] [gazebo-1]: process has died [pid 37364, exit code -2, cmd 'ruby /opt/ros/jazzy/opt/gz_tools_vendor/bin/gz sim -r -v 3 /home/muhammet61/cv_forklift_ws/install/forklift_gazebo/share/forklift_gazebo/worlds/station_test.sdf -s --headless-rendering --force-version 8'].
 [INFO] [launch]: process[gazebo-1] was required: shutting down launched system
-[INFO] [parameter_bridge-5]: process has finished cleanly [pid 25834]
-[INFO] [image_bridge-2]: process has finished cleanly [pid 25830]
+[INFO] [robot_state_publisher-3]: process has finished cleanly [pid 37367]
+[INFO] [parameter_bridge-5]: process has finished cleanly [pid 37369]
+[INFO] [image_bridge-2]: process has finished cleanly [pid 37365]
