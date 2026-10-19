@@ -808,6 +808,125 @@ bringup's own `gui` argument before the GUI include was evaluated.
 
 ---
 
+# Load stations and parcel (`forklift_gazebo`)
+
+These decisions come from the station task. The owner approved the Phase 1 plan
+on 2026-10-19, with one change: the base plate keeps its collision (D-46).
+Versions checked: OpenCV 4.6.0 (apt `python3-opencv`), gz-sim 8.15.0,
+sdformat 14.9.0, xacro 2.1.1. The robot numbers come from
+`forklift_params.yaml`, and the derivations in D-43 were computed from that
+file and `station_params.yaml`, not copied.
+
+## D-43 Station frames, bay order and robot fit (Accepted)
+* **`station` frame** = the station model frame: origin on the floor at the
+  middle of the front edge, +x into the station (the direction the fork goes
+  in), +y left, +z up.
+* **`bay_i` frame**: origin on the floor on the channel axis of bay `i`, at the
+  front edge, same axes. `y_i = (i - (N-1)/2) * bay_pitch`; bay 0 is the most
+  −y bay (on the right when you face the station). The SDF defines a
+  `<frame name="bay_i">` for each bay.
+* All geometry lives in `forklift_gazebo/config/station_params.yaml` and all
+  placement in `config/stations.yaml`. `scripts/station_layout.py` is the
+  only code that computes bay positions, marker IDs and poses. The texture
+  generator, the spawn launch and the acceptance test all import it.
+
+Fit with the robot (fork outer span 0.12, fork top 0.025 at joint 0, fork
+length 0.25, carriage front x = 0.13 from `base_link`). Full entry means the
+carriage front is at bay x = 0, so `base_link` is at bay x = −0.13.
+
+| Check | Derivation | Value |
+|---|---|---|
+| Fork clearance in the channel | (0.17 − 0.12) / 2 | ±25 mm (5 mm left at a 2 cm offset; at 3 cm the fork lands 5 mm on a ledge) |
+| Parcel overlap on the ledges | (0.24 − 0.17) / 2 = 35 mm per side; with 10 mm minimum overlap | ±25 mm |
+| Carry height (joint 0.06) | fork bottom 0.010 + 0.06 = 0.070 > ledge top 0.05 | the robot enters above the ledges; lateral accuracy matters only while lowering |
+| Transfer | fork top = 0.05 at joint 0.025; at joint 0 the fork top is 0.025 and its bottom 0.010 (plate top 0.002) | parcel rests on the ledges, the fork is free in the channel |
+| Full-entry depth | fork tip at 0.25 | 50 mm to the back plate |
+| Robot body at full entry | chassis front −0.050, wheel front −0.080, mast upright −0.020, carriage 0.000 (bay x) | only the forks enter the bay (x > 0) |
+| Neighbour bays | neighbour parcel inner edge \|y\| = 0.18 at x ≥ 0.01; carriage \|y\| ≤ 0.12, wheels \|y\| ≤ 0.185 but x ≤ −0.08; carried parcel to neighbour parcel ≥ 30 mm at a 3 cm offset | no contact |
+
+## D-44 Lower marker centre at z = 0.028 (Accepted, Spec deviation)
+The first spec placed the lower 0.04 m marker at z = 0.005–0.045. A 4×4 ArUco
+marker is 6 cells wide including its black border, so one cell is
+0.04 / 6 ≈ 6.7 mm. Detection needs a white quiet zone of at least one cell
+around the black square, and 5 mm above the floor is less than that. The
+marker is at z = 0.008–0.048 (centre 0.028), so the quiet zone spans
+z = 0.0013–0.0547. The bottom 0.7 mm of the quiet zone is hidden by the 2 mm
+base plate. The black square ends 2 mm under the parcel bottom (z = 0.05), and
+the top 4.7 mm of the quiet zone are above it. From a fork camera at
+z = 0.02, the parcel's back bottom edge hides the plate above z = 0.0537 at
+0.8 m and above z = 0.0565 at 0.5 m, so up to 1 mm of the quiet zone can be lost
+at 0.8 m. S5 measures the effect.
+
+## D-45 Different IDs for the upper and lower markers (Accepted, Spec deviation)
+Pose estimation assumes one marker size for each ID. If the same ID appeared
+at 0.08 m and at 0.04 m, the estimate would scale the distance by 2 for one of
+them, and the front camera can see both markers at once from a distance. The
+scheme is: bay number `k` (0–24, unique across all stations, `bay_ids` in
+`stations.yaml`), **upper ID = k**, **lower ID = k + 25**. DICT_4X4_50 has
+exactly the 50 IDs this needs. `station_layout.validate_stations` and the
+station xacro reject duplicates and out-of-range values.
+
+## D-46 The base plate has a collision (Accepted, owner decision 2026-10-19)
+The Phase 1 plan proposed a visual-only plate, because a 2 mm step tilts the
+robot. The owner chose a physical plate. Expected effect at full entry: the
+drive wheels (bay x = −0.13) stand on the plate and the caster (centre at
+bay x = −0.41) stands on the floor, because the apron ends at x = −0.30.
+The robot pitches about 0.4° nose up, and the fork tip rises about 4.7 mm.
+At joint 0 the fork top is still about 20 mm under the ledges. S6 and S7
+measure the real effect. The plate uses the default SDF friction (μ = 1, like
+the floor).
+
+## D-47 ArUco textures: build-time generation, OpenCV 4.6 API, `model://` path (Accepted, Verified)
+* The installed OpenCV is **4.6.0**, so the code uses the pre-4.7 API:
+  `cv2.aruco.Dictionary_get`, `drawMarker(..., borderBits=1)`,
+  `DetectorParameters_create` and `detectMarkers`. `ArucoDetector` and
+  `generateImageMarker` do not exist in this version (checked with `dir(cv2.aruco)`).
+* `scripts/generate_aruco_textures.py` runs as a CMake custom command at build
+  time. It writes all 50 IDs as 800×800 PNGs: 6 cells plus a one-cell white
+  quiet zone on each side, 100 px per cell, so the edges stay sharp. It reads
+  each PNG back with `detectMarkers` and stops the build if an ID does not
+  match. The PNGs go to `share/forklift_gazebo/models/aruco_markers/materials/textures/`
+  and `config/markers.yaml` goes to `share/forklift_gazebo/config/`. Nothing
+  is written to the source tree, and `.gitignore` covers both paths in case
+  the script is run by hand.
+* The marker visual is a 1 mm box with no collision, 0.5 mm in front of the
+  back plate. Its material is `<pbr><metal><albedo_map>model://aruco_markers/...`.
+  The box edge is the texture edge: black square × 8/6.
+* Verified on 2026-10-19 with a headless probe on the installed gz-sim 8.15.0.
+  A box spawned with `ros_gz_sim create -string` resolved its `model://`
+  texture through `GZ_SIM_RESOURCE_PATH`. Its **−x face shows the texture
+  without mirroring and upright**: `detectMarkers` returned the right ID, with
+  corner 0 at the top left. Two side findings: `create` overrides the model's
+  own `<pose>`, so poses go through `-x -y -z -Y`; and a quiet zone on a
+  darker background (a lit grey marker on a light sky) was **not** detected,
+  but it was detected with a white plate behind it, which is the station
+  design.
+* Writing SDF with xacro 2.1.1: `range`, `sorted` and `set` must be called as
+  `python.range` and so on (the bare names are deprecated or missing), and
+  `--` is not allowed inside XML comments.
+
+## D-48 Station acceptance test definitions (Accepted, 2026-10-19)
+* **S4 distance** = horizontal distance from the front-camera optical centre
+  to the marker plane. In the ±15° case, the robot stands on an arc around
+  the marker centre and its yaw points at the marker. The upper marker of a
+  full bay can be seen above the parcel only when that distance is under
+  0.53 m, so it is hidden at 0.6, 1.0 and 1.5 m.
+* **S5 camera**: a static model that the test adds to the world (no change to
+  the robot; the owner confirmed on 2026-10-19 that no third camera goes on
+  the vehicle). Matrix: z = 0.02 with and without a parcel; z = 0.08 without a
+  parcel. With z = 0.08 and a parcel there is no line of sight: the camera is
+  above the parcel bottom (0.05), and at 0.2 m it is inside the parcel. That
+  case is recorded for information, with "not detected" expected. The yaw
+  criterion (< 1° at 0.5 m) is at the limit of what can be observed: 1° yaw
+  changes the left/right edge heights of the 31 px marker by only 0.043 px. The
+  test reports a 30-frame mean and the per-frame spread.
+* **S6/S7 location**: the middle bay of the source station, with full
+  neighbours. The green parcel is moved onto the forks. S6 thresholds: parcel
+  bottom 0.05 ± 2 mm, tilt < 2°, fork joint < 2 mm, drag while reversing
+  < 5 mm.
+
+---
+
 ## Spec deviations (summary)
 | ID | What | Status |
 |---|---|---|
@@ -819,6 +938,9 @@ bringup's own `gui` argument before the GUI include was evaluated.
 | D-24 | GUI: new package `forklift_safety` (`cmd_vel_gate`); twist_mux output moves to `/cmd_vel/mux` | Accepted |
 | D-37 | GUI: recording indicator added to the TopBar | Accepted |
 | D-42 | Command chain moves to `forklift_safety` and is started by `forklift_gazebo/sim.launch.py` | Accepted |
+| D-44 | Stations: lower ArUco marker centre z 0.025 → 0.028 (one-cell quiet zone) | Accepted |
+| D-45 | Stations: upper ID = k, lower ID = k + 25 (not the same ID) | Accepted |
+| D-48 | Stations: S5 at z = 0.08 tested without a parcel only (no line of sight with one) | Accepted |
 
 ## Assumptions still to verify
 1. ~~In `gz sdf -p`, lumped collisions keep their μ and lumped sensors keep their

@@ -1,0 +1,49 @@
+# =============================================================================
+#  stations.yaml — station_test dünyasının istasyon ve koli yerleşimi
+# -----------------------------------------------------------------------------
+#  stations.launch.py bu dosyayı okur; her istasyonu station.sdf.xacro'dan,
+#  her koliyi parcel.sdf.xacro'dan üretip ros_gz_sim create ile spawn eder.
+#  Build sırasında config/markers.yaml da buradan üretilir.
+#
+#  pose   : [x, y, yaw] dünya çerçevesinde; station çerçevesinin orijini
+#           (ön kenar ortası, zemin). yaw [rad]: station +x ekseninin yönü.
+#  bays   : bölme sayısı N
+#  bay_ids: bölme başına k (0–24, tüm istasyonlarda benzersiz);
+#           üst işaret ID = k, alt işaret ID = k + 25 (DECISIONS D-45)
+#  occupancy: bölme başına koli mühür rengi (red | green | blue) veya null;
+#           sıra bölme indeksi i = 0 … N-1 (bölme 0 en -y tarafta)
+#
+#  Yerleşim: robot orijinde, +x'e bakar. Kaynak istasyonun ön kenarı robotun
+#  1.5 m önünde; hedefler solda, sağda ve arkada, ön kenarları robota bakar.
+#  İstasyon ayak izleri (önlük dahil) arası en küçük boşluk 1.68 m
+#  (kaynak ↔ sol/sağ köşeler).
+# =============================================================================
+
+stations:
+  - name: source
+    color: neutral
+    pose: [1.5, 0.0, 0.0]
+    bays: 3
+    bay_ids: [0, 1, 2]
+    occupancy: [red, green, blue]
+
+  - name: dest_red            # robotun solunda
+    color: red
+    pose: [0.0, 2.25, 1.5707963267948966]
+    bays: 3
+    bay_ids: [3, 4, 5]
+    occupancy: [null, null, null]
+
+  - name: dest_green          # robotun sağında
+    color: green
+    pose: [0.0, -2.25, -1.5707963267948966]
+    bays: 3
+    bay_ids: [6, 7, 8]
+    occupancy: [null, null, null]
+
+  - name: dest_blue           # robotun arkasında
+    color: blue
+    pose: [-2.25, 0.0, 3.141592653589793]
+    bays: 3
+    bay_ids: [9, 10, 11]
+    occupancy: [null, null, null]

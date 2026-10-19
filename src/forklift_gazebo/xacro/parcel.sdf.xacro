@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+  parcel.sdf.xacro — mühürlü koli (dinamik)
+  Argümanlar:
+    color       : mühür rengi: red | green | blue
+    name        : model adı (varsayılan parcel)
+    params_file : station_params.yaml → parcel, colors, material
+  Model çerçevesi koli merkezinde; -x yüzü "ön" yüzdür (bölmeden dışarı, robota
+  bakar). Mühür bu yüzde ortalanmış, ayrı visual, collision'ı yok; iç yüzü koli
+  yüzüyle aynı hizada, thickness kadar dışarı taşar.
+  Atalet dolu kutu formülüyle hesaplanır. Sürtünme μ = parcel.mu; DART
+  min(μA, μB) birleştirir (D-15): koli–çatal 0.8, koli–çıkıntı 0.8.
+-->
+<sdf version="1.11" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="color" default="red"/>
+  <xacro:arg name="name" default="parcel"/>
+  <xacro:arg name="params_file" default="$(find forklift_gazebo)/config/station_params.yaml"/>
+
+  <xacro:property name="P" value="${xacro.load_yaml('$(arg params_file)')}"/>
+  <xacro:include filename="common.sdf.xacro"/>
+
+  <xacro:property name="color" value="$(arg color)"/>
+  <xacro:unless value="${color in ('red', 'green', 'blue')}">
+    ${xacro.fatal('parcel: color red | green | blue olmalı; verilen: ' + color)}
+  </xacro:unless>
+
+  <xacro:property name="B" value="${P['parcel']}"/>
+  <xacro:property name="sx" value="${B['size']['x']}"/>
+  <xacro:property name="sy" value="${B['size']['y']}"/>
+  <xacro:property name="sz" value="${B['size']['z']}"/>
+  <xacro:property name="seal" value="${B['seal']}"/>
+
+  <model name="$(arg name)">
+    <link name="parcel_link">
+      <xacro:box_inertial mass="${B['mass']}" x="${sx}" y="${sy}" z="${sz}"/>
+      <xacro:box_part name="body" size="${[sx, sy, sz]}" xyz="${[0, 0, 0]}"
+                      rgba="${P['colors']['parcel_body']}" mu="${B['mu']}"/>
+      <xacro:box_part name="seal" collision="false"
+                      size="${[seal['thickness'], seal['size']['y'], seal['size']['z']]}"
+                      xyz="${[-sx / 2.0 - seal['thickness'] / 2.0, 0, 0]}"
+                      rgba="${P['colors'][color]}"/>
+    </link>
+  </model>
+
+</sdf>

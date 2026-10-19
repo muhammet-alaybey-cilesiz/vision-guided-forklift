@@ -1,0 +1,107 @@
+[
+  {
+    "case": "station N1_red",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N1_green",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N1_blue",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N1_neutral",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N3_red",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N3_green",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N3_blue",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N3_neutral",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N5_red",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N5_green",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N5_blue",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "station N5_neutral",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "parcel red",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "parcel green",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  },
+  {
+    "case": "parcel blue",
+    "xacro_rc": 0,
+    "gz_rc": 0,
+    "gz_out": "Valid.",
+    "stderr": ""
+  }
+]

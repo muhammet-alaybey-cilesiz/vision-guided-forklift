@@ -1,0 +1,132 @@
+[
+  {
+    "id": "S1",
+    "name": "xacro → SDF, gz sdf -k",
+    "status": "GEÇTİ",
+    "measured": "15/15 dosya \"Valid.\", uyarı/hata yok",
+    "criterion": "N = 1, 3, 5 × 4 istasyon rengi + 3 koli rengi; hata ve uyarı yok",
+    "details": {
+      "cases": [
+        {
+          "case": "station N1_red",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N1_green",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N1_blue",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N1_neutral",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N3_red",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N3_green",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N3_blue",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N3_neutral",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N5_red",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N5_green",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N5_blue",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "station N5_neutral",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "parcel red",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "parcel green",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        },
+        {
+          "case": "parcel blue",
+          "xacro_rc": 0,
+          "gz_rc": 0,
+          "gz_out": "Valid.",
+          "stderr": ""
+        }
+      ],
+      "run_at": "2026-10-19 19:02:27"
+    }
+  },
+  {
+    "id": "S2",
+    "name": "Geometri denetimi",
+    "status": "GEÇTİ",
+    "measured": "1154 denetim, 0 hata; en büyük ölçü sapması 0.0000 mm; 24 işaret markers.yaml ile, 50 doku ID ile uyumlu",
+    "criterion": "Kanal, adım, çıkıntı, plakalar, işaret konum/boyut, koli: YAML ile ±0.5 mm",
+    "details": {
+      "failures": [],
+      "checks": 1154,
+      "max_err_m": 2.5000000680730494e-10,
+      "run_at": "2026-10-19 19:02:28"
+    }
+  }
+]

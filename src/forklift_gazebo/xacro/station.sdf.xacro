@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!--
+  station.sdf.xacro — çok bölmeli yük istasyonu (statik)
+  Argümanlar:
+    name        : model adı
+    bays        : bölme sayısı N (≥ 1)
+    color       : zemin plakası rengi: red | green | blue | neutral
+    bay_ids     : bölme numaraları k, virgülle ("3,4,5"); boş → 0 … N-1.
+                  Üst işaret ID = k, alt işaret ID = k + lower_id_offset (D-45)
+    params_file : station_params.yaml (tüm ölçüler buradan; D-02 kuralı)
+  Model çerçevesi = station çerçevesi: orijin zeminde, ön kenarın ortasında;
+  +x istasyonun içine (çatalın girdiği yön), +y sol, +z yukarı (D-43).
+  Bölme i: y_i = (i - (N-1)/2) · bay_pitch; bölme 0 en -y tarafta. Her bölme
+  için SDF <frame name="bay_i"> tanımlıdır.
+  Parçalar (tek link, yalnız kutu primitifleri):
+    zemin plakası  x ∈ [-apron_depth, ledge_depth + back_plate_thickness], tüm genişlik (collision'lı, D-46)
+    çıkıntılar     kanallar arası, x ∈ [0, ledge_depth], z ∈ [0, ledge_height], μ = ledge_mu
+    arka plaka     x ∈ [ledge_depth, ledge_depth + back_plate_thickness], z ∈ [0, back_plate_height]
+    işaretler      arka plakanın ön yüzünde, standoff kadar önde, yalnız visual
+-->
+<sdf version="1.11" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="name" default="station"/>
+  <xacro:arg name="bays" default="3"/>
+  <xacro:arg name="color" default="neutral"/>
+  <xacro:arg name="bay_ids" default=""/>
+  <xacro:arg name="params_file" default="$(find forklift_gazebo)/config/station_params.yaml"/>
+
+  <xacro:property name="P" value="${xacro.load_yaml('$(arg params_file)')}"/>
+  <xacro:include filename="common.sdf.xacro"/>
+
+  <xacro:property name="S" value="${P['station']}"/>
+  <xacro:property name="M" value="${P['markers']}"/>
+  <xacro:property name="C" value="${P['colors']}"/>
+  <xacro:property name="color" value="$(arg color)"/>
+  <xacro:property name="N" value="${int('$(arg bays)')}"/>
+  <xacro:property name="ids_arg" value="$(arg bay_ids)"/>
+  <xacro:property name="ids" value="${[int(v) for v in str(ids_arg).split(',')] if str(ids_arg) != '' else python.list(python.range(N))}"/>
+
+  <!-- doğrulama -->
+  <xacro:unless value="${N >= 1}">
+    ${xacro.fatal('station: bays >= 1 olmalı; verilen: ' + str(N))}
+  </xacro:unless>
+  <xacro:unless value="${color in ('red', 'green', 'blue', 'neutral')}">
+    ${xacro.fatal('station: color red | green | blue | neutral olmalı; verilen: ' + color)}
+  </xacro:unless>
+  <xacro:unless value="${len(ids) == N}">
+    ${xacro.fatal('station: bay_ids uzunluğu bays ile aynı olmalı: ' + str(ids_arg))}
+  </xacro:unless>
+  <xacro:unless value="${min(ids) >= 0 and max(ids) &lt;= M['max_bay_id'] and len(python.set(ids)) == N}">
+    ${xacro.fatal('station: bay_ids [0, ' + str(M['max_bay_id']) + '] içinde ve benzersiz olmalı: ' + str(ids_arg))}
+  </xacro:unless>
+
+  <!-- türetilen ölçüler -->
+  <xacro:property name="pitch" value="${S['bay_pitch']}"/>
+  <xacro:property name="W" value="${N * pitch}"/>
+  <xacro:property name="half_ch" value="${S['channel_width'] / 2.0}"/>
+  <xacro:property name="D" value="${S['ledge_depth']}"/>
+  <xacro:property name="lh" value="${S['ledge_height']}"/>
+  <xacro:property name="T" value="${S['back_plate_thickness']}"/>
+  <xacro:property name="A" value="${S['apron_depth']}"/>
+  <xacro:property name="bt" value="${S['base_plate_thickness']}"/>
+  <!-- işaret kutusu merkezi x: ön yüzü D - standoff - thickness -->
+  <xacro:property name="marker_cx" value="${D - M['standoff'] - M['thickness'] / 2.0}"/>
+  <!-- doku kenarı = siyah kare · (6 + 2 · beyaz kenar hücresi) / 6 -->
+  <xacro:property name="tex_scale" value="${(6 + 2 * M['quiet_zone_cells']) / 6.0}"/>
+  <xacro:property name="dict_tag" value="${M['dictionary'].lower().replace('dict_', '')}"/>
+
+  <!-- Çıkıntı j (0 … N): kanal j-1 ile kanal j arasındaki her şey; uçlarda
+       istasyon kenarına kadar. Özyinelemeli makro (xacro'da döngü yok). -->
+  <xacro:macro name="ledges" params="j">
+    <xacro:property name="y_lo" value="${-W / 2.0 if j == 0 else (j - 1 - (N - 1) / 2.0) * pitch + half_ch}"/>
+    <xacro:property name="y_hi" value="${W / 2.0 if j == N else (j - (N - 1) / 2.0) * pitch - half_ch}"/>
+    <xacro:box_part name="ledge_${j}" size="${[D, y_hi - y_lo, lh]}"
+                    xyz="${[D / 2.0, (y_lo + y_hi) / 2.0, lh / 2.0]}"
+                    rgba="${C['ledge']}" mu="${S['ledge_mu']}"/>
+    <xacro:if value="${j &lt; N}">
+      <xacro:ledges j="${j + 1}"/>
+    </xacro:if>
+  </xacro:macro>
+
+  <!-- İşaret: 1 mm kutu, dokulu ön yüz -x'e bakar; collision yok. Kutunun
+       -x yüzünde doku ayna görüntüsü olmadan okunur (Faz 1 sondası, D-47). -->
+  <xacro:macro name="marker" params="kind marker_id y">
+    <xacro:property name="edge" value="${M[kind]['size'] * tex_scale}"/>
+    <visual name="marker_${kind}_${marker_id}">
+      <pose>${round(marker_cx, 9)} ${round(y, 9)} ${M[kind]['center_z']} 0 0 0</pose>
+      <geometry><box><size>${M['thickness']} ${round(edge, 9)} ${round(edge, 9)}</size></box></geometry>
+      <xacro:matte_material rgba="${C['marker']}"
+          albedo_map="${texture_uri_root}/aruco_${dict_tag}_id${'%02d' % marker_id}.png"/>
+    </visual>
+  </xacro:macro>
+
+  <!-- Bölme i: çerçeve + üst ve alt işaret -->
+  <xacro:macro name="bays" params="i">
+    <xacro:property name="y" value="${(i - (N - 1) / 2.0) * pitch}"/>
+    <xacro:marker kind="upper" marker_id="${ids[i]}" y="${y}"/>
+    <xacro:marker kind="lower" marker_id="${ids[i] + M['lower_id_offset']}" y="${y}"/>
+    <xacro:if value="${i + 1 &lt; N}">
+      <xacro:bays i="${i + 1}"/>
+    </xacro:if>
+  </xacro:macro>
+
+  <xacro:macro name="bay_frames" params="i">
+    <frame name="bay_${i}" attached_to="station_link">
+      <pose>0 ${round((i - (N - 1) / 2.0) * pitch, 9)} 0 0 0 0</pose>
+    </frame>
+    <xacro:if value="${i + 1 &lt; N}">
+      <xacro:bay_frames i="${i + 1}"/>
+    </xacro:if>
+  </xacro:macro>
+
+  <model name="$(arg name)">
+    <static>true</static>
+    <link name="station_link">
+      <xacro:box_part name="base_plate" size="${[A + D + T, W, bt]}"
+                      xyz="${[(D + T - A) / 2.0, 0, bt / 2.0]}" rgba="${C[color]}"/>
+      <xacro:box_part name="back_plate" size="${[T, W, S['back_plate_height']]}"
+                      xyz="${[D + T / 2.0, 0, S['back_plate_height'] / 2.0]}" rgba="${C['back_plate']}"/>
+      <xacro:ledges j="0"/>
+      <xacro:bays i="0"/>
+    </link>
+    <xacro:bay_frames i="0"/>
+  </model>
+
+</sdf>

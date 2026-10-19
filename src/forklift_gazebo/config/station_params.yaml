@@ -1,0 +1,82 @@
+# =============================================================================
+#  station_params.yaml — yük istasyonu, ArUco işaretleri ve koli (parcel)
+#  modellerinin TEK doğruluk kaynağı
+# -----------------------------------------------------------------------------
+#  station.sdf.xacro, parcel.sdf.xacro, generate_aruco_textures.py,
+#  stations.launch.py ve station_acceptance.py bu dosyayı okur. Xacro içinde
+#  yalnızca formül katsayıları (1/2, 1/12) bulunur.
+#
+#  Birimler: m, kg, rad. Çerçeveler (DECISIONS D-43):
+#    station : orijin zeminde, istasyon ön kenarının ortasında; +x istasyonun
+#              içine (çatalın girdiği yön), +y sol, +z yukarı.
+#    bay_i   : orijin zeminde, bölme i'nin kanal ekseninde, ön kenarda;
+#              eksenler station ile aynı. y_i = (i - (N-1)/2) · bay_pitch,
+#              bölme 0 en -y tarafta (istasyona bakarken sağda).
+#  Türetilen değerler (xacro hesaplar, burada TEKRAR YAZILMAZ):
+#    * istasyon genişliği W = N · bay_pitch
+#    * kanal i: y ∈ [y_i ± channel_width/2], x ∈ [0, ledge_depth]
+#    * çıkıntılar: kanallar arası; uçtakiler (bay_pitch - channel_width)/2,
+#      aradakiler bay_pitch - channel_width genişliğinde
+#    * arka plaka: x ∈ [ledge_depth, ledge_depth + back_plate_thickness]
+#    * zemin plakası: x ∈ [-apron_depth, ledge_depth + back_plate_thickness]
+#    * işaret hücresi = size / (4 + 2) (4×4 veri + 1'er siyah çerçeve hücresi)
+#    * işaret dokusu kenarı = size · (6 + 2·quiet_zone_cells) / 6
+#    * koli bölmedeki nominal merkezi: x = parcel_front_gap + parcel.size.x/2,
+#      z = ledge_height + parcel.size.z/2
+# =============================================================================
+
+# ------------------------------------------------------------- istasyon -----
+station:
+  bay_pitch: 0.30              # bölme adımı
+  channel_width: 0.17          # çatal kanalı (çatal dış açıklığı 0.12 → ±2.5 cm)
+  ledge_height: 0.05           # çıkıntı üst yüzü z
+  ledge_depth: 0.30            # çıkıntı ve kanal uzunluğu, x ∈ [0, 0.30]
+  ledge_mu: 0.8                # çıkıntı sürtünmesi (DART min(μA, μB), D-15)
+  back_plate_thickness: 0.02
+  back_plate_height: 0.30      # tüm istasyon genişliği boyunca
+  base_plate_thickness: 0.002  # istasyon renginde zemin plakası; collision'lı [D-46]
+  apron_depth: 0.30            # plakanın ön kenardan dışarı taşması
+  parcel_front_gap: 0.01       # nominal koli önü x (bay çerçevesi)
+
+# ------------------------------------------------------- ArUco işaretleri ---
+markers:
+  dictionary: DICT_4X4_50
+  max_bay_id: 24               # k ∈ [0, 24]: üst ID = k, alt ID = k + lower_id_offset
+  lower_id_offset: 25          # [D-45] alt/üst ID'leri farklı
+  quiet_zone_cells: 1          # dokuda siyah karenin çevresindeki beyaz kenar [hücre]
+  texture_px_per_cell: 100     # (6 + 2) · 100 = 800 px ≥ 600 px
+  standoff: 0.0005             # arka plaka ön yüzü ile işaret kutusu arası (z-fighting)
+  thickness: 0.001             # işaret kutusu kalınlığı (x); collision yok
+  lower:                       # çatal kamerası: ince hizalama, kanal tünelinden görünür
+    size: 0.04                 # siyah kare kenarı (beyaz kenar hariç)
+    center_z: 0.028            # [D-44] spesifikasyon 0.025 → 0.028
+  upper:                       # ön kamera: kaba yaklaşım ve doluluk
+    size: 0.08
+    center_z: 0.17
+
+# ----------------------------------------------------------------- koli -----
+parcel:
+  size: {x: 0.20, y: 0.24, z: 0.20}
+  mass: 0.5                    # atalet geometriden (dolu kutu) hesaplanır
+  mu: 0.8
+  seal:                        # -x yüzünde ortalanmış, ayrı visual, collision yok
+    size: {y: 0.10, z: 0.10}
+    thickness: 0.002
+
+# ------------------------------------------------------- görsel (tek yer) ---
+# rgba diffuse; ambient = ambient_scale · diffuse. Mat: düşük specular,
+# PBR roughness 1, metalness 0.
+material:
+  ambient_scale: 0.8
+  specular: [0.05, 0.05, 0.05, 1.0]
+  roughness: 1.0
+  metalness: 0.0
+colors:
+  red:     [0.85, 0.05, 0.05, 1.0]   # test_parcel mühür rengiyle aynı
+  green:   [0.05, 0.65, 0.10, 1.0]
+  blue:    [0.05, 0.20, 0.85, 1.0]
+  neutral: [0.80, 0.80, 0.80, 1.0]   # kaynak istasyon zemin plakası (açık gri)
+  ledge:   [0.25, 0.25, 0.27, 1.0]   # koyu gri
+  back_plate: [0.95, 0.95, 0.95, 1.0]  # beyaz (işaret kontrastı)
+  marker:  [1.0, 1.0, 1.0, 1.0]      # albedo_map ile çarpılır
+  parcel_body: [0.55, 0.36, 0.18, 1.0]  # kahverengi, test_parcel ile aynı

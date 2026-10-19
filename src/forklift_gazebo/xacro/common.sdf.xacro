@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+  common.sdf.xacro — istasyon ve koli SDF xacro'larının ortak makroları
+  - matte_material: mat malzeme. Renk station_params.yaml → colors'tan gelir;
+    ambient = ambient_scale · diffuse, specular / roughness / metalness
+    station_params.yaml → material'dan. İsteğe bağlı albedo_map (PBR doku).
+  - box_inertial: dolu kutu ataleti (SDF), kütle ve kenarlardan hesaplanır.
+  Çağıran dosya P (station_params.yaml içeriği) özelliğini tanımlamış olmalı.
+-->
+<sdf xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Dokuların model:// kökü. CMakeLists.txt aynı dizine kurar
+       (share/forklift_gazebo/models/aruco_markers/materials/textures). -->
+  <xacro:property name="texture_uri_root" value="model://aruco_markers/materials/textures"/>
+
+  <xacro:macro name="matte_material" params="rgba albedo_map:=''">
+    <xacro:property name="k" value="${P['material']['ambient_scale']}"/>
+    <xacro:property name="sp" value="${P['material']['specular']}"/>
+    <material>
+      <ambient>${round(rgba[0] * k, 6)} ${round(rgba[1] * k, 6)} ${round(rgba[2] * k, 6)} ${rgba[3]}</ambient>
+      <diffuse>${rgba[0]} ${rgba[1]} ${rgba[2]} ${rgba[3]}</diffuse>
+      <specular>${sp[0]} ${sp[1]} ${sp[2]} ${sp[3]}</specular>
+      <pbr>
+        <metal>
+          <xacro:if value="${albedo_map != ''}">
+            <albedo_map>${albedo_map}</albedo_map>
+          </xacro:if>
+          <metalness>${P['material']['metalness']}</metalness>
+          <roughness>${P['material']['roughness']}</roughness>
+        </metal>
+      </pbr>
+    </material>
+  </xacro:macro>
+
+  <!-- Dolu kutu; x, y, z kenar uzunlukları. Tensör link eksenlerinde, kütle
+       merkezi link orijininde. -->
+  <xacro:macro name="box_inertial" params="mass x y z">
+    <inertial>
+      <mass>${mass}</mass>
+      <inertia>
+        <ixx>${mass * (y*y + z*z) / 12.0}</ixx><ixy>0</ixy><ixz>0</ixz>
+        <iyy>${mass * (x*x + z*z) / 12.0}</iyy><iyz>0</iyz>
+        <izz>${mass * (x*x + y*y) / 12.0}</izz>
+      </inertia>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Eksenlere hizalı kutu: collision (isteğe bağlı sürtünmeyle) + visual.
+       mu boşsa <surface> yazılmaz (SDF varsayılanı). Konum ve boyutlar 1 nm'ye
+       yuvarlanır: kayan nokta artığı (0.8999999999999999) SDF'te görünmesin. -->
+  <xacro:macro name="box_part" params="name size xyz rgba collision:=true mu:=''">
+    <xacro:property name="pose_str" value="${round(xyz[0], 9)} ${round(xyz[1], 9)} ${round(xyz[2], 9)} 0 0 0"/>
+    <xacro:property name="size_str" value="${round(size[0], 9)} ${round(size[1], 9)} ${round(size[2], 9)}"/>
+    <xacro:if value="${collision}">
+      <collision name="${name}_collision">
+        <pose>${pose_str}</pose>
+        <geometry><box><size>${size_str}</size></box></geometry>
+        <xacro:if value="${mu != ''}">
+          <surface><friction><ode><mu>${mu}</mu><mu2>${mu}</mu2></ode></friction></surface>
+        </xacro:if>
+      </collision>
+    </xacro:if>
+    <visual name="${name}_visual">
+      <pose>${pose_str}</pose>
+      <geometry><box><size>${size_str}</size></box></geometry>
+      <xacro:matte_material rgba="${rgba}"/>
+    </visual>
+  </xacro:macro>
+
+</sdf>
