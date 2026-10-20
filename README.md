@@ -10,41 +10,53 @@ A small differential-drive forklift robot in simulation, built as the platform
 for a computer-vision learning project. The workspace contains a
 simulator-agnostic robot description, a Gazebo Harmonic test bench with
 automated acceptance tests, parametric load stations with ArUco markers, a
-fail-safe velocity command chain and a Qt 6 / QML operator GUI.
+factory world with a marked AMR cell, a fail-safe velocity command chain and a
+Qt 6 / QML operator GUI.
 
 <p align="center">
-  <img src="docs/images/gui_main_sim.png" alt="Operator GUI connected to the Gazebo simulation" width="100%">
-  <br><em>Operator GUI connected to the running simulation: both cameras, telemetry, fork control and topic health.</em>
+  <img src="docs/images/factory/cell_overview.jpg" alt="AMR cell in the factory world" width="100%">
+  <br><em>Factory world: the AMR cell with the source station (red/green/blue sealed parcels), three destination stations and guide lanes.</em>
 </p>
 
 ## Highlights
 
 - **Modular robot description**: xacro components (chassis, drive wheels,
-  caster, mast, prismatic fork, two cameras). Every dimension, mass and limit
-  lives in one YAML file. Gazebo-specific content is isolated in one file.
+  caster, mast, prismatic fork, two cameras) and a visual-only industrial body.
+  Every dimension, mass and limit lives in one YAML file. Gazebo-specific
+  content is isolated in one file.
 - **Physics-validated simulation**: 14 automated acceptance tests (T1–T14)
   cover the model, drive accuracy, fork control, parcel carrying, braking and
   cameras. All 14 pass in the final run.
-- **Fail-safe command chain**: `twist_mux` arbitration plus a `cmd_vel_gate`
-  node that commands zero velocity on e-stop or when the operator goes silent.
-  Gazebo's DiffDrive would otherwise keep the last command forever.
-- **Operator GUI**: C++17 core in a ports-and-adapters design (no ROS in the
-  core), with ROS and mock adapters and a QML view. It runs without a ROS graph
-  in mock mode.
 - **Load stations**: data-driven multi-bay stations (xacro → SDF, generated
   from two YAML files). Each bay has two ledges with a fork channel between
   them and two ArUco markers: an upper one that a parcel hides, for approach
   and occupancy, and a lower one seen through the channel, for fine alignment.
   Acceptance tests S1–S8 cover geometry, stability, marker detection, the
   drop/pick tolerance and performance.
+- **Factory world**: a real-scale hall generated from one YAML file, with a
+  hazard-taped cell, guide lanes (with ground truth for lane detection),
+  industrial station and parcel materials, and lighting calibrated against the
+  test world so the vision thresholds carry over.
+- **Fail-safe command chain**: `twist_mux` arbitration plus a `cmd_vel_gate`
+  node that commands zero velocity on e-stop or when the operator goes silent.
+  Gazebo's DiffDrive would otherwise keep the last command forever.
+- **Operator GUI**: C++17 core in a ports-and-adapters design (no ROS in the
+  core), with ROS and mock adapters and a QML view. It runs without a ROS graph
+  in mock mode.
 
-## Simulation
+## Factory world
+
+`world:=factory` puts the stations and the robot in a real-scale brick hall
+(Open Robotics' Depot) with a marked AMR cell: hazard-taped boundary, guide
+lanes with stop bars, a walkway, shelving and pallet loads. The world is
+generated at build time from `config/factory.yaml`. Lighting is calibrated so
+the front camera sees the parcel seals within ±6 % of `station_test`
+(DECISIONS D-53).
 
 <table>
   <tr>
-    <td align="center" width="33%"><img src="docs/images/gazebo_overview.png" alt="Test world overview"><br><sub>Test world: robot and the sealed test parcel</sub></td>
-    <td align="center" width="33%"><img src="docs/images/gazebo_robot_closeup.png" alt="Robot close-up"><br><sub>Mast, fork carriage and the two camera mounts</sub></td>
-    <td align="center" width="33%"><img src="docs/images/gazebo_carrying.png" alt="Robot carrying the parcel"><br><sub>Carrying the 0.5 kg parcel off its rails</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/gazebo_gui_opening_view.jpg" alt="Gazebo GUI opening view of the factory world" width="75%"><br><sub>Gazebo GUI on launch: the hall, the cell and the roll-up doors</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/cell_reverse.jpg" alt="Cell seen from the door side"><br><sub>The cell from the door side: pillar guards, safety signs, walkway</sub></td>
   </tr>
 </table>
 
@@ -52,8 +64,8 @@ fail-safe velocity command chain and a Qt 6 / QML operator GUI.
 
 <table>
   <tr>
-    <td align="center" width="50%"><img src="docs/images/stations/gazebo_station_overview.png" alt="station_test world"><br><sub><code>station_test</code>: full source station (R/G/B) and three empty destination stations</sub></td>
-    <td align="center" width="50%"><img src="docs/images/stations/s4_empty_0p6m_0deg.png" alt="Front camera detecting the station markers"><br><sub>Front camera at 0.6 m from an empty station: upper (k) and lower (k + 25) markers detected</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/source_station.jpg" alt="Source station"><br><sub>Source station: tread plate with a colour band, aluminium frame, sign, bay labels, kraft parcels with their seals</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/front_camera_aruco.png" alt="ArUco markers detected on an empty station"><br><sub>Front-camera intrinsics, 0.9 m from an empty station: upper (k = 3–5) and lower (k + 25) markers detected (single view, not the S4 test)</sub></td>
   </tr>
 </table>
 
@@ -64,38 +76,20 @@ fail-safe velocity command chain and a Qt 6 / QML operator GUI.
 | Upper marker (front camera, 0.6–1.5 m, ±15°) | Detected on empty bays, hidden by the parcel on full bays |
 | Lower marker (test camera, 0.2–0.8 m) | Detected with and without a parcel; lateral error ≤ 1.6 mm at 0.5 m; yaw not observable at this marker size (see REPORT_STATIONS) |
 
-## Factory world
-
-`world:=factory` puts the same stations and robot in a real-scale brick hall
-(Open Robotics' Depot) with a marked AMR cell: hazard-taped boundary, guide
-lanes with stop bars, a walkway, shelving and pallet loads. Stations and
-parcels use industrial materials (tread plate, aluminium frame, signs,
-bay labels, kraft cardboard); collisions and marker poses did not change. The
-robot got a visual-only industrial body (counterweight, LiDAR tower, beacon,
-e-stop, decals) behind the camera optical centres, so its camera images are
-unchanged. Lighting is calibrated so the front camera sees the parcel seals
-within ±6 % of `station_test` (DECISIONS D-53, D-54).
-
-<table>
-  <tr>
-    <td align="center" width="50%"><img src="docs/images/factory/cell_overview.jpg" alt="Factory world: AMR cell"><br><sub>AMR cell in the hall: source station (R/G/B parcels), three destinations, guide lanes</sub></td>
-    <td align="center" width="50%"><img src="docs/images/factory/robot_rear.jpg" alt="Robot with the industrial body"><br><sub>Visual-only robot body: counterweight, LiDAR tower, beacon, e-stop, decals</sub></td>
-  </tr>
-  <tr>
-    <td align="center" width="50%"><img src="docs/images/factory/source_station.jpg" alt="Source station close-up"><br><sub>Source station: tread plate, aluminium frame, sign, bay labels, kraft parcels with seals</sub></td>
-    <td align="center" width="50%"><img src="docs/images/factory/front_camera.jpg" alt="Front camera in the factory world" width="80%"><br><sub>Front camera at the spawn pose: plain roll-up-door background behind the source</sub></td>
-  </tr>
-</table>
-
-The screenshots in the sections above were taken before D-53/D-54 and show
-the earlier plain look.
+The detection rows come from the S4–S7 run of 2026-10-19 on the earlier
+station look; collisions and marker poses have not changed since, and S3–S7
+are re-run in the CV phase (REPORT_FACTORY §8).
 
 ## Robot model
 
 <table>
   <tr>
-    <td align="center" width="50%"><img src="docs/images/rviz_robot.png" alt="Robot model and TF axes in RViz" width="80%"><br><sub>Robot model and TF frames in RViz (REP-105 tree)</sub></td>
-    <td align="center" width="50%"><img src="docs/images/rviz_inertia.png" alt="Equivalent inertia boxes in RViz" width="80%"><br><sub>Equivalent inertia boxes, used to check the mass model</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/robot_rear.jpg" alt="Robot, rear view in Gazebo"><br><sub>Gazebo: counterweight, LiDAR tower, beacon, e-stop and decals (visual only, D-54)</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/robot_front.jpg" alt="Robot, front view in Gazebo"><br><sub>Mast, fork carriage, lift cylinder and the two camera mounts</sub></td>
+  </tr>
+  <tr>
+    <td align="center" width="50%"><img src="docs/images/factory/rviz_robot.png" alt="Robot model and TF axes in RViz" width="80%"><br><sub>RViz with the TF frames (REP-105 tree). RViz draws each link in one colour (D-54)</sub></td>
+    <td align="center" width="50%"><img src="docs/images/rviz_inertia.png" alt="Equivalent inertia boxes in RViz" width="55%"><br><sub>Equivalent inertia boxes, used to check the mass model</sub></td>
   </tr>
 </table>
 
@@ -105,8 +99,8 @@ Two 640×480 / 30 Hz cameras; every image `frame_id` is an optical frame.
 
 <table>
   <tr>
-    <td align="center" width="50%"><img src="docs/images/t12_front_camera_unloaded_1p5m.png" alt="Front camera view"><br><sub><code>front_camera</code>: parcel 1.5 m ahead</sub></td>
-    <td align="center" width="50%"><img src="docs/images/t12_lane_camera_unloaded.png" alt="Lane camera view"><br><sub><code>lane_camera</code>: mast-top mount, tilted 45° down at the floor ahead</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/front_camera.jpg" alt="Front camera view"><br><sub><code>front_camera</code> at the spawn pose: the source station 1.5 m ahead</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/lane_camera.jpg" alt="Lane camera view"><br><sub><code>lane_camera</code>: mast-top mount, tilted 45° down at the guide lane</sub></td>
   </tr>
 </table>
 
@@ -114,11 +108,11 @@ Two 640×480 / 30 Hz cameras; every image `frame_id` is an optical frame.
 
 <table>
   <tr>
-    <td align="center" width="50%"><img src="docs/images/gui_main_estop.png" alt="GUI with e-stop active"><br><sub>E-stop latched: drive and fork are disabled. Releasing it needs a 1.5 s press.</sub></td>
-    <td align="center" width="50%"><img src="docs/images/gui_detection_overlay.png" alt="Detection overlay"><br><sub>Detection overlay (<code>vision_msgs/Detection2DArray</code>). The boxes are synthetic test detections from integration test I9, not a real detector.</sub></td>
+    <td align="center" colspan="2"><img src="docs/images/factory/gui_operator_factory.jpg" alt="Operator GUI connected to the factory simulation"><br><sub>Operator GUI connected to the factory simulation: both cameras, telemetry, fork control and topic health. It starts with the e-stop latched; releasing it needs a 1.5 s press.</sub></td>
   </tr>
   <tr>
-    <td align="center" colspan="2"><img src="docs/images/gui_mock_help.png" alt="Keyboard shortcuts overlay in mock mode" width="60%"><br><sub>Keyboard shortcuts (F1), shown in mock mode: synthetic cameras and robot, no ROS graph</sub></td>
+    <td align="center" width="50%"><img src="docs/images/gui_detection_overlay.png" alt="Detection overlay"><br><sub>Detection overlay (<code>vision_msgs/Detection2DArray</code>). The boxes are synthetic test detections from integration test I9, not a real detector.</sub></td>
+    <td align="center" width="50%"><img src="docs/images/gui_mock_help.png" alt="Keyboard shortcuts overlay in mock mode"><br><sub>Keyboard shortcuts (F1), shown in mock mode: synthetic cameras and robot, no ROS graph</sub></td>
   </tr>
 </table>
 
@@ -154,10 +148,13 @@ zero. `cmd_vel_gate` turns "nothing is allowed" into "zero commanded". See
 | GUI killed (`kill -9`) while driving | Robot stopped in 0.38 s |
 | GUI camera display | 29.2 / 28.4 FPS average (front / lane) |
 | GUI performance cost | 18.7 % of one CPU core; simulation real-time factor unchanged (1.00) |
+| Factory world cost | RTF 1.00 and 30.3 Hz cameras as in `station_test`; +1.46 GB GPU memory with the Gazebo GUI |
 
-Full results: [docs/test_results.md](docs/test_results.md) (simulation T1–T14)
-and [docs/gui_test_results.md](docs/gui_test_results.md) (GUI I1–I12). Raw logs
-are in `docs/logs/`.
+Full results: [docs/test_results.md](docs/test_results.md) (simulation T1–T14),
+[docs/station_test_results.md](docs/station_test_results.md) (stations S1–S8),
+[docs/gui_test_results.md](docs/gui_test_results.md) (GUI I1–I12) and
+[docs/logs/factory/perf_results.md](docs/logs/factory/perf_results.md) (world
+performance). Raw logs are in `docs/logs/`.
 
 <details>
 <summary><strong>Test plots</strong></summary>
@@ -205,9 +202,9 @@ source install/setup.bash
 
 ```bash
 # Simulation + RViz + command chain + operator GUI
-ros2 launch forklift_bringup bringup.launch.py
-ros2 launch forklift_bringup bringup.launch.py world:=station_test   # load stations
-ros2 launch forklift_bringup bringup.launch.py world:=factory        # stations in the factory hall
+ros2 launch forklift_bringup bringup.launch.py world:=factory        # factory hall with stations
+ros2 launch forklift_bringup bringup.launch.py world:=station_test   # plain station test world
+ros2 launch forklift_bringup bringup.launch.py                       # lift_test (default)
 
 # Station world only (stations and parcels from config/stations.yaml)
 ros2 launch forklift_gazebo station_sim.launch.py
@@ -261,6 +258,18 @@ The photo textures in `src/forklift_gazebo/models/factory_materials` are from
 [ambientCG](https://ambientcg.com) (CC0 1.0); see its
 [README](src/forklift_gazebo/models/factory_materials/README.md). Signs, labels
 and decals are generated at build time by this repository's scripts.
+
+## Versions
+
+`main` always holds the latest version. Every earlier version is kept as a tag
+and as a read-only `release/*` branch, so it can be browsed on GitHub without
+downloading anything (switch the branch selector to `release/...`):
+
+| Version | Branch / tag | Contents |
+|---|---|---|
+| v0.1.0 | [`release/v0.1.0`](../../tree/release/v0.1.0) | Robot description, simulation test bench (T1–T14), command chain, operator GUI |
+| v0.2.0 | [`release/v0.2.0`](../../tree/release/v0.2.0) | + Load stations with ArUco markers, `station_test` world (S1–S8) |
+| v0.3.0 | [`release/v0.3.0`](../../tree/release/v0.3.0) | + Factory world, industrial station/parcel look, robot body (D-53, D-54) — same as `main` today |
 
 ## Roadmap
 

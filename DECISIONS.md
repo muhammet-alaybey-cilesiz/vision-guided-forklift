@@ -1106,8 +1106,16 @@ appearance`.
   so gz resolves the converted `model://forklift_description/...` URIs.
 * **Colours.** Measured: sdformat multiplies URDF colours by 1.25, and ogre2
   converts linear to sRGB, which lifts dark tones a lot (0.24 grey showed as
-  ≈ 185/255). The dark parts therefore use low values (graphite 0.035). RViz
-  shows the URDF colour as is, so the robot looks darker there.
+  ≈ 185/255). The dark parts therefore use low values (graphite 0.035).
+* **RViz draws each link in one colour** (found 2026-10-20). rviz2 Jazzy
+  (`robot_link.cpp`, `createVisualizable`) passes an empty material name for
+  every visual, so `getVisualWithMaterial` returns the link's first visual and
+  all visuals of the link get its material; inline colours do not help
+  (tested). Gazebo is not affected. With the graphite skirt first, the whole
+  chassis was black in RViz. The yellow shell is therefore the first chassis
+  visual, so RViz shows a yellow body (the details keep their colours only in
+  Gazebo). Checked in an isolated Xephyr display with `display.launch.py`.
+  Alternative not chosen: one multi-material mesh per link (new build step).
 
 ---
 

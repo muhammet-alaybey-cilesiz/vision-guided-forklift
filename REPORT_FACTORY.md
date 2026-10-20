@@ -236,7 +236,7 @@ dünyalarındaki kamera sensörlerinden alındı. Bu dünyalar gerçek modellerd
 | S3–S7 (factory) | **ÇALIŞTIRILMADI** | Aynı neden. `station_acceptance.py` şu an yalnız station_test'i açıyor; factory için dünya seçimi eklenmeli |
 | S8 | **ÇALIŞTIRILMADI** | Performans §6'daki ayrı ölçümle yapıldı; S8'in kendisi koşulmadı |
 | T1–T14 (lift_test) | **ÇALIŞTIRILMADI** | Robotta yalnız visual değişti ve fizik öğeleri birebir aynı (§5.2). Yine de T12 (görüş) CV aşamasında yeniden koşulmalı |
-| RViz'de robot görünümü | **KONTROL EDİLMEDİ** | Mesh'ler `package://` ile verildi; RViz'de görsel kontrol yapılmadı. RViz URDF rengini 1.25 çarpanı olmadan gösterir, robot orada daha koyu görünecek |
+| RViz'de robot görünümü | **KONTROL EDİLDİ (sonradan)** | İlk sürümde gövde RViz'de siyahtı: RViz bir link'in tüm visual'larını ilk visual'ın malzemesiyle çiziyor (D-54). Sarı gövde ilk visual yapıldı; yalıtılmış Xephyr ekranında `display.launch.py` ile doğrulandı, görsel `docs/images/factory/rviz_robot.png` |
 | İlk çalıştırmada Fuel indirmesi | **ÖLÇÜLMEDİ** | Modeller önbellekteydi |
 
 ## 9. Bilinen sorunlar ve sınırlar
@@ -252,8 +252,11 @@ dünyalarındaki kamera sensörlerinden alındı. Bu dünyalar gerçek modellerd
   geçebilir. Hücrede çalışırken etkisi yok.
 - **Kamera gürültüsü:** Hâlâ uygulanmıyor (REPORT_STATIONS §12.1). Bu
   çalışmanın kapsamında değildi.
-- **Eski ekran görüntüleri:** README'deki önceki bölümlerin görüntüleri eski
-  görünümü gösteriyor; README bunu not ediyor.
+- **RViz renkleri:** RViz her link'i tek renkle çiziyor (D-54). Ayrıntılı
+  renkler yalnız Gazebo'da görünür.
+- **README görselleri** güncel sürümle yeniden alındı. Eski görseller
+  raporlarda test kanıtı olarak duruyor; eski sürümler `release/v0.1.0`,
+  `release/v0.2.0` dallarında ve aynı adlı tag'lerde.
 
 ## 10. Açık kararlar (sahibin)
 
