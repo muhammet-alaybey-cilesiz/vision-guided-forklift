@@ -15,7 +15,7 @@ A Gazebo Sim 8 (Harmonic) test bench for the forklift robot defined in `forklift
 | `worlds/lift_test.sdf` | Flat matte floor, one static rail pair at x = 1.5 m with the sealed parcel on top, a sun and two spot lights (all cast shadows). Systems: Physics (DART, 1 ms step, RTF 1.0), UserCommands, SceneBroadcaster, Sensors (ogre2). |
 | `models/test_parcel/` | 0.20 m cube, 0.5 kg, brown. A red seal (0.10 × 0.10 × 0.002 m, visual only) sits on its −x face. |
 | `config/ros_gz_bridge.yaml` | `ros_gz_bridge` config for `/clock`, `/cmd_vel`, `/odom`, `/tf`, `/joint_states`, `/fork/cmd_height` and both `camera_info` topics |
-| `launch/sim.launch.py` | Starts gz sim, robot_state_publisher (`use_sim:=true`), the spawn, `parameter_bridge`, `image_bridge` and the command chain (`forklift_safety/control.launch.py`: twist_mux + cmd_vel_gate), plus RViz if asked for |
+| `launch/sim.launch.py` | Starts the gz sim server (`-s`), robot_state_publisher (`use_sim:=true`), the spawn, `parameter_bridge`, `image_bridge` and the command chain (`forklift_safety/control.launch.py`: twist_mux + cmd_vel_gate), plus RViz if asked for. With `gui:=true` the Gazebo GUI (`gz sim -g`) starts only once `scripts/wait_for_models.py` sees the robot and `gui_wait_models` in the server scene (DECISIONS D-52) |
 | `scripts/acceptance_test.py` | Runs the acceptance tests and writes the results to `<ws>/docs/` |
 
 ## Running
@@ -32,6 +32,7 @@ Launch arguments:
 |---|---|
 | `world` | World file to load |
 | `gui` | `false` runs the server only |
+| `gui_wait_models` | Comma-separated models, besides the robot, that must be in the scene before the Gazebo GUI opens. `station_sim.launch.py` sets it from `stations.yaml` |
 | `headless` | EGL off-screen rendering for the camera sensors |
 | `rviz` | Start RViz |
 | `control` | Start twist_mux + cmd_vel_gate (default `true`). With it, the operator GUI can drive even when it runs in another terminal (DECISIONS D-42). `false` when something publishes `/cmd_vel` directly, as `acceptance_test.py` does: the gate's zero commands would otherwise override it. |

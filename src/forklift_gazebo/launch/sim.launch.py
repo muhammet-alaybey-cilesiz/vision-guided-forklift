@@ -11,9 +11,17 @@ saatiyle (D-25).
 Komut zinciri robot tarafındadır (DECISIONS D-42): GUI ayrı terminalde açılsa da
 /cmd_vel/teleop → /cmd_vel yolu hazırdır, GUI kapanınca kapı sıfır komutu sürdürür.
 
+Gazebo sunucusu her zaman ayrı süreçtir (-s). gui:=true ise Gazebo GUI istemcisi
+(gz sim -g) wait_for_models.py robotu ve gui_wait_models'taki modelleri sunucu
+sahnesinde görünce açılır (DECISIONS D-52). GUI sahneyi açılışta bir kez alır;
+o anda henüz eklenmemiş bir model GUI'de hiç görünmezdi. GUI penceresi
+kapatılırsa launch kapanır (eski tek süreçli davranış).
+
 Argümanlar:
   world        : dünya SDF dosyası (varsayılan worlds/lift_test.sdf)
-  gui          : true → Gazebo GUI; false → yalnızca sunucu (-s)
+  gui          : true → Gazebo GUI (dünya hazır olunca); false → yalnızca sunucu
+  gui_wait_models : robot dışında GUI'den önce sahnede olması gereken modeller
+                 (virgülle; station_sim.launch.py istasyon ve kolileri verir)
   headless     : true → sunucuda ekransız render (--headless-rendering, EGL)
   rviz         : RViz'i aç (sabit frame odom)
   control      : twist_mux + cmd_vel_gate komut zinciri (varsayılan true; zinciri
@@ -29,13 +37,15 @@ dışa aktarımını ros_gz_sim GZ_SIM_RESOURCE_PATH'e ekler (model://test_parce
 import yaml
 from launch import LaunchDescription
 from launch.actions import (
-    DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, OpaqueFunction)
+    DeclareLaunchArgument, ExecuteProcess, GroupAction, IncludeLaunchDescription, LogInfo,
+    OpaqueFunction, RegisterEventHandler)
+from launch.event_handlers import OnProcessExit
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
-from launch_ros.substitutions import FindPackageShare
+from launch_ros.substitutions import FindPackagePrefix, FindPackageShare
 
 MODEL_NAME = 'forklift'
 
@@ -43,17 +53,34 @@ MODEL_NAME = 'forklift'
 def _launch_setup(context):
     """Metin değerine ihtiyaç duyan adımlar (gz argümanları, YAML'dan topic adları)."""
     world = LaunchConfiguration('world').perform(context)
-    gz_args = ['-r', '-v', LaunchConfiguration('verbosity').perform(context), world]
-    if LaunchConfiguration('gui').perform(context).lower() != 'true':
-        gz_args.append('-s')
+    verbosity = LaunchConfiguration('verbosity').perform(context)
+    gz_args = ['-r', '-s', '-v', verbosity, world]
     if LaunchConfiguration('headless').perform(context).lower() == 'true':
         gz_args.append('--headless-rendering')
 
-    gz_sim = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py'])),
-        launch_arguments={'gz_args': ' '.join(gz_args), 'on_exit_shutdown': 'true'}.items(),
-    )
+    def gz(args):
+        # gz_sim.launch.py: GZ_SIM_RESOURCE_PATH (model://) sunucu ve GUI için aynı
+        return IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                PathJoinSubstitution([FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py'])),
+            launch_arguments={'gz_args': ' '.join(args), 'on_exit_shutdown': 'true'}.items(),
+        )
+
+    actions = [gz(gz_args)]
+    if LaunchConfiguration('gui').perform(context).lower() == 'true':
+        models = [MODEL_NAME] + [
+            m for m in LaunchConfiguration('gui_wait_models').perform(context).split(',') if m]
+        wait = ExecuteProcess(
+            cmd=[PathJoinSubstitution([FindPackagePrefix('forklift_gazebo'), 'lib', 'forklift_gazebo',
+                                       'wait_for_models.py']),
+                 '--models', ','.join(models)],
+            name='wait_for_models',
+            output='screen',
+        )
+        # Zaman aşımında da GUI açılır (eksik modeller wait_for_models çıktısında)
+        actions += [wait, RegisterEventHandler(OnProcessExit(
+            target_action=wait,
+            on_exit=[LogInfo(msg='sim.launch: Gazebo GUI başlatılıyor'), gz(['-g', '-v', verbosity])]))]
 
     # Görüntü topic'leri tek kaynaktan: forklift_params.yaml → cameras.*.topic
     with open(LaunchConfiguration('params_file').perform(context)) as f:
@@ -68,7 +95,7 @@ def _launch_setup(context):
         parameters=[{'use_sim_time': True}],
         output='screen',
     )
-    return [gz_sim, image_bridge]
+    return actions + [image_bridge]
 
 
 def generate_launch_description():
@@ -78,6 +105,7 @@ def generate_launch_description():
     declared_args = [
         DeclareLaunchArgument('world', default_value=PathJoinSubstitution([sim_share, 'worlds', 'lift_test.sdf'])),
         DeclareLaunchArgument('gui', default_value='true'),
+        DeclareLaunchArgument('gui_wait_models', default_value=''),
         DeclareLaunchArgument('headless', default_value='false'),
         DeclareLaunchArgument('rviz', default_value='false'),
         DeclareLaunchArgument('control', default_value='true'),

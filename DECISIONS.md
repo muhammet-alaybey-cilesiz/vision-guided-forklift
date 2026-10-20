@@ -987,6 +987,29 @@ should read the same block.
    inward corner shift. It is information only and not part of the S4
    criterion.
 
+## D-52 Gazebo GUI opens only after the world is populated (Accepted, owner decision 2026-10-20)
+Symptom: in `station_test` the red parcel (`parcel_source_0`) was sometimes
+missing from the Gazebo GUI while both robot cameras showed it. The launch log
+reported `Entity creation successful.` for it, and S3 sampled its pose from the
+server. The next launch, with no code change, showed it. Cause: the GUI client
+takes the scene once at startup (`/world/<w>/scene/info`) and then follows
+only incremental updates, so a model created between the two never appears in
+the GUI. Sensors render on the server, so the cameras and every test were
+unaffected. The robot is spawned the same way and was exposed to the same race.
+Decision: `sim.launch.py` always runs the server with `-s`. With `gui:=true`,
+`scripts/wait_for_models.py` polls `scene/info` through the `gz service` CLI
+(D-49) until the robot and the names in `gui_wait_models` are present. Then
+`gz sim -g` starts in the same launch. The gate is the scene itself and not
+the exit of the `create` processes, because async `/create` returns before the
+entity exists (D-49). `station_sim.launch.py` fills `gui_wait_models` with the
+station and parcel names from `stations.yaml`. On timeout (90 s) the GUI still
+opens, and the missing names are printed. Closing the GUI window still shuts
+the launch down. Considered and not chosen: embedding stations and parcels in
+the world SDF (does not cover the robot), and a fixed delay (no guarantee).
+Measured: `station_test` reported 8 models in the scene after 3.0 s and
+`lift_test` reported 1 after 2.2 s; the GUI started after that. `gui:=false`
+starts neither the waiter nor the GUI.
+
 ---
 
 ## Spec deviations (summary)

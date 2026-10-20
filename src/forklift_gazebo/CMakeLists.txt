@@ -35,11 +35,13 @@ install(DIRECTORY ${ARUCO_MODEL_DIR} DESTINATION share/${PROJECT_NAME}/models)
 install(FILES ${MARKERS_YAML} DESTINATION share/${PROJECT_NAME}/config)
 
 # Kabul testleri: ros2 run forklift_gazebo acceptance_test.py | station_acceptance.py
+# wait_for_models.py: sim.launch.py Gazebo GUI'sini dünya hazır olunca açar (D-52)
 install(
   PROGRAMS
     scripts/acceptance_test.py
     scripts/station_acceptance.py
     scripts/generate_aruco_textures.py
+    scripts/wait_for_models.py
   DESTINATION lib/${PROJECT_NAME}
 )
 # Ortak yerleşim modülü (launch ve testler içe aktarır)
