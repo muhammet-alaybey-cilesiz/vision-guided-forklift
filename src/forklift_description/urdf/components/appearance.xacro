@@ -13,6 +13,8 @@
   - wheel_hub_visual: tekerlek link'inde sarı göbek
   Çıkartmalar meshes/decals/*.obj (build'de scripts/generate_decals.py);
   yerel normal +x, rpy yaw ile yüzeye çevrilir.
+  RViz (Jazzy) her link'i tek renkle, ilk visual'ın malzemesiyle çizer
+  (robot_link.cpp: material_name "" geçilir); ayrıntılı renkler yalnız Gazebo'da.
 -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
@@ -59,9 +61,12 @@
     <xacro:property name="XC" value="${X0 + cw.length}"/>
     <xacro:property name="dk" value="${A.deck}"/>
 
-    <!-- alt şasi, gövde, üst kapak -->
-    <xacro:gbox o="${o}" x0="${X0}" x1="${X1}" y0="${-Y}" y1="${Y}" z0="${Z0}" z1="${ZS}" material="forklift_graphite"/>
+    <!-- gövde İLK visual olmalı: RViz (Jazzy) bir link'in tüm visual'larını ilk
+         visual'ın malzemesiyle çizer (D-54); RViz'de gövde sarı görünür.
+         Gazebo her visual'ı kendi malzemesiyle çizer. -->
     <xacro:gbox o="${o}" x0="${XC}" x1="${X1}" y0="${-YS}" y1="${YS}" z0="${ZS}" z1="${Z1 - dk.thickness}" material="forklift_yellow"/>
+    <!-- alt şasi, üst kapak -->
+    <xacro:gbox o="${o}" x0="${X0}" x1="${X1}" y0="${-Y}" y1="${Y}" z0="${Z0}" z1="${ZS}" material="forklift_graphite"/>
     <xacro:gbox o="${o}" x0="${XC}" x1="${X1 - dk.inset}" y0="${-YS + dk.inset}" y1="${YS - dk.inset}"
                 z0="${Z1 - dk.thickness}" z1="${Z1}" material="forklift_dark_grey"/>
 
