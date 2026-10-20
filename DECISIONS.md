@@ -961,7 +961,7 @@ inside that range. Caveat: the value was tuned on the test frames, and the
 plateau is the evidence that it is not overfitted. The future detection node
 should read the same block.
 
-## D-51 Findings from S4/S5 that affect the fork-camera step (Open: owner decision on the S5 yaw criterion)
+## D-51 Findings from S4/S5 that affect the fork-camera step (Open: S5 criterion; yaw addressed by D-55)
 1. **Camera noise is not applied.** Both robot cameras and the S5 camera
    declare Gaussian noise with σ = 0.007. Consecutive frames are identical
    (mean difference 0.001 grey levels), and the sky region has a spatial
@@ -1116,6 +1116,46 @@ appearance`.
   visual, so RViz shows a yellow body (the details keep their colours only in
   Gazebo). Checked in an isolated Xephyr display with `display.launch.py`.
   Alternative not chosen: one multi-material mesh per link (new build step).
+
+## D-55 Channel alignment targets on the ledge fronts (Accepted, owner request 2026-10-20)
+Problem: the 4 cm lower marker gives the lateral offset well but not the yaw
+(D-51: +21.6° at 0.5 m). The owner proposed reference marks on the ledge
+fronts on both sides of each channel, for fork alignment and centring.
+* **Pattern.** A 36 mm white plate with a 24 mm 2×2 checker (dark top-left and
+  bottom-right); the measured point is the centre corner (X-corner), found
+  with sub-pixel accuracy. Chosen over a colour mark: yellow is everywhere in
+  the factory (lanes, tape, bay labels, guards, robot), red/green/blue are the
+  seal colours, and an X-corner is independent of colour and lighting, so it
+  stays usable once camera noise is added.
+* **Placement.** Two targets per bay, on the ledge front faces right next to
+  the channel: the plate's channel-side edge is 5 mm from the channel edge
+  (owner's proposal of "at the very edge", with a margin so the plate is not
+  cut), vertically centred on the 50 mm face (z = ledge_height / 2). Centre
+  offset from the channel axis = channel_width / 2 + edge_gap + size / 2 =
+  0.108 m, so the pair midpoint is exactly the channel axis and the 0.216 m
+  baseline makes yaw observable. Per-bay pairs (not one mark per ledge) keep
+  the midpoint on the axis for the end bays too, whose outer ledges are half
+  as wide. They fit: 41 of 65 mm on the end ledges, 82 of 130 mm on the shared
+  ones (`station_layout.validate_align`, checked at build time).
+* **Implementation.** Visual-only boxes in `station.sdf.xacro` (standoff and
+  thickness as the markers, textured −x face, no shadow); sizes in
+  `station_params.yaml → markers.align`; `align_target.png` is generated with
+  the ArUco textures and must pass a self-check (centre corner within 0.5 px
+  of the texture centre, a 2 px shift fails it). `markers.yaml` gains
+  `align_targets` (point in the station and world frames for every target).
+  S2 checks count, position, size, edge gap, "on a ledge, not over the
+  channel", texture and markers.yaml (1723 checks, 0 errors; a 15 mm edge-gap
+  mutation produced 12 failures). Collisions unchanged. The ArUco markers
+  still decode with the targets in view (IDs 3–5, 28–30; no false IDs).
+* **First trial** (lane-camera intrinsics and extrinsics, factory world,
+  noise-free renders, one frame per case; `docs/logs/stations/align_trial.txt`,
+  REPORT_STATIONS §13): targets detected from the image without ground truth
+  (plate quad → rectified checker test → diagonal intersection →
+  cornerSubPix), rays intersected with z = ledge_height / 2. At 0.45–0.6 m:
+  axis error ≤ 0.1 mm, yaw error ≤ 0.18°; at 0.9 m ≤ 0.4 mm and ≤ 0.83°;
+  at 1.2 m 1.4 mm and 2.0°. One false candidate at 0.9 m / 5° did not change
+  the pair. This addresses the yaw part of D-51 for the final approach; the
+  S5 criterion itself is redefined in the CV phase.
 
 ---
 

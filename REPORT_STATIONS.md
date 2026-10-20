@@ -364,6 +364,49 @@ Testler ROS komut zincirini kapatır (`control:=false`) ve `/cmd_vel`'e
 doğrudan gz-transport ile yayın yapar. Çalışan başka bir simülasyon varsa aynı
 `GZ_PARTITION`'da çakışır.
 
+## 13. Ek (2026-10-20): kanal hizalama hedefleri ve ilk deneme (D-55)
+
+§10'daki yaw sorunu için her bölmenin iki yanına, çıkıntıların ön yüzüne
+2×2 dama desenli hizalama hedefleri eklendi. Ölçülen nokta desenin merkez
+köşesi (X-köşe).
+
+- **Konum:** Hedefler kanal kenarından 5 mm uzakta ve 5 cm'lik ön yüzün dikey
+  ortasında. Çiftin orta noktası tam olarak kanal ekseni, aralarındaki taban
+  0.216 m.
+- **Fizik:** Collision değişmedi.
+- **Ground truth:** `markers.yaml` → `align_targets`.
+- **S2:** 1723 denetim, 0 hata.
+
+**İlk deneme.** Şerit kamerasının iç ve dış parametreleriyle, factory
+dünyasında, `dest_red` orta bölmesine bakan kareler kullanıldı (gürültüsüz,
+durum başına tek kare). Hedefler görüntüden ground truth kullanılmadan bulundu:
+
+1. Plaka dörtgeni bulunur.
+2. Perspektif düzeltilir ve dama deseni denetlenir.
+3. Köşegenlerin kesişimi alınır ve `cornerSubPix` ile iyileştirilir.
+
+Bulunan noktaların ışınları z = 2.5 cm düzlemiyle kesiştirildi. Ham tablo:
+`docs/logs/stations/align_trial.txt`.
+
+| Mesafe | Eksen yanal hatası | Yaw hatası | Nokta hatası |
+|---|---|---|---|
+| 0.45–0.60 m (3 durum, biri −2 cm / −4°) | ≤ 0.1 mm | ≤ 0.18° | ≤ 0.5 mm |
+| 0.90 m (3 durum, +3 cm ve +5° dahil) | ≤ 0.4 mm | ≤ 0.83° | ≤ 4.0 mm |
+| 1.20 m | 1.4 mm | 2.0° | 9.6 mm |
+
+**Sonuç.** Son yaklaşmada (≤ 0.6 m) yaw 0.2° içinde ölçülebiliyor. Karşılaştırma
+için §10'da alt işaretle 0.5 m'de yaw hatası +21.6° idi. Uzakta hedefler küçülüyor
+(1.2 m'de ~12 px), bu yüzden kaba yaklaşma üst ArUco işaretiyle yapılmalı.
+
+**Bilinen kısıtlar:**
+
+- 0.9 m / 5° durumunda bir yanlış aday bulundu, eşleştirme doğru çifti seçti.
+  Gerçek algılama düğümünde aday filtresi sıkılaştırılmalı: satır hizası, boyut
+  tutarlılığı, bilinen 0.216 m taban.
+- Kamera gürültüsü yok (§12.1).
+- Bu bir deneme; S5'in kendisi değil. S5 kriteri CV aşamasında yeniden
+  tanımlanacak.
+
 ## 12. Öneriler (kapsam dışı, uygulanmadı)
 
 1. **Kamera gürültüsü (robot):** Tanımlı gürültünün neden uygulanmadığı

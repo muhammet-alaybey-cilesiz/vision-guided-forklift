@@ -113,20 +113,20 @@
           "stderr": ""
         }
       ],
-      "run_at": "2026-10-20 18:40:42"
+      "run_at": "2026-10-20 21:30:53"
     }
   },
   {
     "id": "S2",
     "name": "Geometri denetimi",
     "status": "GEÇTİ",
-    "measured": "1154 denetim, 0 hata; en büyük ölçü sapması 0.0000 mm; 24 işaret markers.yaml ile, 50 doku ID ile uyumlu",
-    "criterion": "Kanal, adım, çıkıntı, plakalar, işaret konum/boyut, koli: YAML ile ±0.5 mm",
+    "measured": "1723 denetim, 0 hata; en büyük ölçü sapması 0.0000 mm; 24 işaret ve 24 hizalama hedefi markers.yaml ile, 50 doku ID ile uyumlu",
+    "criterion": "Kanal, adım, çıkıntı, plakalar, işaret ve hizalama hedefi konum/boyut, koli: YAML ile ±0.5 mm",
     "details": {
       "failures": [],
-      "checks": 1154,
+      "checks": 1723,
       "max_err_m": 2.5000000680730494e-10,
-      "run_at": "2026-10-20 18:40:43"
+      "run_at": "2026-10-20 21:30:54"
     }
   },
   {

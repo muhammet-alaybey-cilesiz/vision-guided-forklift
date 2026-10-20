@@ -653,7 +653,9 @@ station_params.yaml ─┬─► xacro/station.sdf.xacro ─┐
 stations.yaml ───────┤                            │
                      └─► generate_aruco_textures.py (CMake, build time)
                             ├─► share/forklift_gazebo/models/aruco_markers/materials/textures/aruco_4x4_50_idNN.png
-                            └─► share/forklift_gazebo/config/markers.yaml   (every marker: id, station, bay, type, size, poses)
+                            ├─► share/forklift_gazebo/models/aruco_markers/materials/textures/align_target.png (D-55)
+                            └─► share/forklift_gazebo/config/markers.yaml   (every marker: id, station, bay, type, size, poses;
+                                                                              align_targets: X-corner per bay side)
 ```
 
 `scripts/station_layout.py` is the only code that computes `y_i`, the marker

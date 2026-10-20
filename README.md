@@ -29,8 +29,9 @@ Qt 6 / QML operator GUI.
   cameras. All 14 pass in the final run.
 - **Load stations**: data-driven multi-bay stations (xacro → SDF, generated
   from two YAML files). Each bay has two ledges with a fork channel between
-  them and two ArUco markers: an upper one that a parcel hides, for approach
-  and occupancy, and a lower one seen through the channel, for fine alignment.
+  them, two ArUco markers (an upper one that a parcel hides, for approach and
+  occupancy, and a lower one seen through the channel) and two checker
+  alignment targets beside the channel for the final lateral and yaw alignment.
   Acceptance tests S1–S8 cover geometry, stability, marker detection, the
   drop/pick tolerance and performance.
 - **Factory world**: a real-scale hall generated from one YAML file, with a
@@ -64,8 +65,12 @@ the front camera sees the parcel seals within ±6 % of `station_test`
 
 <table>
   <tr>
+    <td align="center" width="50%"><img src="docs/images/factory/dest_blue_station.jpg" alt="Empty destination station"><br><sub>Empty station: upper and lower ArUco markers per bay, and two checker alignment targets beside each fork channel (D-55)</sub></td>
     <td align="center" width="50%"><img src="docs/images/factory/source_station.jpg" alt="Source station"><br><sub>Source station: tread plate with a colour band, aluminium frame, sign, bay labels, kraft parcels with their seals</sub></td>
+  </tr>
+  <tr>
     <td align="center" width="50%"><img src="docs/images/factory/front_camera_aruco.png" alt="ArUco markers detected on an empty station"><br><sub>Front-camera intrinsics, 0.9 m from an empty station: upper (k = 3–5) and lower (k + 25) markers detected (single view, not the S4 test)</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/align_targets_detected.png" alt="Alignment targets detected in the lane camera"><br><sub>Lane-camera view at 0.6 m (−2 cm, −4°): the six X-corners found; channel axis within 0.1 mm and yaw within 0.2° (first trial, noise-free)</sub></td>
   </tr>
 </table>
 
@@ -75,6 +80,7 @@ the front camera sees the parcel seals within ±6 % of `station_test`
 | Pick | 0.5 m reverse with the parcel: 0.00 mm relative slip |
 | Upper marker (front camera, 0.6–1.5 m, ±15°) | Detected on empty bays, hidden by the parcel on full bays |
 | Lower marker (test camera, 0.2–0.8 m) | Detected with and without a parcel; lateral error ≤ 1.6 mm at 0.5 m; yaw not observable at this marker size (see REPORT_STATIONS) |
+| Alignment targets (lane camera, first trial) | 0.45–0.6 m: channel axis ≤ 0.1 mm, yaw ≤ 0.18°; 1.2 m: 1.4 mm, 2.0° (REPORT_STATIONS §13) |
 
 The detection rows come from the S4–S7 run of 2026-10-19 on the earlier
 station look; collisions and marker poses have not changed since, and S3–S7
@@ -238,7 +244,7 @@ ros2 run forklift_gui integration_test.py             # GUI end-to-end I1–I12
 ## Documentation
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — frames, ROS ↔ Gazebo interface, launch graph, GUI layers and thread model
-- [DECISIONS.md](DECISIONS.md) — design decision log (D-01 … D-54)
+- [DECISIONS.md](DECISIONS.md) — design decision log (D-01 … D-55)
 - [REPORT.md](REPORT.md) — simulation phase report (Turkish)
 - [REPORT_STATIONS.md](REPORT_STATIONS.md) — load station report (Turkish)
 - [REPORT_FACTORY.md](REPORT_FACTORY.md) — factory world and robot appearance report (Turkish)

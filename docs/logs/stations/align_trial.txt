@@ -1,0 +1,11 @@
+# Hizalama hedefi ilk denemesi (D-55), 2026-10-20: şerit kamerası iç/dış parametreleri, factory dünyası, dest_red orta bölme (bay_id 4).
+# Tespit görüntüden (GT kullanılmadan); nokta = X-köşe ışınının z = ledge_height/2 düzlemiyle kesişimi; tahmin robot (kamera yaw) çerçevesinde.
+# Gürültüsüz render (kamera gürültüsü uygulanmıyor), her durum tek kare.
+durum            tespit   eksen yanal tahmin/gerçek [mm]    açı tahmin/gerçek [°]  nokta hatası [mm]  mesafe tahmin/gerçek [mm]
+d045_l0_y0            6            0.1 /     0.0           -0.01 /  -0.00            0.2            448.5 /   448.5
+d060_l0_y0            6            0.0 /     0.0           -0.07 /  -0.00            0.2            598.4 /   598.5
+d060_lm2_ym4          6           21.8 /    21.8           -4.18 /  -4.00            0.5            598.3 /   598.4
+d090_l0_y0            6           -0.1 /     0.0           -0.83 /  -0.00            4.0            900.9 /   898.5
+d090_l0_y5            7          -77.9 /   -78.3            5.06 /   5.00            0.7            894.8 /   895.1
+d090_l3_y0            6           30.3 /    30.0            0.20 /  -0.00            2.1            896.9 /   898.5
+d120_l0_y0            6           -1.4 /     0.0           -2.03 /  -0.00            9.6           1193.8 /  1198.5
