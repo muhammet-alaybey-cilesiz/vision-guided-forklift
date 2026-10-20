@@ -1010,6 +1010,105 @@ Measured: `station_test` reported 8 models in the scene after 3.0 s and
 `lift_test` reported 1 after 2.2 s; the GUI started after that. `gui:=false`
 starts neither the waiter nor the GUI.
 
+## D-53 Factory world and industrial station look (Accepted, owner request 2026-10-20)
+Goal: the station scene looked like a playground (saturated full-colour plates
+on an endless grey plane). The owner asked for a professional factory look
+that still serves the CV work. CV tests (S3–S7) are deferred to the CV phase
+by the owner.
+* **New world, old one kept.** `worlds/factory.sdf` is generated at build time
+  by `scripts/generate_factory_world.py` from `config/factory.yaml` (+
+  `stations.yaml`, `station_params.yaml`). `station_test.sdf` is unchanged and
+  stays the deterministic test world. Both use the same `stations.yaml`; the
+  robot is still at the origin facing +x. `station_sim.launch.py
+  station_world:=factory` and `bringup.launch.py world:=factory` open it.
+* **Hall.** Open Robotics' `Depot` (Fuel, version 6 pinned, CC-BY 4.0) gives a
+  real-scale brick hall (≈ 30 × 15 m, roof ≈ 8.5 m, mezzanine, roll-up doors,
+  baked lightmap). Concept: a real-scale hall with a small AMR cell, not a
+  shrunk hall. Edits through `<experimental:params>`:
+  * Its 100 × 100 m floor collision is removed; our `ground_plane` collision
+    (μ = 1.0, D-15) stays, without a visual.
+  * Its two `fan_light` point lights are removed. All three attenuation
+    coefficients are 0 (1/0). Measured with every world light switched off:
+    our models were still saturated in some cameras and black in others,
+    depending on the view. After the removal they are black in all cameras,
+    as expected. The lightmap is not involved (a lightmap-free copy behaved
+    the same while the lights were present).
+  * `hall.clutter: full | clean`: `clean` also removes the Depot's shelves,
+    barrels and crates (`BOXSET`, `crates`). The default is `full`; the owner's
+    choice between the two is still open.
+  * The hall is rotated by π (pose (−8.1, 0, 0, π)) so that the background of
+    the source station, where the front camera reads the parcels and seals,
+    is the plain roll-up-door wall. The red-barrel shelves end up 4.4 m
+    behind the blue destination.
+* **Lighting** is calibrated, not eyeballed: the front camera at the spawn pose
+  sees the three source seals within ±6 % of their `station_test` RGB values
+  (blue 35/73/142 vs 35/74/145). Ambient 0.45, one shadowed skylight
+  (directional, 0.6), a 2 × 2 high-bay grid over the cell (0.9, first spot
+  shadowed) and a 2 × 2 grid for the hall (0.5, no shadows). Light specular is
+  low so the Depot floor does not show rippled highlights.
+* **Floor markings** (visual only, 1 mm high): yellow/black hazard band around
+  the cell, a 50 mm yellow guide lane from the spawn point to each station
+  apron with a white stop bar, and a green walkway with stencils. The lanes are
+  also written to `config/factory_lanes.yaml` as ground truth for the future
+  lane detector. Measured: on a box top face the texture u axis runs along
+  local −y, so textured strips put their long side on local y; the −x and +y
+  faces read without mirroring (as in D-47).
+* **Props** outside the cell (Fuel, pinned): AWS RoboMaker warehouse shelves,
+  pallet loads, pallet jack and bin (CC-BY 4.0), fire extinguishers (CC0);
+  hazard-striped pillar guards and signs on the two pillars next to the cell.
+  The pillar positions (0.46 m square, world (−0.56, −3.615) and
+  (−0.56, 3.885)) were measured from the mesh vertices. Nothing brown or
+  red/green/blue stands within 5 m behind the source station.
+* **Station and parcel look** (all worlds). Collision, inertia and frames are
+  byte-identical to the previous xacro output (compared for N = 1, 3, 5 and a
+  parcel); S1 and S2 pass (1154 checks, 0 errors). Visuals: tread-plate base
+  with a perimeter band in the station colour (instead of a fully coloured
+  plate), aluminium back plate and profile frame, a station sign, bay-number
+  labels, rubber ledges, white label plates behind the ArUco markers, kraft
+  cardboard parcels with tape and a shipping label. The seal is unchanged. The
+  back-plate visual sits 1 mm behind its collision so the label plate fits
+  between it and the marker; marker poses are unchanged. Bay labels have no
+  square outline, because a black square contour is an ArUco candidate.
+* **Textures.** Photo textures are ambientCG CC0, downscaled and committed
+  (`models/factory_materials`, 1.5 MB, provenance in
+  `scripts/fetch_factory_textures.py`), so builds need no network. Signs,
+  labels and stripes are generated at build time
+  (`scripts/generate_factory_textures.py` → `model://factory_signs`). Metalness
+  maps are not used: without an environment map ogre2 renders metal nearly
+  black, so metalness is a small constant per finish.
+* **Gazebo GUI** for `factory` uses `config/factory_gui.config` (the gz-sim 8
+  default plus an opening camera pose and a dark background), passed with
+  `gz sim -g --gui-config` through the new `sim.launch.py` argument
+  `gui_config`.
+* Fuel models download on the first run into `~/.gz/fuel`; after that the
+  world loads offline. Performance is in REPORT_FACTORY.md §6.
+
+## D-54 Robot appearance, visual only (Accepted, owner request 2026-10-20)
+The plain yellow chassis box was the most toy-like element left. New
+`urdf/components/appearance.xacro` adds `<visual>` elements to existing links
+only: graphite skirt, yellow body, deck, counterweight with rounded rear
+corners, rubber bumpers and side strips, LED strip, electronics tower with a
+LiDAR, amber beacon, e-stop, front safety scanners, yellow wheel hubs and a
+lift cylinder behind the mast. Every size is in `forklift_params.yaml →
+appearance`.
+* **Physics and TF unchanged.** Links, joints, inertials, collisions and the
+  `<gazebo>` blocks are identical to the previous URDF (57 elements compared).
+* **Cameras unchanged.** Every new part is behind the optical centres
+  (x = 0.10), so neither robot camera can see it; the visible parts (forks,
+  carriage, mast front) keep their geometry and colour. Measured: front and
+  lane images with the old and the new body differ in 0.4 % of the pixels by
+  at most 6/255, the same as two renders of one unchanged scene (render noise).
+* **Decals.** sdformat ignores URDF visual names (it renames them
+  `<link>_visual_<n>`), so a per-visual material through `<gazebo reference>`
+  cannot be applied. The hazard stripe and the "FKL-01" side label are
+  textured OBJ quads generated at build time (`scripts/generate_decals.py` →
+  `meshes/decals`). `package.xml` exports `gazebo_model_path="${prefix}/.."`
+  so gz resolves the converted `model://forklift_description/...` URIs.
+* **Colours.** Measured: sdformat multiplies URDF colours by 1.25, and ogre2
+  converts linear to sRGB, which lifts dark tones a lot (0.24 grey showed as
+  ≈ 185/255). The dark parts therefore use low values (graphite 0.035). RViz
+  shows the URDF colour as is, so the robot looks darker there.
+
 ---
 
 ## Spec deviations (summary)

@@ -2,8 +2,8 @@
 
 A Gazebo Sim 8 (Harmonic) test bench for the forklift robot defined in `forklift_description`. It contains:
 
-- the `lift_test` world
-- a test parcel model
+- the `lift_test` and `station_test` worlds, and the generated `factory` world
+- a test parcel model, and parametric station and parcel xacros
 - the ROS ↔ Gazebo bridge configuration
 - the simulation launch file
 - the automated acceptance tests (T1–T14)
@@ -17,6 +17,12 @@ A Gazebo Sim 8 (Harmonic) test bench for the forklift robot defined in `forklift
 | `config/ros_gz_bridge.yaml` | `ros_gz_bridge` config for `/clock`, `/cmd_vel`, `/odom`, `/tf`, `/joint_states`, `/fork/cmd_height` and both `camera_info` topics |
 | `launch/sim.launch.py` | Starts the gz sim server (`-s`), robot_state_publisher (`use_sim:=true`), the spawn, `parameter_bridge`, `image_bridge` and the command chain (`forklift_safety/control.launch.py`: twist_mux + cmd_vel_gate), plus RViz if asked for. With `gui:=true` the Gazebo GUI (`gz sim -g`) starts only once `scripts/wait_for_models.py` sees the robot and `gui_wait_models` in the server scene (DECISIONS D-52) |
 | `scripts/acceptance_test.py` | Runs the acceptance tests and writes the results to `<ws>/docs/` |
+| `config/factory.yaml` | Single source of truth of the `factory` world: Depot hall pose and edits (`clutter: full\|clean`), lights, floor markings, pillar guards, signs and Fuel props (DECISIONS D-53) |
+| `scripts/generate_factory_world.py` | Build step: `factory.yaml` + `stations.yaml` + `station_params.yaml` → `worlds/factory.sdf` and `config/factory_lanes.yaml` (guide-lane ground truth) |
+| `scripts/generate_factory_textures.py` | Build step: station signs, bay labels, parcel label, hazard tape/panel, safety signs → `model://factory_signs` |
+| `models/factory_materials/` | CC0 photo textures (tread plate, aluminium, rubber, cardboard); `scripts/fetch_factory_textures.py` re-creates them |
+| `config/factory_gui.config` | Gazebo GUI layout for `factory`: gz-sim 8 default plus an opening camera pose |
+| `scripts/measure_sim_performance.py` | Starts each world (headless and with the GUI) and measures RTF, camera rate, CPU/RAM of the gz processes and GPU use |
 
 ## Running
 
@@ -33,6 +39,7 @@ Launch arguments:
 | `world` | World file to load |
 | `gui` | `false` runs the server only |
 | `gui_wait_models` | Comma-separated models, besides the robot, that must be in the scene before the Gazebo GUI opens. `station_sim.launch.py` sets it from `stations.yaml` |
+| `gui_config` | Gazebo GUI config file (`gz sim -g --gui-config`); empty uses the gz default. `station_sim.launch.py station_world:=factory` passes `config/factory_gui.config` |
 | `headless` | EGL off-screen rendering for the camera sensors |
 | `rviz` | Start RViz |
 | `control` | Start twist_mux + cmd_vel_gate (default `true`). With it, the operator GUI can drive even when it runs in another terminal (DECISIONS D-42). `false` when something publishes `/cmd_vel` directly, as `acceptance_test.py` does: the gate's zero commands would otherwise override it. |
@@ -45,6 +52,9 @@ Launch arguments:
 ```bash
 export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$(ros2 pkg prefix forklift_gazebo)/share/forklift_gazebo/models
 ```
+
+`station_sim.launch.py` adds the stations and parcels from `config/stations.yaml`;
+`station_world:=station_test` (default) or `station_world:=factory` selects the world.
 
 ### Driving by hand
 

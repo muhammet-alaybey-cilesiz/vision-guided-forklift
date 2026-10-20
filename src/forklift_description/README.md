@@ -14,6 +14,8 @@ Every dimension, mass, limit and sensor parameter lives in
 | `urdf/common/inertial_macros.xacro` | Box, cylinder, sphere and composite-box inertials computed from geometry |
 | `urdf/common/materials.xacro` | Visual colours |
 | `urdf/components/*.xacro` | Chassis and base frames, drive wheel (`side:=left/right`), caster, mast, fork carriage with the prismatic lift joint and forks, camera |
+| `urdf/components/appearance.xacro` | Visual-only body details (counterweight, bumpers, LiDAR tower, beacon, e-stop, scanners, hubs, lift cylinder, decals); sizes in `appearance` (DECISIONS D-54) |
+| `scripts/generate_decals.py` | Build step: textured OBJ decals (hazard stripe, side label) → `share/forklift_description/meshes/decals` |
 | `urdf/gazebo/forklift.gazebo.xacro` | Simulation-only content. It is included only when `use_sim:=true`, and it is provided by Phase 3 |
 | `launch/display.launch.py` | Starts robot_state_publisher, joint_state_publisher(_gui) and RViz |
 | `rviz/forklift.rviz` | RViz layout: robot model and TF. Camera image panels are present but disabled |
@@ -54,6 +56,7 @@ The `<name>_optical_frame` frames are rotated by rpy = (−π/2, 0, −π/2) fro
 
 ## Notes
 
+- The `appearance` parts add visuals only: links, joints, inertials and collisions are the same as without them, and every part is behind the camera optical centres (x = 0.10), so the robot's own images do not change (DECISIONS D-54). `package.xml` exports `gazebo_model_path="${prefix}/.."` so Gazebo can resolve the decal meshes (`package://` → `model://forklift_description/...`).
 - `<collision>` elements are deliberately left unnamed. When sdformat lumps fixed joints, it matches per-link friction such as the caster's μ = 0 through the collision names it generates. A custom collision name breaks that match.
 - The drive-wheel **collision** is a sphere of r = 0.05 m (`drive_wheel.collision_shape: sphere`). The visual and the inertia stay the specified cylinder. A 3 cm cylinder touches the floor at two rim points; during in-place turns those points scrub against each other and the robot turned 9 % more than odometry measured (DECISIONS D-20). Set `collision_shape: cylinder` to get the literal shape back.
 - The fork controller runs in PID force mode. In velocity mode DART does not lift the fork off its lower limit (DECISIONS D-10).

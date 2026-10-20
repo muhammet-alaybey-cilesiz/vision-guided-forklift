@@ -64,6 +64,32 @@ fail-safe velocity command chain and a Qt 6 / QML operator GUI.
 | Upper marker (front camera, 0.6–1.5 m, ±15°) | Detected on empty bays, hidden by the parcel on full bays |
 | Lower marker (test camera, 0.2–0.8 m) | Detected with and without a parcel; lateral error ≤ 1.6 mm at 0.5 m; yaw not observable at this marker size (see REPORT_STATIONS) |
 
+## Factory world
+
+`world:=factory` puts the same stations and robot in a real-scale brick hall
+(Open Robotics' Depot) with a marked AMR cell: hazard-taped boundary, guide
+lanes with stop bars, a walkway, shelving and pallet loads. Stations and
+parcels use industrial materials (tread plate, aluminium frame, signs,
+bay labels, kraft cardboard); collisions and marker poses did not change. The
+robot got a visual-only industrial body (counterweight, LiDAR tower, beacon,
+e-stop, decals) behind the camera optical centres, so its camera images are
+unchanged. Lighting is calibrated so the front camera sees the parcel seals
+within ±6 % of `station_test` (DECISIONS D-53, D-54).
+
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="docs/images/factory/cell_overview.jpg" alt="Factory world: AMR cell"><br><sub>AMR cell in the hall: source station (R/G/B parcels), three destinations, guide lanes</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/robot_rear.jpg" alt="Robot with the industrial body"><br><sub>Visual-only robot body: counterweight, LiDAR tower, beacon, e-stop, decals</sub></td>
+  </tr>
+  <tr>
+    <td align="center" width="50%"><img src="docs/images/factory/source_station.jpg" alt="Source station close-up"><br><sub>Source station: tread plate, aluminium frame, sign, bay labels, kraft parcels with seals</sub></td>
+    <td align="center" width="50%"><img src="docs/images/factory/front_camera.jpg" alt="Front camera in the factory world" width="80%"><br><sub>Front camera at the spawn pose: plain roll-up-door background behind the source</sub></td>
+  </tr>
+</table>
+
+The screenshots in the sections above were taken before D-53/D-54 and show
+the earlier plain look.
+
 ## Robot model
 
 <table>
@@ -154,10 +180,10 @@ Plot labels are in Turkish.
 | Package | Purpose |
 |---|---|
 | [`forklift_description`](src/forklift_description) | Modular xacro model; all parameters in `config/forklift_params.yaml`. `display.launch.py` for RViz. |
-| [`forklift_gazebo`](src/forklift_gazebo) | Test worlds (`lift_test`, `station_test`), sealed test parcel, parametric station and parcel xacros, ArUco textures, ROS ↔ Gazebo bridges, `sim.launch.py` / `station_sim.launch.py`, and the T1–T14 and S1–S8 acceptance tests. |
+| [`forklift_gazebo`](src/forklift_gazebo) | Test worlds (`lift_test`, `station_test`) and the generated `factory` world, sealed test parcel, parametric station and parcel xacros, ArUco and sign textures, ROS ↔ Gazebo bridges, `sim.launch.py` / `station_sim.launch.py`, the T1–T14 and S1–S8 acceptance tests and a performance probe. |
 | [`forklift_safety`](src/forklift_safety) | Command chain: `twist_mux` config and the `cmd_vel_gate` node (unit-tested). Started by `sim.launch.py`. |
 | [`forklift_gui`](src/forklift_gui) | Operator GUI: Qt-only core, ROS and mock adapters, QML view, QtTest unit tests and an end-to-end test. |
-| [`forklift_bringup`](src/forklift_bringup) | One launch file for simulation + RViz + GUI (`world:=lift_test\|station_test`). |
+| [`forklift_bringup`](src/forklift_bringup) | One launch file for simulation + RViz + GUI (`world:=lift_test\|station_test\|factory`). |
 
 ## Requirements
 
@@ -181,9 +207,11 @@ source install/setup.bash
 # Simulation + RViz + command chain + operator GUI
 ros2 launch forklift_bringup bringup.launch.py
 ros2 launch forklift_bringup bringup.launch.py world:=station_test   # load stations
+ros2 launch forklift_bringup bringup.launch.py world:=factory        # stations in the factory hall
 
 # Station world only (stations and parcels from config/stations.yaml)
 ros2 launch forklift_gazebo station_sim.launch.py
+ros2 launch forklift_gazebo station_sim.launch.py station_world:=factory
 
 # Simulation only (also starts the command chain)
 ros2 launch forklift_gazebo sim.launch.py
@@ -206,15 +234,33 @@ GUI controls: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> drive (hold),
 colcon test && colcon test-result --verbose          # unit tests + linters
 ros2 run forklift_gazebo acceptance_test.py           # simulation T1–T14 (~5 min)
 ros2 run forklift_gazebo station_acceptance.py        # stations S1–S8 (~10 min)
+ros2 run forklift_gazebo measure_sim_performance.py   # RTF, camera rate, CPU/GPU per world (~10 min)
 ros2 run forklift_gui integration_test.py             # GUI end-to-end I1–I12
 ```
 
 ## Documentation
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — frames, ROS ↔ Gazebo interface, launch graph, GUI layers and thread model
-- [DECISIONS.md](DECISIONS.md) — design decision log (D-01 … D-51)
+- [DECISIONS.md](DECISIONS.md) — design decision log (D-01 … D-54)
 - [REPORT.md](REPORT.md) — simulation phase report (Turkish)
 - [REPORT_STATIONS.md](REPORT_STATIONS.md) — load station report (Turkish)
+- [REPORT_FACTORY.md](REPORT_FACTORY.md) — factory world and robot appearance report (Turkish)
+
+## Third-party assets
+
+The factory world downloads these models from [Gazebo Fuel](https://app.gazebosim.org)
+on its first run (pinned versions, cached in `~/.gz/fuel`):
+
+| Asset | Author / source | License |
+|---|---|---|
+| `Depot` v6 (hall) | Rafi Abdullah, Louise Poubel (Open Robotics) | [CC-BY 4.0](http://creativecommons.org/licenses/by/4.0/) |
+| `aws_robomaker_warehouse_*` v4 (ShelfD/E, ClutteringA/C/D, PalletJackB, TrashCanC) | AWS RoboMaker Small Warehouse World, published on Fuel by Open Robotics | [CC-BY 4.0](http://creativecommons.org/licenses/by/4.0/) |
+| `Fire Extinguisher` v5 | Cole Biesemeyer (Open Robotics) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+
+The photo textures in `src/forklift_gazebo/models/factory_materials` are from
+[ambientCG](https://ambientcg.com) (CC0 1.0); see its
+[README](src/forklift_gazebo/models/factory_materials/README.md). Signs, labels
+and decals are generated at build time by this repository's scripts.
 
 ## Roadmap
 

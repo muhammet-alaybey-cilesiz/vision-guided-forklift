@@ -3,6 +3,7 @@
 Status: **Phases 1–4 done**: description, simulation and load tests are implemented, and T1–T14 run automatically. See `REPORT.md` for the results.
 **Operator GUI** (`forklift_gui`, `forklift_bringup`, `forklift_safety`): implemented (phases 1–5, 2026-10-15/16); unit tests U1–U8 and integration tests I1–I12 in `docs/gui_test_results.md`, report in `REPORT_GUI.md`. See §7.
 **Load stations** (`forklift_gazebo`): parametric multi-bay stations with ArUco markers, a `parcel` model and the `station_test` world (2026-10-19). Tests S1–S8 are in `docs/station_test_results.md`, and the report is `REPORT_STATIONS.md`. See §8.
+**Factory world and appearance** (`forklift_gazebo`, `forklift_description`): generated `factory` world in a real-scale hall, industrial station/parcel materials and a visual-only robot body (2026-10-20; D-53, D-54). Report `REPORT_FACTORY.md`. See §9.
 
 Scope: the robot description and a simulation test bench for a small forklift
 robot. It is the platform for a computer-vision learning project. Perception,
@@ -40,19 +41,26 @@ gz-rendering 8.2.3 (ogre2), gz-transport 13.6.0, ros_gz 1.0.24, xacro 2.1.1.
     └── forklift_gazebo/                   ament_cmake, Gazebo Sim bench
         ├── worlds/lift_test.sdf           test world (flat floor, rails, parcel, lights)
         ├── worlds/station_test.sdf        station world: same physics/lights, no objects (§8)
+        │   (worlds/factory.sdf            generated at build time from config/factory.yaml, §9)
         ├── models/test_parcel/            0.2 m cube with a red seal (model.config, model.sdf)
         ├── config/ros_gz_bridge.yaml      bridge for every non-image topic
         ├── config/station_params.yaml     single source for station, marker and parcel geometry (§8)
-        ├── config/stations.yaml           station_test layout: poses, bays, bay ids, occupancy
+        ├── config/stations.yaml           station layout (station_test and factory): poses, bays, bay ids, occupancy
+        ├── config/factory.yaml            factory world: hall, lights, markings, props (§9)
+        ├── config/factory_gui.config      Gazebo GUI layout + opening camera for factory
+        ├── models/factory_materials/      CC0 photo textures (committed)
         ├── xacro/                         station.sdf.xacro, parcel.sdf.xacro, common.sdf.xacro
         ├── launch/sim.launch.py           gz sim + spawn + robot_state_publisher + bridges
         ├── launch/stations.launch.py      stations.yaml → xacro → ros_gz_sim create
-        ├── launch/station_sim.launch.py   sim.launch.py (station_test) + stations.launch.py
+        ├── launch/station_sim.launch.py   sim.launch.py (station_world: station_test | factory) + stations.launch.py
         └── scripts/
             ├── acceptance_test.py         T3–T14 automation (rclpy), writes to docs/
             ├── station_acceptance.py      S1–S8 automation (gz-transport only)
             ├── station_layout.py          shared bay / marker-ID / pose computations
-            └── generate_aruco_textures.py build step: ArUco PNGs + markers.yaml → share/
+            ├── generate_aruco_textures.py build step: ArUco PNGs + markers.yaml → share/
+            ├── generate_factory_textures.py   build step: signs, labels, stripes → model://factory_signs
+            ├── generate_factory_world.py  build step: factory.sdf + factory_lanes.yaml
+            └── measure_sim_performance.py RTF / camera rate / CPU / GPU per world
 ```
 
 ### Modularity rules
@@ -658,10 +666,10 @@ parcel pose. The launch file, the build step and the test all import it.
   with the xacro Python API and spawns each model with `ros_gz_sim create
   -string`, passing the pose through `-x -y -z -Y` (D-47). The creates are
   chained with `OnProcessExit`: all stations first, then the parcels.
-* `station_sim.launch.py`: `sim.launch.py` with `worlds/station_test.sdf`, plus
-  `stations.launch.py` in a scoped group, so the two `params_file` arguments do
-  not collide.
-* `forklift_bringup/bringup.launch.py world:=lift_test|station_test`: the
+* `station_sim.launch.py`: `sim.launch.py` with `worlds/<station_world>.sdf`
+  (`station_test` by default, or `factory`, §9), plus `stations.launch.py` in a
+  scoped group, so the two `params_file` arguments do not collide.
+* `forklift_bringup/bringup.launch.py world:=lift_test|station_test|factory`: the
   default stays `lift_test`. The world file path is always passed explicitly,
   because a scoped include inherits the parent's bare `world` value.
 
@@ -679,3 +687,44 @@ parcel pose. The launch file, the build step and the test all import it.
 * Test-only models: the S5 camera (gravity off, no collision, moved with
   `set_pose`) and a static documentation camera for the S6/S7 images. Neither
   is part of the robot or of the world file.
+
+## 9. Factory world and appearance (D-53, D-54)
+
+### 9.1 Data flow
+
+```
+factory.yaml ─────────┐
+stations.yaml ────────┼─► generate_factory_world.py (CMake) ─┬─► share/.../worlds/factory.sdf
+station_params.yaml ──┘                                      └─► share/.../config/factory_lanes.yaml (lane ground truth)
+station_params.yaml ──► generate_factory_textures.py (CMake) ──► share/.../models/factory_signs/materials/textures/*.png
+models/factory_materials/ (CC0, committed) ──► model://factory_materials (finishes in station_params.yaml)
+forklift_params.yaml → appearance ─┬─► urdf/components/appearance.xacro (visual-only parts)
+                                   └─► generate_decals.py (CMake) ──► share/forklift_description/meshes/decals/*.obj
+```
+
+### 9.2 World content
+
+* `factory.sdf` holds physics, systems, lights, the collision-only
+  `ground_plane` (μ = 1.0), the Depot hall as a pinned Fuel include with
+  `<experimental:params>` edits (floor collision and `fan_light` lights
+  removed; `BOXSET`/`crates` removed when `clutter: clean`), one static model
+  with every floor marking, one with the pillar guards and signs, and the Fuel
+  props. Stations and parcels are not in the file: `stations.launch.py` spawns
+  them exactly as in `station_test`, so the same tests can run in both worlds.
+* World frame = `station_test` frame (robot at the origin, facing +x). The hall
+  is placed around it (pose (−8.1, 0, 0, π)).
+* `station_sim.launch.py station_world:=factory` passes
+  `config/factory_gui.config` to `sim.launch.py gui_config:=…`, which adds
+  `--gui-config` to `gz sim -g`.
+
+### 9.3 Appearance layers
+
+* Stations and parcels: `common.sdf.xacro` gained `finish_material` (albedo +
+  normal + roughness maps) and `box_visual` (visual-only box). Collisions,
+  inertia, frames and marker poses are unchanged; S2 checks them.
+* Robot: `appearance.xacro` adds `<visual>` elements to `chassis_link`,
+  `mast_link` and the wheel links. No link, joint or inertial is added, and all
+  parts are behind the camera optical centres (x = 0.10).
+* `forklift_description/package.xml` exports `gazebo_model_path="${prefix}/.."`
+  so `model://forklift_description/meshes/...` resolves in Gazebo.
+
