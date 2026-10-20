@@ -21,7 +21,7 @@
     çıkıntılar     kanallar arası, x ∈ [0, ledge_depth], z ∈ [0, ledge_height], μ = ledge_mu
     arka plaka     x ∈ [ledge_depth, ledge_depth + back_plate_thickness], z ∈ [0, back_plate_height]
     işaretler      arka plakanın ön yüzünde, standoff kadar önde, yalnız visual
-    hizalama       bölme başına 2 hedef (2×2 dama), çıkıntıların ön yüzünde kanalın
+    hizalama       bölme başına 2 hedef (markers.align.pattern), çıkıntıların ön yüzünde kanalın
                    iki yanında, standoff kadar önde, yalnız visual (D-55)
   Görünüm (yalnız visual, station_params.yaml → appearance, finishes):
     zemin plakası gözyaşı sac; üstünde istasyon renginde çevre bandı
@@ -551,7 +551,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -572,7 +572,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -694,7 +694,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -715,7 +715,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -837,7 +837,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -858,7 +858,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -980,7 +980,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -1001,7 +1001,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -1123,7 +1123,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -1144,7 +1144,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_target.png</albedo_map>
+              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>

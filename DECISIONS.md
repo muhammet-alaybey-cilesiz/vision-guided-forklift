@@ -1121,12 +1121,27 @@ appearance`.
 Problem: the 4 cm lower marker gives the lateral offset well but not the yaw
 (D-51: +21.6° at 0.5 m). The owner proposed reference marks on the ledge
 fronts on both sides of each channel, for fork alignment and centring.
-* **Pattern.** A 36 mm white plate with a 24 mm 2×2 checker (dark top-left and
-  bottom-right); the measured point is the centre corner (X-corner), found
-  with sub-pixel accuracy. Chosen over a colour mark: yellow is everywhere in
-  the factory (lanes, tape, bay labels, guards, robot), red/green/blue are the
-  seal colours, and an X-corner is independent of colour and lighting, so it
-  stays usable once camera noise is added.
+* **Pattern (owner decision after an A/B test): bullseye.** A 36 mm white
+  plate with a black ring (28/20 mm) and a 12 mm black dot; 4 mm white margin,
+  ring and gap. The measured point is the dark-mass centroid inside the plate
+  (radially symmetric pattern ⇒ centroid = centre). `markers.align.pattern`
+  keeps `checker` (24 mm 2×2 checker) as an option; both textures are built
+  and self-checked. A colour mark was rejected: yellow is everywhere in the
+  factory and red/green/blue are the seal colours.
+* **A/B result** (`docs/logs/stations/align_compare.txt`; 7 lane-camera views
+  0.45–1.2 m with lateral and yaw offsets, Gaussian noise σ = 0 / 0.007 /
+  0.02 with 20 repeats; same pairing for all). The method mattered more than
+  the pattern: with the centroid, worst cases at σ = 0.02 were bullseye 0.22 mm
+  / 0.07° near (≤ 0.6 m) and 0.20 mm / 0.20° far (0.9–1.2 m), checker 0.18 mm
+  / 0.10° and 0.22 mm / 0.24°; cornerSubPix on the checker reached 4.0 mm /
+  3.45° far; separating the thin bullseye ring failed in every view (the 45°
+  view compresses the face vertically and the texture filter blurs 4 mm
+  features). 100 % pairing success for the centroid methods. Caveats: the
+  centroid uses the whole plate, so a shadow across it can bias the point
+  (to test on real approaches); the bullseye pattern test also accepts the
+  lower ArUco markers, which the geometric pairing (same front line, 216 ±
+  20 mm baseline) removes. The owner's small direction triangle was left out:
+  4 mm would be 1–2 px.
 * **Placement.** Two targets per bay, on the ledge front faces right next to
   the channel: the plate's channel-side edge is 5 mm from the channel edge
   (owner's proposal of "at the very edge", with a margin so the plate is not
@@ -1147,14 +1162,10 @@ fronts on both sides of each channel, for fork alignment and centring.
   channel", texture and markers.yaml (1723 checks, 0 errors; a 15 mm edge-gap
   mutation produced 12 failures). Collisions unchanged. The ArUco markers
   still decode with the targets in view (IDs 3–5, 28–30; no false IDs).
-* **First trial** (lane-camera intrinsics and extrinsics, factory world,
-  noise-free renders, one frame per case; `docs/logs/stations/align_trial.txt`,
-  REPORT_STATIONS §13): targets detected from the image without ground truth
-  (plate quad → rectified checker test → diagonal intersection →
-  cornerSubPix), rays intersected with z = ledge_height / 2. At 0.45–0.6 m:
-  axis error ≤ 0.1 mm, yaw error ≤ 0.18°; at 0.9 m ≤ 0.4 mm and ≤ 0.83°;
-  at 1.2 m 1.4 mm and 2.0°. One false candidate at 0.9 m / 5° did not change
-  the pair. This addresses the yaw part of D-51 for the final approach; the
+* **First trial** (checker + cornerSubPix, noise-free,
+  `docs/logs/stations/align_trial.txt`) was superseded by the A/B above. Targets
+  are found without ground truth; rays are intersected with z = ledge_height /
+  2. This addresses the yaw part of D-51 (lower marker: +21.6° at 0.5 m); the
   S5 criterion itself is redefined in the CV phase.
 
 ---

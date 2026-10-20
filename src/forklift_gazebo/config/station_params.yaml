@@ -55,7 +55,7 @@ markers:
     center_z: 0.17
   align:                       # [D-55] kanal kenarı hizalama hedefleri: bölme başına 2, çıkıntıların
                                # ön yüzünde kanalın iki yanında; dikeyde ön yüzün ortası (ledge_height / 2)
-    pattern: checker           # checker (2×2 dama, X-köşe) | bullseye (halka + dolu daire, elips merkezi)
+    pattern: bullseye          # [D-55] bullseye (halka + dolu daire; nokta = koyuluk ağırlık merkezi) | checker (2×2 dama)
     size: 0.036                # beyaz plaka kenarı (kare)
     checker: 0.024             # checker: ortadaki 2×2 dama deseninin kenarı (hücre = checker / 2)
     bullseye: {ring_outer: 0.028, ring_inner: 0.020, dot: 0.012}   # çaplar; kenar, halka ve boşluk 4 mm
