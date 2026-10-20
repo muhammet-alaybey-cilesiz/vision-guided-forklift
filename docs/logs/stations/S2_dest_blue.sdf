@@ -21,6 +21,12 @@
     çıkıntılar     kanallar arası, x ∈ [0, ledge_depth], z ∈ [0, ledge_height], μ = ledge_mu
     arka plaka     x ∈ [ledge_depth, ledge_depth + back_plate_thickness], z ∈ [0, back_plate_height]
     işaretler      arka plakanın ön yüzünde, standoff kadar önde, yalnız visual
+  Görünüm (yalnız visual, station_params.yaml → appearance, finishes):
+    zemin plakası gözyaşı sac; üstünde istasyon renginde çevre bandı
+    arka plaka alüminyum, visual'ı back_plate_recess kadar geride; işaretlerin
+    arkasında beyaz etiket plakası (işaret ile arka plaka arasında)
+    çıkıntılar kauçuk; arka plakanın arkasında profil çerçeve, üstünde tabela
+    (sign_<renk>.png) ve her bölmede numara etiketi (bay_<k>.png)
 -->
 <sdf version="1.11">
   <model name="dest_blue">
@@ -42,13 +48,15 @@
           </box>
         </geometry>
         <material>
-          <ambient>0.04 0.16 0.68 1.0</ambient>
-          <diffuse>0.05 0.2 0.85 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
+          <ambient>0.76 0.76 0.76 1.0</ambient>
+          <diffuse>0.95 0.95 0.95 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
           <pbr>
             <metal>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
+              <albedo_map>model://factory_materials/materials/textures/tread_plate_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/tread_plate_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/tread_plate_roughness.jpg</roughness_map>
+              <metalness>0.25</metalness>
             </metal>
           </pbr>
         </material>
@@ -62,18 +70,163 @@
         </geometry>
       </collision>
       <visual name="back_plate_visual">
-        <pose>0.31 0 0.15 0 0 0</pose>
+        <pose>0.311 0 0.15 0 0 0</pose>
         <geometry>
           <box>
             <size>0.02 0.9 0.3</size>
           </box>
         </geometry>
         <material>
-          <ambient>0.76 0.76 0.76 1.0</ambient>
-          <diffuse>0.95 0.95 0.95 1.0</diffuse>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_materials/materials/textures/aluminium_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/aluminium_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/aluminium_roughness.jpg</roughness_map>
+              <metalness>0.1</metalness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="band_front">
+        <pose>-0.28 0 0.0025 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.9 0.001</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.04 0.16 0.68 1.0</ambient>
+          <diffuse>0.05 0.2 0.85 1.0</diffuse>
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="band_left">
+        <pose>0.03 0.43 0.0025 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.58 0.04 0.001</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.04 0.16 0.68 1.0</ambient>
+          <diffuse>0.05 0.2 0.85 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="band_right">
+        <pose>0.03 -0.43 0.0025 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.58 0.04 0.001</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.04 0.16 0.68 1.0</ambient>
+          <diffuse>0.05 0.2 0.85 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="frame_post_left">
+        <pose>0.341 0.43 0.31 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.04 0.62</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_materials/materials/textures/aluminium_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/aluminium_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/aluminium_roughness.jpg</roughness_map>
+              <metalness>0.1</metalness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="frame_post_right">
+        <pose>0.341 -0.43 0.31 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.04 0.62</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_materials/materials/textures/aluminium_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/aluminium_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/aluminium_roughness.jpg</roughness_map>
+              <metalness>0.1</metalness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="frame_top">
+        <pose>0.341 0 0.6 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.82 0.04</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_materials/materials/textures/aluminium_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/aluminium_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/aluminium_roughness.jpg</roughness_map>
+              <metalness>0.1</metalness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="sign">
+        <pose>0.3195 0 0.495 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.003 0.6 0.15</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_signs/materials/textures/sign_blue.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -104,13 +257,15 @@
           </box>
         </geometry>
         <material>
-          <ambient>0.2 0.2 0.216 1.0</ambient>
-          <diffuse>0.25 0.25 0.27 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
+          <ambient>0.44 0.44 0.44 1.0</ambient>
+          <diffuse>0.55 0.55 0.55 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
           <pbr>
             <metal>
+              <albedo_map>model://factory_materials/materials/textures/rubber_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/rubber_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/rubber_roughness.jpg</roughness_map>
               <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
             </metal>
           </pbr>
         </material>
@@ -139,13 +294,15 @@
           </box>
         </geometry>
         <material>
-          <ambient>0.2 0.2 0.216 1.0</ambient>
-          <diffuse>0.25 0.25 0.27 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
+          <ambient>0.44 0.44 0.44 1.0</ambient>
+          <diffuse>0.55 0.55 0.55 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
           <pbr>
             <metal>
+              <albedo_map>model://factory_materials/materials/textures/rubber_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/rubber_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/rubber_roughness.jpg</roughness_map>
               <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
             </metal>
           </pbr>
         </material>
@@ -174,13 +331,15 @@
           </box>
         </geometry>
         <material>
-          <ambient>0.2 0.2 0.216 1.0</ambient>
-          <diffuse>0.25 0.25 0.27 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
+          <ambient>0.44 0.44 0.44 1.0</ambient>
+          <diffuse>0.55 0.55 0.55 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
           <pbr>
             <metal>
+              <albedo_map>model://factory_materials/materials/textures/rubber_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/rubber_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/rubber_roughness.jpg</roughness_map>
               <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
             </metal>
           </pbr>
         </material>
@@ -209,13 +368,15 @@
           </box>
         </geometry>
         <material>
-          <ambient>0.2 0.2 0.216 1.0</ambient>
-          <diffuse>0.25 0.25 0.27 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
+          <ambient>0.44 0.44 0.44 1.0</ambient>
+          <diffuse>0.55 0.55 0.55 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
           <pbr>
             <metal>
+              <albedo_map>model://factory_materials/materials/textures/rubber_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/rubber_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/rubber_roughness.jpg</roughness_map>
               <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
             </metal>
           </pbr>
         </material>
@@ -234,6 +395,26 @@
           <pbr>
             <metal>
               <albedo_map>model://aruco_markers/materials/textures/aruco_4x4_50_id09.png</albedo_map>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="label_upper_9">
+        <pose>0.3005 -0.3 0.17 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.122666667 0.122666667</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -260,6 +441,47 @@
           </pbr>
         </material>
       </visual>
+      <visual name="label_lower_34">
+        <pose>0.3005 -0.3 0.030833333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.061333333 0.055666667</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="bay_label_9">
+        <pose>0.3005 -0.3 0.258 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.045 0.045</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_signs/materials/textures/bay_09.png</albedo_map>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
       <visual name="marker_upper_10">
         <pose>0.299 0.0 0.17 0 0 0</pose>
         <geometry>
@@ -274,6 +496,26 @@
           <pbr>
             <metal>
               <albedo_map>model://aruco_markers/materials/textures/aruco_4x4_50_id10.png</albedo_map>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="label_upper_10">
+        <pose>0.3005 0.0 0.17 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.122666667 0.122666667</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -300,6 +542,47 @@
           </pbr>
         </material>
       </visual>
+      <visual name="label_lower_35">
+        <pose>0.3005 0.0 0.030833333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.061333333 0.055666667</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="bay_label_10">
+        <pose>0.3005 0.0 0.258 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.045 0.045</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_signs/materials/textures/bay_10.png</albedo_map>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
       <visual name="marker_upper_11">
         <pose>0.299 0.3 0.17 0 0 0</pose>
         <geometry>
@@ -320,6 +603,26 @@
           </pbr>
         </material>
       </visual>
+      <visual name="label_upper_11">
+        <pose>0.3005 0.3 0.17 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.122666667 0.122666667</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
       <visual name="marker_lower_36">
         <pose>0.299 0.3 0.028 0 0 0</pose>
         <geometry>
@@ -334,6 +637,47 @@
           <pbr>
             <metal>
               <albedo_map>model://aruco_markers/materials/textures/aruco_4x4_50_id36.png</albedo_map>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="label_lower_36">
+        <pose>0.3005 0.3 0.030833333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.061333333 0.055666667</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="bay_label_11">
+        <pose>0.3005 0.3 0.258 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.045 0.045</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_signs/materials/textures/bay_11.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>

@@ -12,10 +12,14 @@
   Model çerçevesi koli merkezinde; -x yüzü "ön" yüzdür (bölmeden dışarı, robota
   bakar). Mühür bu yüzde ortalanmış, ayrı visual, collision'ı yok; iç yüzü koli
   yüzüyle aynı hizada, thickness kadar dışarı taşar.
+  Görünüm (yalnız visual, appearance.parcel): oluklu karton gövde, üst yüzde
+  x boyunca koli bandı (+x yüzünden aşağı iner; -x yüzü yalnız mühür içindir),
+  +y yüzünde gönderi etiketi (parcel_label.png).
   Atalet dolu kutu formülüyle hesaplanır. Sürtünme μ = parcel.mu; DART
   min(μA, μB) birleştirir (D-15): koli–çatal 0.8, koli–çıkıntı 0.8.
 -->
 <sdf version="1.11">
+  <!-- süs parçalarının yüzeyden taşması -->
   <model name="parcel_red">
     <link name="parcel_link">
       <inertial>
@@ -53,11 +57,74 @@
           </box>
         </geometry>
         <material>
-          <ambient>0.44 0.288 0.144 1.0</ambient>
-          <diffuse>0.55 0.36 0.18 1.0</diffuse>
+          <ambient>0.688 0.576 0.448 1.0</ambient>
+          <diffuse>0.86 0.72 0.56 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_materials/materials/textures/cardboard_albedo.jpg</albedo_map>
+              <normal_map>model://factory_materials/materials/textures/cardboard_normal.jpg</normal_map>
+              <roughness_map>model://factory_materials/materials/textures/cardboard_roughness.jpg</roughness_map>
+              <metalness>0.0</metalness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="tape_top">
+        <pose>0 0 0.10025 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.05 0.0005</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.4 0.296 0.176 1.0</ambient>
+          <diffuse>0.5 0.37 0.22 1.0</diffuse>
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="tape_back">
+        <pose>0.10025 0 0.075 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0005 0.05 0.05</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.4 0.296 0.176 1.0</ambient>
+          <diffuse>0.5 0.37 0.22 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name="shipping_label">
+        <pose>0 0.12025 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.0005 0.075</size>
+          </box>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+        <material>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://factory_signs/materials/textures/parcel_label.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>

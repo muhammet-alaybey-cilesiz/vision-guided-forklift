@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "date": "2026-10-20 19:34:57",
+    "gpu_idle": [
+      3.0,
+      1315.0
+    ],
+    "cpu": 20,
+    "duration_s": 30.0,
+    "settle_s": 15.0
+  },
+  "results": [
+    {
+      "label": "station_test_headless",
+      "world": "station_test",
+      "gui": false,
+      "ready_s": 4.0,
+      "cpu_server_pct": 110.0,
+      "rss_server_mib": 573.0,
+      "rtf": 1.0,
+      "rtf_reported_mean": 1.0,
+      "rtf_reported_min": 0.772,
+      "camera_hz": {
+        "/front_camera/image_raw": 30.3,
+        "/lane_camera/image_raw": 30.3
+      },
+      "gpu_util_pct": 4.0,
+      "gpu_mem_mib": 1738.0,
+      "duration_s": 30.6,
+      "clutter": "-"
+    },
+    {
+      "label": "factory_headless",
+      "world": "factory",
+      "gui": false,
+      "ready_s": 4.0,
+      "cpu_server_pct": 115.0,
+      "rss_server_mib": 754.0,
+      "rtf": 1.0,
+      "rtf_reported_mean": 1.0,
+      "rtf_reported_min": 0.997,
+      "camera_hz": {
+        "/front_camera/image_raw": 30.3,
+        "/lane_camera/image_raw": 30.3
+      },
+      "gpu_util_pct": 5.0,
+      "gpu_mem_mib": 2469.0,
+      "duration_s": 30.6,
+      "clutter": "full"
+    },
+    {
+      "label": "factory_clean_headless",
+      "world": "factory",
+      "gui": false,
+      "ready_s": 4.0,
+      "cpu_server_pct": 115.0,
+      "rss_server_mib": 739.0,
+      "rtf": 1.0,
+      "rtf_reported_mean": 1.0,
+      "rtf_reported_min": 0.698,
+      "camera_hz": {
+        "/front_camera/image_raw": 30.3,
+        "/lane_camera/image_raw": 30.3
+      },
+      "gpu_util_pct": 5.0,
+      "gpu_mem_mib": 2391.0,
+      "duration_s": 30.6,
+      "clutter": "clean"
+    },
+    {
+      "label": "station_test_gui",
+      "world": "station_test",
+      "gui": true,
+      "ready_s": 5.0,
+      "cpu_server_pct": 104.0,
+      "rss_server_mib": 632.0,
+      "cpu_gui_pct": 99.0,
+      "rss_gui_mib": 757.0,
+      "rtf": 1.0,
+      "rtf_reported_mean": 0.999,
+      "rtf_reported_min": 0.848,
+      "camera_hz": {
+        "/front_camera/image_raw": 30.3,
+        "/lane_camera/image_raw": 30.3
+      },
+      "gpu_util_pct": 13.0,
+      "gpu_mem_mib": 2260.0,
+      "duration_s": 30.6,
+      "clutter": "-"
+    },
+    {
+      "label": "factory_gui",
+      "world": "factory",
+      "gui": true,
+      "ready_s": 8.0,
+      "cpu_server_pct": 116.0,
+      "rss_server_mib": 800.0,
+      "cpu_gui_pct": 96.0,
+      "rss_gui_mib": 909.0,
+      "rtf": 1.0,
+      "rtf_reported_mean": 0.999,
+      "rtf_reported_min": 0.731,
+      "camera_hz": {
+        "/front_camera/image_raw": 30.3,
+        "/lane_camera/image_raw": 30.3
+      },
+      "gpu_util_pct": 16.0,
+      "gpu_mem_mib": 3716.0,
+      "duration_s": 30.6,
+      "clutter": "full"
+    },
+    {
+      "label": "factory_clean_gui",
+      "world": "factory",
+      "gui": true,
+      "ready_s": 8.0,
+      "cpu_server_pct": 116.0,
+      "rss_server_mib": 744.0,
+      "cpu_gui_pct": 97.0,
+      "rss_gui_mib": 898.0,
+      "rtf": 1.0,
+      "rtf_reported_mean": 1.0,
+      "rtf_reported_min": 0.983,
+      "camera_hz": {
+        "/front_camera/image_raw": 30.3,
+        "/lane_camera/image_raw": 30.3
+      },
+      "gpu_util_pct": 16.0,
+      "gpu_mem_mib": 3555.0,
+      "duration_s": 30.6,
+      "clutter": "clean"
+    }
+  ]
+}

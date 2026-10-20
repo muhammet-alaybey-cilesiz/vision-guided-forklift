@@ -1,11 +1,11 @@
 # İstasyon kabul testi sonuçları
 
-Üretim zamanı: 2026-10-19 20:00:38
+Üretim zamanı: 2026-10-20 18:40:43
 
 | # | Test | Ölçülen | Kriter | Sonuç | Koşu |
 |---|---|---|---|---|---|
-| S1 | xacro → SDF, gz sdf -k | 15/15 dosya "Valid.", uyarı/hata yok | N = 1, 3, 5 × 4 istasyon rengi + 3 koli rengi; hata ve uyarı yok | **GEÇTİ** | 2026-10-19 19:51:20 |
-| S2 | Geometri denetimi | 1154 denetim, 0 hata; en büyük ölçü sapması 0.0000 mm; 24 işaret markers.yaml ile, 50 doku ID ile uyumlu | Kanal, adım, çıkıntı, plakalar, işaret konum/boyut, koli: YAML ile ±0.5 mm | **GEÇTİ** | 2026-10-19 19:51:21 |
+| S1 | xacro → SDF, gz sdf -k | 15/15 dosya "Valid.", uyarı/hata yok | N = 1, 3, 5 × 4 istasyon rengi + 3 koli rengi; hata ve uyarı yok | **GEÇTİ** | 2026-10-20 18:40:42 |
+| S2 | Geometri denetimi | 1154 denetim, 0 hata; en büyük ölçü sapması 0.0000 mm; 24 işaret markers.yaml ile, 50 doku ID ile uyumlu | Kanal, adım, çıkıntı, plakalar, işaret konum/boyut, koli: YAML ile ±0.5 mm | **GEÇTİ** | 2026-10-20 18:40:43 |
 | S3 | Statik kararlılık | parcel_source_0: en çok 4.63e-08 mm, eğim 0°; parcel_source_1: en çok 4.63e-08 mm, eğim 0°; parcel_source_2: en çok 4.63e-08 mm, eğim 0° (10 s sim, spawn pozuna göre) | Tam dünya, 10 s: hiçbir koli 1 mm'den fazla hareket etmiyor | **GEÇTİ** | 2026-10-19 19:51:34 |
 | S4 | Üst işaret tespiti | boş bölme (ID 4): 9/9 görüşte ≥4/5 karede tespit, uzaklık hatası ≤ 108.5 mm; dolu bölme (ID 1): 9/9 görüşte hiç tespit yok; bilgi — komşular dolu, bölme boş: 9/9 görüş | Ön kamera, 0.6/1.0/1.5 m × 0°/±15°: boş bölmede doğru ID; dolu bölmenin üst işareti tespit edilmez; bilinmeyen ID yok | **GEÇTİ** | 2026-10-19 19:52:20 |
 | S5 | Alt işaret tespiti | ID 26 tespiti (≥ kare-1): z0.02_dolu: 7/7 mesafe; z0.02_bos: 7/7 mesafe; z0.08_bos: 7/7 mesafe; z0.08_dolu: 1/7 mesafe. Bilgi z0.08_dolu (beklenen: yok): 0.2: kolinin içi, 0.3: 0, 0.4: 0, 0.5: 0, 0.6: 0, 0.7: 0, 0.8: 0. Poz: z0.02_dolu @0.5 m: yanal -0.81±0.00 mm, yaw +21.62±0.00° (n=30); z0.02_bos @0.5 m: yanal -0.81±0.00 mm, yaw +21.62±0.00° (n=30); z0.08_bos @0.5 m: yanal -0.72±0.00 mm, yaw +16.92±0.00° (n=30) — 30 kare birebir aynı (kamera gürültüsü uygulanmıyor). Bilgi taraması @0.5 m: yaw -5° → hata +21.4°, yaw -2° → hata +21.4°, yaw +2° → hata +21.5°, yaw +5° → hata +21.4°, yanal -2 cm → hata -0.46 mm, yanal -1 cm → hata -0.54 mm, yanal +1 cm → hata -1.05 mm, yanal +2 cm → hata -1.09 mm | 0.2–0.8 m, z = 0.02 koli var/yok ve z = 0.08 koli yok (D-48): doğru ID; 0.5 m'de 30 kare ortalaması yanal < 5 mm, yaw < 1° | **KALDI** | 2026-10-19 19:52:50 |
