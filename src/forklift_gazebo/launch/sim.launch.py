@@ -22,6 +22,8 @@ Argümanlar:
   gui          : true → Gazebo GUI (dünya hazır olunca); false → yalnızca sunucu
   gui_wait_models : robot dışında GUI'den önce sahnede olması gereken modeller
                  (virgülle; station_sim.launch.py istasyon ve kolileri verir)
+  gui_config   : Gazebo GUI yapılandırma dosyası (boş → gz varsayılanı;
+                 factory dünyası açılış kamerasını config/factory_gui.config'ten alır)
   headless     : true → sunucuda ekransız render (--headless-rendering, EGL)
   rviz         : RViz'i aç (sabit frame odom)
   control      : twist_mux + cmd_vel_gate komut zinciri (varsayılan true; zinciri
@@ -67,6 +69,10 @@ def _launch_setup(context):
         )
 
     actions = [gz(gz_args)]
+    gui_args = ['-g', '-v', verbosity]
+    gui_config = LaunchConfiguration('gui_config').perform(context)
+    if gui_config:
+        gui_args += ['--gui-config', gui_config]
     if LaunchConfiguration('gui').perform(context).lower() == 'true':
         models = [MODEL_NAME] + [
             m for m in LaunchConfiguration('gui_wait_models').perform(context).split(',') if m]
@@ -80,7 +86,7 @@ def _launch_setup(context):
         # Zaman aşımında da GUI açılır (eksik modeller wait_for_models çıktısında)
         actions += [wait, RegisterEventHandler(OnProcessExit(
             target_action=wait,
-            on_exit=[LogInfo(msg='sim.launch: Gazebo GUI başlatılıyor'), gz(['-g', '-v', verbosity])]))]
+            on_exit=[LogInfo(msg='sim.launch: Gazebo GUI başlatılıyor'), gz(gui_args)]))]
 
     # Görüntü topic'leri tek kaynaktan: forklift_params.yaml → cameras.*.topic
     with open(LaunchConfiguration('params_file').perform(context)) as f:
@@ -106,6 +112,7 @@ def generate_launch_description():
         DeclareLaunchArgument('world', default_value=PathJoinSubstitution([sim_share, 'worlds', 'lift_test.sdf'])),
         DeclareLaunchArgument('gui', default_value='true'),
         DeclareLaunchArgument('gui_wait_models', default_value=''),
+        DeclareLaunchArgument('gui_config', default_value=''),
         DeclareLaunchArgument('headless', default_value='false'),
         DeclareLaunchArgument('rviz', default_value='false'),
         DeclareLaunchArgument('control', default_value='true'),

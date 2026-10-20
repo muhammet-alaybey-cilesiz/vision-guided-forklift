@@ -6,8 +6,9 @@ başlar (DECISIONS D-42); bu dosya yalnız 'control' argümanını iletir.
 Argümanlar:
   sim        : simülasyonu başlat (varsayılan true)
   world      : lift_test (varsayılan; forklift_gazebo/sim.launch.py) |
-               station_test (forklift_gazebo/station_sim.launch.py: istasyonlar
-               ve koliler config/stations.yaml'dan)
+               station_test | factory (forklift_gazebo/station_sim.launch.py:
+               istasyonlar ve koliler config/stations.yaml'dan; factory fabrika
+               holüdür, config/factory.yaml)
   sim_gui    : Gazebo istemci penceresi (varsayılan true; false → kameralar
                EGL ile ekransız render edilir, görüntüler operatör GUI'sinde)
   rviz       : RViz (varsayılan true)
@@ -45,7 +46,7 @@ def generate_launch_description():
     sim_gui = LaunchConfiguration('sim_gui')
     declared_args = [
         DeclareLaunchArgument('sim', default_value='true'),
-        DeclareLaunchArgument('world', default_value='lift_test', choices=['lift_test', 'station_test']),
+        DeclareLaunchArgument('world', default_value='lift_test', choices=['lift_test', 'station_test', 'factory']),
         DeclareLaunchArgument('sim_gui', default_value='true'),
         DeclareLaunchArgument('rviz', default_value='true'),
         DeclareLaunchArgument('control', default_value='true'),
@@ -71,10 +72,13 @@ def generate_launch_description():
 
     # Varsayılan dünya değişmedi: lift_test → sim.launch.py, kendi varsayılan dünyasıyla
     sim = _include('forklift_gazebo', 'sim.launch.py', sim_args, _sim_if('lift_test'))
-    station_sim = _include('forklift_gazebo', 'station_sim.launch.py', sim_args, _sim_if('station_test'))
+    station_sim = _include('forklift_gazebo', 'station_sim.launch.py',
+                           {**sim_args, 'station_world': 'station_test'}, _sim_if('station_test'))
+    factory_sim = _include('forklift_gazebo', 'station_sim.launch.py',
+                           {**sim_args, 'station_world': 'factory'}, _sim_if('factory'))
     gui = _include(
         'forklift_gui', 'gui.launch.py',
         {'params_file': LaunchConfiguration('gui_params')},
         IfCondition(LaunchConfiguration('gui')))
 
-    return LaunchDescription(declared_args + [sim, station_sim, gui])
+    return LaunchDescription(declared_args + [sim, station_sim, factory_sim, gui])

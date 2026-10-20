@@ -85,3 +85,44 @@ colors:
   back_plate: [0.95, 0.95, 0.95, 1.0]  # beyaz (işaret kontrastı)
   marker:  [1.0, 1.0, 1.0, 1.0]      # albedo_map ile çarpılır
   parcel_body: [0.55, 0.36, 0.18, 1.0]  # kahverengi, test_parcel ile aynı
+  band_neutral: [0.92, 0.92, 0.90, 1.0]  # kaynak istasyon bandı (beyaz zemin boyası)
+  label:   [1.0, 1.0, 1.0, 1.0]      # işaret etiket plakası (beyaz)
+  tape:    [0.50, 0.37, 0.22, 1.0]   # koli bandı (kahverengi PP bant; tavan ışığında açılır)
+
+# ------------------------------------------------ görünüm (yalnız visual) ---
+# Bu bölüm collision, ölçü ve sürtünmeyi etkilemez. Dokular:
+#   model://factory_materials/materials/textures  CC0 fotoğraf dokuları (depoda,
+#       kaynak: scripts/fetch_factory_textures.py, models/factory_materials/README.md)
+#   model://factory_signs/materials/textures      tabela ve etiketler (build'de
+#       scripts/generate_factory_textures.py üretir)
+appearance:
+  band_width: 0.04             # zemin plakası üstündeki renk bandı (çevre)
+  band_height: 0.001           # bandın plaka üstünden yüksekliği (z-fighting payı)
+  back_plate_recess: 0.001     # arka plaka visual'ı collision'ın bu kadar gerisinde;
+                               # etiket plakası araya girer (işaret konumu değişmez)
+  label_margin: {upper: 0.008, lower: 0.004}   # işaret dokusu çevresindeki beyaz pay
+  label_thickness: 0.0005
+  frame:                       # arka plakanın arkasında alüminyum profil çerçeve
+    profile: 0.04              # profil kesiti (kare)
+    height: 0.62               # dikme üst z
+  sign:                        # istasyon tabelası, çerçeveye asılı, robota bakar
+    width: 0.60                # en fazla; dar istasyonda W - 2·profile
+    aspect: 4.0                # genişlik / yükseklik (doku 1024 × 256)
+    top_z: 0.57
+    thickness: 0.003
+  bay_label:                   # bölme numarası, arka plakada üst işaretin üstünde
+    size: 0.045                # kare kenarı
+    center_z: 0.258
+  parcel:
+    tape_width: 0.05           # üst yüzde x boyunca, +x yüzünden 0.05 aşağı iner
+    tape_drop: 0.05
+    label: {x: 0.10, z: 0.075} # +y yüzünde gönderi etiketi (genişlik x, yükseklik z)
+
+# PBR yüzeyler. maps: <ad>_{albedo,normal,roughness}.jpg (factory_materials);
+# rgba albedo ile çarpılır. Metalness düşük: ogre2'de ortam haritası olmadan
+# metal yüzey kararıyor.
+finishes:
+  tread_plate: {maps: tread_plate, rgba: [0.95, 0.95, 0.95, 1.0], metalness: 0.25}
+  aluminium:   {maps: aluminium, rgba: [1.0, 1.0, 1.0, 1.0], metalness: 0.1}
+  rubber:      {maps: rubber, rgba: [0.55, 0.55, 0.55, 1.0], metalness: 0.0}
+  cardboard:   {maps: cardboard, rgba: [0.86, 0.72, 0.56, 1.0], metalness: 0.0}  # kraft tonu

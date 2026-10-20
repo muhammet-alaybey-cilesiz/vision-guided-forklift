@@ -8,6 +8,9 @@
   Model çerçevesi koli merkezinde; -x yüzü "ön" yüzdür (bölmeden dışarı, robota
   bakar). Mühür bu yüzde ortalanmış, ayrı visual, collision'ı yok; iç yüzü koli
   yüzüyle aynı hizada, thickness kadar dışarı taşar.
+  Görünüm (yalnız visual, appearance.parcel): oluklu karton gövde, üst yüzde
+  x boyunca koli bandı (+x yüzünden aşağı iner; -x yüzü yalnız mühür içindir),
+  +y yüzünde gönderi etiketi (parcel_label.png).
   Atalet dolu kutu formülüyle hesaplanır. Sürtünme μ = parcel.mu; DART
   min(μA, μB) birleştirir (D-15): koli–çatal 0.8, koli–çıkıntı 0.8.
 -->
@@ -30,12 +33,22 @@
   <xacro:property name="sy" value="${B['size']['y']}"/>
   <xacro:property name="sz" value="${B['size']['z']}"/>
   <xacro:property name="seal" value="${B['seal']}"/>
+  <xacro:property name="V" value="${P['appearance']['parcel']}"/>
+  <xacro:property name="deco" value="0.0005"/>  <!-- süs parçalarının yüzeyden taşması -->
 
   <model name="$(arg name)">
     <link name="parcel_link">
       <xacro:box_inertial mass="${B['mass']}" x="${sx}" y="${sy}" z="${sz}"/>
       <xacro:box_part name="body" size="${[sx, sy, sz]}" xyz="${[0, 0, 0]}"
-                      rgba="${P['colors']['parcel_body']}" mu="${B['mu']}"/>
+                      rgba="${P['colors']['parcel_body']}" mu="${B['mu']}" finish="${P['finishes']['cardboard']}"/>
+      <xacro:box_visual name="tape_top" size="${[sx, V['tape_width'], deco]}" xyz="${[0, 0, sz / 2.0 + deco / 2.0]}"
+                        rgba="${P['colors']['tape']}" cast_shadows="false"/>
+      <xacro:box_visual name="tape_back" size="${[deco, V['tape_width'], V['tape_drop']]}"
+                        xyz="${[sx / 2.0 + deco / 2.0, 0, sz / 2.0 - V['tape_drop'] / 2.0]}"
+                        rgba="${P['colors']['tape']}" cast_shadows="false"/>
+      <xacro:box_visual name="shipping_label" size="${[V['label']['x'], deco, V['label']['z']]}"
+                        xyz="${[0, sy / 2.0 + deco / 2.0, 0]}" cast_shadows="false"
+                        albedo_map="${sign_uri_root}/parcel_label.png"/>
       <xacro:box_part name="seal" collision="false"
                       size="${[seal['thickness'], seal['size']['y'], seal['size']['z']]}"
                       xyz="${[-sx / 2.0 - seal['thickness'] / 2.0, 0, 0]}"

@@ -4,7 +4,10 @@
   - matte_material: mat malzeme. Renk station_params.yaml → colors'tan gelir;
     ambient = ambient_scale · diffuse, specular / roughness / metalness
     station_params.yaml → material'dan. İsteğe bağlı albedo_map (PBR doku).
+  - finish_material: PBR yüzey (station_params.yaml → finishes): albedo,
+    normal ve roughness haritaları model://factory_materials altından.
   - box_inertial: dolu kutu ataleti (SDF), kütle ve kenarlardan hesaplanır.
+  - box_part: collision + visual kutu; box_visual: yalnız visual kutu.
   Çağıran dosya P (station_params.yaml içeriği) özelliğini tanımlamış olmalı.
 -->
 <sdf xmlns:xacro="http://www.ros.org/wiki/xacro">
@@ -12,6 +15,9 @@
   <!-- Dokuların model:// kökü. CMakeLists.txt aynı dizine kurar
        (share/forklift_gazebo/models/aruco_markers/materials/textures). -->
   <xacro:property name="texture_uri_root" value="model://aruco_markers/materials/textures"/>
+  <!-- CC0 fotoğraf dokuları (depoda) ve build'de üretilen tabela dokuları -->
+  <xacro:property name="finish_uri_root" value="model://factory_materials/materials/textures"/>
+  <xacro:property name="sign_uri_root" value="model://factory_signs/materials/textures"/>
 
   <xacro:macro name="matte_material" params="rgba albedo_map:=''">
     <xacro:property name="k" value="${P['material']['ambient_scale']}"/>
@@ -32,6 +38,27 @@
     </material>
   </xacro:macro>
 
+  <!-- PBR yüzey; f = finishes kaydı. rgba albedo ile çarpılır, ambient
+       matte_material'daki gibi ambient_scale · rgba. -->
+  <xacro:macro name="finish_material" params="f">
+    <xacro:property name="k" value="${P['material']['ambient_scale']}"/>
+    <xacro:property name="c" value="${f['rgba']}"/>
+    <xacro:property name="t" value="${finish_uri_root + '/' + f['maps']}"/>
+    <material>
+      <ambient>${round(c[0] * k, 6)} ${round(c[1] * k, 6)} ${round(c[2] * k, 6)} ${c[3]}</ambient>
+      <diffuse>${c[0]} ${c[1]} ${c[2]} ${c[3]}</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <pbr>
+        <metal>
+          <albedo_map>${t}_albedo.jpg</albedo_map>
+          <normal_map>${t}_normal.jpg</normal_map>
+          <roughness_map>${t}_roughness.jpg</roughness_map>
+          <metalness>${f['metalness']}</metalness>
+        </metal>
+      </pbr>
+    </material>
+  </xacro:macro>
+
   <!-- Dolu kutu; x, y, z kenar uzunlukları. Tensör link eksenlerinde, kütle
        merkezi link orijininde. -->
   <xacro:macro name="box_inertial" params="mass x y z">
@@ -46,9 +73,11 @@
   </xacro:macro>
 
   <!-- Eksenlere hizalı kutu: collision (isteğe bağlı sürtünmeyle) + visual.
-       mu boşsa <surface> yazılmaz (SDF varsayılanı). Konum ve boyutlar 1 nm'ye
+       mu boşsa <surface> yazılmaz (SDF varsayılanı). finish verilirse visual
+       PBR yüzey kullanır, yoksa rgba mat malzeme. visual_dx: visual'ın x
+       kayması (yalnız görünüm; collision yerinde kalır). Konum ve boyutlar 1 nm'ye
        yuvarlanır: kayan nokta artığı (0.8999999999999999) SDF'te görünmesin. -->
-  <xacro:macro name="box_part" params="name size xyz rgba collision:=true mu:=''">
+  <xacro:macro name="box_part" params="name size xyz rgba collision:=true mu:='' finish:='' visual_dx:=0">
     <xacro:property name="pose_str" value="${round(xyz[0], 9)} ${round(xyz[1], 9)} ${round(xyz[2], 9)} 0 0 0"/>
     <xacro:property name="size_str" value="${round(size[0], 9)} ${round(size[1], 9)} ${round(size[2], 9)}"/>
     <xacro:if value="${collision}">
@@ -60,10 +89,23 @@
         </xacro:if>
       </collision>
     </xacro:if>
-    <visual name="${name}_visual">
-      <pose>${pose_str}</pose>
-      <geometry><box><size>${size_str}</size></box></geometry>
-      <xacro:matte_material rgba="${rgba}"/>
+    <xacro:box_visual name="${name}_visual" size="${size}" xyz="${[xyz[0] + visual_dx, xyz[1], xyz[2]]}"
+                      rgba="${rgba}" finish="${finish}"/>
+  </xacro:macro>
+
+  <!-- Yalnız visual kutu. Malzeme önceliği: finish → albedo_map → rgba.
+       cast_shadows false: ince süs parçaları (bant, etiket) gölge düşürmesin. -->
+  <xacro:macro name="box_visual" params="name size xyz rgba:='' finish:='' albedo_map:='' cast_shadows:=true">
+    <visual name="${name}">
+      <pose>${round(xyz[0], 9)} ${round(xyz[1], 9)} ${round(xyz[2], 9)} 0 0 0</pose>
+      <geometry><box><size>${round(size[0], 9)} ${round(size[1], 9)} ${round(size[2], 9)}</size></box></geometry>
+      <xacro:unless value="${cast_shadows}"><cast_shadows>false</cast_shadows></xacro:unless>
+      <xacro:if value="${finish != ''}">
+        <xacro:finish_material f="${finish}"/>
+      </xacro:if>
+      <xacro:if value="${finish == ''}">
+        <xacro:matte_material rgba="${rgba if rgba != '' else [1.0, 1.0, 1.0, 1.0]}" albedo_map="${albedo_map}"/>
+      </xacro:if>
     </visual>
   </xacro:macro>
 
