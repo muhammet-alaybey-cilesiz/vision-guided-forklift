@@ -13,6 +13,11 @@ Doku: siyah 4×4 işaret (1 hücrelik siyah çerçeve dahil 6 hücre) + quiet_zo
 hücrelik beyaz kenar; hücre başına texture_px_per_cell piksel, en yakın komşu
 (keskin kenar). OpenCV 4.6 API'si: Dictionary_get / drawMarker (DECISIONS D-47).
 Her PNG üretildikten sonra detectMarkers ile geri okunur; ID tutmazsa build durur.
+
+Hizalama hedefi (D-55): align_target.png — beyaz kare, ortasında 2×2 dama deseni
+(sol üst ve sağ alt siyah). Ölçülen nokta desenin merkez köşesidir; build bu
+köşeyi cornerSubPix ile bulup dokunun tam merkezinde olduğunu doğrular.
+markers.yaml'a her hedefin X-köşe konumu 'align_targets' olarak yazılır.
 """
 
 import argparse
@@ -21,6 +26,7 @@ import sys
 import time
 
 import cv2
+import numpy as np
 import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +44,28 @@ def self_check(dictionary, img, marker_id):
     corners, ids, _ = cv2.aruco.detectMarkers(img, dictionary,
                                               parameters=cv2.aruco.DetectorParameters_create())
     return ids is not None and ids.ravel().tolist() == [marker_id]
+
+
+def make_align_texture(a):
+    """Beyaz kare + ortada 2×2 dama deseni; kenar texture_px, desen oranı checker / size."""
+    n = a['texture_px']
+    c = int(round(n * a['checker'] / a['size'] / 2.0)) * 2      # desen kenarı (çift piksel)
+    img = np.full((n, n), 255, np.uint8)
+    o, h = (n - c) // 2, c // 2
+    img[o:o + h, o:o + h] = 0                 # sol üst
+    img[o + h:o + c, o + h:o + c] = 0         # sağ alt
+    return img
+
+
+def align_self_check(img):
+    """Merkez köşe cornerSubPix ile doku merkezinde mi (±0.5 px)."""
+    n = img.shape[0]
+    blur = cv2.GaussianBlur(img, (5, 5), 1.0)
+    p = np.array([[[n / 2.0 + 2.0, n / 2.0 - 2.0]]], np.float32)    # kasıtlı başlangıç sapması
+    cv2.cornerSubPix(blur, p, (7, 7), (-1, -1),
+                     (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 50, 1e-3))
+    # piksel merkezleri kuralı: köşe (n/2 - 0.5) konumunda
+    return float(np.max(np.abs(p.ravel() - (n / 2.0 - 0.5)))) < 0.5
 
 
 def main():
@@ -65,6 +93,12 @@ def main():
             sys.exit(f'doku öz denetimi başarısız: ID {mid}')
         cv2.imwrite(os.path.join(a.textures, sl.texture_name(params, mid)), img)
 
+    sl.validate_align(params)
+    align = make_align_texture(m['align'])
+    if not align_self_check(align):
+        sys.exit('hizalama hedefi öz denetimi başarısız: merkez köşe doku merkezinde değil')
+    cv2.imwrite(os.path.join(a.textures, sl.ALIGN_TEXTURE), align)
+
     doc = {
         'generated': time.strftime('%Y-%m-%d %H:%M:%S'),
         'source': ['config/station_params.yaml', 'config/stations.yaml'],
@@ -77,13 +111,17 @@ def main():
         'stations': {st['name']: {'pose': st['pose'], 'color': st['color'], 'bays': st['bays'],
                                   'bay_ids': st['bay_ids']} for st in layout['stations']},
         'markers': sl.markers(params, layout),
+        'align_frame': 'point = centre corner of the 2x2 checker on the ledge front face (station '
+                       'x = face); side right = -y of the channel, left = +y (DECISIONS D-55)',
+        'align_targets': sl.align_targets(params, layout),
     }
     os.makedirs(os.path.dirname(os.path.abspath(a.markers)), exist_ok=True)
     with open(a.markers, 'w') as f:
         f.write('# ÜRETİLDİ (generate_aruco_textures.py) — elle düzenlemeyin.\n'
                 '# Kaynak: station_params.yaml + stations.yaml; stations.yaml değişince yeniden build edin.\n')
         yaml.safe_dump(doc, f, sort_keys=False, allow_unicode=True, default_flow_style=None)
-    print(f'{len(ids)} doku → {a.textures}; {len(doc["markers"])} işaret → {a.markers}')
+    print(f'{len(ids) + 1} doku → {a.textures}; {len(doc["markers"])} işaret, '
+          f'{len(doc["align_targets"])} hizalama hedefi → {a.markers}')
 
 
 if __name__ == '__main__':

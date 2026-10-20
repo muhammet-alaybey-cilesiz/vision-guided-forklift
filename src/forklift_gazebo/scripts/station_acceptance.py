@@ -302,6 +302,54 @@ def check_station_sdf(st, ck, sdf_text, n, ids, tag):
     return found
 
 
+def check_align_sdf(st, ck, sdf_text, n, ids, tag):
+    """Hizalama hedefleri (D-55): bölme başına 2, ön yüz x, y = y_i ± offset, z = ledge_height/2,
+    boyut, doku, collision yok, tamamen bir çıkıntının önünde (kanala taşmaz)."""
+    P = st.params
+    S, M, A = P['station'], P['markers'], P['markers']['align']
+    _, _, cols, vis, _ = parse_model(sdf_text)
+    ledges = [b for k, b in cols.items() if k.startswith('ledge_')]
+    ck.true(f'{tag}: hizalama hedeflerinin collision\'ı yok', not any('align' in k for k in cols))
+    found = {}
+    for i, k in enumerate(ids):
+        for side, (x, y, z) in sl.align_points(P, n, i).items():
+            v = vis.get(f'align_{k}_{side}')
+            ck.true(f'{tag}: align_{k}_{side} var', v is not None)
+            if v is None:
+                continue
+            ck.eq(f'{tag}: align {k} {side} ön yüz x', v.lo[0], x)
+            ck.eq(f'{tag}: align {k} {side} kalınlık', v.size[0], M['thickness'])
+            ck.eq(f'{tag}: align {k} {side} y', v.c[1], y)
+            ck.eq(f'{tag}: align {k} {side} z', v.c[2], z)
+            ck.eq(f'{tag}: align {k} {side} kenar y', v.size[1], A['size'])
+            ck.eq(f'{tag}: align {k} {side} kenar z', v.size[2], A['size'])
+            # kanal kenarına pay: iç kenar ile kanal kenarı arası edge_gap
+            inner = v.hi[1] if side == 'right' else v.lo[1]
+            edge = sl.bay_y(P, n, i) + (-1 if side == 'right' else 1) * S['channel_width'] / 2.0
+            ck.eq(f'{tag}: align {k} {side} kanal kenarına pay', abs(inner - edge), A['edge_gap'])
+            on_ledge = any(b.lo[1] - 1e-9 <= v.lo[1] and v.hi[1] <= b.hi[1] + 1e-9 for b in ledges)
+            ck.true(f'{tag}: align {k} {side} bir çıkıntının önünde', on_ledge)
+            ck.true(f'{tag}: align {k} {side} ön yüz yüksekliği içinde',
+                    v.lo[2] >= -1e-9 and v.hi[2] <= S['ledge_height'] + 1e-9)
+            amap = v.el.findtext('material/pbr/metal/albedo_map') or ''
+            ck.true(f'{tag}: align {k} {side} doku {amap}', amap.endswith('/' + sl.ALIGN_TEXTURE))
+            found[(k, side)] = v
+    return found
+
+
+def check_align_texture(st, ck):
+    """Kurulu hizalama dokusu: var, kare, texture_px; merkez köşe doku merkezinde (build öz denetimi)."""
+    import cv2
+    import generate_aruco_textures as gat
+    A = st.params['markers']['align']
+    img = cv2.imread(os.path.join(st.texture_dir, sl.ALIGN_TEXTURE), cv2.IMREAD_GRAYSCALE)
+    ck.true('hizalama dokusu mevcut', img is not None)
+    if img is None:
+        return
+    ck.true(f'hizalama dokusu {A["texture_px"]} px kare', img.shape[0] == img.shape[1] == A['texture_px'])
+    ck.true('hizalama dokusu merkez köşe ±0.5 px', gat.align_self_check(img))
+
+
 def check_texture(st, ck, mid):
     """Kurulu doku: var, ≥ 600 px, kare ve kendi ID'sini veriyor."""
     import cv2
@@ -362,17 +410,29 @@ def s2(st, rep):
                                  'bay_ids:=' + ','.join(map(str, ids)), f'params_file:={st.params_file}'], path)
         ck.true(f'N{n}: xacro rc 0', rc == 0)
         with open(path) as f:
-            check_station_sdf(st, ck, f.read(), n, ids, f'N{n}')
+            text = f.read()
+        check_station_sdf(st, ck, text, n, ids, f'N{n}')
+        check_align_sdf(st, ck, text, n, ids, f'N{n}')
     # stations.yaml'daki gerçek istasyonlar ↔ kurulu markers.yaml
     with open(st.markers_file) as f:
         mk = yaml.safe_load(f)
     by_id = {m['id']: m for m in mk['markers']}
-    n_markers = 0
+    align_by_key = {(t['station'], t['bay_id'], t['side']): t for t in mk.get('align_targets', [])}
+    n_markers, n_align = 0, 0
     for stn in st.layout['stations']:
         path = os.path.join(st.logs, f'S2_{stn["name"]}.sdf')
         xacro_to_file(st.station_xacro, sl.station_xacro_args(stn, st.params_file), path)
         with open(path) as f:
-            found = check_station_sdf(st, ck, f.read(), stn['bays'], stn['bay_ids'], stn['name'])
+            text = f.read()
+        found = check_station_sdf(st, ck, text, stn['bays'], stn['bay_ids'], stn['name'])
+        for (k, side), v in check_align_sdf(st, ck, text, stn['bays'], stn['bay_ids'], stn['name']).items():
+            t = align_by_key.get((stn['name'], k, side))
+            ck.true(f'markers.yaml hizalama {stn["name"]} {k} {side} var', t is not None)
+            if t is None:
+                continue
+            n_align += 1
+            for j, e in enumerate((v.lo[0], v.c[1], v.c[2])):
+                ck.eq(f'markers.yaml hizalama {k} {side} nokta[{j}]', t['point_station'][j], e)
         for mid, v in found.items():
             m = by_id.get(mid)
             ck.true(f'markers.yaml ID {mid} var', m is not None)
@@ -384,8 +444,10 @@ def s2(st, rep):
             for j, e in enumerate((v.lo[0], v.c[1], v.c[2])):
                 ck.eq(f'markers.yaml ID {mid} poz[{j}]', m['pose_station']['xyz'][j], e)
     ck.true(f'markers.yaml işaret sayısı {len(by_id)} = {n_markers}', len(by_id) == n_markers)
+    ck.true(f'markers.yaml hizalama hedefi sayısı {len(align_by_key)} = {n_align}', len(align_by_key) == n_align)
     for mid in sl.all_marker_ids(st.params):
         check_texture(st, ck, mid)
+    check_align_texture(st, ck)
     for color in sl.SEAL_COLORS:
         path = os.path.join(st.logs, f'S2_parcel_{color}.sdf')
         xacro_to_file(st.parcel_xacro, sl.parcel_xacro_args(f'parcel_{color}', color, st.params_file), path)
@@ -395,8 +457,9 @@ def s2(st, rep):
         f.write('\n'.join(ck.fails) + '\n' if ck.fails else 'hata yok\n')
     rep.add(Result('S2', TEST_NAMES['S2'], PASS if not ck.fails else FAIL,
                    f'{ck.n} denetim, {len(ck.fails)} hata; en büyük ölçü sapması {ck.max_err * 1000:.4f} mm; '
-                   f'{n_markers} işaret markers.yaml ile, {len(sl.all_marker_ids(st.params))} doku ID ile uyumlu',
-                   'Kanal, adım, çıkıntı, plakalar, işaret konum/boyut, koli: YAML ile ±0.5 mm',
+                   f'{n_markers} işaret ve {n_align} hizalama hedefi markers.yaml ile, '
+                   f'{len(sl.all_marker_ids(st.params))} doku ID ile uyumlu',
+                   'Kanal, adım, çıkıntı, plakalar, işaret ve hizalama hedefi konum/boyut, koli: YAML ile ±0.5 mm',
                    {'failures': ck.fails[:50], 'checks': ck.n, 'max_err_m': ck.max_err}))
 
 

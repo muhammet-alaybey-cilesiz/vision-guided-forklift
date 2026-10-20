@@ -53,6 +53,12 @@ markers:
   upper:                       # ön kamera: kaba yaklaşım ve doluluk
     size: 0.08
     center_z: 0.17
+  align:                       # [D-55] kanal kenarı hizalama hedefleri: bölme başına 2, çıkıntıların
+                               # ön yüzünde kanalın iki yanında; dikeyde ön yüzün ortası (ledge_height / 2)
+    size: 0.036                # beyaz plaka kenarı (kare)
+    checker: 0.024             # ortadaki 2×2 dama deseninin kenarı (hücre = checker / 2)
+    edge_gap: 0.005            # plakanın kanal tarafındaki kenarı ile kanal kenarı arası
+    texture_px: 480            # doku kenarı [px]
   detector:                    # OpenCV 4.6 DetectorParameters (testler ve ileride algılama node'u)
     corner_refinement: CORNER_REFINE_SUBPIX
     # [D-50] varsayılan 0.13; 25–30 px'lik alt işarette doku örneklemesi hücre

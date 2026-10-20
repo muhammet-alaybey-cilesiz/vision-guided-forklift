@@ -17,6 +17,8 @@
     çıkıntılar     kanallar arası, x ∈ [0, ledge_depth], z ∈ [0, ledge_height], μ = ledge_mu
     arka plaka     x ∈ [ledge_depth, ledge_depth + back_plate_thickness], z ∈ [0, back_plate_height]
     işaretler      arka plakanın ön yüzünde, standoff kadar önde, yalnız visual
+    hizalama       bölme başına 2 hedef (2×2 dama), çıkıntıların ön yüzünde kanalın
+                   iki yanında, standoff kadar önde, yalnız visual (D-55)
   Görünüm (yalnız visual, station_params.yaml → appearance, finishes):
     zemin plakası gözyaşı sac; üstünde istasyon renginde çevre bandı
     arka plaka alüminyum, visual'ı back_plate_recess kadar geride; işaretlerin
@@ -114,11 +116,23 @@
                       xyz="${[D + recess / 2.0, y, (lz_lo + lz_hi) / 2.0]}" rgba="${C['label']}" cast_shadows="false"/>
   </xacro:macro>
 
-  <!-- Bölme i: çerçeve + üst ve alt işaret -->
+  <!-- Hizalama hedefi: kanal kenarına edge_gap kadar uzakta, çıkıntı ön yüzünün
+       ortasında; dokulu yüz -x'e bakar. station_layout.align_points ile aynı formül. -->
+  <xacro:property name="AL" value="${M['align']}"/>
+  <xacro:property name="al_off" value="${half_ch + AL['edge_gap'] + AL['size'] / 2.0}"/>
+  <xacro:macro name="align_target" params="bay_id side y">
+    <xacro:box_visual name="align_${bay_id}_${side}" size="${[M['thickness'], AL['size'], AL['size']]}"
+                      xyz="${[-(M['standoff'] + M['thickness'] / 2.0), y, lh / 2.0]}" cast_shadows="false"
+                      albedo_map="${texture_uri_root}/align_target.png"/>
+  </xacro:macro>
+
+  <!-- Bölme i: çerçeve + üst ve alt işaret + iki hizalama hedefi -->
   <xacro:macro name="bays" params="i">
     <xacro:property name="y" value="${(i - (N - 1) / 2.0) * pitch}"/>
     <xacro:marker kind="upper" marker_id="${ids[i]}" y="${y}"/>
     <xacro:marker kind="lower" marker_id="${ids[i] + M['lower_id_offset']}" y="${y}"/>
+    <xacro:align_target bay_id="${ids[i]}" side="right" y="${y - al_off}"/>
+    <xacro:align_target bay_id="${ids[i]}" side="left" y="${y + al_off}"/>
     <xacro:box_visual name="bay_label_${ids[i]}" size="${[V['label_thickness'], V['bay_label']['size'], V['bay_label']['size']]}"
                       xyz="${[D + recess / 2.0, y, V['bay_label']['center_z']]}" cast_shadows="false"
                       albedo_map="${sign_uri_root}/bay_${'%02d' % ids[i]}.png"/>

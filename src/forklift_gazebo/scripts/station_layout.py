@@ -10,6 +10,8 @@ config/station_params.yaml'dan, yerleşim config/stations.yaml'dan gelir.
   bay_i   : orijin zeminde, bölme i kanal ekseninde, ön kenarda; eksenler station ile aynı
   işaret  : OpenCV ArUco işaret çerçevesi; orijin siyah karenin merkezi, x sağa,
             y yukarı (−x yönünden bakan kameraya göre), z işaretten dışarı (−x_station)
+  hizalama hedefi : bölme kanalının iki yanında, çıkıntı ön yüzünde 2×2 dama deseni;
+            ölçülen nokta desenin merkez köşesi (X-köşe), DECISIONS D-55
 """
 
 import math
@@ -19,6 +21,8 @@ import yaml
 SEAL_COLORS = ('red', 'green', 'blue')
 STATION_COLORS = ('red', 'green', 'blue', 'neutral')
 MARKER_TYPES = ('upper', 'lower')
+ALIGN_SIDES = ('right', 'left')          # right: kanalın -y yanı, left: +y yanı
+ALIGN_TEXTURE = 'align_target.png'       # aruco_markers/materials/textures altında
 
 # İşaret çerçevesinin station çerçevesindeki yönelimi (sütunlar: x_m, y_m, z_m):
 # x_m = -y_s, y_m = +z_s, z_m = -x_s. Konvansiyon sabiti, ölçü değildir.
@@ -65,6 +69,43 @@ def marker_texture_size(params, kind):
     """Dokunun kenar uzunluğu (siyah kare + beyaz kenar) [m]."""
     m = params['markers']
     return m[kind]['size'] * (6 + 2 * m['quiet_zone_cells']) / 6.0
+
+
+def align_face_x(params):
+    """Hizalama hedefi kutusunun ön (dokulu, -x) yüzünün station x'i (çıkıntı ön yüzü x = 0)."""
+    m = params['markers']
+    return -(m['standoff'] + m['thickness'])
+
+
+def align_offset(params):
+    """Hedef merkezinin kanal eksenine uzaklığı: kanal yarı genişliği + pay + plaka yarısı."""
+    s, a = params['station'], params['markers']['align']
+    return s['channel_width'] / 2.0 + a['edge_gap'] + a['size'] / 2.0
+
+
+def align_points(params, n_bays, i):
+    """Bölme i'nin iki hedefinin X-köşe noktaları (station çerçevesi): {'right': xyz, 'left': xyz}."""
+    y, d = bay_y(params, n_bays, i), align_offset(params)
+    x, z = align_face_x(params), params['station']['ledge_height'] / 2.0
+    return {'right': (x, y - d, z), 'left': (x, y + d, z)}
+
+
+def validate_align(params):
+    """Hedefler çıkıntılara sığıyor mu (ön yüz yüksekliği, uç ve ortak çıkıntı genişliği)."""
+    s, a = params['station'], params['markers']['align']
+    gap = s['bay_pitch'] - s['channel_width']             # iki kanal arası çıkıntı genişliği
+    need = a['edge_gap'] + a['size']                      # kanal kenarından plakanın dış kenarına
+    errors = []
+    if a['size'] > s['ledge_height']:
+        errors.append(f'hedef {a["size"]} m > çıkıntı yüksekliği {s["ledge_height"]} m')
+    if 2 * need > gap:
+        errors.append(f'ortak çıkıntıya iki hedef sığmıyor: {2 * need:.3f} > {gap:.3f} m')
+    if need > gap / 2.0:
+        errors.append(f'uç çıkıntıya hedef sığmıyor: {need:.3f} > {gap / 2.0:.3f} m')
+    if not 0 < a['checker'] < a['size']:
+        errors.append('dama deseni plakadan küçük ve pozitif olmalı')
+    if errors:
+        raise ValueError('markers.align geçersiz:\n  ' + '\n  '.join(errors))
 
 
 def parcel_center_in_bay(params):
@@ -149,6 +190,19 @@ def markers(params, layout):
                                               MARKER_RPY[2] + st['pose'][2]])},
                 })
     return sorted(out, key=lambda m: m['id'])
+
+
+def align_targets(params, layout):
+    """Her hizalama hedefi: istasyon, bölme, taraf, X-köşenin station ve dünya konumu."""
+    out = []
+    for st in layout['stations']:
+        for i, k in enumerate(st['bay_ids']):
+            for side, p in align_points(params, st['bays'], i).items():
+                wx, wy, wz = compose(st['pose'], *p)
+                out.append({'station': st['name'], 'bay': i, 'bay_id': k, 'side': side,
+                            'point_station': _r(p), 'point_world': _r([wx, wy, wz]),
+                            'normal_yaw_world': round(st['pose'][2] + math.pi, 9)})
+    return out
 
 
 def parcels(params, layout):
