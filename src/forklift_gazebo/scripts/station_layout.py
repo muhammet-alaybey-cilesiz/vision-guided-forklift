@@ -22,7 +22,12 @@ SEAL_COLORS = ('red', 'green', 'blue')
 STATION_COLORS = ('red', 'green', 'blue', 'neutral')
 MARKER_TYPES = ('upper', 'lower')
 ALIGN_SIDES = ('right', 'left')          # right: kanalın -y yanı, left: +y yanı
-ALIGN_TEXTURE = 'align_target.png'       # aruco_markers/materials/textures altında
+ALIGN_PATTERNS = ('checker', 'bullseye')
+
+
+def align_texture(params, pattern=None):
+    """Hizalama hedefi doku adı (aruco_markers/materials/textures altında)."""
+    return f'align_{pattern or params["markers"]["align"]["pattern"]}.png'
 
 # İşaret çerçevesinin station çerçevesindeki yönelimi (sütunlar: x_m, y_m, z_m):
 # x_m = -y_s, y_m = +z_s, z_m = -x_s. Konvansiyon sabiti, ölçü değildir.
@@ -102,8 +107,13 @@ def validate_align(params):
         errors.append(f'ortak çıkıntıya iki hedef sığmıyor: {2 * need:.3f} > {gap:.3f} m')
     if need > gap / 2.0:
         errors.append(f'uç çıkıntıya hedef sığmıyor: {need:.3f} > {gap / 2.0:.3f} m')
+    if a['pattern'] not in ALIGN_PATTERNS:
+        errors.append(f'pattern {a["pattern"]!r} ∉ {ALIGN_PATTERNS}')
     if not 0 < a['checker'] < a['size']:
         errors.append('dama deseni plakadan küçük ve pozitif olmalı')
+    b = a['bullseye']
+    if not 0 < b['dot'] < b['ring_inner'] < b['ring_outer'] < a['size']:
+        errors.append('bullseye: 0 < dot < ring_inner < ring_outer < size olmalı')
     if errors:
         raise ValueError('markers.align geçersiz:\n  ' + '\n  '.join(errors))
 

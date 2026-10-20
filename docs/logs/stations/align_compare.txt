@@ -1,0 +1,116 @@
+# Hizalama hedefi A/B (D-55), 2026-10-20: checker ↔ bullseye, şerit kamerası parametreleri, factory dünyası, dest_red orta bölme.
+# Aynı 7 durum (0.45–1.2 m, yanal ±2–3 cm, yaw ±4–5°); gürültü: Gauss σ = 0, 1.785, 5.1 gri seviye (0.007 ve 0.02 ·255), σ>0 için 20 tekrar.
+# Dedektörler: checker = plaka dörtgeni + köşegen kesişimi + cornerSubPix; bullseye = halka/daire konturu + fitEllipse;
+#   bull_cent / check_cent = plaka dörtgeni + desen denetimi + plaka içinde koyuluk ağırlık merkezi.
+# Eşleştirme hepsinde aynı: aynı ön çizgi (< 4 cm), aralık 216 ± 20 mm. Render gürültüsüz; gürültü sonradan eklendi.
+durum          desen         σ  başarı  eksen ort/maks [mm]   yaw ort/maks [°]  nokta maks [mm]
+d045_l0_y0     checker     0.0   1/1        0.12 /   0.12      0.01 /  0.01          0.2
+d045_l0_y0     checker     1.8  20/20       0.13 /   0.20      0.05 /  0.19          0.4
+d045_l0_y0     checker     5.1  20/20       0.17 /   0.34      0.16 /  0.52          1.2
+d045_l0_y0     bullseye    0.0   0/1    çift bulunamadı
+d045_l0_y0     bullseye    1.8   0/20   çift bulunamadı
+d045_l0_y0     bullseye    5.1   0/20   çift bulunamadı
+d045_l0_y0     bull_cent   0.0   1/1        0.11 /   0.11      0.01 /  0.01          0.4
+d045_l0_y0     bull_cent   1.8  20/20       0.12 /   0.15      0.01 /  0.02          0.5
+d045_l0_y0     bull_cent   5.1  20/20       0.14 /   0.22      0.03 /  0.06          0.6
+d045_l0_y0     check_cent   0.0   1/1        0.14 /   0.14      0.01 /  0.01          0.4
+d045_l0_y0     check_cent   1.8  20/20       0.10 /   0.14      0.02 /  0.04          0.5
+d045_l0_y0     check_cent   5.1  20/20       0.05 /   0.18      0.04 /  0.08          0.7
+d060_l0_y0     checker     0.0   1/1        0.05 /   0.05      0.07 /  0.07          0.2
+d060_l0_y0     checker     1.8  20/20       0.05 /   0.14      0.10 /  0.20          0.8
+d060_l0_y0     checker     5.1  20/20       0.10 /   0.26      0.21 /  0.45          1.8
+d060_l0_y0     bullseye    0.0   0/1    çift bulunamadı
+d060_l0_y0     bullseye    1.8   0/20   çift bulunamadı
+d060_l0_y0     bullseye    5.1   0/20   çift bulunamadı
+d060_l0_y0     bull_cent   0.0   1/1        0.07 /   0.07      0.01 /  0.01          0.4
+d060_l0_y0     bull_cent   1.8  20/20       0.09 /   0.12      0.01 /  0.03          0.4
+d060_l0_y0     bull_cent   5.1  20/20       0.10 /   0.18      0.02 /  0.06          0.5
+d060_l0_y0     check_cent   0.0   1/1        0.06 /   0.06      0.02 /  0.02          0.4
+d060_l0_y0     check_cent   1.8  20/20       0.05 /   0.10      0.02 /  0.05          0.5
+d060_l0_y0     check_cent   5.1  20/20       0.05 /   0.14      0.03 /  0.10          0.7
+d060_lm2_ym4   checker     0.0   1/1        0.04 /   0.04      0.18 /  0.18          0.5
+d060_lm2_ym4   checker     1.8  20/20       0.06 /   0.17      0.19 /  0.43          1.1
+d060_lm2_ym4   checker     5.1  20/20       0.15 /   0.42      0.29 /  0.98          3.1
+d060_lm2_ym4   bullseye    0.0   0/1    çift bulunamadı
+d060_lm2_ym4   bullseye    1.8   0/20   çift bulunamadı
+d060_lm2_ym4   bullseye    5.1   0/20   çift bulunamadı
+d060_lm2_ym4   bull_cent   0.0   1/1        0.03 /   0.03      0.02 /  0.02          0.5
+d060_lm2_ym4   bull_cent   1.8  20/20       0.02 /   0.05      0.02 /  0.04          0.5
+d060_lm2_ym4   bull_cent   5.1  20/20       0.04 /   0.11      0.04 /  0.07          0.6
+d060_lm2_ym4   check_cent   0.0   1/1        0.04 /   0.04      0.01 /  0.01          0.4
+d060_lm2_ym4   check_cent   1.8  20/20       0.02 /   0.07      0.01 /  0.03          0.5
+d060_lm2_ym4   check_cent   5.1  20/20       0.05 /   0.13      0.04 /  0.06          0.7
+d090_l0_y0     checker     0.0   1/1        0.13 /   0.13      0.83 /  0.83          4.0
+d090_l0_y0     checker     1.8  20/20       0.17 /   0.38      1.05 /  2.81         11.1
+d090_l0_y0     checker     5.1  20/20       0.35 /   0.95      0.85 /  2.55         10.4
+d090_l0_y0     bullseye    0.0   0/1    çift bulunamadı
+d090_l0_y0     bullseye    1.8   0/20   çift bulunamadı
+d090_l0_y0     bullseye    5.1   0/20   çift bulunamadı
+d090_l0_y0     bull_cent   0.0   1/1        0.07 /   0.07      0.01 /  0.01          0.5
+d090_l0_y0     bull_cent   1.8  20/20       0.07 /   0.12      0.02 /  0.05          0.6
+d090_l0_y0     bull_cent   5.1  20/20       0.08 /   0.20      0.04 /  0.11          0.8
+d090_l0_y0     check_cent   0.0   1/1        0.04 /   0.04      0.06 /  0.06          0.5
+d090_l0_y0     check_cent   1.8  20/20       0.05 /   0.09      0.05 /  0.08          0.6
+d090_l0_y0     check_cent   5.1  20/20       0.07 /   0.18      0.05 /  0.14          0.9
+d090_l0_y5     checker     0.0   1/1        0.38 /   0.38      0.06 /  0.06          0.7
+d090_l0_y5     checker     1.8  20/20       0.42 /   0.73      0.19 /  0.49          2.1
+d090_l0_y5     checker     5.1  20/20       0.58 /   1.11      0.46 /  1.43          4.3
+d090_l0_y5     bullseye    0.0   0/1    çift bulunamadı
+d090_l0_y5     bullseye    1.8   0/20   çift bulunamadı
+d090_l0_y5     bullseye    5.1   0/20   çift bulunamadı
+d090_l0_y5     bull_cent   0.0   1/1        0.11 /   0.11      0.02 /  0.02          0.4
+d090_l0_y5     bull_cent   1.8  20/20       0.11 /   0.14      0.02 /  0.05          0.5
+d090_l0_y5     bull_cent   5.1  20/20       0.11 /   0.18      0.04 /  0.10          0.7
+d090_l0_y5     check_cent   0.0   1/1        0.02 /   0.02      0.01 /  0.01          0.3
+d090_l0_y5     check_cent   1.8  20/20       0.04 /   0.08      0.03 /  0.07          0.5
+d090_l0_y5     check_cent   5.1  20/20       0.05 /   0.14      0.06 /  0.19          1.0
+d090_l3_y0     checker     0.0   1/1        0.26 /   0.26      0.20 /  0.20          2.1
+d090_l3_y0     checker     1.8  20/20       0.23 /   0.44      0.29 /  0.58          3.1
+d090_l3_y0     checker     5.1  20/20       0.31 /   0.72      0.57 /  1.37          5.2
+d090_l3_y0     bullseye    0.0   0/1    çift bulunamadı
+d090_l3_y0     bullseye    1.8   0/20   çift bulunamadı
+d090_l3_y0     bullseye    5.1   0/20   çift bulunamadı
+d090_l3_y0     bull_cent   0.0   1/1        0.03 /   0.03      0.01 /  0.01          0.5
+d090_l3_y0     bull_cent   1.8  20/20       0.03 /   0.07      0.01 /  0.04          0.6
+d090_l3_y0     bull_cent   5.1  20/20       0.05 /   0.14      0.03 /  0.06          0.8
+d090_l3_y0     check_cent   0.0   1/1        0.03 /   0.03      0.07 /  0.07          0.4
+d090_l3_y0     check_cent   1.8  20/20       0.03 /   0.07      0.06 /  0.09          0.5
+d090_l3_y0     check_cent   5.1  20/20       0.05 /   0.16      0.05 /  0.10          0.8
+d120_l0_y0     checker     0.0   1/1        1.40 /   1.40      2.03 /  2.03          9.6
+d120_l0_y0     checker     1.8  20/20       1.72 /   4.75      1.71 /  2.26         15.4
+d120_l0_y0     checker     5.1  20/20       1.55 /   4.03      1.59 /  3.45         14.7
+d120_l0_y0     bullseye    0.0   0/1    çift bulunamadı
+d120_l0_y0     bullseye    1.8   0/20   çift bulunamadı
+d120_l0_y0     bullseye    5.1   0/20   çift bulunamadı
+d120_l0_y0     bull_cent   0.0   1/1        0.10 /   0.10      0.00 /  0.00          0.3
+d120_l0_y0     bull_cent   1.8  20/20       0.09 /   0.14      0.03 /  0.07          0.5
+d120_l0_y0     bull_cent   5.1  20/20       0.11 /   0.20      0.10 /  0.20          0.8
+d120_l0_y0     check_cent   0.0   1/1        0.10 /   0.10      0.12 /  0.12          0.6
+d120_l0_y0     check_cent   1.8  20/20       0.11 /   0.19      0.09 /  0.16          0.9
+d120_l0_y0     check_cent   5.1  20/20       0.13 /   0.22      0.10 /  0.24          1.0
+
+ÖZET (tüm durumlar; ≤0.6 m ve ≥0.9 m ayrı)
+  ≤0.6 m  checker    σ= 0.0: başarı   3/3   eksen maks  0.12 mm  yaw maks  0.18°  yaw ort  0.08°  nokta maks   0.5 mm
+  ≤0.6 m  checker    σ= 1.8: başarı  60/60  eksen maks  0.20 mm  yaw maks  0.43°  yaw ort  0.11°  nokta maks   1.1 mm
+  ≤0.6 m  checker    σ= 5.1: başarı  60/60  eksen maks  0.42 mm  yaw maks  0.98°  yaw ort  0.22°  nokta maks   3.1 mm
+  ≤0.6 m  bullseye  σ= 0.0: başarı 0/3
+  ≤0.6 m  bullseye  σ= 1.8: başarı 0/60
+  ≤0.6 m  bullseye  σ= 5.1: başarı 0/60
+  ≤0.6 m  bull_cent  σ= 0.0: başarı   3/3   eksen maks  0.11 mm  yaw maks  0.02°  yaw ort  0.01°  nokta maks   0.5 mm
+  ≤0.6 m  bull_cent  σ= 1.8: başarı  60/60  eksen maks  0.15 mm  yaw maks  0.04°  yaw ort  0.01°  nokta maks   0.5 mm
+  ≤0.6 m  bull_cent  σ= 5.1: başarı  60/60  eksen maks  0.22 mm  yaw maks  0.07°  yaw ort  0.03°  nokta maks   0.6 mm
+  ≤0.6 m  check_cent σ= 0.0: başarı   3/3   eksen maks  0.14 mm  yaw maks  0.02°  yaw ort  0.01°  nokta maks   0.4 mm
+  ≤0.6 m  check_cent σ= 1.8: başarı  60/60  eksen maks  0.14 mm  yaw maks  0.05°  yaw ort  0.02°  nokta maks   0.5 mm
+  ≤0.6 m  check_cent σ= 5.1: başarı  60/60  eksen maks  0.18 mm  yaw maks  0.10°  yaw ort  0.03°  nokta maks   0.7 mm
+  ≥0.9 m  checker    σ= 0.0: başarı   4/4   eksen maks  1.40 mm  yaw maks  2.03°  yaw ort  0.78°  nokta maks   9.6 mm
+  ≥0.9 m  checker    σ= 1.8: başarı  80/80  eksen maks  4.75 mm  yaw maks  2.81°  yaw ort  0.81°  nokta maks  15.4 mm
+  ≥0.9 m  checker    σ= 5.1: başarı  80/80  eksen maks  4.03 mm  yaw maks  3.45°  yaw ort  0.87°  nokta maks  14.7 mm
+  ≥0.9 m  bullseye  σ= 0.0: başarı 0/4
+  ≥0.9 m  bullseye  σ= 1.8: başarı 0/80
+  ≥0.9 m  bullseye  σ= 5.1: başarı 0/80
+  ≥0.9 m  bull_cent  σ= 0.0: başarı   4/4   eksen maks  0.11 mm  yaw maks  0.02°  yaw ort  0.01°  nokta maks   0.5 mm
+  ≥0.9 m  bull_cent  σ= 1.8: başarı  80/80  eksen maks  0.14 mm  yaw maks  0.07°  yaw ort  0.02°  nokta maks   0.6 mm
+  ≥0.9 m  bull_cent  σ= 5.1: başarı  80/80  eksen maks  0.20 mm  yaw maks  0.20°  yaw ort  0.05°  nokta maks   0.8 mm
+  ≥0.9 m  check_cent σ= 0.0: başarı   4/4   eksen maks  0.10 mm  yaw maks  0.12°  yaw ort  0.06°  nokta maks   0.6 mm
+  ≥0.9 m  check_cent σ= 1.8: başarı  80/80  eksen maks  0.19 mm  yaw maks  0.16°  yaw ort  0.06°  nokta maks   0.9 mm
+  ≥0.9 m  check_cent σ= 5.1: başarı  80/80  eksen maks  0.22 mm  yaw maks  0.24°  yaw ort  0.07°  nokta maks   1.0 mm

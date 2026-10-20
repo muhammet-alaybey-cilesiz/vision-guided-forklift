@@ -14,9 +14,12 @@ hücrelik beyaz kenar; hücre başına texture_px_per_cell piksel, en yakın kom
 (keskin kenar). OpenCV 4.6 API'si: Dictionary_get / drawMarker (DECISIONS D-47).
 Her PNG üretildikten sonra detectMarkers ile geri okunur; ID tutmazsa build durur.
 
-Hizalama hedefi (D-55): align_target.png — beyaz kare, ortasında 2×2 dama deseni
-(sol üst ve sağ alt siyah). Ölçülen nokta desenin merkez köşesidir; build bu
-köşeyi cornerSubPix ile bulup dokunun tam merkezinde olduğunu doğrular.
+Hizalama hedefi (D-55): iki desen de üretilir, station xacro markers.align.pattern'i kullanır.
+  align_checker.png  — beyaz kare, ortasında 2×2 dama (sol üst ve sağ alt siyah);
+                       ölçülen nokta merkez köşe, öz denetim cornerSubPix ile
+  align_bullseye.png — beyaz kare, siyah halka + ortada siyah dolu daire; ölçülen
+                       nokta elips merkezi, öz denetim fitEllipse ile
+Öz denetim: nokta doku merkezinin ±0.5 px içinde olmalı.
 markers.yaml'a her hedefin X-köşe konumu 'align_targets' olarak yazılır.
 """
 
@@ -57,6 +60,32 @@ def make_align_texture(a):
     return img
 
 
+def make_bullseye_texture(a):
+    """Beyaz kare + siyah halka + siyah dolu daire (çaplar size'a oranla); kenar texture_px."""
+    n, b = a['texture_px'], a['bullseye']
+    k = n / a['size']
+    yy, xx = np.mgrid[0:n, 0:n]
+    r = np.hypot(xx - (n / 2.0 - 0.5), yy - (n / 2.0 - 0.5))
+    img = np.full((n, n), 255, np.uint8)
+    img[(r <= b['ring_outer'] * k / 2) & (r >= b['ring_inner'] * k / 2)] = 0
+    img[r <= b['dot'] * k / 2] = 0
+    return img
+
+
+def bullseye_self_check(img):
+    """Ortadaki dolu dairenin elips merkezi doku merkezinde mi (±0.5 px)."""
+    n = img.shape[0]
+    _, inv = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
+    cnts, _ = cv2.findContours(inv, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+    dots = [c for c in cnts if cv2.contourArea(c) > 0 and
+            np.hypot(*(np.mean(c.reshape(-1, 2), 0) - (n / 2.0 - 0.5))) < 3 and
+            cv2.contourArea(c) < 0.25 * n * n]
+    if not dots:
+        return False
+    (cx, cy), _, _ = cv2.fitEllipse(min(dots, key=cv2.contourArea))
+    return max(abs(cx - (n / 2.0 - 0.5)), abs(cy - (n / 2.0 - 0.5))) < 0.5
+
+
 def align_self_check(img):
     """Merkez köşe cornerSubPix ile doku merkezinde mi (±0.5 px)."""
     n = img.shape[0]
@@ -94,10 +123,12 @@ def main():
         cv2.imwrite(os.path.join(a.textures, sl.texture_name(params, mid)), img)
 
     sl.validate_align(params)
-    align = make_align_texture(m['align'])
-    if not align_self_check(align):
-        sys.exit('hizalama hedefi öz denetimi başarısız: merkez köşe doku merkezinde değil')
-    cv2.imwrite(os.path.join(a.textures, sl.ALIGN_TEXTURE), align)
+    for pattern, make, check in (('checker', make_align_texture, align_self_check),
+                                 ('bullseye', make_bullseye_texture, bullseye_self_check)):
+        img = make(m['align'])
+        if not check(img):
+            sys.exit(f'hizalama hedefi öz denetimi başarısız ({pattern}): nokta doku merkezinde değil')
+        cv2.imwrite(os.path.join(a.textures, sl.align_texture(params, pattern)), img)
 
     doc = {
         'generated': time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -120,7 +151,7 @@ def main():
         f.write('# ÜRETİLDİ (generate_aruco_textures.py) — elle düzenlemeyin.\n'
                 '# Kaynak: station_params.yaml + stations.yaml; stations.yaml değişince yeniden build edin.\n')
         yaml.safe_dump(doc, f, sort_keys=False, allow_unicode=True, default_flow_style=None)
-    print(f'{len(ids) + 1} doku → {a.textures}; {len(doc["markers"])} işaret, '
+    print(f'{len(ids) + 2} doku → {a.textures}; {len(doc["markers"])} işaret, '
           f'{len(doc["align_targets"])} hizalama hedefi → {a.markers}')
 
 

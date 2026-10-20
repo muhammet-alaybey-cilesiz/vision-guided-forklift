@@ -332,22 +332,24 @@ def check_align_sdf(st, ck, sdf_text, n, ids, tag):
             ck.true(f'{tag}: align {k} {side} ön yüz yüksekliği içinde',
                     v.lo[2] >= -1e-9 and v.hi[2] <= S['ledge_height'] + 1e-9)
             amap = v.el.findtext('material/pbr/metal/albedo_map') or ''
-            ck.true(f'{tag}: align {k} {side} doku {amap}', amap.endswith('/' + sl.ALIGN_TEXTURE))
+            ck.true(f'{tag}: align {k} {side} doku {amap}', amap.endswith('/' + sl.align_texture(P)))
             found[(k, side)] = v
     return found
 
 
 def check_align_texture(st, ck):
-    """Kurulu hizalama dokusu: var, kare, texture_px; merkez köşe doku merkezinde (build öz denetimi)."""
+    """Kurulu hizalama dokuları (iki desen): var, kare, texture_px; nokta doku merkezinde (öz denetim)."""
     import cv2
     import generate_aruco_textures as gat
     A = st.params['markers']['align']
-    img = cv2.imread(os.path.join(st.texture_dir, sl.ALIGN_TEXTURE), cv2.IMREAD_GRAYSCALE)
-    ck.true('hizalama dokusu mevcut', img is not None)
-    if img is None:
-        return
-    ck.true(f'hizalama dokusu {A["texture_px"]} px kare', img.shape[0] == img.shape[1] == A['texture_px'])
-    ck.true('hizalama dokusu merkez köşe ±0.5 px', gat.align_self_check(img))
+    for pattern, check in (('checker', gat.align_self_check), ('bullseye', gat.bullseye_self_check)):
+        img = cv2.imread(os.path.join(st.texture_dir, sl.align_texture(st.params, pattern)), cv2.IMREAD_GRAYSCALE)
+        ck.true(f'hizalama dokusu {pattern} mevcut', img is not None)
+        if img is None:
+            continue
+        ck.true(f'hizalama dokusu {pattern} {A["texture_px"]} px kare',
+                img.shape[0] == img.shape[1] == A['texture_px'])
+        ck.true(f'hizalama dokusu {pattern} merkez ±0.5 px', check(img))
 
 
 def check_texture(st, ck, mid):

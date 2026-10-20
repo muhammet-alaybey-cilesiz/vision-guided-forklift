@@ -17,7 +17,7 @@
     çıkıntılar     kanallar arası, x ∈ [0, ledge_depth], z ∈ [0, ledge_height], μ = ledge_mu
     arka plaka     x ∈ [ledge_depth, ledge_depth + back_plate_thickness], z ∈ [0, back_plate_height]
     işaretler      arka plakanın ön yüzünde, standoff kadar önde, yalnız visual
-    hizalama       bölme başına 2 hedef (2×2 dama), çıkıntıların ön yüzünde kanalın
+    hizalama       bölme başına 2 hedef (markers.align.pattern), çıkıntıların ön yüzünde kanalın
                    iki yanında, standoff kadar önde, yalnız visual (D-55)
   Görünüm (yalnız visual, station_params.yaml → appearance, finishes):
     zemin plakası gözyaşı sac; üstünde istasyon renginde çevre bandı
@@ -123,7 +123,7 @@
   <xacro:macro name="align_target" params="bay_id side y">
     <xacro:box_visual name="align_${bay_id}_${side}" size="${[M['thickness'], AL['size'], AL['size']]}"
                       xyz="${[-(M['standoff'] + M['thickness'] / 2.0), y, lh / 2.0]}" cast_shadows="false"
-                      albedo_map="${texture_uri_root}/align_target.png"/>
+                      albedo_map="${texture_uri_root}/align_${AL['pattern']}.png"/>
   </xacro:macro>
 
   <!-- Bölme i: çerçeve + üst ve alt işaret + iki hizalama hedefi -->
