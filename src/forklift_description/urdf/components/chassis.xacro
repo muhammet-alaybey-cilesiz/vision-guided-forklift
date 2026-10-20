@@ -5,7 +5,8 @@
       base_footprint: zemindeki izdüşüm, kök link. Atalet İÇERMEZ (KDL kök
                       link ataleti desteklemez).
       base_link     : tahrik aksı merkezi, kütlesiz çerçeve link'i.
-  - chassis: şasi kutusu (chassis_link), base_link'e sabit.
+  - chassis: şasi kutusu (chassis_link), base_link'e sabit. Görünümü
+    components/appearance.xacro → chassis_visuals verir (D-54).
   Not: <collision> elemanları bilinçli olarak adsızdır (DECISIONS D-03).
 -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
@@ -24,11 +25,8 @@
   <xacro:macro name="chassis" params="prefix cfg">
     <xacro:property name="ch" value="${cfg.chassis}"/>
     <link name="${prefix}chassis_link">
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry><box size="${ch.size.x} ${ch.size.y} ${ch.size.z}"/></geometry>
-        <material name="forklift_yellow"/>
-      </visual>
+      <!-- görünüm: appearance.xacro (yalnız visual; collision ve atalet bu kutudur) -->
+      <xacro:chassis_visuals cfg="${cfg}"/>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry><box size="${ch.size.x} ${ch.size.y} ${ch.size.z}"/></geometry>

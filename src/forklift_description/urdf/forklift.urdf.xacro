@@ -31,6 +31,7 @@
   <xacro:include filename="components/mast.xacro"/>
   <xacro:include filename="components/fork_carriage.xacro"/>
   <xacro:include filename="components/camera.xacro"/>
+  <xacro:include filename="components/appearance.xacro"/>
 
   <!-- gövde ve yürüyüş -->
   <xacro:forklift_base_frames prefix="${prefix}" cfg="${cfg}"/>

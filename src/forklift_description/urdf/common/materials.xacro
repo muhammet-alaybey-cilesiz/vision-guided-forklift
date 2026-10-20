@@ -2,13 +2,27 @@
 <!--
   materials.xacro
   Görsel renkler (yalnızca <visual>). Fiziksel parametre içermez.
+  gz'de görünen renk: sdformat URDF rengini 1.25 ile çarpar (ölçüldü) ve
+  ogre2 doğrusal → sRGB çevirir; koyu tonlar bu yüzden düşük değerlerle
+  verilir (D-54). RViz bu rengi olduğu gibi gösterir (daha koyu görünür).
   Not: Robotun kameraların görebileceği parçaları (çatallar, taşıyıcı) koli
   mühür renklerinden (kırmızı / yeşil / mavi) bilinçli olarak uzak tutuldu.
+  Görünüm parçaları (components/appearance.xacro) kameraların gerisindedir;
+  acil stop kırmızısı bu yüzden robotun kendi görüntüsüne girmez.
 -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <material name="forklift_yellow"><color rgba="0.95 0.72 0.08 1.0"/></material>
-  <material name="forklift_dark_grey"><color rgba="0.20 0.20 0.22 1.0"/></material>
+  <material name="forklift_yellow"><color rgba="0.78 0.45 0.02 1.0"/></material>
+  <material name="forklift_dark_grey"><color rgba="0.08 0.08 0.09 1.0"/></material>
   <material name="forklift_steel"><color rgba="0.55 0.56 0.60 1.0"/></material>
   <material name="forklift_rubber"><color rgba="0.05 0.05 0.05 1.0"/></material>
   <material name="forklift_camera"><color rgba="0.10 0.10 0.12 1.0"/></material>
+  <!-- görünüm (appearance.xacro) -->
+  <material name="forklift_graphite"><color rgba="0.035 0.037 0.042 1.0"/></material>
+  <material name="forklift_counterweight"><color rgba="0.06 0.062 0.068 1.0"/></material>
+  <material name="forklift_black"><color rgba="0.012 0.012 0.014 1.0"/></material>
+  <material name="forklift_glass"><color rgba="0.01 0.015 0.025 1.0"/></material>
+  <material name="forklift_chrome"><color rgba="0.45 0.46 0.48 1.0"/></material>
+  <material name="forklift_led"><color rgba="0.85 0.92 0.95 1.0"/></material>
+  <material name="forklift_amber"><color rgba="0.80 0.36 0.0 1.0"/></material>
+  <material name="forklift_estop_red"><color rgba="0.62 0.02 0.02 1.0"/></material>
 </robot>

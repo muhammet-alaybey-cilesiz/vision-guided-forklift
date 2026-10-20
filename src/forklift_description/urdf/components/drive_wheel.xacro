@@ -21,6 +21,8 @@
         <geometry><cylinder radius="${w.radius}" length="${w.width}"/></geometry>
         <material name="forklift_rubber"/>
       </visual>
+      <!-- görünüm: sarı göbek (yalnız visual, D-54) -->
+      <xacro:wheel_hub_visual cfg="${cfg}"/>
       <!-- collision_shape: cylinder (spesifikasyon) | sphere (tek nokta temas;
            DECISIONS D-20). Görsel ve atalet her durumda silindirdir. -->
       <xacro:if value="${w.collision_shape == 'sphere'}">

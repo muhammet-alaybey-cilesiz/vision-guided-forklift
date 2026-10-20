@@ -53,6 +53,8 @@
         <origin xyz="0 0 ${bar_z}" rpy="0 0 0"/>
         <geometry><box size="${bar.x} ${bar.y} ${bar.z}"/></geometry>
       </collision>
+      <!-- görünüm: direğin arkasında kaldırma silindiri (yalnız visual, D-54) -->
+      <xacro:lift_cylinder_visual cfg="${cfg}"/>
       <xacro:composite_box_inertial boxes="${[
           dict(m=m_up,  size=[up.x, up.y, up.z],    xyz=[0.0,  ms.upright.y, up_z]),
           dict(m=m_up,  size=[up.x, up.y, up.z],    xyz=[0.0, -ms.upright.y, up_z]),

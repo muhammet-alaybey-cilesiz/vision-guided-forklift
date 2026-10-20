@@ -117,6 +117,32 @@ cameras:
     topic: /lane_camera/image_raw
     camera_info_topic: /lane_camera/camera_info
 
+# ------------------------------------------------ görünüm (yalnız visual) ---
+# Kütle, atalet, collision, eklem ve TF'i ETKİLEMEZ; yalnız <visual> ekler
+# (DECISIONS D-54). Konumlar base_footprint çerçevesinde (x ileri, zemin z).
+# Hepsi kameraların optik merkezinin (x = 0.10) gerisinde: robotun kendi
+# kameraları bu parçaları görmez. Kameraların gördüğü parçalar (çatallar,
+# taşıyıcı, direğin ön yüzü) değişmedi.
+appearance:
+  skirt_top_z: 0.065            # alt şasi (grafit) üst yüzü; altı şasi kutusunun tabanı
+  shell_inset: 0.004            # sarı gövdenin şasi kutusundan yanlarda içe çekilmesi
+  deck: {thickness: 0.008, inset: 0.012}     # üst kapak (koyu gri), gövde üstünde
+  counterweight: {length: 0.075, corner_radius: 0.03}   # arka blok, köşeleri yuvarlak
+  rear_bumper: {depth: 0.015, inset: 0.02, z: [0.03, 0.065]}   # şasi arkasında kauçuk
+  side_strip: {thickness: 0.006, x: [-0.24, -0.065], z: [0.07, 0.084]}  # tekerlek önünde biter
+  led_strip: {thickness: 0.003, x: [-0.24, 0.07], z: [0.150, 0.156]}
+  tower: {size: {x: 0.05, y: 0.12, z: 0.07}, x: -0.275}   # elektronik kutusu (üst kapakta)
+  lidar: {radius: 0.03, height: 0.035, window: 0.012, window_margin: 0.001}  # kule üstünde; pencere bandı yarıçapı + margin
+  beacon: {radius: 0.012, height: 0.025, base: 0.008, base_margin: 0.004, x: -0.30, y: 0.11}
+  estop: {housing: 0.035, height: 0.018, radius: 0.013, button: 0.012, x: -0.30, y: -0.11}
+  scanner: {size: {x: 0.03, y: 0.035, z: 0.03}, x_front: 0.08, y_outer: 0.145, z: 0.025}
+  hub: {radius: 0.028, width: 0.034}                       # tekerlek göbeği (dönen link'te)
+  lift_cylinder: {radius: 0.01, x: 0.072, top_z: 0.42}     # direğin arkasında
+  decals:                       # scripts/generate_decals.py; meshes/decals/*.obj
+    offset: 0.0008              # yüzeyden dışarı (z-fighting payı)
+    rear: {size: [0.22, 0.05], z: 0.125}                   # karşı ağırlığın arka yüzünde uyarı şeridi
+    side: {size: [0.15, 0.05], x: -0.155, z: 0.112, code: FKL-01, text: OTONOM FORKLIFT}
+
 # =============================================================================
 #  Yalnızca simülasyon (forklift.gazebo.xacro okur). Kinematik/dinamik tanım
 #  bu bölümden bağımsızdır.

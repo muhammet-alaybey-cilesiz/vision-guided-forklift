@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!--
+  appearance.xacro — yalnız görünüm (DECISIONS D-54)
+  Mevcut link'lere <visual> ekler; kütle, atalet, collision, eklem ve TF
+  değişmez. Ölçüler forklift_params.yaml → appearance (base_footprint
+  çerçevesi, zemin z). Hepsi kameraların optik merkezinin (x = 0.10)
+  gerisinde: robotun kendi kameraları görmez.
+  - chassis_visuals: chassis_link'in tek visual'ının yerine: grafit alt şasi,
+    sarı gövde, üst kapak, köşeleri yuvarlak karşı ağırlık, kauçuk tampon ve
+    yan şeritler, LED şerit, elektronik kulesi + LiDAR, ikaz lambası, acil
+    stop, ön güvenlik tarayıcıları, uyarı şeridi ve yan etiket çıkartmaları
+  - lift_cylinder_visual: mast_link'te, direğin arkasında kaldırma silindiri
+  - wheel_hub_visual: tekerlek link'inde sarı göbek
+  Çıkartmalar meshes/decals/*.obj (build'de scripts/generate_decals.py);
+  yerel normal +x, rpy yaw ile yüzeye çevrilir.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Zemin koordinatlarında [x0, x1] × [y0, y1] × [z0, z1] kutu; o = link
+       orijininin zemin koordinatı (ox, oz; y = 0). -->
+  <xacro:macro name="gbox" params="o x0 x1 y0 y1 z0 z1 material">
+    <visual>
+      <origin xyz="${(x0 + x1) / 2.0 - o[0]} ${(y0 + y1) / 2.0} ${(z0 + z1) / 2.0 - o[1]}" rpy="0 0 0"/>
+      <geometry><box size="${x1 - x0} ${y1 - y0} ${z1 - z0}"/></geometry>
+      <material name="${material}"/>
+    </visual>
+  </xacro:macro>
+
+  <!-- Düşey silindir: merkez (x, y), z ∈ [z0, z1] -->
+  <xacro:macro name="gcyl" params="o x y z0 z1 r material">
+    <visual>
+      <origin xyz="${x - o[0]} ${y} ${(z0 + z1) / 2.0 - o[1]}" rpy="0 0 0"/>
+      <geometry><cylinder radius="${r}" length="${z1 - z0}"/></geometry>
+      <material name="${material}"/>
+    </visual>
+  </xacro:macro>
+
+  <xacro:macro name="decal" params="o name x y z yaw">
+    <visual>
+      <origin xyz="${x - o[0]} ${y} ${z - o[1]}" rpy="0 0 ${yaw}"/>
+      <geometry><mesh filename="package://forklift_description/meshes/decals/${name}.obj"/></geometry>
+    </visual>
+  </xacro:macro>
+
+  <xacro:macro name="chassis_visuals" params="cfg">
+    <xacro:property name="A" value="${cfg.appearance}"/>
+    <xacro:property name="ch" value="${cfg.chassis}"/>
+    <!-- chassis_link orijini zeminde (ch.center.x, ch.center.z + r) -->
+    <xacro:property name="o" value="${[ch.center.x, ch.center.z + cfg.drive_wheel.radius]}"/>
+    <xacro:property name="X0" value="${ch.center.x - ch.size.x / 2.0}"/>
+    <xacro:property name="X1" value="${ch.center.x + ch.size.x / 2.0}"/>
+    <xacro:property name="Y" value="${ch.size.y / 2.0}"/>
+    <xacro:property name="Z0" value="${o[1] - ch.size.z / 2.0}"/>
+    <xacro:property name="Z1" value="${o[1] + ch.size.z / 2.0}"/>
+    <xacro:property name="ZS" value="${A.skirt_top_z}"/>
+    <xacro:property name="YS" value="${Y - A.shell_inset}"/>
+    <xacro:property name="cw" value="${A.counterweight}"/>
+    <xacro:property name="cr" value="${cw.corner_radius}"/>
+    <xacro:property name="XC" value="${X0 + cw.length}"/>
+    <xacro:property name="dk" value="${A.deck}"/>
+
+    <!-- alt şasi, gövde, üst kapak -->
+    <xacro:gbox o="${o}" x0="${X0}" x1="${X1}" y0="${-Y}" y1="${Y}" z0="${Z0}" z1="${ZS}" material="forklift_graphite"/>
+    <xacro:gbox o="${o}" x0="${XC}" x1="${X1}" y0="${-YS}" y1="${YS}" z0="${ZS}" z1="${Z1 - dk.thickness}" material="forklift_yellow"/>
+    <xacro:gbox o="${o}" x0="${XC}" x1="${X1 - dk.inset}" y0="${-YS + dk.inset}" y1="${YS - dk.inset}"
+                z0="${Z1 - dk.thickness}" z1="${Z1}" material="forklift_dark_grey"/>
+
+    <!-- karşı ağırlık: köşeleri yuvarlak (iki kutu + iki düşey silindir) -->
+    <xacro:gbox o="${o}" x0="${X0 + cr}" x1="${XC}" y0="${-Y}" y1="${Y}" z0="${ZS}" z1="${Z1}" material="forklift_counterweight"/>
+    <xacro:gbox o="${o}" x0="${X0}" x1="${X0 + cr}" y0="${-Y + cr}" y1="${Y - cr}" z0="${ZS}" z1="${Z1}" material="forklift_counterweight"/>
+    <xacro:gcyl o="${o}" x="${X0 + cr}" y="${Y - cr}" z0="${ZS}" z1="${Z1}" r="${cr}" material="forklift_counterweight"/>
+    <xacro:gcyl o="${o}" x="${X0 + cr}" y="${-Y + cr}" z0="${ZS}" z1="${Z1}" r="${cr}" material="forklift_counterweight"/>
+
+    <!-- kauçuk tampon, yan şeritler, LED şerit -->
+    <xacro:property name="rb" value="${A.rear_bumper}"/>
+    <xacro:gbox o="${o}" x0="${X0 - rb.depth}" x1="${X0}" y0="${-Y + rb.inset}" y1="${Y - rb.inset}"
+                z0="${rb.z[0]}" z1="${rb.z[1]}" material="forklift_black"/>
+    <xacro:property name="ss" value="${A.side_strip}"/>
+    <xacro:property name="ld" value="${A.led_strip}"/>
+    <xacro:macro name="side_parts" params="s">
+      <xacro:gbox o="${o}" x0="${ss.x[0]}" x1="${ss.x[1]}" y0="${min(s * YS, s * (YS + ss.thickness))}"
+                  y1="${max(s * YS, s * (YS + ss.thickness))}" z0="${ss.z[0]}" z1="${ss.z[1]}" material="forklift_black"/>
+      <xacro:gbox o="${o}" x0="${ld.x[0]}" x1="${ld.x[1]}" y0="${min(s * YS, s * (YS + ld.thickness))}"
+                  y1="${max(s * YS, s * (YS + ld.thickness))}" z0="${ld.z[0]}" z1="${ld.z[1]}" material="forklift_led"/>
+    </xacro:macro>
+    <xacro:side_parts s="1"/>
+    <xacro:side_parts s="-1"/>
+
+    <!-- elektronik kulesi + LiDAR (pencere bandı ile) -->
+    <xacro:property name="tw" value="${A.tower}"/>
+    <xacro:property name="lr" value="${A.lidar}"/>
+    <xacro:property name="ZT" value="${Z1 + tw.size.z}"/>
+    <xacro:gbox o="${o}" x0="${tw.x - tw.size.x / 2.0}" x1="${tw.x + tw.size.x / 2.0}" y0="${-tw.size.y / 2.0}"
+                y1="${tw.size.y / 2.0}" z0="${Z1}" z1="${ZT}" material="forklift_graphite"/>
+    <xacro:gcyl o="${o}" x="${tw.x}" y="0" z0="${ZT}" z1="${ZT + lr.height}" r="${lr.radius}" material="forklift_black"/>
+    <xacro:gcyl o="${o}" x="${tw.x}" y="0" z0="${ZT + (lr.height - lr.window) / 2.0}"
+                z1="${ZT + (lr.height + lr.window) / 2.0}" r="${lr.radius + lr.window_margin}" material="forklift_glass"/>
+
+    <!-- ikaz lambası: siyah taban + turuncu kubbe (silindir + yarım küre) -->
+    <xacro:property name="bc" value="${A.beacon}"/>
+    <xacro:gcyl o="${o}" x="${bc.x}" y="${bc.y}" z0="${Z1}" z1="${Z1 + bc.base}" r="${bc.radius + bc.base_margin}" material="forklift_black"/>
+    <xacro:gcyl o="${o}" x="${bc.x}" y="${bc.y}" z0="${Z1 + bc.base}" z1="${Z1 + bc.base + bc.height}" r="${bc.radius}" material="forklift_amber"/>
+    <visual>
+      <origin xyz="${bc.x - o[0]} ${bc.y} ${Z1 + bc.base + bc.height - o[1]}" rpy="0 0 0"/>
+      <geometry><sphere radius="${bc.radius}"/></geometry>
+      <material name="forklift_amber"/>
+    </visual>
+
+    <!-- acil stop: sarı kutu + kırmızı mantar buton -->
+    <xacro:property name="es" value="${A.estop}"/>
+    <xacro:gbox o="${o}" x0="${es.x - es.housing / 2.0}" x1="${es.x + es.housing / 2.0}" y0="${es.y - es.housing / 2.0}"
+                y1="${es.y + es.housing / 2.0}" z0="${Z1}" z1="${Z1 + es.height}" material="forklift_yellow"/>
+    <xacro:gcyl o="${o}" x="${es.x}" y="${es.y}" z0="${Z1 + es.height}" z1="${Z1 + es.height + es.button}"
+                r="${es.radius}" material="forklift_estop_red"/>
+
+    <!-- ön köşelerde güvenlik lazer tarayıcıları -->
+    <xacro:property name="sc" value="${A.scanner}"/>
+    <xacro:gbox o="${o}" x0="${sc.x_front - sc.size.x}" x1="${sc.x_front}" y0="${sc.y_outer - sc.size.y}" y1="${sc.y_outer}"
+                z0="${sc.z}" z1="${sc.z + sc.size.z}" material="forklift_black"/>
+    <xacro:gbox o="${o}" x0="${sc.x_front - sc.size.x}" x1="${sc.x_front}" y0="${-sc.y_outer}" y1="${-sc.y_outer + sc.size.y}"
+                z0="${sc.z}" z1="${sc.z + sc.size.z}" material="forklift_black"/>
+
+    <!-- çıkartmalar: arkada uyarı şeridi, iki yanda etiket (yüzeyden decals.offset dışarıda) -->
+    <xacro:property name="dc" value="${A.decals}"/>
+    <xacro:decal o="${o}" name="rear_hazard" x="${X0 - dc.offset}" y="0" z="${dc.rear.z}" yaw="${pi}"/>
+    <xacro:decal o="${o}" name="side_label" x="${dc.side.x}" y="${YS + dc.offset}" z="${dc.side.z}" yaw="${pi / 2.0}"/>
+    <xacro:decal o="${o}" name="side_label" x="${dc.side.x}" y="${-YS - dc.offset}" z="${dc.side.z}" yaw="${-pi / 2.0}"/>
+  </xacro:macro>
+
+  <!-- mast_link orijini zeminde (mast.x, mast.ground_z_bottom) -->
+  <xacro:macro name="lift_cylinder_visual" params="cfg">
+    <xacro:property name="lc" value="${cfg.appearance.lift_cylinder}"/>
+    <xacro:gcyl o="${[cfg.mast.x, cfg.mast.ground_z_bottom]}" x="${lc.x}" y="0" z0="${cfg.mast.ground_z_bottom}"
+                z1="${lc.top_z}" r="${lc.radius}" material="forklift_chrome"/>
+  </xacro:macro>
+
+  <!-- tekerlek link'inde (merkezde) sarı göbek; tekerlekle birlikte döner -->
+  <xacro:macro name="wheel_hub_visual" params="cfg">
+    <xacro:property name="hb" value="${cfg.appearance.hub}"/>
+    <visual>
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 0"/>
+      <geometry><cylinder radius="${hb.radius}" length="${hb.width}"/></geometry>
+      <material name="forklift_yellow"/>
+    </visual>
+  </xacro:macro>
+
+</robot>
