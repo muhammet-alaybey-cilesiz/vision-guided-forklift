@@ -20,3 +20,9 @@ __pycache__/
 # (kaynak ağaca yazılmaz; elle çalıştırmalara karşı)
 src/forklift_gazebo/models/aruco_markers/
 src/forklift_gazebo/config/markers.yaml
+
+# Sahibin kişisel öğrenme notları (depoya girmez)
+ogrenme/
+
+# Değerlendirme kayıtları (büyük görüntü kümeleri; yeniden üretilebilir)
+data/
