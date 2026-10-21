@@ -9,7 +9,7 @@
 #           (ön kenar ortası, zemin). yaw [rad]: station +x ekseninin yönü.
 #  bays   : bölme sayısı N
 #  bay_ids: bölme başına k (0–24, tüm istasyonlarda benzersiz);
-#           üst işaret ID = k, alt işaret ID = k + 25 (DECISIONS D-45)
+#           (bölme numara etiketi; ArUco işaretleri D-56 ile kaldırıldı)
 #  occupancy: bölme başına koli mühür rengi (red | green | blue) veya null;
 #           sıra bölme indeksi i = 0 … N-1 (bölme 0 en -y tarafta)
 #

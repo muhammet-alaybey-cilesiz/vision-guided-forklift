@@ -69,9 +69,11 @@ markings:
     segment: 0.6             # doku 8:1; segment / width = 8 → şeritler bozulmaz
   lanes:                     # ileride şerit takibi için kılavuz bandı (ground truth üretilir)
     width: 0.05
-    color: [0.95, 0.75, 0.05]
+    # [D-56] her şerit gittiği istasyonun renginde (station_params.yaml → colors; mühür,
+    # bant ve tabela ile aynı); kaynağa giden şerit sarı (colors.lane_neutral)
     # her şerit bir istasyonun önlük ön kenarında biter; uçlarda beyaz durma çizgisi
     from: [0.0, 0.0]
+    start_gap: 0.12          # şeritler merkezden bu kadar uzakta başlar (kavşakta renkler üst üste binmesin)
     to_stations: [source, dest_red, dest_green, dest_blue]
     end_gap: 0.10            # şerit sonu ile önlük ön kenarı arası
     stop_bar: {length: 0.30, width: 0.05, color: [0.93, 0.93, 0.92]}

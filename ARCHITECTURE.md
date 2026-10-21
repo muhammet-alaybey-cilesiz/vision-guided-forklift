@@ -2,7 +2,7 @@
 
 Status: **Phases 1–4 done**: description, simulation and load tests are implemented, and T1–T14 run automatically. See `REPORT.md` for the results.
 **Operator GUI** (`forklift_gui`, `forklift_bringup`, `forklift_safety`): implemented (phases 1–5, 2026-10-15/16); unit tests U1–U8 and integration tests I1–I12 in `docs/gui_test_results.md`, report in `REPORT_GUI.md`. See §7.
-**Load stations** (`forklift_gazebo`): parametric multi-bay stations with ArUco markers, a `parcel` model and the `station_test` world (2026-10-19). Tests S1–S8 are in `docs/station_test_results.md`, and the report is `REPORT_STATIONS.md`. See §8.
+**Load stations** (`forklift_gazebo`): parametric multi-bay stations with bullseye alignment targets and bay lanes (ArUco markers removed, D-56), a `parcel` model and the `station_test` world (2026-10-19, updated 2026-10-21). Tests S1–S8 are in `docs/station_test_results.md`, and the report is `REPORT_STATIONS.md`. See §8.
 **Factory world and appearance** (`forklift_gazebo`, `forklift_description`): generated `factory` world in a real-scale hall, industrial station/parcel materials and a visual-only robot body (2026-10-20; D-53, D-54). Report `REPORT_FACTORY.md`. See §9.
 
 Scope: the robot description and a simulation test bench for a small forklift
@@ -44,7 +44,7 @@ gz-rendering 8.2.3 (ogre2), gz-transport 13.6.0, ros_gz 1.0.24, xacro 2.1.1.
         │   (worlds/factory.sdf            generated at build time from config/factory.yaml, §9)
         ├── models/test_parcel/            0.2 m cube with a red seal (model.config, model.sdf)
         ├── config/ros_gz_bridge.yaml      bridge for every non-image topic
-        ├── config/station_params.yaml     single source for station, marker and parcel geometry (§8)
+        ├── config/station_params.yaml     single source for station, alignment-target, bay-lane and parcel geometry (§8)
         ├── config/stations.yaml           station layout (station_test and factory): poses, bays, bay ids, occupancy
         ├── config/factory.yaml            factory world: hall, lights, markings, props (§9)
         ├── config/factory_gui.config      Gazebo GUI layout + opening camera for factory
@@ -56,8 +56,8 @@ gz-rendering 8.2.3 (ogre2), gz-transport 13.6.0, ros_gz 1.0.24, xacro 2.1.1.
         └── scripts/
             ├── acceptance_test.py         T3–T14 automation (rclpy), writes to docs/
             ├── station_acceptance.py      S1–S8 automation (gz-transport only)
-            ├── station_layout.py          shared bay / marker-ID / pose computations
-            ├── generate_aruco_textures.py build step: ArUco PNGs + markers.yaml → share/
+            ├── station_layout.py          shared bay / target / bay-lane / pose computations
+            ├── generate_station_textures.py   build step: alignment-target PNGs + markers.yaml → share/
             ├── generate_factory_textures.py   build step: signs, labels, stripes → model://factory_signs
             ├── generate_factory_world.py  build step: factory.sdf + factory_lanes.yaml
             └── measure_sim_performance.py RTF / camera rate / CPU / GPU per world
@@ -598,7 +598,8 @@ inspected without installing) and the `v6.4.2` qtmultimedia sources.
 ## 8. Load stations and parcel (`forklift_gazebo`)
 
 Status: **implemented** on 2026-10-19 (`feature/stations`). Decisions D-43 to
-D-51. The robot, the GUI and the safety packages are not changed.
+D-51; alignment targets D-55; ArUco markers removed and bay lanes added D-56
+(2026-10-21). The robot, the GUI and the safety packages are not changed.
 
 ### 8.1 Frames
 
@@ -606,8 +607,8 @@ D-51. The robot, the GUI and the safety packages are not changed.
 world
 └── station (model frame)       origin on the floor, middle of the front edge; +x into the station
     ├── bay_i (SDF <frame>)     (0, y_i, 0), same axes; y_i = (i − (N−1)/2) · bay_pitch, bay 0 = most −y
-    └── marker (per ID)         OpenCV ArUco frame: x right, y up, z out of the marker (−x_station);
-                                origin at the black-square centre, on the front face x = 0.2985
+    ├── alignment target        point on the ledge front face (x = −0.0015), y = y_i ± 0.108, z = 0.025 (D-55)
+    └── bay lane                x ∈ [−0.26, 0] on the base plate, along y_i (D-56)
 ```
 
 At full entry the carriage front is at bay x = 0, `base_link` is at bay
@@ -631,19 +632,18 @@ top view: +x up (into the station), +y left; N = 3, metres
 
 front view: looking +x as the robot does (+y left, −y right); N = 3
   z
- 0.30 ┌──────────────────────────────────────────────────────────────────────────────┐  back plate (white), z 0 … 0.30
-      │             [k₂]                    [k₁]                    [k₀]             │  upper marker 0.08, centre z 0.17
-      │                                                                              │
- 0.05 ├────────┬────────────┬──────────┬────────────┬──────────┬────────────┬────────┤  ledge top z 0.05; lower marker 0.04, centre z 0.028
-      │ ledge  │  [k₂+25]   │  ledge   │  [k₁+25]   │  ledge   │  [k₀+25]   │ ledge  │
- 0    └────────┴────────────┴──────────┴────────────┴──────────┴────────────┴────────┘  base plate 0.002
+ 0.30 ┌──────────────────────────────────────────────────────────────────────────────┐  back plate (aluminium), z 0 … 0.30; bay labels [kk]
+      │             [k₂]                    [k₁]                    [k₀]             │
+ 0.05 ├────────┬────────────┬──────────┬────────────┬──────────┬────────────┬────────┤  ledge top z 0.05
+      │ ledge ◎│            │◎ ledge ◎ │            │ ◎ ledge ◎│            │◎ ledge │  ◎ bullseye target 36 mm, centre z 0.025,
+ 0    └────────┴────────────┴──────────┴────────────┴──────────┴────────────┴────────┘  5 mm from the channel edge; base plate 0.002
     +0.45           +0.30                     0                     −0.30          −0.45   (y)
 ```
 
-`[k]` is the upper marker ID (bay number k) and `[k+25]` is the lower one.
-Collisions are boxes only: base plate (2 mm), N + 1 ledges (μ 0.8) and the back
-plate. Markers are 1 mm boxes, visual only, 0.5 mm in front of the plate, with
-a PBR `albedo_map` texture.
+`[k]` is the bay label (bay number k). Collisions are boxes only: base plate
+(2 mm), N + 1 ledges (μ 0.8) and the back plate. The alignment targets (1 mm
+boxes, 0.5 mm in front of the ledges) and the bay lanes (1 mm on the plate) are
+visual only. No ArUco markers since D-56.
 
 ### 8.3 Data flow
 
@@ -651,16 +651,14 @@ a PBR `albedo_map` texture.
 station_params.yaml ─┬─► xacro/station.sdf.xacro ─┐
                      ├─► xacro/parcel.sdf.xacro ──┼─► stations.launch.py ──► ros_gz_sim create (stations, then parcels)
 stations.yaml ───────┤                            │
-                     └─► generate_aruco_textures.py (CMake, build time)
-                            ├─► share/forklift_gazebo/models/aruco_markers/materials/textures/aruco_4x4_50_idNN.png
-                            ├─► share/forklift_gazebo/models/aruco_markers/materials/textures/align_target.png (D-55)
-                            └─► share/forklift_gazebo/config/markers.yaml   (every marker: id, station, bay, type, size, poses;
-                                                                              align_targets: X-corner per bay side)
+                     └─► generate_station_textures.py (CMake, build time)
+                            ├─► share/forklift_gazebo/models/station_targets/materials/textures/align_{bullseye,checker}.png
+                            └─► share/forklift_gazebo/config/markers.yaml   (ground truth only: align_targets, bay_lines)
 ```
 
-`scripts/station_layout.py` is the only code that computes `y_i`, the marker
-IDs (upper = k, lower = k + 25, D-45), the marker poses and the nominal
-parcel pose. The launch file, the build step and the test all import it.
+`scripts/station_layout.py` is the only code that computes `y_i`, the
+alignment-target points, the bay lanes and the nominal parcel pose.
+The launch file, the build step and the test all import it.
 
 ### 8.4 Launch
 
@@ -678,17 +676,17 @@ parcel pose. The launch file, the build step and the test all import it.
 ### 8.5 Test infrastructure (`station_acceptance.py`)
 
 * S1 and S2 work offline on the installed xacros, `markers.yaml` and textures.
-* S3–S8 run in one headless session of `station_sim.launch.py control:=false`,
-  in the order S3, S8, S4, S5, S6, S7. S3 is first so it measures from spawn,
-  and S8 is second so the world is still undisturbed.
+* S3, S6–S8 run in one headless session of `station_sim.launch.py control:=false`,
+  in the order S3, S8, S6, S7. S3 is first so it measures from spawn, and S8 is
+  second so the world is still undisturbed. S4/S5 (ArUco) were removed by
+  D-56 and appear as KALDIRILDI in the results.
 * Everything goes through gz-transport: `dynamic_pose/info` (ground truth),
   `stats` (sim time), the `/joint_states` gz Model message (fork joint),
   camera image topics, and `/cmd_vel` and `/fork/cmd_height` publishers. Odometry
   is not used. Service calls (`set_pose`, `create/blocking`,
   `remove/blocking`) go through the `gz service` CLI (D-49).
-* Test-only models: the S5 camera (gravity off, no collision, moved with
-  `set_pose`) and a static documentation camera for the S6/S7 images. Neither
-  is part of the robot or of the world file.
+* Test-only model: a static documentation camera for the S6/S7 images. It is
+  not part of the robot or of the world file.
 
 ## 9. Factory world and appearance (D-53, D-54)
 
@@ -723,7 +721,7 @@ forklift_params.yaml → appearance ─┬─► urdf/components/appearance.xacr
 
 * Stations and parcels: `common.sdf.xacro` gained `finish_material` (albedo +
   normal + roughness maps) and `box_visual` (visual-only box). Collisions,
-  inertia, frames and marker poses are unchanged; S2 checks them.
+  inertia and frames are unchanged; S2 checks them.
 * Robot: `appearance.xacro` adds `<visual>` elements to `chassis_link`,
   `mast_link` and the wheel links. No link, joint or inertial is added, and all
   parts are behind the camera optical centres (x = 0.10).

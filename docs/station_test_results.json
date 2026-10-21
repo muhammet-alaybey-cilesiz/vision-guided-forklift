@@ -113,20 +113,20 @@
           "stderr": ""
         }
       ],
-      "run_at": "2026-10-20 22:03:51"
+      "run_at": "2026-10-21 18:49:03"
     }
   },
   {
     "id": "S2",
     "name": "Geometri denetimi",
     "status": "GEÇTİ",
-    "measured": "1726 denetim, 0 hata; en büyük ölçü sapması 0.0000 mm; 24 işaret ve 24 hizalama hedefi markers.yaml ile, 50 doku ID ile uyumlu",
-    "criterion": "Kanal, adım, çıkıntı, plakalar, işaret ve hizalama hedefi konum/boyut, koli: YAML ile ±0.5 mm",
+    "measured": "1231 denetim, 0 hata; en büyük ölçü sapması 0.0000 mm; 24 hizalama hedefi ve 12 bölme şeridi markers.yaml ile uyumlu; ArUco yok",
+    "criterion": "Kanal, adım, çıkıntı, plakalar, hizalama hedefi ve bölme şeridi konum/boyut, koli: YAML ile ±0.5 mm",
     "details": {
       "failures": [],
-      "checks": 1726,
-      "max_err_m": 2.5000000680730494e-10,
-      "run_at": "2026-10-20 22:03:52"
+      "checks": 1231,
+      "max_err_m": 1.1102230246251565e-16,
+      "run_at": "2026-10-21 18:49:04"
     }
   },
   {
@@ -138,8 +138,8 @@
     "details": {
       "parcels": {
         "parcel_source_0": {
-          "samples": 589,
-          "span_s": 10.001,
+          "samples": 590,
+          "span_s": 10.017000000000001,
           "max_disp_from_spawn_mm": 4.628766814285257e-08,
           "drift_first_last_mm": 0.0,
           "max_yaw_change_deg": 1.104500464266182e-19,
@@ -151,8 +151,8 @@
           ]
         },
         "parcel_source_1": {
-          "samples": 589,
-          "span_s": 10.001,
+          "samples": 590,
+          "span_s": 10.017000000000001,
           "max_disp_from_spawn_mm": 4.628766814285257e-08,
           "drift_first_last_mm": 0.0,
           "max_yaw_change_deg": 8.641709918739549e-20,
@@ -164,8 +164,8 @@
           ]
         },
         "parcel_source_2": {
-          "samples": 589,
-          "span_s": 10.001,
+          "samples": 590,
+          "span_s": 10.017000000000001,
           "max_disp_from_spawn_mm": 4.628766814285257e-08,
           "drift_first_last_mm": 0.0,
           "max_yaw_change_deg": 5.0685269844134475e-20,
@@ -177,1119 +177,60 @@
           ]
         }
       },
-      "run_at": "2026-10-19 19:51:34"
+      "run_at": "2026-10-21 18:49:26"
     }
   },
   {
     "id": "S4",
     "name": "Üst işaret tespiti",
-    "status": "GEÇTİ",
-    "measured": "boş bölme (ID 4): 9/9 görüşte ≥4/5 karede tespit, uzaklık hatası ≤ 108.5 mm; dolu bölme (ID 1): 9/9 görüşte hiç tespit yok; bilgi — komşular dolu, bölme boş: 9/9 görüş",
-    "criterion": "Ön kamera, 0.6/1.0/1.5 m × 0°/±15°: boş bölmede doğru ID; dolu bölmenin üst işareti tespit edilmez; bilinmeyen ID yok",
+    "status": "KALDIRILDI",
+    "measured": "ArUco işaretleri istasyonlardan kaldırıldı (D-56)",
+    "criterion": "yerine hizalama hedefi testi CV aşamasında yazılacak",
     "details": {
-      "fails": [],
-      "views": [
-        {
-          "D": 0.6,
-          "ang": -15.0,
-          "hits": 5,
-          "seen": [
-            3,
-            4,
-            28,
-            29
-          ],
-          "true_plane_dist": 0.5802063780352812,
-          "dist_err_mm": 10.277804048187678,
-          "group": "boş bölme",
-          "station": "dest_red",
-          "bay": 1,
-          "target": 4,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 0.6,
-          "ang": 0.0,
-          "hits": 5,
-          "seen": [
-            3,
-            4,
-            5,
-            28,
-            29,
-            30
-          ],
-          "true_plane_dist": 0.6000231689436686,
-          "dist_err_mm": 9.078251455858721,
-          "group": "boş bölme",
-          "station": "dest_red",
-          "bay": 1,
-          "target": 4,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 0.6,
-          "ang": 15.0,
-          "hits": 5,
-          "seen": [
-            4,
-            5,
-            29,
-            30
-          ],
-          "true_plane_dist": 0.5802083937833872,
-          "dist_err_mm": 10.248799031322076,
-          "group": "boş bölme",
-          "station": "dest_red",
-          "bay": 1,
-          "target": 4,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.0,
-          "ang": -15.0,
-          "hits": 5,
-          "seen": [
-            3,
-            4,
-            5,
-            28,
-            29,
-            30
-          ],
-          "true_plane_dist": 0.9659465958505979,
-          "dist_err_mm": 23.03733029039701,
-          "group": "boş bölme",
-          "station": "dest_red",
-          "bay": 1,
-          "target": 4,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.0,
-          "ang": 0.0,
-          "hits": 5,
-          "seen": [
-            3,
-            4,
-            5,
-            28,
-            29,
-            30
-          ],
-          "true_plane_dist": 0.9999999918271536,
-          "dist_err_mm": 24.937529730262973,
-          "group": "boş bölme",
-          "station": "dest_red",
-          "bay": 1,
-          "target": 4,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.0,
-          "ang": 15.0,
-          "hits": 5,
-          "seen": [
-            3,
-            4,
-            5,
-            28,
-            29,
-            30
-          ],
-          "true_plane_dist": 0.9659258183927875,
-          "dist_err_mm": 23.364412820247928,
-          "group": "boş bölme",
-          "station": "dest_red",
-          "bay": 1,
-          "target": 4,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.5,
-          "ang": -15.0,
-          "hits": 5,
-          "seen": [
-            3,
-            4,
-            5,
-            30
-          ],
-          "true_plane_dist": 1.448888731537327,
-          "dist_err_mm": 108.47338492480674,
-          "group": "boş bölme",
-          "station": "dest_red",
-          "bay": 1,
-          "target": 4,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.5,
-          "ang": 0.0,
-          "hits": 5,
-          "seen": [
-            3,
-            4,
-            5,
-            30
-          ],
-          "true_plane_dist": 1.4999999918271856,
-          "dist_err_mm": 54.91437904698437,
-          "group": "boş bölme",
-          "station": "dest_red",
-          "bay": 1,
-          "target": 4,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.5,
-          "ang": 15.0,
-          "hits": 5,
-          "seen": [
-            3,
-            4,
-            5,
-            29
-          ],
-          "true_plane_dist": 1.448888731537295,
-          "dist_err_mm": 44.88732138170359,
-          "group": "boş bölme",
-          "station": "dest_red",
-          "bay": 1,
-          "target": 4,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 0.6,
-          "ang": -15.0,
-          "hits": 0,
-          "seen": [],
-          "true_plane_dist": 0.5802104094791802,
-          "dist_err_mm": null,
-          "group": "dolu bölme",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": false,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 0.6,
-          "ang": 0.0,
-          "hits": 0,
-          "seen": [],
-          "true_plane_dist": 0.6000231689442012,
-          "dist_err_mm": null,
-          "group": "dolu bölme",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": false,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 0.6,
-          "ang": 15.0,
-          "hits": 0,
-          "seen": [],
-          "true_plane_dist": 0.5802244510505062,
-          "dist_err_mm": null,
-          "group": "dolu bölme",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": false,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.0,
-          "ang": -15.0,
-          "hits": 0,
-          "seen": [],
-          "true_plane_dist": 0.9659465959485989,
-          "dist_err_mm": null,
-          "group": "dolu bölme",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": false,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.0,
-          "ang": 0.0,
-          "hits": 0,
-          "seen": [],
-          "true_plane_dist": 0.9999999918271594,
-          "dist_err_mm": null,
-          "group": "dolu bölme",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": false,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.0,
-          "ang": 15.0,
-          "hits": 0,
-          "seen": [],
-          "true_plane_dist": 0.9659258183396877,
-          "dist_err_mm": null,
-          "group": "dolu bölme",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": false,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.5,
-          "ang": -15.0,
-          "hits": 0,
-          "seen": [],
-          "true_plane_dist": 1.4488887316169512,
-          "dist_err_mm": null,
-          "group": "dolu bölme",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": false,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.5,
-          "ang": 0.0,
-          "hits": 0,
-          "seen": [],
-          "true_plane_dist": 1.4999999918271816,
-          "dist_err_mm": null,
-          "group": "dolu bölme",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": false,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.5,
-          "ang": 15.0,
-          "hits": 0,
-          "seen": [],
-          "true_plane_dist": 1.4488887314576882,
-          "dist_err_mm": null,
-          "group": "dolu bölme",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": false,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 0.6,
-          "ang": -15.0,
-          "hits": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "true_plane_dist": 0.5802074240687682,
-          "dist_err_mm": 10.56947109441342,
-          "group": "boş bölme, komşular dolu (bilgi)",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 0.6,
-          "ang": 0.0,
-          "hits": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "true_plane_dist": 0.6000231689618251,
-          "dist_err_mm": 9.231220681489628,
-          "group": "boş bölme, komşular dolu (bilgi)",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 0.6,
-          "ang": 15.0,
-          "hits": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "true_plane_dist": 0.580207434875935,
-          "dist_err_mm": 10.465709314339545,
-          "group": "boş bölme, komşular dolu (bilgi)",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.0,
-          "ang": -15.0,
-          "hits": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "true_plane_dist": 0.9659465959368038,
-          "dist_err_mm": 23.80631850872561,
-          "group": "boş bölme, komşular dolu (bilgi)",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.0,
-          "ang": 0.0,
-          "hits": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "true_plane_dist": 0.9999999918271624,
-          "dist_err_mm": 25.440059551041116,
-          "group": "boş bölme, komşular dolu (bilgi)",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.0,
-          "ang": 15.0,
-          "hits": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "true_plane_dist": 0.9659258183396842,
-          "dist_err_mm": 24.232254845900194,
-          "group": "boş bölme, komşular dolu (bilgi)",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.5,
-          "ang": -15.0,
-          "hits": 5,
-          "seen": [
-            1
-          ],
-          "true_plane_dist": 1.4488887316169228,
-          "dist_err_mm": 80.26894043918898,
-          "group": "boş bölme, komşular dolu (bilgi)",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.5,
-          "ang": 0.0,
-          "hits": 5,
-          "seen": [
-            1
-          ],
-          "true_plane_dist": 1.4999999918271882,
-          "dist_err_mm": 53.063972773713,
-          "group": "boş bölme, komşular dolu (bilgi)",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        },
-        {
-          "D": 1.5,
-          "ang": 15.0,
-          "hits": 5,
-          "seen": [
-            1
-          ],
-          "true_plane_dist": 1.4488887314576722,
-          "dist_err_mm": 44.70282102090151,
-          "group": "boş bölme, komşular dolu (bilgi)",
-          "station": "source",
-          "bay": 1,
-          "target": 1,
-          "expect": true,
-          "ok": true,
-          "unknown_ids": [],
-          "full_bay_ids_seen": []
-        }
-      ],
-      "run_at": "2026-10-19 19:52:20"
+      "run_at": "—"
     }
   },
   {
     "id": "S5",
     "name": "Alt işaret tespiti",
-    "status": "KALDI",
-    "measured": "ID 26 tespiti (≥ kare-1): z0.02_dolu: 7/7 mesafe; z0.02_bos: 7/7 mesafe; z0.08_bos: 7/7 mesafe; z0.08_dolu: 1/7 mesafe. Bilgi z0.08_dolu (beklenen: yok): 0.2: kolinin içi, 0.3: 0, 0.4: 0, 0.5: 0, 0.6: 0, 0.7: 0, 0.8: 0. Poz: z0.02_dolu @0.5 m: yanal -0.81±0.00 mm, yaw +21.62±0.00° (n=30); z0.02_bos @0.5 m: yanal -0.81±0.00 mm, yaw +21.62±0.00° (n=30); z0.08_bos @0.5 m: yanal -0.72±0.00 mm, yaw +16.92±0.00° (n=30) — 30 kare birebir aynı (kamera gürültüsü uygulanmıyor). Bilgi taraması @0.5 m: yaw -5° → hata +21.4°, yaw -2° → hata +21.4°, yaw +2° → hata +21.5°, yaw +5° → hata +21.4°, yanal -2 cm → hata -0.46 mm, yanal -1 cm → hata -0.54 mm, yanal +1 cm → hata -1.05 mm, yanal +2 cm → hata -1.09 mm",
-    "criterion": "0.2–0.8 m, z = 0.02 koli var/yok ve z = 0.08 koli yok (D-48): doğru ID; 0.5 m'de 30 kare ortalaması yanal < 5 mm, yaw < 1°",
+    "status": "KALDIRILDI",
+    "measured": "ArUco işaretleri istasyonlardan kaldırıldı (D-56)",
+    "criterion": "yerine hizalama hedefi testi CV aşamasında yazılacak",
     "details": {
-      "fails": [
-        "z0.02_dolu poz: yanal -0.81 mm, yaw 21.62°",
-        "z0.02_bos poz: yanal -0.81 mm, yaw 21.62°",
-        "z0.08_bos poz: yanal -0.72 mm, yaw 16.92°"
-      ],
-      "views": [
-        {
-          "case": "z0.02_dolu",
-          "z": 0.02,
-          "D": 0.2,
-          "parcel": true,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_dolu",
-          "z": 0.02,
-          "D": 0.3,
-          "parcel": true,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_dolu",
-          "z": 0.02,
-          "D": 0.4,
-          "parcel": true,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_dolu",
-          "z": 0.02,
-          "D": 0.5,
-          "parcel": true,
-          "hits": 30,
-          "frames": 30,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "pose": {
-            "case": "z0.02_dolu",
-            "n": 30,
-            "lat_mean_mm": -0.8147590214445108,
-            "lat_std_mm": 0.0,
-            "depth_mean_mm": -9.183152145963657,
-            "depth_std_mm": 0.0,
-            "yaw_mean_deg": 21.617077340427304,
-            "yaw_std_deg": 7.105427357601002e-15,
-            "yaw_max_abs_deg": 21.61707734042731,
-            "ok": false
-          },
-          "ok": true
-        },
-        {
-          "case": "z0.02_dolu",
-          "z": 0.02,
-          "D": 0.6,
-          "parcel": true,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_dolu",
-          "z": 0.02,
-          "D": 0.7,
-          "parcel": true,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_dolu",
-          "z": 0.02,
-          "D": 0.8,
-          "parcel": true,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_bos",
-          "z": 0.02,
-          "D": 0.2,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_bos",
-          "z": 0.02,
-          "D": 0.3,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_bos",
-          "z": 0.02,
-          "D": 0.4,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_bos",
-          "z": 0.02,
-          "D": 0.5,
-          "parcel": false,
-          "hits": 30,
-          "frames": 30,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "pose": {
-            "case": "z0.02_bos",
-            "n": 30,
-            "lat_mean_mm": -0.8095564149033775,
-            "lat_std_mm": 1.0842021724855044e-16,
-            "depth_mean_mm": -9.071762980672027,
-            "depth_std_mm": 0.0,
-            "yaw_mean_deg": 21.61925327023922,
-            "yaw_std_deg": 7.105427357601002e-15,
-            "yaw_max_abs_deg": 21.619253270239213,
-            "ok": false
-          },
-          "ok": true
-        },
-        {
-          "case": "z0.02_bos",
-          "z": 0.02,
-          "D": 0.6,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_bos",
-          "z": 0.02,
-          "D": 0.7,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.02_bos",
-          "z": 0.02,
-          "D": 0.8,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_bos",
-          "z": 0.08,
-          "D": 0.2,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_bos",
-          "z": 0.08,
-          "D": 0.3,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_bos",
-          "z": 0.08,
-          "D": 0.4,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_bos",
-          "z": 0.08,
-          "D": 0.5,
-          "parcel": false,
-          "hits": 30,
-          "frames": 30,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "pose": {
-            "case": "z0.08_bos",
-            "n": 30,
-            "lat_mean_mm": -0.7150694287555531,
-            "lat_std_mm": 1.0842021724855044e-16,
-            "depth_mean_mm": 1.8308260203682147,
-            "depth_std_mm": 0.0,
-            "yaw_mean_deg": 16.923824422889524,
-            "yaw_std_deg": 3.552713678800501e-15,
-            "yaw_max_abs_deg": 16.92382442288952,
-            "ok": false
-          },
-          "ok": true
-        },
-        {
-          "case": "z0.08_bos",
-          "z": 0.08,
-          "D": 0.6,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_bos",
-          "z": 0.08,
-          "D": 0.7,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_bos",
-          "z": 0.08,
-          "D": 0.8,
-          "parcel": false,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            1,
-            26
-          ],
-          "judged": true,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_dolu",
-          "z": 0.08,
-          "D": 0.2,
-          "parcel": true,
-          "hits": 5,
-          "frames": 5,
-          "seen": [
-            26
-          ],
-          "judged": false,
-          "camera_inside_parcel": true,
-          "note": "kamera koli gövdesinin içinde: arka yüzler çizilmez, görüş geçersiz",
-          "ok": true
-        },
-        {
-          "case": "z0.08_dolu",
-          "z": 0.08,
-          "D": 0.3,
-          "parcel": true,
-          "hits": 0,
-          "frames": 5,
-          "seen": [],
-          "judged": false,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_dolu",
-          "z": 0.08,
-          "D": 0.4,
-          "parcel": true,
-          "hits": 0,
-          "frames": 5,
-          "seen": [],
-          "judged": false,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_dolu",
-          "z": 0.08,
-          "D": 0.5,
-          "parcel": true,
-          "hits": 0,
-          "frames": 5,
-          "seen": [],
-          "judged": false,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_dolu",
-          "z": 0.08,
-          "D": 0.6,
-          "parcel": true,
-          "hits": 0,
-          "frames": 5,
-          "seen": [],
-          "judged": false,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_dolu",
-          "z": 0.08,
-          "D": 0.7,
-          "parcel": true,
-          "hits": 0,
-          "frames": 5,
-          "seen": [],
-          "judged": false,
-          "camera_inside_parcel": false,
-          "ok": true
-        },
-        {
-          "case": "z0.08_dolu",
-          "z": 0.08,
-          "D": 0.8,
-          "parcel": true,
-          "hits": 0,
-          "frames": 5,
-          "seen": [],
-          "judged": false,
-          "camera_inside_parcel": false,
-          "ok": true
-        }
-      ],
-      "pose": [
-        {
-          "case": "z0.02_dolu",
-          "n": 30,
-          "lat_mean_mm": -0.8147590214445108,
-          "lat_std_mm": 0.0,
-          "depth_mean_mm": -9.183152145963657,
-          "depth_std_mm": 0.0,
-          "yaw_mean_deg": 21.617077340427304,
-          "yaw_std_deg": 7.105427357601002e-15,
-          "yaw_max_abs_deg": 21.61707734042731,
-          "ok": false
-        },
-        {
-          "case": "z0.02_bos",
-          "n": 30,
-          "lat_mean_mm": -0.8095564149033775,
-          "lat_std_mm": 1.0842021724855044e-16,
-          "depth_mean_mm": -9.071762980672027,
-          "depth_std_mm": 0.0,
-          "yaw_mean_deg": 21.61925327023922,
-          "yaw_std_deg": 7.105427357601002e-15,
-          "yaw_max_abs_deg": 21.619253270239213,
-          "ok": false
-        },
-        {
-          "case": "z0.08_bos",
-          "n": 30,
-          "lat_mean_mm": -0.7150694287555531,
-          "lat_std_mm": 1.0842021724855044e-16,
-          "depth_mean_mm": 1.8308260203682147,
-          "depth_std_mm": 0.0,
-          "yaw_mean_deg": 16.923824422889524,
-          "yaw_std_deg": 3.552713678800501e-15,
-          "yaw_max_abs_deg": 16.92382442288952,
-          "ok": false
-        }
-      ],
-      "sweep": [
-        {
-          "lateral_m": 0.0,
-          "yaw_deg": -5.0,
-          "detected": true,
-          "true_x_mm": -43.57787137382908,
-          "est_x_mm": -43.57048054532795,
-          "lat_err_mm": 0.007390828501131763,
-          "yaw_err_deg": 21.358490050569387
-        },
-        {
-          "lateral_m": 0.0,
-          "yaw_deg": -2.0,
-          "detected": true,
-          "true_x_mm": -17.449748351250488,
-          "est_x_mm": -17.960127632244227,
-          "lat_err_mm": -0.510379280993737,
-          "yaw_err_deg": 21.44902576338629
-        },
-        {
-          "lateral_m": 0.0,
-          "yaw_deg": 2.0,
-          "detected": true,
-          "true_x_mm": 17.449748351250488,
-          "est_x_mm": 16.39393334705406,
-          "lat_err_mm": -1.0558150041964296,
-          "yaw_err_deg": 21.458392236547155
-        },
-        {
-          "lateral_m": 0.0,
-          "yaw_deg": 5.0,
-          "detected": true,
-          "true_x_mm": 43.57787137382908,
-          "est_x_mm": 42.0186130279861,
-          "lat_err_mm": -1.559258345842987,
-          "yaw_err_deg": 21.436047283227612
-        },
-        {
-          "lateral_m": -0.02,
-          "yaw_deg": 0.0,
-          "detected": true,
-          "true_x_mm": -20.0,
-          "est_x_mm": -20.461873228598986,
-          "lat_err_mm": -0.46187322859898505,
-          "yaw_err_deg": 19.129454496058248
-        },
-        {
-          "lateral_m": -0.01,
-          "yaw_deg": 0.0,
-          "detected": true,
-          "true_x_mm": -10.0,
-          "est_x_mm": -10.538524592823602,
-          "lat_err_mm": -0.538524592823603,
-          "yaw_err_deg": 20.276619266320694
-        },
-        {
-          "lateral_m": 0.01,
-          "yaw_deg": 0.0,
-          "detected": true,
-          "true_x_mm": 10.0,
-          "est_x_mm": 8.945923300062647,
-          "lat_err_mm": -1.054076699937352,
-          "yaw_err_deg": 22.24450592079747
-        },
-        {
-          "lateral_m": 0.02,
-          "yaw_deg": 0.0,
-          "detected": true,
-          "true_x_mm": 20.0,
-          "est_x_mm": 18.91233689190061,
-          "lat_err_mm": -1.087663108099393,
-          "yaw_err_deg": 23.72805392835067
-        }
-      ],
-      "run_at": "2026-10-19 19:52:50"
+      "run_at": "—"
     }
   },
   {
     "id": "S6",
     "name": "Bırakma toleransı",
     "status": "GEÇTİ",
-    "measured": "+0.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +1.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -1.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +2.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -2.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +2.5 cm (bilgi): başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -2.5 cm (bilgi): başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +3.0 cm: başarısız (q 2.1 mm, taban 65.5 mm, eğim 7.86°, sürükleme 45.0 mm, geri 0.01 m, robot yunuslama -4.40°); -3.0 cm: başarısız (q 2.1 mm, taban 65.5 mm, eğim 7.86°, sürükleme 44.9 mm, geri 0.01 m, robot yunuslama -4.40°). Gözlenen sınır: +2.5 / -2.5 cm. Tam girişte robot yunuslama -0.41° (D-46). Komşu koliler tüm denemeler sonunda: parcel_source_0 0.000 mm, parcel_source_2 0.000 mm",
+    "measured": "+0.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +1.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -1.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +2.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -2.0 cm: başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +2.5 cm (bilgi): başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); -2.5 cm (bilgi): başarılı (q -0.0 mm, taban 50.0 mm, eğim 0.00°, sürükleme 0.0 mm, geri 0.35 m, robot yunuslama -0.41°); +3.0 cm: başarısız (q 2.1 mm, taban 65.5 mm, eğim 7.86°, sürükleme 44.9 mm, geri 0.01 m, robot yunuslama -4.40°); -3.0 cm: başarısız (q 2.1 mm, taban 65.5 mm, eğim 7.86°, sürükleme 44.9 mm, geri 0.01 m, robot yunuslama -4.40°). Gözlenen sınır: +2.5 / -2.5 cm. Tam girişte robot yunuslama -0.41° (D-46). Komşu koliler tüm denemeler sonunda: parcel_source_0 0.000 mm, parcel_source_2 0.000 mm",
     "criterion": "0–±2 cm: koli bölmede (taban 0.05 ± 2 mm, örtüşme ≥ 1 cm), eğim < 2°, çatal 0'a ulaşıyor (< 2 mm), sürükleme < 5 mm; ±3 cm: başarısızlık bekleniyor; komşu koliler < 1 mm",
     "details": {
       "trials": [
         {
           "offset_cm": 0.0,
-          "robot_pitch_deg": -0.409463065662978,
-          "carried_bottom_z": 0.08857992016633831,
-          "robot_pitch_after_lower_deg": -0.409463065662978,
-          "robot_roll_after_lower_deg": -2.089225018228957e-18,
-          "fork_q_end_mm": -3.471024143564435e-11,
+          "robot_pitch_deg": -0.4094630461768771,
+          "carried_bottom_z": 0.08858677309149485,
+          "robot_pitch_after_lower_deg": -0.4094630461768771,
+          "robot_roll_after_lower_deg": -1.8292196894673303e-17,
+          "fork_q_end_mm": -3.4710235391217154e-11,
           "placed": {
-            "x": 0.10127692251627574,
-            "y": 3.3258224742672135e-10,
-            "bottom_z": 0.04999958196773688,
-            "tilt_deg": 9.823592440329592e-05,
-            "min_overlap_m": 0.034999999667417736
+            "x": 0.10127689701219822,
+            "y": 3.2738697389067486e-10,
+            "bottom_z": 0.0499998282775454,
+            "tilt_deg": 8.665276770818118e-05,
+            "min_overlap_m": 0.03499999967261301
           },
           "final": {
-            "x": 0.10127692251627574,
-            "y": 3.3258224742672135e-10,
-            "bottom_z": 0.04999958196773688,
-            "tilt_deg": 9.823592440329592e-05,
-            "min_overlap_m": 0.034999999667417736
+            "x": 0.10127689701219822,
+            "y": 3.2738697389067486e-10,
+            "bottom_z": 0.0499998282775454,
+            "tilt_deg": 8.665276770818118e-05,
+            "min_overlap_m": 0.03499999967261301
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.3520380693154698,
+          "reverse_m": 0.35338803457331897,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1301,27 +242,27 @@
         },
         {
           "offset_cm": 1.0,
-          "robot_pitch_deg": -0.4094630599004557,
-          "carried_bottom_z": 0.08858690363002539,
-          "robot_pitch_after_lower_deg": -0.4094630599004557,
-          "robot_roll_after_lower_deg": -6.448389647115475e-17,
-          "fork_q_end_mm": -3.471024027012703e-11,
+          "robot_pitch_deg": -0.4094630585862277,
+          "carried_bottom_z": 0.08858229841563539,
+          "robot_pitch_after_lower_deg": -0.4094630585862277,
+          "robot_roll_after_lower_deg": -1.2670408879234924e-17,
+          "fork_q_end_mm": -3.4710236963310427e-11,
           "placed": {
-            "x": 0.10127688009239866,
-            "y": 0.010000000438930061,
-            "bottom_z": 0.0499998244868439,
-            "tilt_deg": 9.471886578517153e-05,
-            "min_overlap_m": 0.02499999956106992
+            "x": 0.10127689864275591,
+            "y": 0.010000000441729764,
+            "bottom_z": 0.04999963743649835,
+            "tilt_deg": 0.00010396775774938268,
+            "min_overlap_m": 0.02499999955827023
           },
           "final": {
-            "x": 0.10127688009239866,
-            "y": 0.010000000438930061,
-            "bottom_z": 0.0499998244868439,
-            "tilt_deg": 9.471886578517153e-05,
-            "min_overlap_m": 0.02499999956106992
+            "x": 0.10127689864275591,
+            "y": 0.010000000441729764,
+            "bottom_z": 0.04999963743649835,
+            "tilt_deg": 0.00010396775774938268,
+            "min_overlap_m": 0.02499999955827023
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.35233806159580067,
+          "reverse_m": 0.3526380538655467,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1333,27 +274,27 @@
         },
         {
           "offset_cm": -1.0,
-          "robot_pitch_deg": -0.40946306409355926,
-          "carried_bottom_z": 0.08858265513054872,
-          "robot_pitch_after_lower_deg": -0.40946306409355926,
-          "robot_roll_after_lower_deg": -5.274874697273093e-17,
-          "fork_q_end_mm": -3.4710242330111174e-11,
+          "robot_pitch_deg": -0.4094630633090029,
+          "carried_bottom_z": 0.08858096284701933,
+          "robot_pitch_after_lower_deg": -0.4094630633090029,
+          "robot_roll_after_lower_deg": -3.52468865794922e-17,
+          "fork_q_end_mm": -3.4710242736686943e-11,
           "placed": {
-            "x": 0.10127705867490078,
-            "y": -0.010000000834932894,
-            "bottom_z": 0.04999995911054442,
-            "tilt_deg": 1.0933637455190016e-05,
-            "min_overlap_m": 0.024999999165067094
+            "x": 0.10127706748752585,
+            "y": -0.009999999786061895,
+            "bottom_z": 0.04999994628254048,
+            "tilt_deg": 1.2460416145305404e-05,
+            "min_overlap_m": 0.025000000213938098
           },
           "final": {
-            "x": 0.10127705867490078,
-            "y": -0.010000000834932894,
-            "bottom_z": 0.04999995911054442,
-            "tilt_deg": 1.0933637455190016e-05,
-            "min_overlap_m": 0.024999999165067094
+            "x": 0.10127706748752585,
+            "y": -0.009999999786061895,
+            "bottom_z": 0.04999994628254048,
+            "tilt_deg": 1.2460416145305404e-05,
+            "min_overlap_m": 0.025000000213938098
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.35023811567597773,
+          "reverse_m": 0.35173807704585397,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1365,27 +306,27 @@
         },
         {
           "offset_cm": 2.0,
-          "robot_pitch_deg": -0.40946307295977075,
-          "carried_bottom_z": 0.08858289001701805,
-          "robot_pitch_after_lower_deg": -0.40946307295977075,
-          "robot_roll_after_lower_deg": 1.012725749631724e-17,
-          "fork_q_end_mm": -3.471023276202693e-11,
+          "robot_pitch_deg": -0.4094630664453822,
+          "carried_bottom_z": 0.08858124534534303,
+          "robot_pitch_after_lower_deg": -0.4094630664453822,
+          "robot_roll_after_lower_deg": -6.588597351538909e-17,
+          "fork_q_end_mm": -3.4710238833559135e-11,
           "placed": {
-            "x": 0.1012769225256378,
-            "y": 0.02000000055724957,
-            "bottom_z": 0.04999972428686028,
-            "tilt_deg": 8.67578549035409e-05,
-            "min_overlap_m": 0.01499999944275042
+            "x": 0.1012770108096328,
+            "y": 0.02000000056220465,
+            "bottom_z": 0.04999982295373129,
+            "tilt_deg": 4.4379807843987665e-05,
+            "min_overlap_m": 0.014999999437795342
           },
           "final": {
-            "x": 0.1012769225256378,
-            "y": 0.02000000055724957,
-            "bottom_z": 0.04999972428686028,
-            "tilt_deg": 8.67578549035409e-05,
-            "min_overlap_m": 0.01499999944275042
+            "x": 0.1012770108096328,
+            "y": 0.02000000056220465,
+            "bottom_z": 0.04999982295373129,
+            "tilt_deg": 4.4379807843987665e-05,
+            "min_overlap_m": 0.014999999437795342
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.35278804997034396,
+          "reverse_m": 0.35233806157293124,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1397,27 +338,27 @@
         },
         {
           "offset_cm": -2.0,
-          "robot_pitch_deg": -0.4094630625215654,
-          "carried_bottom_z": 0.0885804538691009,
-          "robot_pitch_after_lower_deg": -0.4094630625215654,
-          "robot_roll_after_lower_deg": 5.263881249156207e-18,
-          "fork_q_end_mm": -3.471023926724002e-11,
+          "robot_pitch_deg": -0.4094630835704647,
+          "carried_bottom_z": 0.08857570664521053,
+          "robot_pitch_after_lower_deg": -0.4094630835704647,
+          "robot_roll_after_lower_deg": -6.204420406185453e-17,
+          "fork_q_end_mm": -3.471024027012703e-11,
           "placed": {
-            "x": 0.10127707102694661,
-            "y": -0.01999985050510004,
-            "bottom_z": 0.04999957580809944,
-            "tilt_deg": 0.00010041191164755951,
-            "min_overlap_m": 0.015000149494899945
+            "x": 0.10127711108379223,
+            "y": -0.020000000224466605,
+            "bottom_z": 0.049999925300337145,
+            "tilt_deg": 1.079947731352768e-05,
+            "min_overlap_m": 0.014999999775533387
           },
           "final": {
-            "x": 0.10127707102694661,
-            "y": -0.01999985050510004,
-            "bottom_z": 0.04999957580809944,
-            "tilt_deg": 0.00010041191164755951,
-            "min_overlap_m": 0.015000149494899945
+            "x": 0.10127711108379223,
+            "y": -0.020000000224466605,
+            "bottom_z": 0.049999925300337145,
+            "tilt_deg": 1.079947731352768e-05,
+            "min_overlap_m": 0.014999999775533387
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.35293799705709666,
+          "reverse_m": 0.3532381171755944,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1429,27 +370,27 @@
         },
         {
           "offset_cm": 2.5,
-          "robot_pitch_deg": -0.40946307322152786,
-          "carried_bottom_z": 0.08857876049543936,
-          "robot_pitch_after_lower_deg": -0.40946307322152786,
-          "robot_roll_after_lower_deg": 2.512430046292125e-17,
-          "fork_q_end_mm": -3.471023311439271e-11,
+          "robot_pitch_deg": -0.4094630776282727,
+          "carried_bottom_z": 0.08858152342088968,
+          "robot_pitch_after_lower_deg": -0.4094630776282727,
+          "robot_roll_after_lower_deg": -3.2234913140894597e-17,
+          "fork_q_end_mm": -3.471022449498543e-11,
           "placed": {
-            "x": 0.10127693426299267,
-            "y": 0.024999909876833128,
-            "bottom_z": 0.04999950472252668,
-            "tilt_deg": 9.885725562207257e-05,
-            "min_overlap_m": 0.010000090123166869
+            "x": 0.10127701420231427,
+            "y": 0.024999909817778325,
+            "bottom_z": 0.049999829571474974,
+            "tilt_deg": 4.262032569176552e-05,
+            "min_overlap_m": 0.010000090182221658
           },
           "final": {
-            "x": 0.10127693426299267,
-            "y": 0.024999909876833128,
-            "bottom_z": 0.04999950472252668,
-            "tilt_deg": 9.885725562207257e-05,
-            "min_overlap_m": 0.010000090123166869
+            "x": 0.10127701420231427,
+            "y": 0.024999909817778325,
+            "bottom_z": 0.049999829571474974,
+            "tilt_deg": 4.262032569176552e-05,
+            "min_overlap_m": 0.010000090182221658
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.35128808862108046,
+          "reverse_m": 0.35143808477275923,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1461,27 +402,27 @@
         },
         {
           "offset_cm": -2.5,
-          "robot_pitch_deg": -0.40946308357047634,
-          "carried_bottom_z": 0.08857481615647655,
-          "robot_pitch_after_lower_deg": -0.40946308357047634,
-          "robot_roll_after_lower_deg": -3.3691548893391286e-18,
-          "fork_q_end_mm": -3.471024336010321e-11,
+          "robot_pitch_deg": -0.4094630682737161,
+          "carried_bottom_z": 0.08858187450721039,
+          "robot_pitch_after_lower_deg": -0.4094630682737161,
+          "robot_roll_after_lower_deg": 4.5432586448927507e-17,
+          "fork_q_end_mm": -3.4710243251683e-11,
           "placed": {
-            "x": 0.10127709504605131,
-            "y": -0.024999927505665046,
-            "bottom_z": 0.049999312878215935,
-            "tilt_deg": 0.00010444342514080513,
-            "min_overlap_m": 0.010000072494334947
+            "x": 0.10127693440275953,
+            "y": -0.024999998904107902,
+            "bottom_z": 0.049999669137705344,
+            "tilt_deg": 8.682084616639811e-05,
+            "min_overlap_m": 0.010000001095892094
           },
           "final": {
-            "x": 0.10127709504605131,
-            "y": -0.024999927505665046,
-            "bottom_z": 0.049999312878215935,
-            "tilt_deg": 0.00010444342514080513,
-            "min_overlap_m": 0.010000072494334947
+            "x": 0.10127693440275953,
+            "y": -0.024999998904107902,
+            "bottom_z": 0.049999669137705344,
+            "tilt_deg": 8.682084616639811e-05,
+            "min_overlap_m": 0.010000001095892094
           },
           "drag_mm": 0.0,
-          "reverse_m": 0.35263800817932833,
+          "reverse_m": 0.35128808864996247,
           "criteria": {
             "parcel_bottom": 1.0,
             "tilt": true,
@@ -1493,27 +434,27 @@
         },
         {
           "offset_cm": 3.0,
-          "robot_pitch_deg": -0.4094630838264526,
-          "carried_bottom_z": 0.08857465776889781,
-          "robot_pitch_after_lower_deg": -4.399178798499013,
-          "robot_roll_after_lower_deg": 6.518594866386066,
-          "fork_q_end_mm": 2.1490553667693524,
+          "robot_pitch_deg": -0.4094630509437768,
+          "carried_bottom_z": 0.08858848546120074,
+          "robot_pitch_after_lower_deg": -4.399200783109248,
+          "robot_roll_after_lower_deg": 6.518634488089819,
+          "fork_q_end_mm": 2.149064599436436,
           "placed": {
-            "x": 0.09169339937859156,
-            "y": 0.018535021413500073,
-            "bottom_z": 0.0673186311394181,
-            "tilt_deg": 6.645165810409609,
-            "min_overlap_m": 0.01646497858649991
+            "x": 0.09169256255758751,
+            "y": 0.018536771482692352,
+            "bottom_z": 0.06731861128328118,
+            "tilt_deg": 6.645234252180657,
+            "min_overlap_m": 0.016463228517307638
           },
           "final": {
-            "x": 0.05952285874521812,
-            "y": -0.012870120661542096,
-            "bottom_z": 0.06551678068329675,
-            "tilt_deg": 7.858875849693287,
-            "min_overlap_m": 0.022129879338457892
+            "x": 0.059608305392454985,
+            "y": -0.012870845799402543,
+            "bottom_z": 0.06551730078240584,
+            "tilt_deg": 7.858868880357896,
+            "min_overlap_m": 0.022129154200597453
           },
-          "drag_mm": 44.95969580709206,
-          "reverse_m": 0.010302404541565953,
+          "drag_mm": 44.89816005672786,
+          "reverse_m": 0.010287013999272605,
           "criteria": {
             "parcel_bottom": 0.0,
             "tilt": false,
@@ -1525,27 +466,27 @@
         },
         {
           "offset_cm": -3.0,
-          "robot_pitch_deg": -0.4094630625215073,
-          "carried_bottom_z": 0.08858117558045894,
-          "robot_pitch_after_lower_deg": -4.399187321189958,
-          "robot_roll_after_lower_deg": -6.518594833081162,
-          "fork_q_end_mm": 2.149053975436454,
+          "robot_pitch_deg": -0.40946307711131263,
+          "carried_bottom_z": 0.08857971099093115,
+          "robot_pitch_after_lower_deg": -4.399156972122542,
+          "robot_roll_after_lower_deg": -6.5185376042412715,
+          "fork_q_end_mm": 2.149048476500627,
           "placed": {
-            "x": 0.09169353028999128,
-            "y": -0.018535067190277827,
-            "bottom_z": 0.0673186444771676,
-            "tilt_deg": 6.645170485592359,
-            "min_overlap_m": 0.016464932809722166
+            "x": 0.09169338110931657,
+            "y": -0.018535128700092805,
+            "bottom_z": 0.06731863798476995,
+            "tilt_deg": 6.645171401726063,
+            "min_overlap_m": 0.01646487129990719
           },
           "final": {
-            "x": 0.05961116726816562,
-            "y": 0.012867054061208192,
-            "bottom_z": 0.06551397932407707,
-            "tilt_deg": 7.8588828655383285,
-            "min_overlap_m": 0.022132945938791795
+            "x": 0.059611691200291306,
+            "y": 0.012866934620253541,
+            "bottom_z": 0.06551392391173594,
+            "tilt_deg": 7.8588876663712774,
+            "min_overlap_m": 0.02213306537974645
           },
-          "drag_mm": 44.8928862533613,
-          "reverse_m": 0.010308353915834002,
+          "drag_mm": 44.8923646981744,
+          "reverse_m": 0.010308414749921078,
           "criteria": {
             "parcel_bottom": 0.0,
             "tilt": false,
@@ -1566,67 +507,67 @@
         "parcel_source_0": 0.0,
         "parcel_source_2": 0.0
       },
-      "run_at": "2026-10-19 19:59:48"
+      "run_at": "2026-10-21 18:52:44"
     }
   },
   {
     "id": "S7",
     "name": "Alma",
     "status": "GEÇTİ",
-    "measured": "girişte koli 0.00 mm oynadı; kaldırınca taban 88.8 mm (çıkıntı 50 mm); 0.501 m geri çekilme sonrası koli çatalda (bölme x -0.390 m), bağıl kayma 0.00 mm",
+    "measured": "girişte koli 0.00 mm oynadı; kaldırınca taban 88.8 mm (çıkıntı 50 mm); 0.502 m geri çekilme sonrası koli çatalda (bölme x -0.391 m), bağıl kayma 0.00 mm",
     "criterion": "Eklem 0'da tam giriş → 0.06 → 0.5 m geri: koli çatalda, bağıl kayma < 1 cm",
     "details": {
       "before": {
-        "x": 0.11000000000000498,
-        "y": 1.1691128803804869e-14,
-        "bottom_z": 0.049999999907896026,
+        "x": 0.11000000000000476,
+        "y": 7.354569733201858e-15,
+        "bottom_z": 0.04999999990789436,
         "tilt_deg": 0.0,
-        "min_overlap_m": 0.034999999999988304
+        "min_overlap_m": 0.034999999999992634
       },
       "disturbed_on_entry_mm": 0.0,
       "fork_reached": true,
       "lifted": {
-        "x": 0.10900793378994633,
-        "y": -1.0064387720888944e-18,
-        "bottom_z": 0.08880705605411643,
-        "tilt_deg": 0.40938813630463167,
+        "x": 0.10900794101500733,
+        "y": -1.7105345048063086e-18,
+        "bottom_z": 0.08880604305018736,
+        "tilt_deg": 0.40938813630196086,
         "min_overlap_m": 0.03499999999999999
       },
       "after": {
-        "x": -0.39018706578779083,
-        "y": 6.331608034598895e-17,
-        "bottom_z": 0.085038499251688,
+        "x": -0.39138706549683944,
+        "y": 4.758192475194991e-17,
+        "bottom_z": 0.08503727547218615,
         "tilt_deg": 1.4787793334710982e-06,
-        "min_overlap_m": 0.03499999999999992
+        "min_overlap_m": 0.03499999999999995
       },
       "rel0": [
-        0.12069604589955096,
-        -1.553886193152822e-19,
-        0.05499995954417494
+        0.12069604583399562,
+        -7.344148845912382e-19,
+        0.05499995995053229
       ],
       "rel1": [
-        0.1206993918175766,
-        7.063218177596978e-18,
-        0.05499999593432714
+        0.12069939176496858,
+        4.79998690007079e-18,
+        0.05499999593432611
       ],
-      "slip_mm": 0.003346115909155359,
-      "reverse_m": 0.5005285071225629,
-      "run_at": "2026-10-19 19:59:58"
+      "slip_mm": 0.0033461244611021337,
+      "reverse_m": 0.5017284762104157,
+      "run_at": "2026-10-21 18:52:54"
     }
   },
   {
     "id": "S8",
     "name": "Performans",
     "status": "GEÇTİ",
-    "measured": "RTF 1.001 (20 s duvar; ekransız EGL; 4 istasyon, 3 koli; kameralar: front_camera 30.3 Hz, lane_camera 30.3 Hz)",
+    "measured": "RTF 1.000 (20 s duvar; ekransız EGL; 4 istasyon, 3 koli; kameralar: front_camera 30.3 Hz, lane_camera 30.3 Hz)",
     "criterion": "RTF ≥ 0.9, iki kamera açık",
     "details": {
-      "rtf": 1.0007969596790744,
+      "rtf": 1.00029689542853,
       "camera_hz": {
-        "front_camera": 30.299907951914427,
-        "lane_camera": 30.299907951914427
+        "front_camera": 30.299905959696552,
+        "lane_camera": 30.299905959696552
       },
-      "run_at": "2026-10-19 19:51:54"
+      "run_at": "2026-10-21 18:49:46"
     }
   }
 ]

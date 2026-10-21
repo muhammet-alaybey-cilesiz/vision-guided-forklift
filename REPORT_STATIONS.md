@@ -4,6 +4,12 @@ Branch: `feature/stations` · Tarih: 2026-10-19 · Ortam: Ubuntu 24.04, ROS 2 Ja
 Gazebo Sim 8.15.0 (Harmonic), sdformat 14.9.0, OpenCV 4.6.0, xacro 2.1.1.
 Kararların ayrıntısı `DECISIONS.md` D-43 … D-51'de, mimari `ARCHITECTURE.md` §8'de.
 
+> **Not (2026-10-21):** Bu rapor v0.2.0 tasarımını (ArUco işaretli istasyonlar)
+> anlatır. ArUco işaretleri D-56 ile kaldırıldı; S4/S5 testleri artık yok
+> (sonuç tablosunda KALDIRILDI). İstasyon kimliği tabeladan, son hizalama
+> daire hedeflerden (§13, D-55), yanaşma bölme şeridinden gelir. Bu tasarımın
+> hâli `release/v0.2.0` dalında duruyor.
+
 ---
 
 ## 1. Özet

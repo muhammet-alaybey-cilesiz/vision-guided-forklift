@@ -5,8 +5,7 @@
     name        : model adı
     bays        : bölme sayısı N (≥ 1)
     color       : zemin plakası rengi: red | green | blue | neutral
-    bay_ids     : bölme numaraları k, virgülle ("3,4,5"); boş → 0 … N-1.
-                  Üst işaret ID = k, alt işaret ID = k + lower_id_offset (D-45)
+    bay_ids     : bölme numaraları k, virgülle ("3,4,5"); boş → 0 … N-1 (bölme etiketleri)
     params_file : station_params.yaml (tüm ölçüler buradan; D-02 kuralı)
   Model çerçevesi = station çerçevesi: orijin zeminde, ön kenarın ortasında;
   +x istasyonun içine (çatalın girdiği yön), +y sol, +z yukarı (D-43).
@@ -16,13 +15,14 @@
     zemin plakası  x ∈ [-apron_depth, ledge_depth + back_plate_thickness], tüm genişlik (collision'lı, D-46)
     çıkıntılar     kanallar arası, x ∈ [0, ledge_depth], z ∈ [0, ledge_height], μ = ledge_mu
     arka plaka     x ∈ [ledge_depth, ledge_depth + back_plate_thickness], z ∈ [0, back_plate_height]
-    işaretler      arka plakanın ön yüzünde, standoff kadar önde, yalnız visual
     hizalama       bölme başına 2 hedef (markers.align.pattern), çıkıntıların ön yüzünde kanalın
                    iki yanında, standoff kadar önde, yalnız visual (D-55)
+    bölme şeridi   zemin plakası üstünde bölme ekseninde, önlük bandından kanal girişine;
+                   istasyon renginde (kaynakta sarı), yalnız visual (D-56)
+  ArUco işaretleri D-56 ile kaldırıldı.
   Görünüm (yalnız visual, station_params.yaml → appearance, finishes):
     zemin plakası gözyaşı sac; üstünde istasyon renginde çevre bandı
-    arka plaka alüminyum, visual'ı back_plate_recess kadar geride; işaretlerin
-    arkasında beyaz etiket plakası (işaret ile arka plaka arasında)
+    arka plaka alüminyum, visual'ı back_plate_recess kadar geride
     çıkıntılar kauçuk; arka plakanın arkasında profil çerçeve, üstünde tabela
     (sign_<renk>.png) ve her bölmede numara etiketi (bay_<k>.png)
 -->
@@ -68,15 +68,11 @@
   <xacro:property name="T" value="${S['back_plate_thickness']}"/>
   <xacro:property name="A" value="${S['apron_depth']}"/>
   <xacro:property name="bt" value="${S['base_plate_thickness']}"/>
-  <!-- işaret kutusu merkezi x: ön yüzü D - standoff - thickness -->
-  <xacro:property name="marker_cx" value="${D - M['standoff'] - M['thickness'] / 2.0}"/>
-  <!-- doku kenarı = siyah kare · (6 + 2 · beyaz kenar hücresi) / 6 -->
-  <xacro:property name="tex_scale" value="${(6 + 2 * M['quiet_zone_cells']) / 6.0}"/>
-  <xacro:property name="dict_tag" value="${M['dictionary'].lower().replace('dict_', '')}"/>
   <!-- görünüm -->
   <xacro:property name="V" value="${P['appearance']}"/>
   <xacro:property name="F" value="${P['finishes']}"/>
   <xacro:property name="band_rgba" value="${C['band_neutral'] if color == 'neutral' else C[color]}"/>
+  <xacro:property name="lane_rgba" value="${C['lane_neutral'] if color == 'neutral' else C[color]}"/>
   <xacro:property name="recess" value="${V['back_plate_recess']}"/>
   <xacro:property name="pr" value="${V['frame']['profile']}"/>
   <xacro:property name="fh" value="${V['frame']['height']}"/>
@@ -96,26 +92,6 @@
     </xacro:if>
   </xacro:macro>
 
-  <!-- İşaret: 1 mm kutu, dokulu ön yüz -x'e bakar; collision yok. Kutunun
-       -x yüzünde doku ayna görüntüsü olmadan okunur (Faz 1 sondası, D-47). -->
-  <xacro:macro name="marker" params="kind marker_id y">
-    <xacro:property name="edge" value="${M[kind]['size'] * tex_scale}"/>
-    <visual name="marker_${kind}_${marker_id}">
-      <pose>${round(marker_cx, 9)} ${round(y, 9)} ${M[kind]['center_z']} 0 0 0</pose>
-      <geometry><box><size>${M['thickness']} ${round(edge, 9)} ${round(edge, 9)}</size></box></geometry>
-      <xacro:matte_material rgba="${C['marker']}"
-          albedo_map="${texture_uri_root}/aruco_${dict_tag}_id${'%02d' % marker_id}.png"/>
-    </visual>
-    <!-- beyaz etiket plakası: ön yüzü işaretin arka yüzü ile arka plaka visual'ı
-         arasında; alt kenarı zemin plakasının üstünde kalır -->
-    <xacro:property name="lm" value="${V['label_margin'][kind]}"/>
-    <xacro:property name="lt" value="${V['label_thickness']}"/>
-    <xacro:property name="lz_lo" value="${max(M[kind]['center_z'] - edge / 2.0 - lm, bt + V['band_height'])}"/>
-    <xacro:property name="lz_hi" value="${M[kind]['center_z'] + edge / 2.0 + lm}"/>
-    <xacro:box_visual name="label_${kind}_${marker_id}" size="${[lt, edge + 2 * lm, lz_hi - lz_lo]}"
-                      xyz="${[D + recess / 2.0, y, (lz_lo + lz_hi) / 2.0]}" rgba="${C['label']}" cast_shadows="false"/>
-  </xacro:macro>
-
   <!-- Hizalama hedefi: kanal kenarına edge_gap kadar uzakta, çıkıntı ön yüzünün
        ortasında; dokulu yüz -x'e bakar. station_layout.align_points ile aynı formül. -->
   <xacro:property name="AL" value="${M['align']}"/>
@@ -126,11 +102,14 @@
                       albedo_map="${texture_uri_root}/align_${AL['pattern']}.png"/>
   </xacro:macro>
 
-  <!-- Bölme i: çerçeve + üst ve alt işaret + iki hizalama hedefi -->
+  <!-- Bölme i: iki hizalama hedefi + bölme şeridi + numara etiketi.
+       Şerit: x ∈ [-apron_depth + band_width, 0], bölme ekseninde, zemin plakasının
+       üstünde band_height kalınlığında (station_layout.bay_line ile aynı). -->
+  <xacro:property name="bl_x0" value="${-A + V['band_width']}"/>
   <xacro:macro name="bays" params="i">
     <xacro:property name="y" value="${(i - (N - 1) / 2.0) * pitch}"/>
-    <xacro:marker kind="upper" marker_id="${ids[i]}" y="${y}"/>
-    <xacro:marker kind="lower" marker_id="${ids[i] + M['lower_id_offset']}" y="${y}"/>
+    <xacro:box_visual name="bay_line_${ids[i]}" size="${[-bl_x0, V['bay_line']['width'], V['band_height']]}"
+                      xyz="${[bl_x0 / 2.0, y, bt + V['band_height'] / 2.0]}" rgba="${lane_rgba}" cast_shadows="false"/>
     <xacro:align_target bay_id="${ids[i]}" side="right" y="${y - al_off}"/>
     <xacro:align_target bay_id="${ids[i]}" side="left" y="${y + al_off}"/>
     <xacro:box_visual name="bay_label_${ids[i]}" size="${[V['label_thickness'], V['bay_label']['size'], V['bay_label']['size']]}"

@@ -1,8 +1,8 @@
 # =============================================================================
-#  station_params.yaml — yük istasyonu, ArUco işaretleri ve koli (parcel)
+#  station_params.yaml — yük istasyonu, hizalama hedefleri ve koli (parcel)
 #  modellerinin TEK doğruluk kaynağı
 # -----------------------------------------------------------------------------
-#  station.sdf.xacro, parcel.sdf.xacro, generate_aruco_textures.py,
+#  station.sdf.xacro, parcel.sdf.xacro, generate_station_textures.py,
 #  stations.launch.py ve station_acceptance.py bu dosyayı okur. Xacro içinde
 #  yalnızca formül katsayıları (1/2, 1/12) bulunur.
 #
@@ -19,8 +19,9 @@
 #      aradakiler bay_pitch - channel_width genişliğinde
 #    * arka plaka: x ∈ [ledge_depth, ledge_depth + back_plate_thickness]
 #    * zemin plakası: x ∈ [-apron_depth, ledge_depth + back_plate_thickness]
-#    * işaret hücresi = size / (4 + 2) (4×4 veri + 1'er siyah çerçeve hücresi)
-#    * işaret dokusu kenarı = size · (6 + 2·quiet_zone_cells) / 6
+#    * hizalama hedefi merkezi: y_i ± (channel_width/2 + edge_gap + size/2),
+#      z = ledge_height/2, çıkıntı ön yüzünde (D-55)
+#    * bölme şeridi: bölme ekseninde, x ∈ [-apron_depth + band_width, 0] (D-56)
 #    * koli bölmedeki nominal merkezi: x = parcel_front_gap + parcel.size.x/2,
 #      z = ledge_height + parcel.size.z/2
 # =============================================================================
@@ -38,21 +39,13 @@ station:
   apron_depth: 0.30            # plakanın ön kenardan dışarı taşması
   parcel_front_gap: 0.01       # nominal koli önü x (bay çerçevesi)
 
-# ------------------------------------------------------- ArUco işaretleri ---
+# ------------------------------------------- işaretler (hizalama, D-55/56) ---
+# ArUco işaretleri kaldırıldı (D-56): istasyon kimliği tabeladan (renk), bölme
+# sırası hizalama hedefi çiftlerinden, yanaşma bölme şeridinden gelir.
 markers:
-  dictionary: DICT_4X4_50
-  max_bay_id: 24               # k ∈ [0, 24]: üst ID = k, alt ID = k + lower_id_offset
-  lower_id_offset: 25          # [D-45] alt/üst ID'leri farklı
-  quiet_zone_cells: 1          # dokuda siyah karenin çevresindeki beyaz kenar [hücre]
-  texture_px_per_cell: 100     # (6 + 2) · 100 = 800 px ≥ 600 px
-  standoff: 0.0005             # arka plaka ön yüzü ile işaret kutusu arası (z-fighting)
-  thickness: 0.001             # işaret kutusu kalınlığı (x); collision yok
-  lower:                       # çatal kamerası: ince hizalama, kanal tünelinden görünür
-    size: 0.04                 # siyah kare kenarı (beyaz kenar hariç)
-    center_z: 0.028            # [D-44] spesifikasyon 0.025 → 0.028
-  upper:                       # ön kamera: kaba yaklaşım ve doluluk
-    size: 0.08
-    center_z: 0.17
+  max_bay_id: 24               # bölme numarası k ∈ [0, 24] (bölme etiketleri bay_kk.png)
+  standoff: 0.0005             # çıkıntı ön yüzü ile hedef kutusu arası (z-fighting)
+  thickness: 0.001             # hedef kutusu kalınlığı (x); collision yok
   align:                       # [D-55] kanal kenarı hizalama hedefleri: bölme başına 2, çıkıntıların
                                # ön yüzünde kanalın iki yanında; dikeyde ön yüzün ortası (ledge_height / 2)
     pattern: bullseye          # [D-55] bullseye (halka + dolu daire; nokta = koyuluk ağırlık merkezi) | checker (2×2 dama)
@@ -61,11 +54,6 @@ markers:
     bullseye: {ring_outer: 0.028, ring_inner: 0.020, dot: 0.012}   # çaplar; kenar, halka ve boşluk 4 mm
     edge_gap: 0.005            # plakanın kanal tarafındaki kenarı ile kanal kenarı arası
     texture_px: 480            # doku kenarı [px]
-  detector:                    # OpenCV 4.6 DetectorParameters (testler ve ileride algılama node'u)
-    corner_refinement: CORNER_REFINE_SUBPIX
-    # [D-50] varsayılan 0.13; 25–30 px'lik alt işarette doku örneklemesi hücre
-    # kenarlarını ±1 px oynatıyor. 0.25–0.45 arası kararlı; 0.3 seçildi.
-    perspective_remove_ignored_margin_per_cell: 0.3
 
 # ----------------------------------------------------------------- koli -----
 parcel:
@@ -91,10 +79,9 @@ colors:
   neutral: [0.80, 0.80, 0.80, 1.0]   # kaynak istasyon zemin plakası (açık gri)
   ledge:   [0.25, 0.25, 0.27, 1.0]   # koyu gri
   back_plate: [0.95, 0.95, 0.95, 1.0]  # beyaz (işaret kontrastı)
-  marker:  [1.0, 1.0, 1.0, 1.0]      # albedo_map ile çarpılır
   parcel_body: [0.55, 0.36, 0.18, 1.0]  # kahverengi, test_parcel ile aynı
   band_neutral: [0.92, 0.92, 0.90, 1.0]  # kaynak istasyon bandı (beyaz zemin boyası)
-  label:   [1.0, 1.0, 1.0, 1.0]      # işaret etiket plakası (beyaz)
+  lane_neutral: [0.95, 0.75, 0.05, 1.0]  # kaynak istasyonun bölme şeridi (sarı; zemin şeridiyle aynı)
   tape:    [0.50, 0.37, 0.22, 1.0]   # koli bandı (kahverengi PP bant; tavan ışığında açılır)
 
 # ------------------------------------------------ görünüm (yalnız visual) ---
@@ -107,9 +94,8 @@ appearance:
   band_width: 0.04             # zemin plakası üstündeki renk bandı (çevre)
   band_height: 0.001           # bandın plaka üstünden yüksekliği (z-fighting payı)
   back_plate_recess: 0.001     # arka plaka visual'ı collision'ın bu kadar gerisinde;
-                               # etiket plakası araya girer (işaret konumu değişmez)
-  label_margin: {upper: 0.008, lower: 0.004}   # işaret dokusu çevresindeki beyaz pay
-  label_thickness: 0.0005
+                               # bölme etiketi araya girer
+  label_thickness: 0.0005      # bölme etiketi kalınlığı
   frame:                       # arka plakanın arkasında alüminyum profil çerçeve
     profile: 0.04              # profil kesiti (kare)
     height: 0.62               # dikme üst z
@@ -118,7 +104,11 @@ appearance:
     aspect: 4.0                # genişlik / yükseklik (doku 1024 × 256)
     top_z: 0.57
     thickness: 0.003
-  bay_label:                   # bölme numarası, arka plakada üst işaretin üstünde
+  bay_line:                    # [D-56] bölme şeridi: zemin plakası üstünde bölme ekseni boyunca,
+                               # önlük bandının iç kenarından kanal girişine (x = 0); rengi istasyonun
+                               # rengi, kaynak istasyonda sarı (colors.lane_neutral)
+    width: 0.04
+  bay_label:                   # bölme numarası, arka plakada
     size: 0.045                # kare kenarı
     center_z: 0.258
   parcel:

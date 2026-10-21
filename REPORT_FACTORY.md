@@ -121,7 +121,7 @@ kameraların optik merkezinin (x = 0.10) arkasında. Kameraların gördüğü
 2. **Arka plan:** Kaynak istasyonun arkasındaki ilk 5 m'de kahverengi kutu ya da
    kırmızı/yeşil/mavi nesne yok. Ön kameranın ±30° görüşündeki arka plan
    kepenk ve tuğla.
-3. **ArUco işaretleri:** Beyaz etiket plakası işaret çevresindeki beyaz payı
+3. **ArUco işaretleri (sonradan kaldırıldı, D-56):** Beyaz etiket plakası işaret çevresindeki beyaz payı
    büyütüyor. Bölme numaralarında kare kontur yok.
 4. **Robotun kendi görüntüsü:** Renk değişiklikleri kameraların görmediği
    parçalarda yapıldı. Acil stop kırmızısı kamera görüntüsüne girmiyor.

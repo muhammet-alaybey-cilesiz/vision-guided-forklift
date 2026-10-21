@@ -13,8 +13,8 @@
 <sdf xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- Dokuların model:// kökü. CMakeLists.txt aynı dizine kurar
-       (share/forklift_gazebo/models/aruco_markers/materials/textures). -->
-  <xacro:property name="texture_uri_root" value="model://aruco_markers/materials/textures"/>
+       (share/forklift_gazebo/models/station_targets/materials/textures). -->
+  <xacro:property name="texture_uri_root" value="model://station_targets/materials/textures"/>
   <!-- CC0 fotoğraf dokuları (depoda) ve build'de üretilen tabela dokuları -->
   <xacro:property name="finish_uri_root" value="model://factory_materials/materials/textures"/>
   <xacro:property name="sign_uri_root" value="model://factory_signs/materials/textures"/>

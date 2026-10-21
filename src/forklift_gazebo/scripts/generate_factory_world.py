@@ -124,21 +124,24 @@ def lanes(M, P, layout):
     by_name = {st['name']: st for st in layout['stations']}
     h, w = M['height'], Ln['width']
     vis, truth = [], []
-    x0, y0 = Ln['from']
+    cx, cy = Ln['from']
     for name in Ln['to_stations']:
         st = by_name[name]
         ex, ey, _ = sl.compose(st['pose'], -(S['apron_depth'] + Ln['end_gap']), 0.0)
+        yaw = math.atan2(ey - cy, ex - cx)
+        x0, y0 = cx + math.cos(yaw) * Ln['start_gap'], cy + math.sin(yaw) * Ln['start_gap']
         L = math.hypot(ex - x0, ey - y0)
-        yaw = math.atan2(ey - y0, ex - x0)
+        color_name = 'yellow' if st['color'] == 'neutral' else st['color']
+        rgba = P['colors']['lane_neutral'] if st['color'] == 'neutral' else P['colors'][st['color']]
         vis.append(box(f'lane_{name}', [L, w, h], [(x0 + ex) / 2, (y0 + ey) / 2, h / 2], yaw,
-                       matte(Ln['color'], roughness=0.6)))
+                       matte(rgba, roughness=0.6)))
         sb = Ln['stop_bar']
         bx, by = ex - math.cos(yaw) * sb['width'] / 2, ey - math.sin(yaw) * sb['width'] / 2
         vis.append(box(f'stop_{name}', [sb['width'], sb['length'], h * 1.5], [bx, by, h * 0.75], yaw,
                        matte(sb['color'], roughness=0.6)))
         truth.append({'station': name, 'start': [round(x0, 6) + 0.0, round(y0, 6) + 0.0],
                       'end': [round(ex, 6) + 0.0, round(ey, 6) + 0.0],
-                      'width': w, 'yaw': round(yaw, 6)})
+                      'width': w, 'yaw': round(yaw, 6), 'color': color_name})
     return vis, truth
 
 

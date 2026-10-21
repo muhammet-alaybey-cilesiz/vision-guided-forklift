@@ -1,17 +1,18 @@
 """station_layout.py — istasyon yerleşimi için ortak hesaplar (tek uygulama).
 
-generate_aruco_textures.py (build), stations.launch.py (spawn) ve
-station_acceptance.py (test) bu modülü içe aktarır; bölme konumu, ID şeması,
-işaret ve koli pozları yalnızca burada hesaplanır. Ölçüler
+generate_station_textures.py (build), stations.launch.py (spawn),
+generate_factory_world.py ve station_acceptance.py (test) bu modülü içe
+aktarır; bölme konumu, hizalama hedefi, bölme şeridi ve koli pozları yalnızca
+burada hesaplanır. Ölçüler
 config/station_params.yaml'dan, yerleşim config/stations.yaml'dan gelir.
 
 Çerçeveler (DECISIONS D-43):
   station : orijin zeminde, ön kenar ortası; +x istasyonun içine, +y sol, +z yukarı
   bay_i   : orijin zeminde, bölme i kanal ekseninde, ön kenarda; eksenler station ile aynı
-  işaret  : OpenCV ArUco işaret çerçevesi; orijin siyah karenin merkezi, x sağa,
-            y yukarı (−x yönünden bakan kameraya göre), z işaretten dışarı (−x_station)
-  hizalama hedefi : bölme kanalının iki yanında, çıkıntı ön yüzünde 2×2 dama deseni;
-            ölçülen nokta desenin merkez köşesi (X-köşe), DECISIONS D-55
+  hizalama hedefi : bölme kanalının iki yanında, çıkıntı ön yüzünde (D-55); ölçülen
+            nokta desen merkezi (bullseye: koyuluk ağırlık merkezi, checker: X-köşe)
+  bölme şeridi : zemin plakası üstünde bölme ekseni boyunca (D-56)
+ArUco işaretleri D-56 ile kaldırıldı.
 """
 
 import math
@@ -20,7 +21,6 @@ import yaml
 
 SEAL_COLORS = ('red', 'green', 'blue')
 STATION_COLORS = ('red', 'green', 'blue', 'neutral')
-MARKER_TYPES = ('upper', 'lower')
 ALIGN_SIDES = ('right', 'left')          # right: kanalın -y yanı, left: +y yanı
 ALIGN_PATTERNS = ('checker', 'bullseye')
 
@@ -29,9 +29,6 @@ def align_texture(params, pattern=None):
     """Hizalama hedefi doku adı (aruco_markers/materials/textures altında)."""
     return f'align_{pattern or params["markers"]["align"]["pattern"]}.png'
 
-# İşaret çerçevesinin station çerçevesindeki yönelimi (sütunlar: x_m, y_m, z_m):
-# x_m = -y_s, y_m = +z_s, z_m = -x_s. Konvansiyon sabiti, ölçü değildir.
-MARKER_RPY = (math.pi / 2, 0.0, -math.pi / 2)
 
 
 def load_yaml(path):
@@ -39,24 +36,8 @@ def load_yaml(path):
         return yaml.safe_load(f)
 
 
-def dict_tag(dictionary):
-    """'DICT_4X4_50' → '4x4_50' (doku dosya adı için)."""
-    return dictionary.lower().replace('dict_', '')
 
 
-def texture_name(params, marker_id):
-    return f'aruco_{dict_tag(params["markers"]["dictionary"])}_id{marker_id:02d}.png'
-
-
-def marker_ids(params, k):
-    """Bölme numarası k → {'upper': k, 'lower': k + offset} (DECISIONS D-45)."""
-    return {'upper': k, 'lower': k + params['markers']['lower_id_offset']}
-
-
-def all_marker_ids(params):
-    m = params['markers']
-    return list(range(m['max_bay_id'] + 1)) + \
-        list(range(m['lower_id_offset'], m['lower_id_offset'] + m['max_bay_id'] + 1))
 
 
 def bay_y(params, n_bays, i):
@@ -64,16 +45,6 @@ def bay_y(params, n_bays, i):
     return (i - (n_bays - 1) / 2.0) * params['station']['bay_pitch']
 
 
-def marker_face_x(params):
-    """İşaret kutusunun ön (dokulu, -x) yüzünün station x'i."""
-    s, m = params['station'], params['markers']
-    return s['ledge_depth'] - m['standoff'] - m['thickness']
-
-
-def marker_texture_size(params, kind):
-    """Dokunun kenar uzunluğu (siyah kare + beyaz kenar) [m]."""
-    m = params['markers']
-    return m[kind]['size'] * (6 + 2 * m['quiet_zone_cells']) / 6.0
 
 
 def align_face_x(params):
@@ -178,28 +149,31 @@ def validate_stations(params, layout):
 
 def _r(v):
     """Kayan nokta artıklarını (0.30000000000000004) atar; 1 µm'nin çok altında."""
-    return [round(c, 9) for c in v]
+    return [round(c, 9) + 0.0 for c in v]
 
 
-def markers(params, layout):
-    """Her işaret için kayıt: id, istasyon, bölme, tip, boyut, station ve dünya pozu."""
+
+def bay_line(params, n_bays, i):
+    """Bölme i şeridinin başlangıç ve bitişi (station çerçevesi, zemin plakası üst yüzü):
+    önlük bandının iç kenarından kanal girişine (x = 0), bölme ekseninde."""
+    s, v = params['station'], params['appearance']
+    y = bay_y(params, n_bays, i)
+    z = s['base_plate_thickness'] + v['band_height']
+    return (-s['apron_depth'] + v['band_width'], y, z), (0.0, y, z)
+
+
+def bay_lines(params, layout):
+    """Her bölme şeridi: istasyon, bölme, başlangıç/bitiş (station ve dünya), genişlik, renk adı."""
     out = []
-    face_x = marker_face_x(params)
     for st in layout['stations']:
         for i, k in enumerate(st['bay_ids']):
-            y = bay_y(params, st['bays'], i)
-            for kind, mid in marker_ids(params, k).items():
-                z = params['markers'][kind]['center_z']
-                wx, wy, wz = compose(st['pose'], face_x, y, z)
-                out.append({
-                    'id': mid, 'station': st['name'], 'bay': i, 'bay_id': k, 'type': kind,
-                    'size': params['markers'][kind]['size'],
-                    'pose_station': {'xyz': _r([face_x, y, z]), 'rpy': _r(MARKER_RPY)},
-                    'pose_world': {'xyz': _r([wx, wy, wz]),
-                                   'rpy': _r([MARKER_RPY[0], MARKER_RPY[1],
-                                              MARKER_RPY[2] + st['pose'][2]])},
-                })
-    return sorted(out, key=lambda m: m['id'])
+            a, b = bay_line(params, st['bays'], i)
+            out.append({'station': st['name'], 'bay': i, 'bay_id': k,
+                        'color': 'yellow' if st['color'] == 'neutral' else st['color'],
+                        'start_station': _r(a), 'end_station': _r(b),
+                        'start_world': _r(compose(st['pose'], *a)), 'end_world': _r(compose(st['pose'], *b)),
+                        'width': params['appearance']['bay_line']['width']})
+    return out
 
 
 def align_targets(params, layout):

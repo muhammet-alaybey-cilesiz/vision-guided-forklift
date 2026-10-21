@@ -9,8 +9,7 @@
     name        : model adı
     bays        : bölme sayısı N (≥ 1)
     color       : zemin plakası rengi: red | green | blue | neutral
-    bay_ids     : bölme numaraları k, virgülle ("3,4,5"); boş → 0 … N-1.
-                  Üst işaret ID = k, alt işaret ID = k + lower_id_offset (D-45)
+    bay_ids     : bölme numaraları k, virgülle ("3,4,5"); boş → 0 … N-1 (bölme etiketleri)
     params_file : station_params.yaml (tüm ölçüler buradan; D-02 kuralı)
   Model çerçevesi = station çerçevesi: orijin zeminde, ön kenarın ortasında;
   +x istasyonun içine (çatalın girdiği yön), +y sol, +z yukarı (D-43).
@@ -20,13 +19,14 @@
     zemin plakası  x ∈ [-apron_depth, ledge_depth + back_plate_thickness], tüm genişlik (collision'lı, D-46)
     çıkıntılar     kanallar arası, x ∈ [0, ledge_depth], z ∈ [0, ledge_height], μ = ledge_mu
     arka plaka     x ∈ [ledge_depth, ledge_depth + back_plate_thickness], z ∈ [0, back_plate_height]
-    işaretler      arka plakanın ön yüzünde, standoff kadar önde, yalnız visual
     hizalama       bölme başına 2 hedef (markers.align.pattern), çıkıntıların ön yüzünde kanalın
                    iki yanında, standoff kadar önde, yalnız visual (D-55)
+    bölme şeridi   zemin plakası üstünde bölme ekseninde, önlük bandından kanal girişine;
+                   istasyon renginde (kaynakta sarı), yalnız visual (D-56)
+  ArUco işaretleri D-56 ile kaldırıldı.
   Görünüm (yalnız visual, station_params.yaml → appearance, finishes):
     zemin plakası gözyaşı sac; üstünde istasyon renginde çevre bandı
-    arka plaka alüminyum, visual'ı back_plate_recess kadar geride; işaretlerin
-    arkasında beyaz etiket plakası (işaret ile arka plaka arasında)
+    arka plaka alüminyum, visual'ı back_plate_recess kadar geride
     çıkıntılar kauçuk; arka plakanın arkasında profil çerçeve, üstünde tabela
     (sign_<renk>.png) ve her bölmede numara etiketi (bay_<k>.png)
 -->
@@ -383,77 +383,17 @@
           </pbr>
         </material>
       </visual>
-      <visual name="marker_upper_3">
-        <pose>0.299 -0.3 0.17 0 0 0</pose>
+      <visual name="bay_line_3">
+        <pose>-0.13 -0.3 0.0025 0 0 0</pose>
         <geometry>
           <box>
-            <size>0.001 0.106666667 0.106666667</size>
-          </box>
-        </geometry>
-        <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
-          <pbr>
-            <metal>
-              <albedo_map>model://aruco_markers/materials/textures/aruco_4x4_50_id03.png</albedo_map>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
-            </metal>
-          </pbr>
-        </material>
-      </visual>
-      <visual name="label_upper_3">
-        <pose>0.3005 -0.3 0.17 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.0005 0.122666667 0.122666667</size>
+            <size>0.26 0.04 0.001</size>
           </box>
         </geometry>
         <cast_shadows>false</cast_shadows>
         <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
-          <pbr>
-            <metal>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
-            </metal>
-          </pbr>
-        </material>
-      </visual>
-      <visual name="marker_lower_28">
-        <pose>0.299 -0.3 0.028 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.001 0.053333333 0.053333333</size>
-          </box>
-        </geometry>
-        <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
-          <pbr>
-            <metal>
-              <albedo_map>model://aruco_markers/materials/textures/aruco_4x4_50_id28.png</albedo_map>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
-            </metal>
-          </pbr>
-        </material>
-      </visual>
-      <visual name="label_lower_28">
-        <pose>0.3005 -0.3 0.030833333 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.0005 0.061333333 0.055666667</size>
-          </box>
-        </geometry>
-        <cast_shadows>false</cast_shadows>
-        <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <ambient>0.68 0.04 0.04 1.0</ambient>
+          <diffuse>0.85 0.05 0.05 1.0</diffuse>
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
@@ -477,7 +417,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
+              <albedo_map>model://station_targets/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -498,7 +438,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
+              <albedo_map>model://station_targets/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -526,77 +466,17 @@
           </pbr>
         </material>
       </visual>
-      <visual name="marker_upper_4">
-        <pose>0.299 0.0 0.17 0 0 0</pose>
+      <visual name="bay_line_4">
+        <pose>-0.13 0.0 0.0025 0 0 0</pose>
         <geometry>
           <box>
-            <size>0.001 0.106666667 0.106666667</size>
-          </box>
-        </geometry>
-        <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
-          <pbr>
-            <metal>
-              <albedo_map>model://aruco_markers/materials/textures/aruco_4x4_50_id04.png</albedo_map>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
-            </metal>
-          </pbr>
-        </material>
-      </visual>
-      <visual name="label_upper_4">
-        <pose>0.3005 0.0 0.17 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.0005 0.122666667 0.122666667</size>
+            <size>0.26 0.04 0.001</size>
           </box>
         </geometry>
         <cast_shadows>false</cast_shadows>
         <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
-          <pbr>
-            <metal>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
-            </metal>
-          </pbr>
-        </material>
-      </visual>
-      <visual name="marker_lower_29">
-        <pose>0.299 0.0 0.028 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.001 0.053333333 0.053333333</size>
-          </box>
-        </geometry>
-        <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
-          <pbr>
-            <metal>
-              <albedo_map>model://aruco_markers/materials/textures/aruco_4x4_50_id29.png</albedo_map>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
-            </metal>
-          </pbr>
-        </material>
-      </visual>
-      <visual name="label_lower_29">
-        <pose>0.3005 0.0 0.030833333 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.0005 0.061333333 0.055666667</size>
-          </box>
-        </geometry>
-        <cast_shadows>false</cast_shadows>
-        <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <ambient>0.68 0.04 0.04 1.0</ambient>
+          <diffuse>0.85 0.05 0.05 1.0</diffuse>
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
@@ -620,7 +500,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
+              <albedo_map>model://station_targets/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -641,7 +521,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
+              <albedo_map>model://station_targets/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -669,77 +549,17 @@
           </pbr>
         </material>
       </visual>
-      <visual name="marker_upper_5">
-        <pose>0.299 0.3 0.17 0 0 0</pose>
+      <visual name="bay_line_5">
+        <pose>-0.13 0.3 0.0025 0 0 0</pose>
         <geometry>
           <box>
-            <size>0.001 0.106666667 0.106666667</size>
-          </box>
-        </geometry>
-        <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
-          <pbr>
-            <metal>
-              <albedo_map>model://aruco_markers/materials/textures/aruco_4x4_50_id05.png</albedo_map>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
-            </metal>
-          </pbr>
-        </material>
-      </visual>
-      <visual name="label_upper_5">
-        <pose>0.3005 0.3 0.17 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.0005 0.122666667 0.122666667</size>
+            <size>0.26 0.04 0.001</size>
           </box>
         </geometry>
         <cast_shadows>false</cast_shadows>
         <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
-          <pbr>
-            <metal>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
-            </metal>
-          </pbr>
-        </material>
-      </visual>
-      <visual name="marker_lower_30">
-        <pose>0.299 0.3 0.028 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.001 0.053333333 0.053333333</size>
-          </box>
-        </geometry>
-        <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
-          <specular>0.05 0.05 0.05 1.0</specular>
-          <pbr>
-            <metal>
-              <albedo_map>model://aruco_markers/materials/textures/aruco_4x4_50_id30.png</albedo_map>
-              <metalness>0.0</metalness>
-              <roughness>1.0</roughness>
-            </metal>
-          </pbr>
-        </material>
-      </visual>
-      <visual name="label_lower_30">
-        <pose>0.3005 0.3 0.030833333 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.0005 0.061333333 0.055666667</size>
-          </box>
-        </geometry>
-        <cast_shadows>false</cast_shadows>
-        <material>
-          <ambient>0.8 0.8 0.8 1.0</ambient>
-          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <ambient>0.68 0.04 0.04 1.0</ambient>
+          <diffuse>0.85 0.05 0.05 1.0</diffuse>
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
@@ -763,7 +583,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
+              <albedo_map>model://station_targets/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>
@@ -784,7 +604,7 @@
           <specular>0.05 0.05 0.05 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://aruco_markers/materials/textures/align_bullseye.png</albedo_map>
+              <albedo_map>model://station_targets/materials/textures/align_bullseye.png</albedo_map>
               <metalness>0.0</metalness>
               <roughness>1.0</roughness>
             </metal>

@@ -844,7 +844,7 @@ carriage front is at bay x = 0, so `base_link` is at bay x = −0.13.
 | Robot body at full entry | chassis front −0.050, wheel front −0.080, mast upright −0.020, carriage 0.000 (bay x) | only the forks enter the bay (x > 0) |
 | Neighbour bays | neighbour parcel inner edge \|y\| = 0.18 at x ≥ 0.01; carriage \|y\| ≤ 0.12, wheels \|y\| ≤ 0.185 but x ≤ −0.08; carried parcel to neighbour parcel ≥ 30 mm at a 3 cm offset | no contact |
 
-## D-44 Lower marker centre at z = 0.028 (Accepted, Spec deviation)
+## D-44 Lower marker centre at z = 0.028 (Superseded by D-56: markers removed)
 The first spec placed the lower 0.04 m marker at z = 0.005–0.045. A 4×4 ArUco
 marker is 6 cells wide including its black border, so one cell is
 0.04 / 6 ≈ 6.7 mm. Detection needs a white quiet zone of at least one cell
@@ -857,7 +857,7 @@ z = 0.02, the parcel's back bottom edge hides the plate above z = 0.0537 at
 0.8 m and above z = 0.0565 at 0.5 m, so up to 1 mm of the quiet zone can be lost
 at 0.8 m. S5 measures the effect.
 
-## D-45 Different IDs for the upper and lower markers (Accepted, Spec deviation)
+## D-45 Different IDs for the upper and lower markers (Superseded by D-56: markers removed)
 Pose estimation assumes one marker size for each ID. If the same ID appeared
 at 0.08 m and at 0.04 m, the estimate would scale the distance by 2 for one of
 them, and the front camera can see both markers at once from a distance. The
@@ -876,7 +876,7 @@ At joint 0 the fork top is still about 20 mm under the ledges. S6 and S7
 measure the real effect. The plate uses the default SDF friction (μ = 1, like
 the floor).
 
-## D-47 ArUco textures: build-time generation, OpenCV 4.6 API, `model://` path (Accepted, Verified)
+## D-47 ArUco textures: build-time generation, OpenCV 4.6 API, `model://` path (Partly superseded by D-56: the build-time principle now covers the alignment-target textures)
 * The installed OpenCV is **4.6.0**, so the code uses the pre-4.7 API:
   `cv2.aruco.Dictionary_get`, `drawMarker(..., borderBits=1)`,
   `DetectorParameters_create` and `detectMarkers`. `ArucoDetector` and
@@ -905,7 +905,7 @@ the floor).
   `python.range` and so on (the bare names are deprecated or missing), and
   `--` is not allowed inside XML comments.
 
-## D-48 Station acceptance test definitions (Accepted, 2026-10-19)
+## D-48 Station acceptance test definitions (Accepted, 2026-10-19; S4/S5 removed by D-56)
 * **S4 distance** = horizontal distance from the front-camera optical centre
   to the marker plane. In the ±15° case, the robot stands on an arc around
   the marker centre and its yaw points at the marker. The upper marker of a
@@ -948,7 +948,7 @@ reproduce the problem, so the mechanism is not proven. Decision: `Gz._req` in
   its real pose is checked in `dynamic_pose/info`. A static model has neither
   of these properties.
 
-## D-50 ArUco detector parameters (Accepted, Measured on S4/S5 frames)
+## D-50 ArUco detector parameters (Superseded by D-56: markers removed)
 `station_params.yaml → markers.detector`: `CORNER_REFINE_SUBPIX` and
 `perspectiveRemoveIgnoredMarginPerCell = 0.3` (OpenCV default 0.13). With the
 default, the lower marker was missed at 0.6 m (z = 0.02) and at 0.7–0.8 m
@@ -961,7 +961,7 @@ inside that range. Caveat: the value was tuned on the test frames, and the
 plateau is the evidence that it is not overfitted. The future detection node
 should read the same block.
 
-## D-51 Findings from S4/S5 that affect the fork-camera step (Open: S5 criterion; yaw addressed by D-55)
+## D-51 Findings from S4/S5 that affect the fork-camera step (Closed by D-55/D-56; camera-noise finding still open)
 1. **Camera noise is not applied.** Both robot cameras and the S5 camera
    declare Gaussian noise with σ = 0.007. Consecutive frames are identical
    (mean difference 0.001 grey levels), and the sky region has a spatial
@@ -1167,6 +1167,55 @@ fronts on both sides of each channel, for fork alignment and centring.
   are found without ground truth; rays are intersected with z = ledge_height /
   2. This addresses the yaw part of D-51 (lower marker: +21.6° at 0.5 m); the
   S5 criterion itself is redefined in the CV phase.
+
+## D-56 ArUco markers removed; station identity from the sign, bay lanes (Accepted, owner decision 2026-10-21)
+Owner's reasoning, checked against what each marker still did:
+* **Occupancy** belongs to object detection of the parcel and its seal, not to
+  "the parcel hides the upper marker".
+* **Identity**: the robot can tell the station from its sign. The coloured
+  block (≈ 15 × 15 cm) is larger than the 8 cm upper marker, so it is visible
+  from farther away, and it matches the task logic (drop a blue-sealed parcel
+  at the blue sign). The source sign is the neutral one. The bay index comes
+  from the order of the alignment-target pairs (left to right), so bay IDs are
+  not needed. Limit: two stations of one colour would be ambiguous; fine for
+  four stations.
+* **Global pose from a surveyed marker map** is not wanted: the robot works
+  relative to what it sees. `markers.yaml` stays as ground truth for
+  evaluation only and is marked "the robot does not read it".
+* **Fine alignment**: the bullseye targets (D-55) replace the lower marker
+  (0.2° vs 21.6° yaw error), and the lower markers produced false bullseye
+  candidates.
+
+Changes:
+* Removed: upper and lower markers and their white label plates, the ID
+  scheme (k / k + 25), the 50 ArUco textures, `markers.dictionary`,
+  `lower_id_offset`, quiet zone, `markers.detector` (D-50), and tests S4/S5
+  with the ArUco reader and the S5 test camera. S4/S5 stay in the results
+  table as **KALDIRILDI** so the numbering does not shift; an alignment test
+  on the bullseye targets replaces S5 in the CV phase. Bay IDs stay for the
+  yellow bay labels.
+* `generate_aruco_textures.py` → `generate_station_textures.py`;
+  `model://aruco_markers` → `model://station_targets` (alignment textures);
+  `markers.yaml` now holds `align_targets` and `bay_lines`.
+* **Bay lanes**: a 40 mm line on the tread plate along every bay axis, from
+  the inner edge of the apron band to the channel entry (x = 0), in the
+  station colour (yellow at the source). Part of the station model, so it
+  exists in both worlds and moves with the station. Lane camera: follow the
+  bay line from ~2 m to ~0.5 m, then the bullseye pair for the last
+  millimetres and the stop distance (the line end alone gives neither).
+* **Coloured floor lanes** (factory): each lane has its station's colour, the
+  lane to the source is yellow, so "follow the blue line" needs no junction
+  logic. Lanes start 0.12 m from the spawn point so the four colours do not
+  overlap (z-fighting). Owner's alternative, a yellow lane with small symbols,
+  is kept as a fallback if the coloured floor confuses seal detection (the
+  seals sit on parcels above the floor, so a parcel ROI separates them).
+* S2 now checks the bay lanes (count, start/end, axis, width, top face,
+  colour, markers.yaml) and that no marker visuals are left: 1231 checks,
+  0 errors. S3, S6, S7 and S8 re-run after the change: all pass (drop ±2.5 cm,
+  pick 0.00 mm slip, RTF 1.000).
+* Observed: with the lower markers gone, the yellow bay label on the back plate
+  is the one remaining false bullseye candidate (dark centre, light edge); the
+  same-front-line rule removes it (it sits 0.3 m behind the targets).
 
 ---
 

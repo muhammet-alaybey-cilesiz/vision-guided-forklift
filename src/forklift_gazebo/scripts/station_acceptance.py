@@ -10,8 +10,12 @@ Seçenekler
   --ws DIR     workspace kökü (varsayılan: ~/cv_forklift_ws)
   --gui        simülasyonu Gazebo penceresiyle aç (varsayılan: ekransız EGL)
 
+Testler: S1 (xacro → SDF), S2 (geometri), S3 (statik kararlılık), S6 (bırakma),
+S7 (alma), S8 (performans). S4/S5 (ArUco işaret tespiti) D-56 ile kaldırıldı;
+raporda KALDIRILDI olarak görünür, numaralar korunur.
+
 S1 ve S2 simülasyon gerektirmez; kurulu paketteki xacro ve parametre dosyalarını
-kullanır (önce colcon build). S3–S8 için betik simülasyonu kendisi başlatır
+kullanır (önce colcon build). S3, S6–S8 için betik simülasyonu kendisi başlatır
 (station_sim.launch.py, control:=false: /cmd_vel'e doğrudan yayın yapılır,
 DECISIONS D-42) ve tam dünyayı spawn anından itibaren kullanır; S3 bu yüzden
 oturumun ilk testidir.
@@ -45,7 +49,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import station_layout as sl  # noqa: E402
 
 PASS, FAIL, NOT_RUN = 'GEÇTİ', 'KALDI', 'ÇALIŞTIRILAMADI'
-ALL_TESTS = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8']
+ALL_TESTS = ['S1', 'S2', 'S3', 'S6', 'S7', 'S8']
+# D-56: ArUco işaretleri kaldırıldı; S4/S5 raporda KALDIRILDI olarak kalır (numaralar korunur).
+REMOVED_TESTS = {'S4': 'Üst işaret tespiti', 'S5': 'Alt işaret tespiti'}
+REMOVED = 'KALDIRILDI'
 TEST_NAMES = {
     'S1': 'xacro → SDF, gz sdf -k',
     'S2': 'Geometri denetimi',
@@ -72,14 +79,13 @@ class Setup:
         self.markers_file = os.path.join(self.share, 'config', 'markers.yaml')
         self.station_xacro = os.path.join(self.share, 'xacro', 'station.sdf.xacro')
         self.parcel_xacro = os.path.join(self.share, 'xacro', 'parcel.sdf.xacro')
-        self.texture_dir = os.path.join(self.share, 'models', 'aruco_markers', 'materials', 'textures')
+        self.texture_dir = os.path.join(self.share, 'models', 'station_targets', 'materials', 'textures')
         self.params = sl.load_yaml(self.params_file)
         self.layout = sl.load_yaml(self.stations_file)
         self.robot = sl.load_yaml(os.path.join(get_package_share_directory('forklift_description'),
                                                'config', 'forklift_params.yaml'))
         self.world = 'station_test'
         self.gui = False
-        self.raw_dir = None
         self.logs = os.path.join(docs, 'logs', 'stations')
         self.images = os.path.join(docs, 'images', 'stations')
         os.makedirs(self.logs, exist_ok=True)
@@ -114,7 +120,11 @@ class Report:
         print(f'[{r.id}] {r.status:16s} ölçülen: {r.measured} | kriter: {r.criterion}', flush=True)
 
     def write(self):
-        order = [t for t in ALL_TESTS if t in self.results]
+        for t, name in REMOVED_TESTS.items():
+            self.results[t] = Result(t, name, REMOVED, 'ArUco işaretleri istasyonlardan kaldırıldı (D-56)',
+                                     'yerine hizalama hedefi testi CV aşamasında yazılacak',
+                                     {'run_at': '—'})
+        order = sorted(self.results, key=lambda t: int(t[1:]))
         with open(self.json_path, 'w') as f:
             json.dump([asdict(self.results[t]) for t in order], f, indent=2, ensure_ascii=False, default=float)
         lines = ['# İstasyon kabul testi sonuçları', '',
@@ -230,7 +240,7 @@ def s1(st, rep):
 # =============================================================================
 def check_station_sdf(st, ck, sdf_text, n, ids, tag):
     P = st.params
-    S, M = P['station'], P['markers']
+    S = P['station']
     model, link, cols, vis, frames = parse_model(sdf_text)
     W = n * S['bay_pitch']
     ck.true(f'{tag}: static', model.findtext('static') == 'true')
@@ -276,29 +286,24 @@ def check_station_sdf(st, ck, sdf_text, n, ids, tag):
     for i in range(n - 1):
         ck.eq(f'{tag}: adım {i}→{i + 1}', centers[i + 1] - centers[i], S['bay_pitch'])
 
-    # işaretler: her bölmede üst (ID k) ve alt (ID k + offset); yalnız visual
-    face_x = sl.marker_face_x(P)
-    ck.true(f'{tag}: işaretlerin collision\'ı yok', not any('marker' in k for k in cols))
+    # bölme şeritleri (D-56): bölme ekseninde, önlük bandından kanal girişine, plaka üstünde
+    V = P['appearance']
+    ck.true(f'{tag}: bölme şeritlerinin collision\'ı yok', not any('bay_line' in k for k in cols))
     found = {}
     for i, k in enumerate(ids):
-        for kind, mid in sl.marker_ids(P, k).items():
-            v = vis.get(f'marker_{kind}_{mid}')
-            ck.true(f'{tag}: marker_{kind}_{mid} var', v is not None)
-            if v is None:
-                continue
-            ck.eq(f'{tag}: {kind} {mid} ön yüz x', v.lo[0], face_x)
-            ck.eq(f'{tag}: {kind} {mid} kalınlık', v.size[0], M['thickness'])
-            ck.eq(f'{tag}: {kind} {mid} arka plakaya boşluk', S['ledge_depth'] - v.hi[0], M['standoff'])
-            ck.eq(f'{tag}: {kind} {mid} y', v.c[1], sl.bay_y(P, n, i))
-            ck.eq(f'{tag}: {kind} {mid} merkez z', v.c[2], M[kind]['center_z'])
-            # siyah kare = doku kenarı · 6 / (6 + 2 · beyaz kenar)
-            black = v.size[1] * 6 / (6 + 2 * M['quiet_zone_cells'])
-            ck.eq(f'{tag}: {kind} {mid} siyah kare', black, M[kind]['size'])
-            ck.eq(f'{tag}: {kind} {mid} kare (y = z)', v.size[1], v.size[2])
-            amap = v.el.findtext('material/pbr/metal/albedo_map') or ''
-            ck.true(f'{tag}: {kind} {mid} albedo_map {amap}',
-                    amap.endswith('/' + sl.texture_name(P, mid)) and amap.startswith('model://'))
-            found[mid] = v
+        v = vis.get(f'bay_line_{k}')
+        ck.true(f'{tag}: bay_line_{k} var', v is not None)
+        if v is None:
+            continue
+        (x0, y, z), (x1, _, _) = sl.bay_line(P, n, i)
+        ck.eq(f'{tag}: bay_line {k} x başı', v.lo[0], x0)
+        ck.eq(f'{tag}: bay_line {k} x sonu (kanal girişi)', v.hi[0], x1)
+        ck.eq(f'{tag}: bay_line {k} y (bölme ekseni)', v.c[1], y)
+        ck.eq(f'{tag}: bay_line {k} genişlik', v.size[1], V['bay_line']['width'])
+        ck.eq(f'{tag}: bay_line {k} üst yüz', v.hi[2], z)
+        ck.eq(f'{tag}: bay_line {k} alt yüz = plaka üstü', v.lo[2], S['base_plate_thickness'])
+        found[k] = v
+    ck.true(f'{tag}: işaret (ArUco) visual\'ı yok (D-56)', not any(k.startswith(('marker_', 'label_')) for k in vis))
     return found
 
 
@@ -340,7 +345,7 @@ def check_align_sdf(st, ck, sdf_text, n, ids, tag):
 def check_align_texture(st, ck):
     """Kurulu hizalama dokuları (iki desen): var, kare, texture_px; nokta doku merkezinde (öz denetim)."""
     import cv2
-    import generate_aruco_textures as gat
+    import generate_station_textures as gat
     A = st.params['markers']['align']
     for pattern, check in (('checker', gat.align_self_check), ('bullseye', gat.bullseye_self_check)):
         img = cv2.imread(os.path.join(st.texture_dir, sl.align_texture(st.params, pattern)), cv2.IMREAD_GRAYSCALE)
@@ -352,23 +357,6 @@ def check_align_texture(st, ck):
         ck.true(f'hizalama dokusu {pattern} merkez ±0.5 px', check(img))
 
 
-def check_texture(st, ck, mid):
-    """Kurulu doku: var, ≥ 600 px, kare ve kendi ID'sini veriyor."""
-    import cv2
-    path = os.path.join(st.texture_dir, sl.texture_name(st.params, mid))
-    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-    ck.true(f'doku {mid} mevcut', img is not None)
-    if img is None:
-        return
-    ck.true(f'doku {mid} ≥ 600 px kare', img.shape[0] == img.shape[1] >= 600)
-    d = cv2.aruco.Dictionary_get(getattr(cv2.aruco, st.params['markers']['dictionary']))
-    _, ids, _ = cv2.aruco.detectMarkers(img, d, parameters=cv2.aruco.DetectorParameters_create())
-    ck.true(f'doku {mid} ID okunuyor', ids is not None and ids.ravel().tolist() == [mid])
-    # beyaz kenar genişliği: quiet_zone_cells / (6 + 2 · quiet_zone_cells) · kenar
-    q = st.params['markers']['quiet_zone_cells']
-    edge_px = round(img.shape[0] * q / (6 + 2 * q))
-    ck.true(f'doku {mid} beyaz kenar {edge_px} px',
-            int(img[:edge_px].min()) == 255 and int(img[edge_px + 1].min()) == 0)
 
 
 def check_parcel_sdf(st, ck, sdf_text, color):
@@ -418,9 +406,10 @@ def s2(st, rep):
     # stations.yaml'daki gerçek istasyonlar ↔ kurulu markers.yaml
     with open(st.markers_file) as f:
         mk = yaml.safe_load(f)
-    by_id = {m['id']: m for m in mk['markers']}
+    ck.true('markers.yaml ArUco işareti içermiyor (D-56)', 'markers' not in mk)
+    line_by_key = {(t['station'], t['bay_id']): t for t in mk.get('bay_lines', [])}
     align_by_key = {(t['station'], t['bay_id'], t['side']): t for t in mk.get('align_targets', [])}
-    n_markers, n_align = 0, 0
+    n_lines, n_align = 0, 0
     for stn in st.layout['stations']:
         path = os.path.join(st.logs, f'S2_{stn["name"]}.sdf')
         xacro_to_file(st.station_xacro, sl.station_xacro_args(stn, st.params_file), path)
@@ -435,20 +424,19 @@ def s2(st, rep):
             n_align += 1
             for j, e in enumerate((v.lo[0], v.c[1], v.c[2])):
                 ck.eq(f'markers.yaml hizalama {k} {side} nokta[{j}]', t['point_station'][j], e)
-        for mid, v in found.items():
-            m = by_id.get(mid)
-            ck.true(f'markers.yaml ID {mid} var', m is not None)
-            if m is None:
+        for k, v in found.items():
+            t = line_by_key.get((stn['name'], k))
+            ck.true(f'markers.yaml bölme şeridi {stn["name"]} {k} var', t is not None)
+            if t is None:
                 continue
-            n_markers += 1
-            ck.true(f'markers.yaml ID {mid} istasyon', m['station'] == stn['name'])
-            ck.eq(f'markers.yaml ID {mid} boyut', m['size'], st.params['markers'][m['type']]['size'])
-            for j, e in enumerate((v.lo[0], v.c[1], v.c[2])):
-                ck.eq(f'markers.yaml ID {mid} poz[{j}]', m['pose_station']['xyz'][j], e)
-    ck.true(f'markers.yaml işaret sayısı {len(by_id)} = {n_markers}', len(by_id) == n_markers)
+            n_lines += 1
+            want = 'yellow' if stn['color'] == 'neutral' else stn['color']
+            ck.true(f'markers.yaml bölme şeridi {k} renk {t["color"]} = {want}', t['color'] == want)
+            for j, e in enumerate((v.lo[0], v.c[1], v.hi[2])):
+                ck.eq(f'markers.yaml bölme şeridi {k} başlangıç[{j}]', t['start_station'][j], e)
+            ck.eq(f'markers.yaml bölme şeridi {k} bitiş x', t['end_station'][0], v.hi[0])
+    ck.true(f'markers.yaml bölme şeridi sayısı {len(line_by_key)} = {n_lines}', len(line_by_key) == n_lines)
     ck.true(f'markers.yaml hizalama hedefi sayısı {len(align_by_key)} = {n_align}', len(align_by_key) == n_align)
-    for mid in sl.all_marker_ids(st.params):
-        check_texture(st, ck, mid)
     check_align_texture(st, ck)
     for color in sl.SEAL_COLORS:
         path = os.path.join(st.logs, f'S2_parcel_{color}.sdf')
@@ -459,9 +447,8 @@ def s2(st, rep):
         f.write('\n'.join(ck.fails) + '\n' if ck.fails else 'hata yok\n')
     rep.add(Result('S2', TEST_NAMES['S2'], PASS if not ck.fails else FAIL,
                    f'{ck.n} denetim, {len(ck.fails)} hata; en büyük ölçü sapması {ck.max_err * 1000:.4f} mm; '
-                   f'{n_markers} işaret ve {n_align} hizalama hedefi markers.yaml ile, '
-                   f'{len(sl.all_marker_ids(st.params))} doku ID ile uyumlu',
-                   'Kanal, adım, çıkıntı, plakalar, işaret ve hizalama hedefi konum/boyut, koli: YAML ile ±0.5 mm',
+                   f'{n_align} hizalama hedefi ve {n_lines} bölme şeridi markers.yaml ile uyumlu; ArUco yok',
+                   'Kanal, adım, çıkıntı, plakalar, hizalama hedefi ve bölme şeridi konum/boyut, koli: YAML ile ±0.5 mm',
                    {'failures': ck.fails[:50], 'checks': ck.n, 'max_err_m': ck.max_err}))
 
 
@@ -868,7 +855,7 @@ def s8(st, rep, gz):
 def run_sim_tests(st, rep, tests):
     """S3–S8: tek oturum. S3 spawn anından ölçmek için ilk, S8 dünya bozulmadan ikinci sırada."""
     parcels = sl.parcels(st.params, st.layout)
-    order = [t for t in ('S3', 'S8', 'S4', 'S5', 'S6', 'S7') if t in tests]
+    order = [t for t in ('S3', 'S8', 'S6', 'S7') if t in tests]
     done = set()
     with SimSession(st, 'stations') as sess:
         gz = None
@@ -902,98 +889,21 @@ def run_sim_tests(st, rep, tests):
 
 
 # =============================================================================
-#  ArUco yardımcıları (OpenCV 4.6 API, D-47)
+#  Poz ve robot yardımcıları (S6/S7)
 # =============================================================================
 # Kamera bağlantı çerçevesinden (x ileri, y sol, z yukarı) OpenCV optik
 # çerçeveye (x sağ, y aşağı, z ileri): sütunlar link çerçevesinde.
 R_LINK_OPT = np.array([[0.0, 0.0, 1.0], [-1.0, 0.0, 0.0], [0.0, -1.0, 0.0]])
 
 
-def rpy_to_R(rpy):
-    r, p, y = rpy
-    cr, sr, cp, sp, cy, sy = math.cos(r), math.sin(r), math.cos(p), math.sin(p), math.cos(y), math.sin(y)
-    return np.array([[cy * cp, cy * sp * sr - sy * cr, cy * sp * cr + sy * sr],
-                     [sy * cp, sy * sp * sr + cy * cr, sy * sp * cr - cy * sr],
-                     [-sp, cp * sr, cp * cr]])
 
-
-class Aruco:
-    def __init__(self, st):
-        import cv2
-        self.cv2 = cv2
-        self.dict = cv2.aruco.Dictionary_get(getattr(cv2.aruco, st.params['markers']['dictionary']))
-        det = st.params['markers']['detector']
-        self.prm = cv2.aruco.DetectorParameters_create()
-        self.prm.cornerRefinementMethod = getattr(cv2.aruco, det['corner_refinement'])
-        self.prm.perspectiveRemoveIgnoredMarginPerCell = det['perspective_remove_ignored_margin_per_cell']
-        self.markers = {m['id']: m for m in sl.markers(st.params, st.layout)}
-
-    def detect(self, rgb):
-        """{id: köşeler (4×2, TL TR BR BL)}"""
-        gray = self.cv2.cvtColor(rgb, self.cv2.COLOR_RGB2GRAY)
-        corners, ids, _ = self.cv2.aruco.detectMarkers(gray, self.dict, parameters=self.prm)
-        if ids is None:
-            return {}
-        return {int(i): c.reshape(4, 2) for i, c in zip(ids.ravel(), corners)}
-
-    def pose(self, corners, size, K):
-        """IPPE_SQUARE; işaret pozu optik çerçevede (R, t)."""
-        h = size / 2.0
-        obj = np.array([[-h, h, 0], [h, h, 0], [h, -h, 0], [-h, -h, 0]], np.float64)
-        ok, rvec, tvec = self.cv2.solvePnP(obj, corners.astype(np.float64), K, None,
-                                           flags=self.cv2.SOLVEPNP_IPPE_SQUARE)
-        R, _ = self.cv2.Rodrigues(rvec)
-        return R, tvec.ravel()
-
-    def marker_world(self, mid):
-        m = self.markers[mid]
-        return Pose(m['pose_world']['xyz'], rpy_to_R(m['pose_world']['rpy']))
-
-    def annotate(self, rgb, det, label):
-        cv2 = self.cv2
-        img = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR).copy()
-        if det:
-            ids = np.array(list(det.keys())).reshape(-1, 1)
-            cv2.aruco.drawDetectedMarkers(img, [c.reshape(1, 4, 2).astype(np.float32) for c in det.values()], ids)
-        cv2.rectangle(img, (0, 0), (img.shape[1], 26), (0, 0, 0), -1)
-        # Hershey yazı tipi yalnız ASCII çizer: Türkçe harfler sadeleştirilir
-        label = label.translate(str.maketrans('çğıöşüÇĞİÖŞÜ°', 'cgiosuCGIOSU ')).replace('—', '-')
-        cv2.putText(img, label, (6, 18), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-        return img
-
-
-def K_from(hfov, w, h):
-    f = (w / 2.0) / math.tan(hfov / 2.0)
-    return np.array([[f, 0, w / 2.0], [0, f, h / 2.0], [0, 0, 1]])
-
-
-def montage(tiles, cols, path, scale=0.5):
-    import cv2
-    small = [cv2.resize(t, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA) for t in tiles]
-    h, w = small[0].shape[:2]
-    rows = (len(small) + cols - 1) // cols
-    canvas = np.full((rows * h, cols * w, 3), 255, np.uint8)
-    for k, t in enumerate(small):
-        r, c = divmod(k, cols)
-        canvas[r * h:(r + 1) * h, c * w:(c + 1) * w] = t
-    cv2.imwrite(path, canvas)
 
 
 def station_entry(st, name):
     return next(s for s in st.layout['stations'] if s['name'] == name)
 
 
-def yaw_err_deg(R_est, R_true):
-    """İşaretin optik y (≈ düşey) ekseni etrafındaki yönelim farkı."""
-    a = math.atan2(R_est[0, 2], R_est[2, 2])
-    b = math.atan2(R_true[0, 2], R_true[2, 2])
-    return math.degrees(math.atan2(math.sin(a - b), math.cos(a - b)))
 
-
-# Park yerleri: dünya çerçevesinde, istasyon ayak izleri ve robotun test
-# yollarından uzakta (stations.yaml yerleşimine göre; testin kendi seçimi).
-PARK_PARCEL = (0.6, -1.2)
-PARK_ROBOT = (-0.9, -1.0)
 
 
 class RobotGeom:
@@ -1044,300 +954,21 @@ def fork_to(gz, rg, q, timeout=None):
     return False, gz.fork()
 
 
-# =============================================================================
-#  S4 — üst işaret tespiti (robotun ön kamerası)
-# =============================================================================
-S4_DIST = (0.6, 1.0, 1.5)
-S4_ANG = (-15.0, 0.0, 15.0)
-S4_FRAMES = 5
-S4_MIN_HITS = 4
+# Park yerleri: dünya çerçevesinde, istasyon ayak izleri ve robotun test
+# yollarından uzakta (stations.yaml yerleşimine göre; testin kendi seçimi).
+PARK_PARCEL = (0.6, -1.2)
 
 
-def view_pose_for(gz, rg, marker_pose, yaw_s, D, ang):
-    """Kameranın işarete D (yatay) uzaklıkta, işaret normalinden ang açıda durduğu robot pozu."""
-    psi = yaw_s + math.radians(ang)          # robotun bakış yönü (işarete doğru)
-    m = marker_pose.p
-    cam_xy = m[:2] - D * np.array([math.cos(psi), math.sin(psi)])
-    bf_xy = cam_xy - rg.cam['x'] * np.array([math.cos(psi), math.sin(psi)])
-    return bf_xy, psi
 
 
-def s4_view(st, gz, ar, rg, target_id, yaw_s, D, ang):
-    mp = ar.marker_world(target_id)
-    bf_xy, psi = view_pose_for(gz, rg, mp, yaw_s, D, ang)
-    place_robot(gz, bf_xy, psi, settle=0.6)
-    t_set = gz.now()
-    hits, seen, d_err, frame, det_last = 0, set(), [], None, {}
-    K = K_from(rg.cam['horizontal_fov'], rg.cam['image']['width'], rg.cam['image']['height'])
-    for _ in range(S4_FRAMES):
-        img = gz.image('front_camera', newer_than=t_set)
-        if img is None:
-            raise RuntimeError('ön kamera görüntüsü gelmiyor')
-        t_set = gz.now()
-        det = ar.detect(img)
-        seen |= set(det)
-        if target_id in det:
-            hits += 1
-            _, tvec = ar.pose(det[target_id], ar.markers[target_id]['size'], K)
-            cam = rg.front_cam_opt(robot_bf(gz))
-            true_t = (cam.inv() * mp).p
-            d_err.append(np.linalg.norm(tvec) - np.linalg.norm(true_t))
-        frame, det_last = img, det
-    if st.raw_dir:
-        save_rgb(frame, os.path.join(st.raw_dir, f's4_ID{target_id}_{D:.1f}_{ang:+.0f}.png'))
-    cam = rg.front_cam_opt(robot_bf(gz))
-    true_D = abs(np.dot(mp.p - cam.p, -mp.R[:, 2]))   # işaret düzlemine yatay/normal uzaklık
-    return {'D': D, 'ang': ang, 'hits': hits, 'seen': sorted(seen), 'true_plane_dist': true_D,
-            'dist_err_mm': (float(np.mean(d_err)) * 1000 if d_err else None)}, frame, det_last
 
 
-def s4(st, rep, gz, parcels):
-    ar, rg = Aruco(st), RobotGeom(st)
-    known = set(ar.markers)
-    groups = []
-    # (etiket, istasyon, bölme, beklenen tespit, gizlenecek koli)
-    dest, src = station_entry(st, 'dest_red'), station_entry(st, 'source')
-    groups.append(('boş bölme', dest, 1, True, None))
-    groups.append(('dolu bölme', src, 1, False, None))
-    green = next(n for n, c, _ in parcels if n.endswith('_1') and n.startswith('parcel_source'))
-    groups.append(('boş bölme, komşular dolu (bilgi)', src, 1, True, green))
-    rows, tiles, fails = [], [], []
-    for label, stn, i, expect, hide in groups:
-        target = sl.marker_ids(st.params, stn['bay_ids'][i])['upper']
-        nominal = None
-        if hide:
-            nominal = gz.model(hide)
-            park_parcel(gz, hide)
-        for D in S4_DIST:
-            for ang in S4_ANG:
-                r, img, det = s4_view(st, gz, ar, rg, target, stn['pose'][2], D, ang)
-                r.update({'group': label, 'station': stn['name'], 'bay': i, 'target': target, 'expect': expect})
-                unknown = sorted(set(r['seen']) - known)
-                full_bays = {sl.marker_ids(st.params, s['bay_ids'][j])['upper']
-                             for s in st.layout['stations'] for j, c in enumerate(s['occupancy']) if c}
-                if hide:
-                    full_bays.discard(target)
-                hidden_seen = sorted(set(r['seen']) & full_bays)
-                ok = (r['hits'] >= S4_MIN_HITS) if expect else (r['hits'] == 0)
-                ok = ok and not unknown and not hidden_seen
-                r.update({'ok': ok, 'unknown_ids': unknown, 'full_bay_ids_seen': hidden_seen})
-                rows.append(r)
-                if not ok and 'bilgi' not in label:
-                    fails.append(f'{label} D={D} {ang:+.0f}°: {r["hits"]}/{S4_FRAMES}')
-                tiles.append(ar.annotate(img, det, f'{label} | ID {target} | D {D} m {ang:+.0f} deg | '
-                                                   f'{r["hits"]}/{S4_FRAMES}'))
-        if hide:
-            gz.set_pose(hide, nominal.p, nominal.R)
-            gz.wait_sim(0.5)
-    import cv2
-    # karo indeksi = grup·9 + mesafe·3 + açı (S4_DIST × S4_ANG sırası)
-    for k, name in ((1, 's4_empty_0p6m_0deg.png'), (8, 's4_empty_1p5m_p15deg.png'),
-                    (13, 's4_full_1p0m_0deg.png'), (24, 's4_neighbours_full_1p5m_-15deg.png')):
-        cv2.imwrite(os.path.join(st.images, name), tiles[k])
-    for g in range(3):
-        montage(tiles[g * 9:(g + 1) * 9], 3, os.path.join(st.images, f's4_montage_{g}.png'))
-    with open(os.path.join(st.logs, 'S4_views.json'), 'w') as f:
-        json.dump(rows, f, indent=2, default=float)
-    main = [r for r in rows if 'bilgi' not in r['group']]
-    emp = [r for r in main if r['expect']]
-    ful = [r for r in main if not r['expect']]
-    info = [r for r in rows if 'bilgi' in r['group']]
-    derr = [abs(r['dist_err_mm']) for r in emp if r['dist_err_mm'] is not None]
-    meas = (f'boş bölme (ID {emp[0]["target"]}): {sum(r["ok"] for r in emp)}/{len(emp)} görüşte '
-            f'≥{S4_MIN_HITS}/{S4_FRAMES} karede tespit, uzaklık hatası ≤ {max(derr):.1f} mm; '
-            f'dolu bölme (ID {ful[0]["target"]}): {sum(r["ok"] for r in ful)}/{len(ful)} görüşte hiç tespit yok; '
-            f'bilgi — komşular dolu, bölme boş: {sum(r["ok"] for r in info)}/{len(info)} görüş')
-    rep.add(Result('S4', TEST_NAMES['S4'], PASS if not fails else FAIL, meas,
-                   'Ön kamera, 0.6/1.0/1.5 m × 0°/±15°: boş bölmede doğru ID; dolu bölmenin üst işareti '
-                   'tespit edilmez; bilinmeyen ID yok', {'fails': fails, 'views': rows}))
 
 
-# =============================================================================
-#  S5 — alt işaret tespiti (teste özel statik kamera; araçta değişiklik yok, D-48)
-# =============================================================================
-S5_NAME = 's5_test_camera'
-S5_TOPIC = 's5_test_camera/image'
-S5_HFOV = math.radians(80.0)
-S5_W, S5_H = 640, 480
-S5_PITCH = math.radians(5.0)          # aşağı bakış
-S5_Z = (0.02, 0.08)
-S5_DIST = (0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
-S5_FRAMES = 5
-S5_POSE_FRAMES = 30
-S5_POSE_D = 0.5
-S5_LAT_TOL = 0.005
-S5_YAW_TOL = 1.0
 
 
-def s5_camera_sdf(st):
-    # gürültü robot kameralarıyla aynı (forklift_params.yaml cameras.*.noise)
-    n = st.robot['cameras']['front_camera']['noise']
-    # Dinamik ama yerçekimsiz ve collision'sız: hiçbir kuvvet almaz, set_pose ile
-    # taşınır ve gerçek pozu dynamic_pose'ta görünür (statik modelde ikisi de yok).
-    return f'''<?xml version="1.0"?>
-<sdf version="1.11"><model name="{S5_NAME}"><static>false</static><link name="link">
-  <gravity>false</gravity>
-  <inertial><mass>0.01</mass><inertia><ixx>1e-6</ixx><iyy>1e-6</iyy><izz>1e-6</izz></inertia></inertial>
-  <sensor name="camera" type="camera">
-    <topic>{S5_TOPIC}</topic><update_rate>30</update_rate><always_on>1</always_on>
-    <camera>
-      <horizontal_fov>{S5_HFOV}</horizontal_fov>
-      <image><width>{S5_W}</width><height>{S5_H}</height><format>R8G8B8</format></image>
-      <clip><near>0.005</near><far>10</far></clip>
-      <noise><type>{n['type']}</type><mean>{n['mean']}</mean><stddev>{n['stddev']}</stddev></noise>
-    </camera>
-  </sensor>
-</link></model></sdf>'''
 
 
-S5_SWEEP_YAW = (-5.0, -2.0, 2.0, 5.0)        # [°] bilgi: yaw duyarlılığı
-S5_SWEEP_LAT = (-0.02, -0.01, 0.01, 0.02)    # [m] bilgi: yanal ofset duyarlılığı
-
-
-def s5_view(st, gz, ar, sdf, stn, i, z, D, frames, lateral=0.0, yaw_deg=0.0):
-    """Kamerayı bölme ekseninde (± lateral), işaret yüzünden D uzakta, z yüksekliğinde kurar."""
-    bay = bay_pose(st, stn, i)
-    cam_link = bay * Pose([sl.marker_face_x(st.params) - D, lateral, z], Rz(math.radians(yaw_deg)) @ Ry(S5_PITCH))
-    if not getattr(gz, 's5_cam', False):
-        gz.spawn(S5_NAME, sdf, cam_link.p, cam_link.R)
-        gz.s5_cam = True
-    else:
-        gz.set_pose(S5_NAME, cam_link.p, cam_link.R)
-    gz.wait_sim(0.3)
-    actual = gz.model(S5_NAME)
-    if actual is None or np.linalg.norm(actual.p - cam_link.p) > 1e-4:
-        raise RuntimeError(f'test kamerası pozu tutmadı: {None if actual is None else actual.p}')
-    t = gz.now()
-    for _ in range(3):                      # taşımadan önceki/sıradaki kareleri at
-        if gz.image('s5', newer_than=t, timeout=10) is None:
-            raise RuntimeError('test kamerası görüntüsü gelmiyor')
-        t = gz.now()
-    imgs = []
-    for _ in range(frames):
-        img = gz.image('s5', newer_than=t, timeout=5)
-        t = gz.now()
-        imgs.append(img)
-    return cam_link * Pose([0, 0, 0], R_LINK_OPT), imgs
-
-
-def _inside_parcel(st, p, parcel_pose):
-    P = st.params['parcel']['size']
-    local = parcel_pose.inv().apply(p)
-    return all(abs(local[k]) < P[a] / 2.0 for k, a in enumerate('xyz'))
-
-
-def s5(st, rep, gz, parcels):
-    ar = Aruco(st)
-    K = K_from(S5_HFOV, S5_W, S5_H)
-    sdf = s5_camera_sdf(st)
-    gz.subscribe_camera('s5', S5_TOPIC)
-    src = station_entry(st, 'source')
-    i = 1
-    target = sl.marker_ids(st.params, src['bay_ids'][i])['lower']
-    green = f'parcel_source_{i}'
-    nominal = gz.model(green)
-    place_robot(gz, PARK_ROBOT, 0.0)
-    size = ar.markers[target]['size']
-    mp = ar.marker_world(target)
-    cases = [('z0.02_dolu', 0.02, True, True), ('z0.02_bos', 0.02, False, True),
-             ('z0.08_bos', 0.08, False, True), ('z0.08_dolu', 0.08, True, False)]
-    rows, tiles, fails, pose_rows = [], [], [], []
-    import cv2
-    for tag, z, full, judged in cases:
-        if full:
-            gz.set_pose(green, nominal.p, nominal.R)
-        else:
-            park_parcel(gz, green)
-        gz.wait_sim(0.5)
-        for D in S5_DIST:
-            n = S5_POSE_FRAMES if (abs(D - S5_POSE_D) < 1e-9 and judged) else S5_FRAMES
-            cam_opt, imgs = s5_view(st, gz, ar, sdf, src, i, z, D, n)
-            if st.raw_dir:
-                save_rgb(imgs[0], os.path.join(st.raw_dir, f's5_{tag}_{D:.1f}.png'))
-            dets = [ar.detect(im) for im in imgs]
-            hits = sum(target in d for d in dets)
-            # kamera koli gövdesinin içinde mi (render arka yüzleri çizmez → geçersiz görüş)
-            inside = full and _inside_parcel(st, cam_opt.p, gz.model(green))
-            seen = sorted(set().union(*[set(d) for d in dets]))
-            r = {'case': tag, 'z': z, 'D': D, 'parcel': full, 'hits': hits, 'frames': len(imgs), 'seen': seen,
-                 'judged': judged, 'camera_inside_parcel': bool(inside)}
-            if hits and n == S5_POSE_FRAMES:
-                true = cam_opt.inv() * mp
-                lat, dep, yaw = [], [], []
-                for d in dets:
-                    if target not in d:
-                        continue
-                    R, t = ar.pose(d[target], size, K)
-                    lat.append(t[0] - true.p[0])
-                    dep.append(t[2] - true.p[2])
-                    yaw.append(yaw_err_deg(R, true.R))
-                pr = {'case': tag, 'n': len(lat),
-                      'lat_mean_mm': float(np.mean(lat)) * 1000, 'lat_std_mm': float(np.std(lat)) * 1000,
-                      'depth_mean_mm': float(np.mean(dep)) * 1000, 'depth_std_mm': float(np.std(dep)) * 1000,
-                      'yaw_mean_deg': float(np.mean(yaw)), 'yaw_std_deg': float(np.std(yaw)),
-                      'yaw_max_abs_deg': float(np.max(np.abs(yaw)))}
-                pr['ok'] = abs(pr['lat_mean_mm']) < S5_LAT_TOL * 1000 and abs(pr['yaw_mean_deg']) < S5_YAW_TOL
-                pose_rows.append(pr)
-                r['pose'] = pr
-                if not pr['ok']:
-                    fails.append(f'{tag} poz: yanal {pr["lat_mean_mm"]:.2f} mm, yaw {pr["yaw_mean_deg"]:.2f}°')
-            ok = (hits >= len(imgs) - 1) if judged else True
-            if inside:
-                r['note'] = 'kamera koli gövdesinin içinde: arka yüzler çizilmez, görüş geçersiz'
-            r['ok'] = ok
-            if judged and not ok:
-                fails.append(f'{tag} D={D}: {hits}/{len(imgs)}')
-            if any(m not in ar.markers for m in seen):
-                fails.append(f'{tag} D={D}: bilinmeyen ID {seen}')
-            rows.append(r)
-            tiles.append(ar.annotate(imgs[-1], dets[-1], f'{tag} | ID {target} | D {D} m | {hits}/{len(imgs)}'))
-            if D in (0.2, 0.5, 0.8):
-                cv2.imwrite(os.path.join(st.images, f's5_{tag.replace(".", "p")}_{str(D).replace(".", "p")}m.png'),
-                            tiles[-1])
-    # Bilgi: bilinen yaw / yanal ofsetlerde kestirim (D = 0.5 m, z = 0.02, koli yok)
-    park_parcel(gz, green)
-    sweep = []
-    for lat, yd in [(0.0, y) for y in S5_SWEEP_YAW] + [(lo, 0.0) for lo in S5_SWEEP_LAT]:
-        cam_opt, imgs = s5_view(st, gz, ar, sdf, src, i, 0.02, S5_POSE_D, 3, lateral=lat, yaw_deg=yd)
-        d = ar.detect(imgs[0])
-        row = {'lateral_m': lat, 'yaw_deg': yd, 'detected': target in d}
-        if target in d:
-            true = cam_opt.inv() * mp
-            R, t = ar.pose(d[target], size, K)
-            row.update({'true_x_mm': true.p[0] * 1000, 'est_x_mm': t[0] * 1000,
-                        'lat_err_mm': (t[0] - true.p[0]) * 1000, 'yaw_err_deg': yaw_err_deg(R, true.R)})
-        sweep.append(row)
-    gz.remove(S5_NAME)
-    gz.s5_cam = False
-    gz.set_pose(green, nominal.p, nominal.R)
-    gz.wait_sim(0.5)
-    for k, (tag, *_rest) in enumerate(cases):
-        montage(tiles[k * len(S5_DIST):(k + 1) * len(S5_DIST)], 4,
-                os.path.join(st.images, f's5_montage_{tag.replace(".", "p")}.png'))
-    with open(os.path.join(st.logs, 'S5_views.json'), 'w') as f:
-        json.dump({'camera': {'hfov_deg': 80, 'size': [S5_W, S5_H], 'pitch_down_deg': 5,
-                              'noise': st.robot['cameras']['front_camera']['noise']},
-                   'views': rows, 'pose': pose_rows, 'sweep': sweep}, f, indent=2, default=float)
-    det_summary = '; '.join(
-        f'{tag}: {sum(r["hits"] >= r["frames"] - 1 for r in rows if r["case"] == tag)}/{len(S5_DIST)} mesafe'
-        for tag, *_ in cases)
-    pose_summary = '; '.join(
-        f'{p["case"]} @0.5 m: yanal {p["lat_mean_mm"]:+.2f}±{p["lat_std_mm"]:.2f} mm, '
-        f'yaw {p["yaw_mean_deg"]:+.2f}±{p["yaw_std_deg"]:.2f}° (n={p["n"]})' for p in pose_rows)
-    info = [r for r in rows if r['case'] == 'z0.08_dolu']
-    info_txt = ', '.join(f'{r["D"]}: {"kolinin içi" if r["camera_inside_parcel"] else r["hits"]}' for r in info)
-    same = all(p['lat_std_mm'] < 1e-6 and p['yaw_std_deg'] < 1e-6 for p in pose_rows)
-    sw = [r for r in sweep if r['detected']]
-    sweep_txt = ', '.join(
-        (f'yaw {r["yaw_deg"]:+.0f}° → hata {r["yaw_err_deg"]:+.1f}°' if r['yaw_deg'] else
-         f'yanal {r["lateral_m"] * 100:+.0f} cm → hata {r["lat_err_mm"]:+.2f} mm') for r in sw)
-    rep.add(Result('S5', TEST_NAMES['S5'], PASS if not fails else FAIL,
-                   f'ID {target} tespiti (≥ kare-1): {det_summary}. Bilgi z0.08_dolu (beklenen: yok): {info_txt}. '
-                   f'Poz: {pose_summary}{" — 30 kare birebir aynı (kamera gürültüsü uygulanmıyor)" if same else ""}'
-                   f'. Bilgi taraması @0.5 m: {sweep_txt}',
-                   '0.2–0.8 m, z = 0.02 koli var/yok ve z = 0.08 koli yok (D-48): doğru ID; 0.5 m\'de '
-                   '30 kare ortalaması yanal < 5 mm, yaw < 1°',
-                   {'fails': fails, 'views': rows, 'pose': pose_rows, 'sweep': sweep}))
 
 
 # =============================================================================
@@ -1558,7 +1189,7 @@ def s7(st, rep, gz, parcels):
                    'Eklem 0\'da tam giriş → 0.06 → 0.5 m geri: koli çatalda, bağıl kayma < 1 cm', rows))
 
 
-SIM_TESTS = {'S4': s4, 'S5': s5, 'S6': s6, 'S7': s7}
+SIM_TESTS = {'S6': s6, 'S7': s7}
 
 
 # =============================================================================
@@ -1571,14 +1202,10 @@ def main():
     ap.add_argument('--ws', default=os.path.expanduser('~/cv_forklift_ws'))
     ap.add_argument('--docs', default=None)
     ap.add_argument('--gui', action='store_true')
-    ap.add_argument('--raw-dir', default=None, help='S4/S5 ham karelerini bu dizine kaydet (detektör ayarı için)')
     a = ap.parse_args()
     docs = a.docs or os.path.join(a.ws, 'docs')
     st = Setup(a.ws, docs)
     st.gui = a.gui
-    st.raw_dir = a.raw_dir
-    if st.raw_dir:
-        os.makedirs(st.raw_dir, exist_ok=True)
     rep = Report(docs)
     tests = [t.strip() for t in a.tests.split(',') if t.strip()]
     for t in tests:

@@ -10,28 +10,29 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
-# ArUco dokuları ve markers.yaml: build sırasında üretilir, kaynak ağaca
-# yazılmaz (DECISIONS D-47). Dokular model://aruco_markers/materials/textures
+# Hizalama hedefi dokuları ve markers.yaml (hedef ve bölme şeridi ground
+# truth'u): build sırasında üretilir, kaynak ağaca yazılmaz (D-47, D-55, D-56).
+# Dokular model://station_targets/materials/textures
 # altına kurulur (models/ dizini GZ_SIM_RESOURCE_PATH'te, package.xml export).
-set(ARUCO_MODEL_DIR ${CMAKE_CURRENT_BINARY_DIR}/models/aruco_markers)
+set(TARGETS_MODEL_DIR ${CMAKE_CURRENT_BINARY_DIR}/models/station_targets)
 set(MARKERS_YAML ${CMAKE_CURRENT_BINARY_DIR}/config/markers.yaml)
 add_custom_command(
   OUTPUT ${MARKERS_YAML}
-  COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate_aruco_textures.py
+  COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate_station_textures.py
     --params ${CMAKE_CURRENT_SOURCE_DIR}/config/station_params.yaml
     --stations ${CMAKE_CURRENT_SOURCE_DIR}/config/stations.yaml
-    --textures ${ARUCO_MODEL_DIR}/materials/textures
+    --textures ${TARGETS_MODEL_DIR}/materials/textures
     --markers ${MARKERS_YAML}
   DEPENDS
-    scripts/generate_aruco_textures.py
+    scripts/generate_station_textures.py
     scripts/station_layout.py
     config/station_params.yaml
     config/stations.yaml
-  COMMENT "ArUco dokuları ve markers.yaml üretiliyor"
+  COMMENT "Hizalama hedefi dokuları ve markers.yaml üretiliyor"
   VERBATIM
 )
-add_custom_target(aruco_textures ALL DEPENDS ${MARKERS_YAML})
-install(DIRECTORY ${ARUCO_MODEL_DIR} DESTINATION share/${PROJECT_NAME}/models)
+add_custom_target(station_targets ALL DEPENDS ${MARKERS_YAML})
+install(DIRECTORY ${TARGETS_MODEL_DIR} DESTINATION share/${PROJECT_NAME}/models)
 install(FILES ${MARKERS_YAML} DESTINATION share/${PROJECT_NAME}/config)
 
 # Fabrika görünümü (D-53): tabela/etiket dokuları (model://factory_signs) ve
@@ -79,7 +80,7 @@ install(
   PROGRAMS
     scripts/acceptance_test.py
     scripts/station_acceptance.py
-    scripts/generate_aruco_textures.py
+    scripts/generate_station_textures.py
     scripts/wait_for_models.py
     scripts/generate_factory_textures.py
     scripts/generate_factory_world.py
