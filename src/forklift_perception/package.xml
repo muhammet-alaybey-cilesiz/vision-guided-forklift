@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>forklift_perception</name>
+  <version>0.1.0</version>
+  <description>
+    Camera perception for the forklift: station signs, floor and bay lanes, bullseye alignment
+    targets, parcels and seals, load check. A ROS-free core (camera model, detectors) with thin
+    ROS nodes on top. Uses only what a real robot has: images, camera_info, TF, joint states.
+    It never reads simulator poses or world layout files (docs/PLAN_CV_AUTONOMY.md, R1/R2).
+  </description>
+  <maintainer email="muhammetclsz61@gmail.com">muhammet61</maintainer>
+  <license>Apache-2.0</license>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>vision_msgs</exec_depend>
+  <exec_depend>tf2_ros_py</exec_depend>
+  <exec_depend>forklift_interfaces</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

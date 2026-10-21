@@ -88,9 +88,10 @@ install(
     scripts/measure_sim_performance.py
   DESTINATION lib/${PROJECT_NAME}
 )
-# Ortak yerleşim modülü (launch ve testler içe aktarır)
+# Ortak modüller: yerleşim (launch ve testler) ve simülasyon test yardımcıları
+# (station_acceptance.py ve forklift_evaluation içe aktarır; yalnız test için)
 install(
-  FILES scripts/station_layout.py
+  FILES scripts/station_layout.py scripts/sim_tools.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

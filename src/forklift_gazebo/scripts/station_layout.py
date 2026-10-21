@@ -162,6 +162,22 @@ def bay_line(params, n_bays, i):
     return (-s['apron_depth'] + v['band_width'], y, z), (0.0, y, z)
 
 
+def sign_rect(params, n_bays):
+    """Tabelanın robota bakan (−x) yüzü, station çerçevesinde: (x, y_min, y_max, z_min, z_max).
+
+    station.sdf.xacro ile aynı formül: çerçevenin ön yüzüne asılı, genişlik
+    min(sign.width, W − 2·profile), yükseklik genişlik / aspect. Renk bloğu dokunun
+    solunda: robotun bakışıyla +y tarafında, kenarı tabela yüksekliği kadar (kare).
+    """
+    s, v = params['station'], params['appearance']
+    pr = v['frame']['profile']
+    w = min(v['sign']['width'], n_bays * s['bay_pitch'] - 2 * pr)
+    h = w / v['sign']['aspect']
+    x = s['ledge_depth'] + s['back_plate_thickness'] + v['back_plate_recess'] - v['sign']['thickness']
+    top = v['sign']['top_z']
+    return x, -w / 2.0, w / 2.0, top - h, top
+
+
 def bay_lines(params, layout):
     """Her bölme şeridi: istasyon, bölme, başlangıç/bitiş (station ve dünya), genişlik, renk adı."""
     out = []

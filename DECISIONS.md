@@ -1219,6 +1219,101 @@ Changes:
 
 ---
 
+# First CV + autonomy slice (`feature/cv-autonomy`)
+
+The plan is `docs/PLAN_CV_AUTONOMY.md` (Turkish, owner-approved 2026-10-21; it
+keeps its own change log). Results are in `REPORT_CV.md`.
+
+## D-57 Slice plan and sim-to-real rules (Accepted, owner decision 2026-10-21)
+* **Goal of slice 1 (v0.4.0):** take the three parcels from the source one by
+  one and drop each into a free bay of the station whose sign colour matches its
+  seal, in `station_test` and `factory`, side bays included, without manual
+  help. Sub-slices: perception → approach + pick → transit + drop → mission and
+  faults. The plan decisions K1–K14 were accepted as proposed, with one change
+  (K13, below).
+* **Sim-to-real (owner's project goal).** The CV and autonomy code must move to
+  a real robot with models trained on real data and without large changes. So
+  the robot perceives the world from its cameras; Gazebo poses and object
+  information are for evaluation only. Rules R1–R9 in the plan, in short:
+  perception and autonomy may use images + `camera_info`, TF from the URDF,
+  wheel odometry, the fork joint, `/e_stop` and operator commands; they must not
+  use gz poses, gz services, gz-transport, the layout files (`stations.yaml`,
+  `markers.yaml`, `factory_lanes.yaml`, `factory.yaml`) or model names.
+  Detectors sit behind typed messages, so a learned model can replace a
+  classical one (`backend` parameter); thresholds live in configuration;
+  labels use COCO/YOLO so real labelled data plugs in. `station_params.yaml` is
+  catalog knowledge (shapes, sizes, colours; no positions or occupancy). Test
+  C0 checks the rules.
+* **GUI modes (K13, changed by the owner).** The operator GUI gets Manual /
+  Auto mode buttons, and the mission starts from the GUI. The mode is owned by
+  the autonomy node (`/autonomy/set_mode`, `forklift_interfaces/srv/SetMode`)
+  and shown from `/autonomy/state`. In Auto the GUI's fork panel is disabled;
+  a drive key takes over (the GUI switches to Manual and the mission pauses).
+  The panel comes in F3 with the autonomy node.
+
+## D-58 Package layout and shared simulation test tools (Accepted)
+* New packages: `forklift_interfaces` (messages and services, ament_cmake),
+  `forklift_perception` (ament_python; a ROS-free core under
+  `forklift_perception/core` plus thin nodes), `forklift_evaluation`
+  (ament_python; the only package that reads ground truth). `forklift_autonomy`
+  follows in F3. Every perception message is stamped with the source image
+  stamp and expressed in `base_footprint`; lanes are polylines, so curves will
+  not change the message.
+* The gz helpers of `station_acceptance.py` (pose maths, `SimSession`, `Gz`,
+  `RobotGeom`, placement) moved unchanged into
+  `forklift_gazebo/scripts/sim_tools.py` (owner approval K9). `SimSession`
+  gained `station_world` (from `st.world`), `control` and extra launch
+  arguments. `forklift_evaluation` imports it from `lib/forklift_gazebo`, as the
+  launch files already import `station_layout.py`. `station_layout.py` gained
+  `sign_rect()` (the sign face in the station frame, same formula as the xacro).
+  Regression after the move: S1–S3 and S6–S8 pass with identical numbers
+  (2026-10-21; evidence kept outside the repository so the committed results
+  are not overwritten).
+* The evaluation process runs rclpy (images, `camera_info`, TF, `/odom`) and
+  gz-transport subscriptions (poses, stats, joint states) in one process; it
+  worked without stalls. Service calls still go through the `gz service` CLI
+  (D-49).
+
+## D-59 Gazebo's principal point is half a pixel from `camera_info` (Open, owner decision at gate K-1)
+Measured in F1 by projecting ground truth into both robot cameras
+(`f1_probe overlay`, `station_test`, 20 views): the image is rendered with its
+optical centre at (W − 1)/2, (H − 1)/2 = (319.5, 239.5) in OpenCV pixel-centre
+coordinates, but `camera_info` reports cx = 320, cy = 240. Evidence:
+* bullseye dark-mass centroids minus projected centres, with the plate mask
+  kept 1 px inside the plate: about −0.4 px in u and v, the same in both
+  cameras and independent of image position and distance (a geometric error
+  would change with both);
+* a second feature, the bay-lane centre line (row-wise colour centroid minus
+  the projected centre line): −0.50 px median over 72 lanes.
+Effect: about 1.5 mm at 1 m for the lane camera, against a 2 mm alignment
+budget. Options: (a) leave it and accept the bias; (b) a fixed −0.5 px
+correction in perception code (simulator-specific, against R3); (c)
+**recommended:** treat the simulated camera like a real one. An evaluation
+tool calibrates it from ground truth and writes a calibration file;
+perception gets an optional `calibration_file` parameter that overrides
+`camera_info`'s K and D. On a real robot the same parameter takes the real
+calibration.
+
+## D-60 Wheel odometry comes from the wheel joints (Accepted, Measured)
+The plan allows wheel odometry for short relative moves (K3), because a real
+robot has wheel encoders. Checked in F1 (`f1_probe odom`): teleporting the
+robot 0.5 m with `set_pose` left `/odom` unchanged (0.000 m). Driving 0.3 m
+gave 0.3009 m in both ground truth and `/odom`. gz DiffDrive therefore
+integrates the wheel joints, like an encoder, and does not copy the model pose.
+On this floor there is no slip, so the simulated odometry is better than a real
+one would be. The autonomy must still re-measure with the cameras at each
+approach.
+
+## D-61 Centroid masks must stay inside the plate (Accepted, lesson for F2)
+In the same measurement the plate mask was first drawn from rounded polygon
+corners, so it included dark ledge pixels along the right and lower edges. That
+moved the dark-mass centroid by +0.6 px (u) and +0.9 px (v). Shrinking the mask
+by 1 px removed the effect. The alignment-target detector (F2) must build its
+weight mask strictly inside the plate, for example eroded or from a
+sub-pixel quad, and C4 compares against ground truth to catch this.
+
+---
+
 ## Spec deviations (summary)
 | ID | What | Status |
 |---|---|---|

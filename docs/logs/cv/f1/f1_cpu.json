@@ -1,0 +1,8 @@
+{
+ "frames": 120,
+ "op": "RGB\u2192HSV + 5 renk maskesi + a\u00e7ma + ba\u011flant\u0131l\u0131 bile\u015fenler",
+ "mean_ms": 2.01082577506592,
+ "p95_ms": 2.1212615494732745,
+ "budget_ms_at_30hz": 33.3,
+ "cv2_threads": 20
+}

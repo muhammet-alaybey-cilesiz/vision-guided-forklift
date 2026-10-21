@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>forklift_evaluation</name>
+  <version>0.1.0</version>
+  <description>
+    Simulation-only evaluation for perception and autonomy: ground truth from Gazebo poses and
+    the generated layout files, ground-truth projection overlays, recorded evaluation sets,
+    acceptance tests (C*, A*), image noise relay and auto-labelling. This is the only package
+    that reads ground truth; it is not installed on a real robot (docs/PLAN_CV_AUTONOMY.md, R8).
+  </description>
+  <maintainer email="muhammetclsz61@gmail.com">muhammet61</maintainer>
+  <license>Apache-2.0</license>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>tf2_ros_py</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>forklift_gazebo</exec_depend>
+  <exec_depend>forklift_description</exec_depend>
+  <exec_depend>forklift_perception</exec_depend>
+  <exec_depend>forklift_interfaces</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
