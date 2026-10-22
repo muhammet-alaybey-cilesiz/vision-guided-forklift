@@ -127,9 +127,32 @@ class WorldGT:
             out.append({'station': stn['name'], 'color': stn['color'], 'quad': quad, 'block': block})
         return out
 
+    # ----------------------------------------------------- bölme etiketleri (D-62)
+    def bay_labels(self):
+        """Arka plakadaki bölme etiketi (robota bakan yüz): istasyon, bölme, merkez ve dörtgen (dünya)."""
+        v, s = self.P['appearance'], self.P['station']
+        x = s['ledge_depth'] + v['back_plate_recess'] / 2.0 - v['label_thickness'] / 2.0
+        a, zc = v['bay_label']['size'] / 2.0, v['bay_label']['center_z']
+        out = []
+        for stn in self.es.layout['stations']:
+            for i in range(stn['bays']):
+                y = sl.bay_y(self.P, stn['bays'], i)
+                quad = world_pts(stn, [(x, y + a, zc + a), (x, y - a, zc + a), (x, y - a, zc - a), (x, y + a, zc - a)])
+                out.append({'station': stn['name'], 'bay': i, 'center': world_pts(stn, [(x, y, zc)])[0], 'quad': quad})
+        return out
+
     # ----------------------------------------------------- koliler (gz pozundan)
     def parcel_boxes(self, gz):
         """Her kolinin 8 köşesi ve −x yüzündeki mühür karesi (dünya)."""
+        poses = {}
+        for name, _, _ in sl.parcels(self.P, self.es.layout):
+            pose = gz.model(name)
+            if pose is not None:
+                poses[name] = pose
+        return self.parcel_boxes_from(poses)
+
+    def parcel_boxes_from(self, poses):
+        """poses: {koli adı: Pose} (kayıtlı kümeden ya da gz'den)."""
         S = self.P['parcel']['size']
         seal = self.P['parcel']['seal']
         hx, hy, hz = S['x'] / 2, S['y'] / 2, S['z'] / 2
@@ -137,13 +160,14 @@ class WorldGT:
         sy, sz = seal['size']['y'] / 2, seal['size']['z'] / 2
         sx = -hx - seal['thickness']
         seal_local = np.array([[sx, sy, sz], [sx, -sy, sz], [sx, -sy, -sz], [sx, sy, -sz]])
+        face_local = np.array([[-hx, hy, hz], [-hx, -hy, hz], [-hx, -hy, -hz], [-hx, hy, -hz]])
+        colors = {n: c for n, c, _ in sl.parcels(self.P, self.es.layout)}
         out = []
-        for name, color, _ in sl.parcels(self.P, self.es.layout):
-            pose = gz.model(name)
-            if pose is None:
-                continue
-            out.append({'name': name, 'color': color,
+        for name, pose in poses.items():
+            out.append({'name': name, 'color': colors.get(name),
+                        'center': pose.p.copy(),
                         'corners': np.array([pose.apply(c) for c in corners]),
+                        'face': np.array([pose.apply(c) for c in face_local]),
                         'seal': np.array([pose.apply(c) for c in seal_local])})
         return out
 

@@ -1,0 +1,799 @@
+{
+ "created": "2026-10-22 20:23:59",
+ "calibration": "/home/muhammet61/cv_forklift_ws/install/forklift_perception/share/forklift_perception/config/calibration",
+ "datasets": {
+  "f1/station_test": 324,
+  "f2/station_test": 952,
+  "f1/factory": 432,
+  "f2/factory": 952
+ },
+ "results": {
+  "C0": {
+   "0": {
+    "status": "GEÇTİ",
+    "scanned": [
+     "forklift_perception"
+    ],
+    "forbidden_patterns": [
+     "stations\\.yaml",
+     "markers\\.yaml",
+     "factory_lanes\\.yaml",
+     "factory\\.yaml",
+     "\\bgz\\.",
+     "gz\\.transport",
+     "gz\\.msgs",
+     "dynamic_pose",
+     "/world/",
+     "set_pose",
+     "parcel_source_",
+     "\\bforklift_evaluation\\b",
+     "\\bsim_tools\\b",
+     "\\bstation_layout\\b"
+    ],
+    "hits": []
+   }
+  },
+  "C1": {
+   "0.0": {
+    "status": "KALDI",
+    "gt": 412,
+    "detected": 379,
+    "false_pos": 22,
+    "wrong_color": 1,
+    "by_band": {
+     "1.5–2.5": {
+      "gt": 144,
+      "detected": 131
+     },
+     "2.5–3.5": {
+      "gt": 108,
+      "detected": 91
+     },
+     "<1.5": {
+      "gt": 160,
+      "detected": 157
+     }
+    },
+    "by_color": {
+     "neutral": 75,
+     "red": 105,
+     "green": 99,
+     "blue": 100
+    },
+    "pose": {
+     "1.5–2.5": {
+      "n": 131,
+      "pos_mm_median": 77.100298600012,
+      "pos_mm_max": 221.9787900756936,
+      "yaw_deg_median": 4.424443495348151,
+      "yaw_deg_max": 17.603748991322544
+     },
+     "2.5–3.5": {
+      "n": 91,
+      "pos_mm_median": 136.76288879508022,
+      "pos_mm_max": 275.1979932946644,
+      "yaw_deg_median": 7.267939896477349,
+      "yaw_deg_max": 31.27391697851564
+     },
+     "<1.5": {
+      "n": 157,
+      "pos_mm_median": 36.44700621264537,
+      "pos_mm_max": 91.81738723404386,
+      "yaw_deg_median": 2.3379589186962213,
+      "yaw_deg_max": 9.091510885615387
+     }
+    },
+    "pose_le3m": {
+     "pos_mm_max": 275.1979932946644,
+     "yaw_deg_max": 31.27391697851564,
+     "pos_mm_p95": 171.34426285109032,
+     "yaw_deg_p95": 14.420025421655104
+    },
+    "seconds": 7.8
+   },
+   "0.007": {
+    "status": "BİLGİ",
+    "gt": 132,
+    "detected": 123,
+    "false_pos": 5,
+    "wrong_color": 0,
+    "by_band": {
+     "1.5–2.5": {
+      "gt": 48,
+      "detected": 45
+     },
+     "2.5–3.5": {
+      "gt": 36,
+      "detected": 30
+     },
+     "<1.5": {
+      "gt": 48,
+      "detected": 48
+     }
+    },
+    "by_color": {
+     "neutral": 26,
+     "red": 34,
+     "green": 31,
+     "blue": 32
+    },
+    "pose": {
+     "1.5–2.5": {
+      "n": 45,
+      "pos_mm_median": 90.57304114341986,
+      "pos_mm_max": 177.44677430793368,
+      "yaw_deg_median": 4.534779971979688,
+      "yaw_deg_max": 17.603748991322544
+     },
+     "2.5–3.5": {
+      "n": 30,
+      "pos_mm_median": 148.7864873113217,
+      "pos_mm_max": 266.23407820338565,
+      "yaw_deg_median": 8.942612194367616,
+      "yaw_deg_max": 25.221653873933587
+     },
+     "<1.5": {
+      "n": 48,
+      "pos_mm_median": 45.62098769808375,
+      "pos_mm_max": 72.9848859591958,
+      "yaw_deg_median": 1.2906189258887641,
+      "yaw_deg_max": 9.031953431903611
+     }
+    },
+    "pose_le3m": {
+     "pos_mm_max": 266.23407820338565,
+     "yaw_deg_max": 17.603748991322544,
+     "pos_mm_p95": 164.58517525149415,
+     "yaw_deg_p95": 12.453719516449217
+    },
+    "seconds": 5.0
+   },
+   "0.02": {
+    "status": "BİLGİ",
+    "gt": 132,
+    "detected": 109,
+    "false_pos": 7,
+    "wrong_color": 0,
+    "by_band": {
+     "1.5–2.5": {
+      "gt": 48,
+      "detected": 41
+     },
+     "2.5–3.5": {
+      "gt": 36,
+      "detected": 28
+     },
+     "<1.5": {
+      "gt": 48,
+      "detected": 40
+     }
+    },
+    "by_color": {
+     "neutral": 23,
+     "red": 32,
+     "green": 32,
+     "blue": 22
+    },
+    "pose": {
+     "1.5–2.5": {
+      "n": 41,
+      "pos_mm_median": 90.02585524797121,
+      "pos_mm_max": 235.9948248064776,
+      "yaw_deg_median": 4.308133942137886,
+      "yaw_deg_max": 16.8438322732825
+     },
+     "2.5–3.5": {
+      "n": 28,
+      "pos_mm_median": 156.0779369979556,
+      "pos_mm_max": 287.0060509811242,
+      "yaw_deg_median": 9.516532515982055,
+      "yaw_deg_max": 26.43607211217188
+     },
+     "<1.5": {
+      "n": 40,
+      "pos_mm_median": 51.732478676130405,
+      "pos_mm_max": 93.23717638257493,
+      "yaw_deg_median": 1.5625527650575632,
+      "yaw_deg_max": 10.036000525502768
+     }
+    },
+    "pose_le3m": {
+     "pos_mm_max": 266.23407820338565,
+     "yaw_deg_max": 19.97719581364421,
+     "pos_mm_p95": 193.71460308250457,
+     "yaw_deg_p95": 15.338659741376425
+    },
+    "seconds": 4.7
+   }
+  },
+  "C2": {
+   "0.0": {
+    "status": "GEÇTİ",
+    "gt_visible_ge_15cm": 83,
+    "detected": 79,
+    "detection_rate": 0.9518072289156626,
+    "false_pos_other_color_or_band": 15,
+    "wrong_kind": 0,
+    "lateral_mm_median": 2.476547518223317,
+    "lateral_mm_p95": 3.3518929691592536,
+    "lateral_mm_max": 4.856327221070239,
+    "heading_deg_median": 0.0825879082167991,
+    "heading_deg_p95": 0.36758902314783354,
+    "heading_deg_max": 0.8603261777734541,
+    "heading_short_15_25cm_deg_max": 1.448971120702166,
+    "heading_short_n": 10,
+    "stop_bar_mm_median": 2.522269072522704,
+    "stop_bar_mm_max": 19.426856581786446,
+    "stop_bar_n": 78,
+    "note": "hata istatistiği: görünen uzunluğu ≥ 15 cm ve merkezi ≤ 2 m olan şeritler; yön ölçütü ≥ 25 cm; tür (zemin/bölme) bilgi amaçlı: hedef çifti görünmeyen karede bölme şeridi zemin sayılır",
+    "seconds": 4.4
+   },
+   "0.007": {
+    "status": "BİLGİ",
+    "gt_visible_ge_15cm": 25,
+    "detected": 25,
+    "detection_rate": 1.0,
+    "false_pos_other_color_or_band": 4,
+    "wrong_kind": 0,
+    "lateral_mm_median": 1.2683739200769346,
+    "lateral_mm_p95": 1.6960588839926654,
+    "lateral_mm_max": 1.7348938492285222,
+    "heading_deg_median": 0.09495584730866696,
+    "heading_deg_p95": 0.4890105364519183,
+    "heading_deg_max": 0.5591528805341172,
+    "heading_short_15_25cm_deg_max": 0.20592509299428527,
+    "heading_short_n": 1,
+    "stop_bar_mm_median": 2.105601983939609,
+    "stop_bar_mm_max": 16.72710848780623,
+    "stop_bar_n": 25,
+    "note": "hata istatistiği: görünen uzunluğu ≥ 15 cm ve merkezi ≤ 2 m olan şeritler; yön ölçütü ≥ 25 cm; tür (zemin/bölme) bilgi amaçlı: hedef çifti görünmeyen karede bölme şeridi zemin sayılır",
+    "seconds": 1.8
+   },
+   "0.02": {
+    "status": "BİLGİ",
+    "gt_visible_ge_15cm": 25,
+    "detected": 25,
+    "detection_rate": 1.0,
+    "false_pos_other_color_or_band": 5,
+    "wrong_kind": 0,
+    "lateral_mm_median": 1.2697549152958372,
+    "lateral_mm_p95": 1.6591740283693561,
+    "lateral_mm_max": 1.7091489062556753,
+    "heading_deg_median": 0.09657635464949714,
+    "heading_deg_p95": 0.4890105364519183,
+    "heading_deg_max": 0.5591528805341172,
+    "heading_short_15_25cm_deg_max": 0.23985410389645023,
+    "heading_short_n": 1,
+    "stop_bar_mm_median": 2.347641477587814,
+    "stop_bar_mm_max": 15.636256883975408,
+    "stop_bar_n": 21,
+    "note": "hata istatistiği: görünen uzunluğu ≥ 15 cm ve merkezi ≤ 2 m olan şeritler; yön ölçütü ≥ 25 cm; tür (zemin/bölme) bilgi amaçlı: hedef çifti görünmeyen karede bölme şeridi zemin sayılır",
+    "seconds": 1.9
+   }
+  },
+  "C3": {
+   "0.0": {
+    "status": "GEÇTİ",
+    "gt_visible_ge_15cm": 1352,
+    "detected": 1328,
+    "detection_rate": 0.9822485207100592,
+    "false_pos_other_color_or_band": 168,
+    "wrong_kind": 287,
+    "lateral_mm_median": 2.1162429765974426,
+    "lateral_mm_p95": 4.024883489090051,
+    "lateral_mm_max": 5.394946610318783,
+    "heading_deg_median": 0.078553692235359,
+    "heading_deg_p95": 0.44503327930075387,
+    "heading_deg_max": 0.7599080390836698,
+    "heading_short_15_25cm_deg_max": 2.1693585399422837,
+    "heading_short_n": 861,
+    "stop_bar_mm_median": null,
+    "stop_bar_mm_max": null,
+    "stop_bar_n": 0,
+    "note": "hata istatistiği: görünen uzunluğu ≥ 15 cm ve merkezi ≤ 2 m olan şeritler; yön ölçütü ≥ 25 cm; tür (zemin/bölme) bilgi amaçlı: hedef çifti görünmeyen karede bölme şeridi zemin sayılır",
+    "seconds": 18.8
+   },
+   "0.007": {
+    "status": "BİLGİ",
+    "gt_visible_ge_15cm": 440,
+    "detected": 440,
+    "detection_rate": 1.0,
+    "false_pos_other_color_or_band": 57,
+    "wrong_kind": 93,
+    "lateral_mm_median": 1.3490232655726848,
+    "lateral_mm_p95": 3.6546753490303017,
+    "lateral_mm_max": 4.059647369982901,
+    "heading_deg_median": 0.13323407923666866,
+    "heading_deg_p95": 0.45519315311659,
+    "heading_deg_max": 0.5869274452110933,
+    "heading_short_15_25cm_deg_max": 0.9770581619077753,
+    "heading_short_n": 288,
+    "stop_bar_mm_median": null,
+    "stop_bar_mm_max": null,
+    "stop_bar_n": 0,
+    "note": "hata istatistiği: görünen uzunluğu ≥ 15 cm ve merkezi ≤ 2 m olan şeritler; yön ölçütü ≥ 25 cm; tür (zemin/bölme) bilgi amaçlı: hedef çifti görünmeyen karede bölme şeridi zemin sayılır",
+    "seconds": 8.1
+   },
+   "0.02": {
+    "status": "BİLGİ",
+    "gt_visible_ge_15cm": 440,
+    "detected": 440,
+    "detection_rate": 1.0,
+    "false_pos_other_color_or_band": 61,
+    "wrong_kind": 102,
+    "lateral_mm_median": 1.3867126452127705,
+    "lateral_mm_p95": 3.6235442659327464,
+    "lateral_mm_max": 4.037595273680552,
+    "heading_deg_median": 0.15431402031382155,
+    "heading_deg_p95": 0.85340152842169,
+    "heading_deg_max": 0.9832493259657491,
+    "heading_short_15_25cm_deg_max": 1.4580995928217046,
+    "heading_short_n": 295,
+    "stop_bar_mm_median": null,
+    "stop_bar_mm_max": null,
+    "stop_bar_n": 0,
+    "note": "hata istatistiği: görünen uzunluğu ≥ 15 cm ve merkezi ≤ 2 m olan şeritler; yön ölçütü ≥ 25 cm; tür (zemin/bölme) bilgi amaçlı: hedef çifti görünmeyen karede bölme şeridi zemin sayılır",
+    "seconds": 8.4
+   }
+  },
+  "C4": {
+   "0.0": {
+    "status": "KALDI",
+    "gt_visible": 1008,
+    "detected": 933,
+    "pairing_rate": 0.9255952380952381,
+    "yaw_abs_p99_deg": 0.372761464260129,
+    "near_n": 588,
+    "false_pairs": 0,
+    "order_wrong_frames": 0,
+    "groups": {
+     "yüksüz 0.3–1.2 m": {
+      "lat_mm": 1.2598904586852266,
+      "along_mm": 1.59798728212035,
+      "yaw_deg": 0.7147336530990616,
+      "lat_mm_mean": 0.6189558040154972,
+      "along_mm_mean": 0.08701124563377204,
+      "yaw_deg_mean": -0.00831422805362172,
+      "n": 624
+     },
+     "yüksüz 0.3–0.9 m (son hizalama, bilgi)": {
+      "lat_mm": 1.2598904586852266,
+      "along_mm": 1.25677672210132,
+      "yaw_deg": 0.594707267733114,
+      "lat_mm_mean": 0.5527909215886502,
+      "along_mm_mean": 0.014871336173122682,
+      "yaw_deg_mean": -0.008880769760341977,
+      "n": 444
+     },
+     "yüksüz 1.2–1.4 m (bilgi)": {
+      "lat_mm": 1.2725465702299295,
+      "along_mm": 1.2958889022933764,
+      "yaw_deg": 0.5021851595517959,
+      "lat_mm_mean": 0.9389288477652619,
+      "along_mm_mean": 0.4541911349610168,
+      "yaw_deg_mean": -0.0013453080466849692,
+      "n": 93
+     },
+     "yüklü 0.575–1.2 m": {
+      "lat_mm": 0.9779775692603445,
+      "along_mm": 0.19329221165762542,
+      "yaw_deg": 0.08366559344751869,
+      "lat_mm_mean": 0.6859154064136472,
+      "along_mm_mean": 0.03732310570971707,
+      "yaw_deg_mean": -0.014538606322446974,
+      "n": 144
+     },
+     "yüklü 0.45–0.575 m (gölge, bilgi)": {
+      "lat_mm": 1.5783276257162875,
+      "along_mm": 0.16580090728013477,
+      "yaw_deg": 0.0741176014845581,
+      "lat_mm_mean": 0.5814411109010035,
+      "along_mm_mean": -0.02700131798351023,
+      "yaw_deg_mean": -0.00010155606612655885,
+      "n": 72
+     }
+    },
+    "evaluated_n": 768,
+    "seconds": 33.8
+   },
+   "0.007": {
+    "status": "BİLGİ",
+    "gt_visible": 336,
+    "detected": 315,
+    "pairing_rate": 0.9375,
+    "yaw_abs_p99_deg": 0.3545903823686885,
+    "near_n": 184,
+    "false_pairs": 0,
+    "order_wrong_frames": 0,
+    "groups": {
+     "yüksüz 0.3–1.2 m": {
+      "lat_mm": 1.0320825132627878,
+      "along_mm": 1.0027757368625205,
+      "yaw_deg": 0.4705446758848002,
+      "lat_mm_mean": 0.6912825720798992,
+      "along_mm_mean": 0.19115079198546162,
+      "yaw_deg_mean": -0.020365122467127558,
+      "n": 208
+     },
+     "yüksüz 0.3–0.9 m (son hizalama, bilgi)": {
+      "lat_mm": 0.8000989122909717,
+      "along_mm": 0.8261518902205611,
+      "yaw_deg": 0.4006058461290441,
+      "lat_mm_mean": 0.6080421115693193,
+      "along_mm_mean": 0.10134606836509182,
+      "yaw_deg_mean": -0.006965127382002606,
+      "n": 136
+     },
+     "yüksüz 1.2–1.4 m (bilgi)": {
+      "lat_mm": 1.288598560530002,
+      "along_mm": 0.6393688443381216,
+      "yaw_deg": 0.4818325917181157,
+      "lat_mm_mean": 1.0244110119734606,
+      "along_mm_mean": 0.2950655331122035,
+      "yaw_deg_mean": 0.01606547855180947,
+      "n": 35
+     },
+     "yüklü 0.575–1.2 m": {
+      "lat_mm": 0.9561591887615173,
+      "along_mm": 0.23339077574500156,
+      "yaw_deg": 0.0830819607329416,
+      "lat_mm_mean": 0.7199743721583992,
+      "along_mm_mean": 0.06910677796271265,
+      "yaw_deg_mean": -0.01805001025590501,
+      "n": 48
+     },
+     "yüklü 0.45–0.575 m (gölge, bilgi)": {
+      "lat_mm": 1.5729581926088851,
+      "along_mm": 0.11434779615858352,
+      "yaw_deg": 0.05506249869358278,
+      "lat_mm_mean": 0.6091581430445432,
+      "along_mm_mean": -0.007080355058107425,
+      "yaw_deg_mean": -0.0012781165731657676,
+      "n": 24
+     }
+    },
+    "evaluated_n": 256,
+    "seconds": 15.0
+   },
+   "0.02": {
+    "status": "BİLGİ",
+    "gt_visible": 336,
+    "detected": 315,
+    "pairing_rate": 0.9375,
+    "yaw_abs_p99_deg": 0.41337600908348004,
+    "near_n": 184,
+    "false_pairs": 0,
+    "order_wrong_frames": 0,
+    "groups": {
+     "yüksüz 0.3–1.2 m": {
+      "lat_mm": 1.0804712551277962,
+      "along_mm": 1.1255464095589065,
+      "yaw_deg": 0.4757677337348824,
+      "lat_mm_mean": 0.6903932717975637,
+      "along_mm_mean": 0.2223885722169735,
+      "yaw_deg_mean": -0.01392957286695412,
+      "n": 208
+     },
+     "yüksüz 0.3–0.9 m (son hizalama, bilgi)": {
+      "lat_mm": 0.831745050041134,
+      "along_mm": 0.797111248719784,
+      "yaw_deg": 0.4098917390893597,
+      "lat_mm_mean": 0.6092924409173828,
+      "along_mm_mean": 0.12258377454744174,
+      "yaw_deg_mean": -0.004691196568052393,
+      "n": 136
+     },
+     "yüksüz 1.2–1.4 m (bilgi)": {
+      "lat_mm": 1.3061578515642767,
+      "along_mm": 0.8134882058046011,
+      "yaw_deg": 0.4736857804094578,
+      "lat_mm_mean": 1.015836370385312,
+      "along_mm_mean": 0.26621820902332943,
+      "yaw_deg_mean": 0.012699288903891595,
+      "n": 35
+     },
+     "yüklü 0.575–1.2 m": {
+      "lat_mm": 0.9553659598019044,
+      "along_mm": 0.3309181073309908,
+      "yaw_deg": 0.20468114571670376,
+      "lat_mm_mean": 0.7191156594270947,
+      "along_mm_mean": 0.08686665402857528,
+      "yaw_deg_mean": -0.021584156195284126,
+      "n": 48
+     },
+     "yüklü 0.45–0.575 m (gölge, bilgi)": {
+      "lat_mm": 1.5561856430397332,
+      "along_mm": 0.14590513352063145,
+      "yaw_deg": 0.05868749057648451,
+      "lat_mm_mean": 0.615939340120437,
+      "along_mm_mean": -0.006482369930844935,
+      "yaw_deg_mean": -0.002629666969666927,
+      "n": 24
+     }
+    },
+    "evaluated_n": 256,
+    "seconds": 15.4
+   }
+  },
+  "C5": {
+   "0.0": {
+    "status": "GEÇTİ",
+    "true_pos": 402,
+    "missed": 0,
+    "false_pos": 0,
+    "wrong_color": 0,
+    "recall": 1.0,
+    "iou_median": 0.9707881797497862,
+    "iou_p5": 0.7561366341836341,
+    "iou_lowest": [
+     [
+      0.254,
+      "station_test",
+      "00003"
+     ],
+     [
+      0.255,
+      "station_test",
+      "00006"
+     ],
+     [
+      0.256,
+      "factory",
+      "00002"
+     ],
+     [
+      0.256,
+      "factory",
+      "00005"
+     ],
+     [
+      0.256,
+      "station_test",
+      "00002"
+     ],
+     [
+      0.256,
+      "station_test",
+      "00005"
+     ],
+     [
+      0.257,
+      "factory",
+      "00003"
+     ],
+     [
+      0.258,
+      "factory",
+      "00006"
+     ]
+    ],
+    "seconds": 3.6
+   },
+   "0.007": {
+    "status": "BİLGİ",
+    "true_pos": 130,
+    "missed": 0,
+    "false_pos": 0,
+    "wrong_color": 0,
+    "recall": 1.0,
+    "iou_median": 0.9695370738655165,
+    "iou_p5": 0.684993679194029,
+    "iou_lowest": [
+     [
+      0.255,
+      "factory",
+      "00006"
+     ],
+     [
+      0.255,
+      "station_test",
+      "00006"
+     ],
+     [
+      0.257,
+      "factory",
+      "00003"
+     ],
+     [
+      0.259,
+      "station_test",
+      "00003"
+     ],
+     [
+      0.597,
+      "factory",
+      "00045"
+     ],
+     [
+      0.609,
+      "station_test",
+      "00045"
+     ],
+     [
+      0.685,
+      "factory",
+      "00024"
+     ],
+     [
+      0.685,
+      "station_test",
+      "00024"
+     ]
+    ],
+    "seconds": 3.3
+   },
+   "0.02": {
+    "status": "BİLGİ",
+    "true_pos": 130,
+    "missed": 0,
+    "false_pos": 0,
+    "wrong_color": 0,
+    "recall": 1.0,
+    "iou_median": 0.9567389438639721,
+    "iou_p5": 0.684993679194029,
+    "iou_lowest": [
+     [
+      0.255,
+      "factory",
+      "00006"
+     ],
+     [
+      0.255,
+      "station_test",
+      "00006"
+     ],
+     [
+      0.257,
+      "factory",
+      "00003"
+     ],
+     [
+      0.259,
+      "station_test",
+      "00003"
+     ],
+     [
+      0.535,
+      "factory",
+      "00045"
+     ],
+     [
+      0.597,
+      "station_test",
+      "00045"
+     ],
+     [
+      0.685,
+      "factory",
+      "00024"
+     ],
+     [
+      0.685,
+      "station_test",
+      "00024"
+     ]
+    ],
+    "seconds": 3.4
+   }
+  },
+  "C6": {
+   "0.0": {
+    "status": "GEÇTİ",
+    "gt_belirsiz_det_False": 58,
+    "gt_False_det_False": 1822,
+    "gt_True_det_True": 780,
+    "note": "GT: GT kolilerinin silüeti, yük bölgesinin en az yarısını kaplıyor mu (taşınan ya da bölmede çatalların üstünde duran koli); bir görüntüden ikisi ayırt edilemez, alma başarısı otonomide geri çıkıştan sonra denetlenir",
+    "seconds": 14.8
+   },
+   "0.007": {
+    "status": "BİLGİ",
+    "gt_belirsiz_det_False": 20,
+    "gt_False_det_False": 608,
+    "gt_True_det_True": 260,
+    "note": "GT: GT kolilerinin silüeti, yük bölgesinin en az yarısını kaplıyor mu (taşınan ya da bölmede çatalların üstünde duran koli); bir görüntüden ikisi ayırt edilemez, alma başarısı otonomide geri çıkıştan sonra denetlenir",
+    "seconds": 14.8
+   },
+   "0.02": {
+    "status": "BİLGİ",
+    "gt_belirsiz_det_False": 20,
+    "gt_False_det_False": 608,
+    "gt_True_det_False": 4,
+    "gt_True_det_True": 256,
+    "note": "GT: GT kolilerinin silüeti, yük bölgesinin en az yarısını kaplıyor mu (taşınan ya da bölmede çatalların üstünde duran koli); bir görüntüden ikisi ayırt edilemez, alma başarısı otonomide geri çıkıştan sonra denetlenir",
+    "seconds": 14.6
+   }
+  },
+  "C9": {
+   "0.0": {
+    "status": "KALDI",
+    "frames": 672,
+    "detected": 672,
+    "rate": 1.0,
+    "missed_at_d": [],
+    "groups": {
+     "yüklü": {
+      "n": 384,
+      "dist_mm_max": 5.058637165016028,
+      "dist_mm_mean": -0.07663240189343551,
+      "lat_mm_max": 1.1171961926375442,
+      "lat_mm_mean": 0.4055919168256274,
+      "yaw_valid_rate": 1.0,
+      "pitch_applied_rate": 0.375,
+      "info_label_yaw_deg_max": 1.8730577493843426
+     },
+     "yüksüz": {
+      "n": 288,
+      "dist_mm_max": 5.145699021489598,
+      "dist_mm_mean": -0.21973318856561225,
+      "lat_mm_max": 1.222657939349914,
+      "lat_mm_mean": 0.4021108199232882,
+      "yaw_valid_rate": 1.0,
+      "pitch_applied_rate": 0.375,
+      "info_label_yaw_deg_max": 1.862358572455719
+     }
+    },
+    "seconds": 17.1
+   },
+   "0.007": {
+    "status": "BİLGİ",
+    "frames": 224,
+    "detected": 224,
+    "rate": 1.0,
+    "missed_at_d": [],
+    "groups": {
+     "yüklü": {
+      "n": 128,
+      "dist_mm_max": 5.058637165016028,
+      "dist_mm_mean": -0.18670131682428615,
+      "lat_mm_max": 1.4178144873899965,
+      "lat_mm_mean": 0.3505243758895149,
+      "yaw_valid_rate": 1.0,
+      "pitch_applied_rate": 0.375,
+      "info_label_yaw_deg_max": 1.0657963914861324
+     },
+     "yüksüz": {
+      "n": 96,
+      "dist_mm_max": 4.0799065196611055,
+      "dist_mm_mean": -0.2874047046113672,
+      "lat_mm_max": 1.1171961926261833,
+      "lat_mm_mean": 0.3324258343341993,
+      "yaw_valid_rate": 1.0,
+      "pitch_applied_rate": 0.375,
+      "info_label_yaw_deg_max": 1.0657963914873028
+     }
+    },
+    "seconds": 8.1
+   },
+   "0.02": {
+    "status": "BİLGİ",
+    "frames": 224,
+    "detected": 224,
+    "rate": 1.0,
+    "missed_at_d": [],
+    "groups": {
+     "yüklü": {
+      "n": 128,
+      "dist_mm_max": 6.544307787566224,
+      "dist_mm_mean": -0.13885783400991084,
+      "lat_mm_max": 2.227553862060448,
+      "lat_mm_mean": 0.4032875605057174,
+      "yaw_valid_rate": 1.0,
+      "pitch_applied_rate": 0.3671875,
+      "info_label_yaw_deg_max": 31.505023873104918
+     },
+     "yüksüz": {
+      "n": 96,
+      "dist_mm_max": 3.963013470004827,
+      "dist_mm_mean": -0.3594388937053163,
+      "lat_mm_max": 1.5076282783925803,
+      "lat_mm_mean": 0.3326482302507607,
+      "yaw_valid_rate": 1.0,
+      "pitch_applied_rate": 0.375,
+      "info_label_yaw_deg_max": 1.2093086252446732
+     }
+    },
+    "seconds": 8.5
+   }
+  }
+ }
+}

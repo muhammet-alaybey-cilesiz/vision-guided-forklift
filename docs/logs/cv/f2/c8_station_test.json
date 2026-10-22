@@ -1,0 +1,67 @@
+{
+ "world": "station_test",
+ "seconds": 30.0,
+ "rtf": 1.0012925915129764,
+ "rates_hz": {
+  "/perception/signs": 28.299790612021607,
+  "/perception/parcels": 28.299790612021607,
+  "/cv/detections": 28.299790612021607,
+  "/perception/bay_targets": 25.666476762375307,
+  "/perception/lanes": 25.666476762375307,
+  "/perception/load": 25.666476762375307
+ },
+ "cpu_cores": 2.5146480609786925,
+ "pids": [
+  59247,
+  59248
+ ],
+ "sample": {
+  "signs": [
+   "neutral"
+  ],
+  "parcels": [
+   "red",
+   "green",
+   "blue"
+  ],
+  "bays": 3
+ },
+ "subscriptions": {
+  "front_perception": [
+   "/clock",
+   "/front_camera/camera_info",
+   "/front_camera/image_raw",
+   "/tf",
+   "/tf_static"
+  ],
+  "lane_perception": [
+   "/clock",
+   "/joint_states",
+   "/lane_camera/camera_info",
+   "/lane_camera/image_raw",
+   "/tf",
+   "/tf_static"
+  ]
+ },
+ "c0_runtime": {
+  "allowed": [
+   "/clock",
+   "/front_camera/camera_info",
+   "/front_camera/image_raw",
+   "/joint_states",
+   "/lane_camera/camera_info",
+   "/lane_camera/image_raw",
+   "/parameter_events",
+   "/tf",
+   "/tf_static"
+  ],
+  "outside_allowed": [],
+  "status": "GEÇTİ"
+ },
+ "screenshot": {
+  "path": "/home/muhammet61/cv_forklift_ws/docs/images/cv/gui_detections_station_test.png",
+  "exists": true,
+  "returncode": 0
+ },
+ "c8_status": "GEÇTİ"
+}

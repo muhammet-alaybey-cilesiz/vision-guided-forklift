@@ -19,5 +19,9 @@ setup(
     tests_require=['pytest'],
     entry_points={'console_scripts': [
         'f1_probe = forklift_evaluation.f1_probe:main',
+        'calibrate_cameras = forklift_evaluation.calibrate_cameras:main',
+        'color_stats = forklift_evaluation.color_stats:main',
+        'cv_eval = forklift_evaluation.cv_eval:main',
+        'perf_probe = forklift_evaluation.perf_probe:main',
     ]},
 )

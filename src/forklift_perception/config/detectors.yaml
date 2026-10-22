@@ -1,0 +1,101 @@
+# =============================================================================
+#  detectors.yaml — algılayıcı eşikleri (ROS'tan bağımsız çekirdek okur; düğümler ve
+#  çevrimdışı değerlendirme aynı dosyayı kullanır)
+# -----------------------------------------------------------------------------
+#  Renkler: OpenCV HSV (H 0–179). Ölçülen dağılımlar (5–95. yüzdelik, iki dünya):
+#    mühür kırmızı H 0, yeşil 65, mavi 109–110; S 184–196
+#    koli kartonu H 17–18, S 167–185, V 102–114
+#    bölme etiketi sarısı H 20–23; şerit sarısı H 26–30 (factory'de V 255'e doyuyor)
+#  Kraft / etiket / şerit sarısı birbirine 2–3 birim yakın: algılayıcılar renge ek olarak
+#  şekil ve bağlam denetimi yapar.
+# =============================================================================
+colors:
+  red:          {h: [[0, 6], [172, 179]], s: [120, 255], v: [60, 255]}
+  green:        {h: [[55, 75]], s: [120, 255], v: [50, 255]}
+  blue:         {h: [[100, 118]], s: [120, 255], v: [50, 255]}
+  yellow:       {h: [[25, 34]], s: [120, 255], v: [100, 255]}     # şerit ve bölme şeridi (kaynak)
+  label_yellow: {h: [[19, 24]], s: [150, 255], v: [25, 255]}      # bölme etiketi
+  kraft:        {h: [[13, 19]], s: [120, 220], v: [50, 255]}      # koli kartonu (üst yüz factory spotları altında V 207–255, doyuyor)
+  white:        {h: [[0, 179]], s: [0, 40], v: [170, 255]}        # durma çizgisi, tabela zemini
+  dark_neutral: {h: [[0, 179]], s: [0, 70], v: [10, 120]}         # kaynak tabelasının koyu bloğu
+  white_sign:   {h: [[0, 179]], s: [0, 30], v: [60, 255]}         # tabela zemini (yazı hariç; gölgeli tabelada V ~90)
+  white_panel_mid: {h: [[0, 179]], s: [0, 30], v: [100, 185]}     # panel çapası: panelden parlak arka planı dışlar (panel V 143–165)
+
+bay_targets:                       # daire hedef çifti (D-55, D-61)
+  white_v_min: 60                  # plaka beyazı: gri düzey alt sınırı (gölgedeki plaka ~100)
+  white_s_max: 50                  # plaka beyazı: S üst sınırı
+  local_block: 25                  # yerel ortalama penceresi [px]
+  local_delta: 12                  # plaka, yerel ortalamadan en az bu kadar parlak
+  min_area_px: 25                  # plaka dış konturu en küçük alan
+  area_ratio: [0.45, 1.9]          # ölçülen / beklenen plaka alanı
+  pattern_min: 0.05                # düzeltilmiş plakada nokta/halka karşıtlığı
+  min_contrast: 35.0               # plaka içi beyaz − siyah (gri düzey)
+  baseline_tol: 0.02               # çift tabanı 0.216 ± [m]
+  max_pair_yaw_deg: 30.0           # çift doğrultusunun robot y eksenine en büyük açısı
+
+bay_labels:                        # arka plakadaki bölme etiketleri (D-62)
+  min_area_px: 20
+  area_ratio: [0.4, 1.8]           # ölçülen / beklenen 45 mm kare alanı
+  pitch_tol: 0.03                  # komşu etiketler bölme adımı ± [m] → yaw ölçülür
+  shape_tol: 0.35                  # dörtgen ↔ beklenen dik kare: en büyük köşe farkı / kenar
+  ring_frac: 0.4                   # bağlam halkası genişliği / etiket kenarı
+  ring_s_max: 60                   # halka: düşük doygunluk (alüminyum)
+  ring_low_s_min: 0.7              # halkada düşük doygunluklu piksel oranı en az
+  ring_dark_v: 45                  # halka: koyu piksel eşiği
+  ring_dark_max: 0.05              # halkada koyu piksel oranı en çok (tehlike bandı elenir)
+
+lanes:                             # renkli şeritler, kuş bakışı (IPM)
+  x_range: [0.2, 2.6]              # IPM: base önünde [m]
+  y_range: [-1.2, 1.2]             # IPM: yanal [m] (+y sol)
+  res: 0.005                       # IPM çözünürlüğü [m/px]
+  plane_z: 0.001                   # zemin işaretlerinin yüzeyi [m] (bölme şeridi ayrıca düzeltilir)
+  lane_colors: [yellow, red, green, blue]
+  open_length: 0.10                # yönlü açma çekirdeği uzunluğu [m]
+  open_angles_deg: [-45, -30, -15, 0, 15, 30, 45]
+  perp_angles_deg: [60, 75, 90, 105, 120]   # bu doğrultulardaki yapılar önce çıkarılır (ön bant)
+  min_area_m2: 0.002
+  max_heading_deg: 60              # robot yönüne göre en büyük şerit açısı
+  min_length: 0.12                 # [m]
+  width_range: [0.02, 0.08]        # [m] (zemin şeridi 0.05, bölme şeridi 0.04)
+  min_aspect: 2.5
+  centerline_step: 0.02            # merkez çizgisi dilimi [m]
+  nominal_width: 0.05              # kenarı örtülen dilimde merkez = görünen kenar ± yarısı [m] (zemin bandı 5 cm)
+  end_probe: 0.04                  # uç görünür mü: uçtan bu kadar ötesi görüş içinde olmalı [m]
+  confident_length: 0.5            # güven = görünen uzunluk / bu değer (en çok 1)
+  stop_bar_search: [0.08, 0.12]    # uçtan geri / ileri arama [m]
+  stop_bar_half_len: 0.2           # şeride dik arama yarı genişliği [m]
+  stop_bar_min_area_m2: 0.004
+
+signs:                             # istasyon tabelası (ön kamera)
+  min_block_area_px: 40            # renk bloğu en küçük alan
+  max_reproj_px: 2.5               # blok köşeleri: 3 serbestlikli pozun yeniden izdüşüm hatası
+  min_white_fraction: 0.5          # bloğun sağındaki panelde beyaz oranı (yazı ~%20)
+  edge_rows: [0.09, 0.91]
+  min_panel_area_px: 200           # panel yolu: beyaz panel en küçük alan
+  panel_aspect: [1.6, 4.5]         # panel görüntüde genişlik / yükseklik (gerçek 3; açılı bakış)
+  min_block_fraction: 0.5          # sol karede çoğunluk renginin oranı          # sağ kenarın arandığı satırlar (tabela yüksekliğinin oranı; yazısız)
+
+parcels:                           # koli ve mühür (ön kamera)
+  seal_s_min: 150                  # mühür doygunluğu (ölçülen 184–196)
+  min_seal_area_px: 30
+  max_seal_aspect: 2.5             # görüntüde en / boy (açılı bakış)
+  min_seal_fill: 0.6               # kontur alanı / sınır kutusu
+  seal_area_ratio: [0.4, 1.8]      # ölçülen / beklenen 10 cm kare alanı
+  ring_frac: 0.3                   # bağlam halkası kalınlığı / mühür kenarı
+  min_kraft_ring: 0.5              # halkada kraft oranı en az (mühür bir koli yüzünde)
+
+load:                              # çatalda yük (şerit kamerası)
+  min_kraft_fraction: 0.5          # taşınan kolinin silüetinde kraft oranı
+
+lane_kind:                         # şerit türü (hedef çiftlerine göre)
+  bay_lateral_tol: 0.03            # bölme şeridi: bir bölme eksenine yanal uzaklık [m]
+  max_bays_side: 4                 # bulunan çiftten en çok bu kadar bölme ötesine eksen tahmini
+  bay_heading_tol_deg: 10.0        # bölme şeridi: eksenle açı
+  bay_far_range: [-0.06, 0.03]     # bölme şeridi: uzak ucu ön çizgide (eksen boyunca) [m]
+  band_far_min: -0.12              # uzak ucu ön çizgiye bu kadar yakın / öte olan, bölme ekseninde
+                                   # olmayan şerit istasyonun bandıdır (atılır); zemin şeridi ~-0.4'te biter [m]
+  station_half_width: 0.6          # bant araması: çiftin eksenine yanal [m]
+
+apron:                             # tekerlekler önlük plakasındayken gövde eğimi (D-46)
+  edge_margin: 0.005               # ön çizgiye CV mesafesi < apron_depth − bu → eğim uygulanır [m]
+  neighbour_tol: 0.05              # komşu bölme: eksen bay_pitch ± bu [m] (o taraftaki teker plakada)

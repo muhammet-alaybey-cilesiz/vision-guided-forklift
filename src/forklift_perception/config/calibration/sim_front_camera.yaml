@@ -1,0 +1,58 @@
+# Sim kamerası dama tahtasıyla kalibre edildi (DECISIONS D-59), 2026-10-22 19:43
+# 37 görüş, 9x6 iç köşe, kare 0.025 m; RMS 0.066 px
+# Üreten: ros2 run forklift_evaluation calibrate_cameras
+image_width: 640
+image_height: 480
+camera_name: front_camera
+camera_matrix:
+  rows: 3
+  cols: 3
+  data:
+  - 554.6283919028289
+  - 0.0
+  - 319.8046236067024
+  - 0.0
+  - 554.641191086263
+  - 239.5151459149627
+  - 0.0
+  - 0.0
+  - 1.0
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data:
+  - 0.0013782207023506007
+  - -0.004350705257357308
+  - 0.0001700977336756198
+  - 0.0002043715397758413
+  - 0.0
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data:
+  - 1.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+projection_matrix:
+  rows: 3
+  cols: 4
+  data:
+  - 554.6283919028289
+  - 0.0
+  - 319.8046236067024
+  - 0.0
+  - 0.0
+  - 554.641191086263
+  - 239.5151459149627
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+  - 0.0

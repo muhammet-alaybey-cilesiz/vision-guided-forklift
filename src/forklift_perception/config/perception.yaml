@@ -1,0 +1,33 @@
+# =============================================================================
+#  perception.yaml — forklift_perception düğümlerinin TEK yapılandırması (D-29: kodda varsayılan yok)
+# -----------------------------------------------------------------------------
+#  Katalog (ölçü, şekil): station_params.yaml (catalog_file) — konum ve doluluk yok (plan R7).
+#  Robotun kendi ölçüleri: forklift_params.yaml (robot_params_file).
+#  Kamera içsel parametreleri: calibration_dir/sim_<kamera>.yaml (D-59); boşsa camera_info.
+#  Renk eşikleri kayıtlı kümede GT bölgelerinden ölçüldü (color_stats, REPORT_CV §F2);
+#  gerçek kamerada aynı araçla etiketli karelerden yeniden ayarlanır.
+#  OpenCV HSV ölçeği: H 0–179, S ve V 0–255.
+# =============================================================================
+/**:
+  ros__parameters:
+    use_sim_time: true
+    base_frame: base_footprint
+    catalog_file: ""                 # launch doldurur (forklift_gazebo/config/station_params.yaml)
+    robot_params_file: ""            # launch doldurur (forklift_description/config/forklift_params.yaml)
+    calibration_dir: ""              # launch doldurur (forklift_perception/config/calibration)
+    detectors_file: ""               # launch doldurur (forklift_perception/config/detectors.yaml)
+    publish_debug_images: false
+
+front_perception:
+  ros__parameters:
+    image_topic: /front_camera/image_raw
+    info_topic: /front_camera/camera_info
+    camera_name: front_camera
+
+lane_perception:
+  ros__parameters:
+    image_topic: /lane_camera/image_raw
+    info_topic: /lane_camera/camera_info
+    camera_name: lane_camera
+    joint_states_topic: /joint_states
+    fork_joint: fork_lift_joint

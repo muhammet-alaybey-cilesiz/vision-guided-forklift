@@ -1274,7 +1274,7 @@ keeps its own change log). Results are in `REPORT_CV.md`.
   worked without stalls. Service calls still go through the `gz service` CLI
   (D-49).
 
-## D-59 Gazebo's principal point is half a pixel from `camera_info` (Open, owner decision at gate K-1)
+## D-59 Gazebo's principal point is half a pixel from `camera_info` (Accepted: option (c), owner decision 2026-10-22, may be revisited)
 Measured in F1 by projecting ground truth into both robot cameras
 (`f1_probe overlay`, `station_test`, 20 views): the image is rendered with its
 optical centre at (W − 1)/2, (H − 1)/2 = (319.5, 239.5) in OpenCV pixel-centre
@@ -1294,6 +1294,28 @@ perception gets an optional `calibration_file` parameter that overrides
 `camera_info`'s K and D. On a real robot the same parameter takes the real
 calibration.
 
+**Decision (owner, 2026-10-22):** option (c). The calibration tool spawns a
+checkerboard in the simulation and runs the standard OpenCV procedure
+(`findChessboardCorners`, `cornerSubPix`, `calibrateCamera`) on many views. It
+writes ROS camera-calibration YAML files, which perception loads through
+`calibration_file`. The owner may change this later.
+
+**Result (2026-10-22, `calibrate_cameras`, 9 × 6 inner corners, 25 mm squares,
+board placed at random positions, distances and ±40° tilts over the whole image):**
+
+| Camera | Views | RMS | cx | cy | fx | fy |
+|---|---|---|---|---|---|---|
+| front | 37 | 0.066 px | 319.80 | 239.52 | 554.63 | 554.64 |
+| lane | 27 | 0.064 px | 319.77 | 239.38 | 381.26 | 381.23 |
+
+The principal point is within 0.3 px of (319.5, 239.5), which confirms the
+finding with a method that uses no ground truth. Focal lengths differ from the
+nominal values by at most 0.07 %; distortion coefficients are below 0.005. A
+first run with only 3–7 views gave cx 320.6 / 319.0: with few views the
+principal point trades off against the board poses (as with a real camera).
+The files are `forklift_perception/config/calibration/sim_<camera>.yaml`; the
+parameter is `calibration_dir`.
+
 ## D-60 Wheel odometry comes from the wheel joints (Accepted, Measured)
 The plan allows wheel odometry for short relative moves (K3), because a real
 robot has wheel encoders. Checked in F1 (`f1_probe odom`): teleporting the
@@ -1311,6 +1333,85 @@ moved the dark-mass centroid by +0.6 px (u) and +0.9 px (v). Shrinking the mask
 by 1 px removed the effect. The alignment-target detector (F2) must build its
 weight mask strictly inside the plate, for example eroded or from a
 sub-pixel quad, and C4 compares against ground truth to catch this.
+
+## D-62 Final approach: align first, then decide the drop from a CV distance (Accepted, owner decision 2026-10-22)
+F1 measured that, with a parcel on the forks, the bullseye pair leaves the
+parcel's silhouette at 0.50 m but is in its shadow until 0.575 m (camera to
+ledge front line), which leaves about 0.55 m to full entry. Owner's decision:
+finish the alignment (lateral and yaw) on the bullseye pair where it is
+unshadowed, then approach; the stop and the drop are decided from a camera
+distance estimate, not from odometry alone. The cue is the bay label: a 45 mm
+yellow square on the back plate, centred on the bay axis at z = 0.258. The
+lane camera should see the upper back plate over the parcel, so the label can
+give the distance and the lateral offset down to full entry. Odometry only
+fills the gaps between frames. The label number is not read; only its geometry
+is used (catalog knowledge, R7). Test C9 measures it (F2); if the label is not
+visible over the parcel, the alternative is decided at gate K-2.
+
+## D-63 Perception structure: ROS-free core, catalog copy, thresholds from data (Accepted)
+* `forklift_perception/core` holds the camera model and the detectors and has no ROS imports;
+  `pipelines.py` runs them per camera. The ROS nodes (`nodes.py`) and the offline evaluation
+  (`forklift_evaluation cv_eval`) call the same pipelines, so the tests measure the code that runs
+  on the robot.
+* Two configuration files: `perception.yaml` (ROS parameters: topics, frames, file paths; no
+  defaults in code, D-29) and `detectors.yaml` (detector thresholds, read by the core, so the offline
+  evaluation needs no ROS parameter server).
+* **Catalog copy.** `core/catalog.py` derives station geometry (target offset and baseline, bay-line
+  extent, sign and label placement, parcel size) from `station_params.yaml` with the same formulas
+  as `forklift_gazebo/scripts/station_layout.py`. This is a deliberate duplicate: a real robot will
+  not have the simulation package (R8). `forklift_evaluation/test/test_catalog_consistency.py` keeps
+  the two equal. The sign formula assumes stations with at least three bays (full sign width).
+* **Colour thresholds from data.** `color_stats` projects ground-truth regions into the recorded
+  frames and reports HSV percentiles per class; the thresholds in `detectors.yaml` come from those
+  numbers. Kraft (H 17), the bay-label yellow (H 20–23) and the lane yellow (H 26–30) are only 2–3
+  hue units apart, so every detector also checks shape and context. In the factory, spot-lit lanes
+  and parcel tops saturate to V = 255; the thresholds accept that.
+* **Self mask.** Forks, carriage and (when the load check says so) the carried parcel are projected
+  from `forklift_params.yaml` and the fork joint, and are excluded from target, label and lane
+  detection.
+
+## D-64 Lanes: bird's-eye view, perpendicular removal, edge-aware centre line (Accepted)
+* The lane camera image is warped to the ground plane (5 mm per pixel). Per colour: structures
+  perpendicular to the approach (60–120°) are found with line-kernel openings and removed first
+  (otherwise the station's front band joins bay lines and side bands into one U-shaped component),
+  then openings along ±45° keep lane-like structures; connected components with lane width and
+  length become lanes.
+* The centre line is computed per 2 cm slice. When one edge of a slice touches the self mask or
+  the edge of the view, the centre is taken half a nominal tape width inside the visible edge (a fork
+  covering the lane edge moved the centre by 12.5 mm before). Lateral offset and heading come from a
+  line fit to these centres; the message carries the polyline, so curves need no message change.
+* Kind: a lane on a bay axis (a detected bullseye pair's axis, or that axis ± k·bay_pitch for
+  neighbouring bays whose pair is not detected) ending at the front line is a bay lane; a station-
+  coloured stripe off those axes that ends at or beyond the front line is the station's band and is
+  dropped; everything else is a floor lane.
+
+## D-65 Final-approach distance: plane intersection with apron pitch compensation (Accepted, Measured)
+* The bay label (D-62) is visible over the parcel down to full entry: 100 % of the recorded final-
+  approach frames, loaded and unloaded, in both worlds.
+* The distance comes from the ray / plane intersection at the label's known height (repeatable to
+  about ±1 mm). It is biased when the robot pitches: with the drive wheels on the 2 mm apron plate
+  the body turns nose-up about the caster contact by atan(0.002 / 0.28) = 0.41° (S6 measured −0.41°),
+  which moved the distance by up to −10 mm. Ground truth showed half that pitch (−0.205°) at the end
+  bays, where the outer wheel is off the plate (the plate is as wide as the station).
+* Compensation: when the camera distance to the front line is shorter than the apron depth, the
+  measurement is repeated with the camera model pitched about the caster contact; the pitch is
+  scaled by the number of drive wheels on the plate, which the robot sees as neighbouring bays (labels
+  or pairs at ± bay_pitch). Results are expressed in the body frame (the forks and odometry move with
+  the body).
+* Tried and rejected: PnP on the label corners. A 45 mm label is about 40 px wide at this range, so
+  half-pixel corner errors changed the distance by ±5–18 mm.
+* Real robot: an IMU would measure the pitch directly; recommended for the hardware step.
+
+## D-66 Station sign: identity and coarse pose only (Proposed, owner decision at gate K-2)
+* Two paths, results merged: (A) white-panel anchor: the 3:1 white panel is found, extended left by
+  one third to the colour block, the pose is fitted to the four sign corners, the colour is read from
+  the block; needed for the source sign, whose dark neutral block merges with dark frames and walls;
+  (B) colour block: the block's corners give the pose, refined with the sign's right edge. Both fit
+  only x, y and yaw (the sign is vertical at a known height).
+* Physical limit: yaw comes from the difference in depth of the sign's two ends; for a 0.60 m sign
+  that is about 1 px per degree at 1.3 m and 1 px per 4° at 2.5 m. The plan's C1 criterion (yaw ≤ 5°
+  at ≤ 3 m) cannot be met by the sign alone. Proposal: the sign gives identity, bearing and coarse
+  distance; the precise station pose comes from the bullseye pairs, visible from about 1.4 m.
 
 ---
 

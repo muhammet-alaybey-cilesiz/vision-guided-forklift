@@ -157,6 +157,7 @@ Menzil ve hassasiyet satırlarındaki **tahmin** değerleri plan hesabıdır; **
 | Daire hedef çifti | Şerit | D-55: plaka dörtgeni → desen denetimi → koyuluk ağırlık merkezi → z 0.025 düzlemiyle ışın kesişimi → eşleştirme | Bölme giriş pozu, mesafe, soldan sağa sıra | Yüksüz 0.12–2.2 m, yüklü 0.47–2.2 m | **Ölçülmüş** (0.45–1.2 m, σ ≤ 0.02): eksen ≤ 0.22 mm, yaw ≤ 0.20° | Gölge; sarı bölme etiketi (ön çizgi kuralı eler); yakında 45° bakış |
 | Koli, mühür, doluluk | Ön | Dilim 1: klasik (kraft maskesi → kutu → ROI içinde doygun kare = mühür → izdüşüm → bölme çiftiyle eşleştirme). Arayüz öğrenmeli modele açık (R4) | Koli listesi, doluluk, mühür rengi | 0.8–3 m | Tahmin: doluluk ve renk %100, IoU ≥ 0.8 | Renkli zemin ve bant (koli ROI'si ayırır) |
 | Yük denetimi | Şerit | Alt-orta ROI'de kraft oranı | `loaded` | — | — | Koli düşerse ilk sinyal |
+| Bölme etiketi (son yanaşma) | Şerit + ön | Arka plakadaki 45 mm sarı kare (bölme ekseninde, z 0.258): kontur → merkez → z 0.258 düzlemiyle ışın kesişimi | Bölme girişine mesafe + yanal | Tam girişten ~1 m'ye (kolinin üstünden) | F2'de ölçülecek (C9) | Numara okunmaz, yalnız geometri; kolinin üst kenarına yakın |
 
 **Veri seti:** `autolabel.py` gz GT pozlarını K + TF ile görüntüye izdüşürür ve COCO/YOLO bbox yazar. Kaynaklar: (a) poz ızgarası + rastgele koli yerleşimi, iki dünya; (b) GUI veri seti kaydı (D-36) + eşzamanlı GT poz kaydı, damgadan birleştirilir. Gerçek veride aynı biçimde elle etiketleme yapılır (R5). Öğrenmeli model eğitimi sonraki dilimde (venv'de PyTorch; RTX 5070 için CUDA 12.8; kütüphane ve lisans o zaman seçilir).
 
@@ -181,7 +182,7 @@ Her durumdan: hata ─► RECOVER ─(N deneme)─► FAULT (dur, çatalı tut, 
 | TRANSIT | station_test: tabela PnP'si → istasyon normali üzerinde 0.8 m'deki noktaya dön-git-dön (tabela göründükçe güncelle). factory: renkli şeridi takip et (pure pursuit); kavşakta istenen renk görünene kadar dön | Ön-yanaşma ±10 cm / ±5° |
 | PRE_DOCK / SELECT_BAY | Tabela rengini doğrula; bölme çiftlerini ve doluluğu oku. Alma: soldan sağa ilk dolu bölme. Bırakma: önce orta boş bölme | Hedef bölmenin giriş pozu |
 | ALIGN_BAY | Bölme ekseninde 0.6–0.8 m'ye gel; çatal q = 0 (alma) / 0.06 (bırakma) | Yanal ≤ 5 mm, yaw ≤ 0.5° |
-| ENTER | Bölme şeridi + hedef çifti servosu; hedefler kaybolunca son ölçümden odometriyle tam girişe (taşıyıcı önü x = −0.015 ± 0.01) | Mesafeye ulaşıldı |
+| ENTER | Hizalama gölgesiz mesafede (yüklüyken kamera → ön çizgi ≥ 0.575 m) hedef çiftiyle tamamlanır, sonra yavaş yanaşma. Hedefler kaybolunca mesafe ve yanal konum **CV ile** arka plakadaki bölme etiketinden kestirilir (odometri yalnız kareler arası); durma ve indirme kararı bu kestirimle verilir (taşıyıcı önü x = −0.015 ± 0.01) | CV mesafesi hedefte |
 | LIFT / LOWER | 0 ↔ 0.06; eklem hatası büyürse dur | Eklem ±2 mm; LIFT'te `loaded` |
 | BACK_OUT | 0.5 m geri (odometri) | Mesafe |
 
@@ -222,6 +223,7 @@ GT yalnız `forklift_evaluation` içinde kullanılır. Kaynaklar: gz `dynamic_po
 | C5 | Koli, mühür, doluluk | 0.8–2.5 m, rastgele doluluk | %100, IoU ≥ 0.7, yanlış pozitif 0 | İkisi |
 | C6 | Yük denetimi | Yüklü/yüksüz, q 0–0.06 | %100 | İkisi |
 | C7 | Gürültü taraması | C1–C6, σ 0.007 / 0.02 | Bilgi | İkisi |
+| C9 | Son yanaşma mesafesi (bölme etiketi) | Yüklü/yüksüz, ön çizgiye 0.14–0.60 m, yanal ±1.5 cm | Mesafe ≤ 5 mm, yanal ≤ 3 mm; tam girişe kadar her karede ölçüm | İkisi |
 | C8 | Performans | Algılama açık | RTF ≥ 0.9, düğüm başına ≥ 15 Hz | İkisi |
 | A1 | Yanaşma + alma | Ön-yanaşma ± (15 cm, 10°, 0.8–1.5 m), 3 bölme | Girişte ≤ 1 cm, ≤ 1°; alma başarılı; komşular < 1 mm | İkisi |
 | A2 | Yüklü yanaşma + bırakma | Aynı ızgara, 3 hedef | Ofset ≤ 1.5 cm, eğim < 2°, taban 0.05 ± 2 mm | İkisi |
@@ -291,3 +293,5 @@ GT yalnız `forklift_evaluation` içinde kullanılır. Kaynaklar: gz `dynamic_po
 | 2026-10-21 | İlk sürüm; plan onaylandı | Sahip |
 | 2026-10-21 | GUI Manuel/Otonom modları ve GUI'den başlatma eklendi (§5, K13) | Sahip |
 | 2026-10-21 | Gerçeğe geçiş üst amacı ve R1–R9 kuralları eklendi (§2) | Sahip |
+| 2026-10-22 | K-1: Sim kamerası gerçek kamera gibi dama tahtasıyla kalibre edilir, algılama `calibration_file` ile okur (D-59; ileride değişebilir) | Sahip |
+| 2026-10-22 | K-1: Hizalama gölgesiz mesafede, sonra yanaşma; bırakma kararı CV mesafe kestirimiyle (bölme etiketi, C9; D-62) | Sahip |

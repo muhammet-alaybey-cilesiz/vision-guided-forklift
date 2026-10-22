@@ -1,0 +1,25 @@
+{
+ "world": "factory",
+ "tasks": [
+  "record"
+ ],
+ "started": "2026-10-22 19:44:00",
+ "errors": {},
+ "spike_rclpy_gz_same_process": "\u00e7al\u0131\u015ft\u0131: rclpy (g\u00f6r\u00fcnt\u00fc, camera_info, TF) + gz-transport ayn\u0131 s\u00fcre\u00e7te",
+ "record": {
+  "dir": "data/f2/factory",
+  "views_recorded_now": 438,
+  "resumed_from": 514,
+  "skipped_collision": 46,
+  "failed": 0,
+  "failed_views": [],
+  "by_set": {
+   "align": 432,
+   "align_loaded": 126,
+   "entry": 336,
+   "far": 40,
+   "occupancy": 64
+  },
+  "seconds": 1000.2
+ }
+}

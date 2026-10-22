@@ -342,25 +342,83 @@ def task_odom(pr, res):
 # =============================================================================
 #  record: çevrimdışı küme
 # =============================================================================
-def record_views(es, gt):
+RECORD_SETS = {'f1': ('stations', 'loaded', 'lanes'), 'f2': ('align', 'align_loaded', 'far', 'occupancy', 'entry')}
+
+
+def record_views(es, sets):
+    """Kayıt görüşleri. sets: RECORD_SETS anahtarları ya da tek tek küme adları."""
+    want = set()
+    for s in sets:
+        want.update(RECORD_SETS.get(s, (s,)))
     views = []
-    for stn in es.layout['stations']:
-        for d in (0.45, 0.6, 0.8, 1.0, 1.3, 1.7, 2.2, 2.8):
-            for lat in (-0.3, 0.0, 0.3):
-                for yd in (-10, 0, 10):
-                    views.append({'set': 'stations', 'station': stn['name'], 'd': d, 'lateral': lat,
+    stations = es.layout['stations']
+    if 'stations' in want or 'loaded' in want:
+        for stn in stations:
+            if 'stations' in want:
+                for d in (0.45, 0.6, 0.8, 1.0, 1.3, 1.7, 2.2, 2.8):
+                    for lat in (-0.3, 0.0, 0.3):
+                        for yd in (-10, 0, 10):
+                            views.append({'set': 'stations', 'station': stn['name'], 'd': d, 'lateral': lat,
+                                          'yaw_off_deg': yd, 'load': False})
+            if 'loaded' in want and stn['name'] != 'source':
+                for d in (0.6, 0.8, 1.0, 1.3):
+                    for lat in (-0.3, 0.0, 0.3):
+                        views.append({'set': 'loaded', 'station': stn['name'], 'd': d, 'lateral': lat,
+                                      'yaw_off_deg': 0, 'load': True})
+    if 'lanes' in want:
+        for ln in es.lanes:
+            for f in (0.25, 0.5, 0.75):
+                for lat in (-0.08, 0.0, 0.08):
+                    for yd in (-10, 0, 10):
+                        views.append({'set': 'lanes', 'lane': ln['station'], 'frac': f, 'lateral': lat,
+                                      'yaw_off_deg': yd, 'load': False})
+    # F2: hizalama (C4) — bölme eksenine göre yanal kayma; d = base_footprint → ön kenar
+    if 'align' in want:
+        for name in ('source', 'dest_red'):
+            for bay in range(3):
+                for d in (0.42, 0.5, 0.6, 0.7, 0.85, 1.0, 1.2, 1.4):
+                    for lat in (-0.05, 0.0, 0.05):
+                        for yd in (-8, 0, 8):
+                            views.append({'set': 'align', 'station': name, 'bay': bay, 'd': d, 'lateral': lat,
+                                          'yaw_off_deg': yd, 'load': False})
+    if 'align_loaded' in want:
+        for name in ('dest_red', 'dest_blue'):
+            for bay in range(3):
+                for d in (0.55, 0.6, 0.65, 0.7, 0.8, 1.0, 1.2):
+                    for lat in (-0.03, 0.0, 0.03):
+                        views.append({'set': 'align_loaded', 'station': name, 'bay': bay, 'd': d, 'lateral': lat,
+                                      'yaw_off_deg': 0, 'load': True})
+    # F2: uzak tabela (C1)
+    if 'far' in want:
+        for stn in stations:
+            for d in (3.0, 3.4):
+                for yd in (-25, -12, 0, 12, 25):
+                    views.append({'set': 'far', 'station': stn['name'], 'd': d, 'lateral': 0.0,
                                   'yaw_off_deg': yd, 'load': False})
-        if stn['name'] != 'source':
-            for d in (0.6, 0.8, 1.0, 1.3):
-                for lat in (-0.3, 0.0, 0.3):
-                    views.append({'set': 'loaded', 'station': stn['name'], 'd': d, 'lateral': lat,
-                                  'yaw_off_deg': 0, 'load': True})
-    for ln in es.lanes:
-        for f in (0.25, 0.5, 0.75):
-            for lat in (-0.08, 0.0, 0.08):
-                for yd in (-10, 0, 10):
-                    views.append({'set': 'lanes', 'lane': ln['station'], 'frac': f, 'lateral': lat,
-                                  'yaw_off_deg': yd, 'load': False})
+    # F2: doluluk (C5) — 3 koli rastgele bölmelere (sabit tohum)
+    if 'occupancy' in want:
+        rng = np.random.default_rng(5)
+        bays = [(st['name'], i) for st in stations for i in range(st['bays'])]
+        for k in range(8):
+            pick = rng.choice(len(bays), 3, replace=False)
+            cfg = {f'parcel_source_{j}': list(bays[int(b)]) for j, b in enumerate(pick)}
+            for stn in stations:
+                for d in (1.0, 1.8):
+                    views.append({'set': 'occupancy', 'config': k, 'parcels_at': cfg, 'station': stn['name'],
+                                  'd': d, 'lateral': 0.0, 'yaw_off_deg': 0, 'load': False})
+    # F2: son yanaşma (C9) — tam girişe kadar; çatallar kanalda (çakışma denetimi yapılmaz, yanal ≤ 1.5 cm)
+    if 'entry' in want:
+        ds = [round(0.14 + 0.03 * k, 3) for k in range(16)]
+        for bay in range(3):
+            for d in ds:
+                for lat in (-0.015, 0.0, 0.015):
+                    views.append({'set': 'entry', 'station': 'source', 'bay': bay, 'd': d, 'lateral': lat,
+                                  'yaw_off_deg': 0, 'load': False, 'in_channel': True})
+        for name, bay in (('dest_red', 0), ('dest_red', 1), ('dest_red', 2), ('dest_green', 1)):
+            for d in ds:
+                for lat in (-0.015, 0.0, 0.015):
+                    views.append({'set': 'entry', 'station': name, 'bay': bay, 'd': d, 'lateral': lat,
+                                  'yaw_off_deg': 0, 'load': True, 'in_channel': True})
     return views
 
 
@@ -373,61 +431,102 @@ def view_pose(es, v):
         p = p + v['lateral'] * n
         return (float(p[0]), float(p[1])), ln['yaw'] + math.radians(v['yaw_off_deg'])
     stn = es.station(v['station'])
-    return pose_in_front(stn, v['d'], v['lateral'], math.radians(v['yaw_off_deg']))
+    lat = v['lateral'] + (sl.bay_y(es.params, stn['bays'], v['bay']) if 'bay' in v else 0.0)
+    return pose_in_front(stn, v['d'], lat, math.radians(v['yaw_off_deg']))
 
 
-def task_record(pr, res, data_dir):
+def place_parcels(pr, cfg):
+    """cfg: {koli adı: [istasyon, bölme]} → kolileri bölmelerin nominal pozuna koyar; diğerleri park."""
+    es = pr.es
+    cx, _, cz = sl.parcel_center_in_bay(es.params)
+    for i, (name, _, _) in enumerate(pr.parcels):
+        if name in cfg:
+            stn = es.station(cfg[name][0])
+            x, y, _ = sl.compose(stn['pose'], cx, sl.bay_y(es.params, stn['bays'], cfg[name][1]))
+            pr.gz.set_pose(name, [x, y, cz], simt.Rz(stn['pose'][2]))
+        else:
+            pr.gz.set_pose(name, [PARK[0] + 0.4 * i, PARK[1], 0.105], np.eye(3))
+    pr.gz.wait_sim(SETTLE)
+
+
+def task_record(pr, res, data_dir, sets=('f1',), resume=False):
+    """Görüşleri kaydeder. resume: index.jsonl'deki görüşler atlanır, yenileri eklenir.
+    Bir görüşte gz servisi zaman aşımına düşerse (D-49 benzeri) görüş atlanır, kayıt sürer."""
     es, gz = pr.es, pr.gz
     root = os.path.join(data_dir, es.world)
     os.makedirs(root, exist_ok=True)
-    meta = {'world': es.world, 'created': time.strftime('%Y-%m-%d %H:%M:%S'),
-            'cameras': {c: {'K': pr.cams[c].K.tolist(), 'D': pr.cams[c].D.tolist(),
-                            'R_base_opt': pr.cams[c].R.tolist(), 't_base_opt': pr.cams[c].t.tolist(),
-                            'size': [pr.cams[c].width, pr.cams[c].height]} for c in CAMS},
-            'note': 'GT yalnız değerlendirme içindir (plan R2); görüntüler gürültüsüz render (σ = 0)'}
-    with open(os.path.join(root, 'meta.json'), 'w') as f:
-        json.dump(meta, f, indent=1)
-    views = record_views(es, pr.gt)
-    load_name = 'parcel_source_1'
-    loaded_state = False
+    idx_path = os.path.join(root, 'index.jsonl')
+    done_ids = set()
+    if resume and os.path.exists(idx_path):
+        with open(idx_path) as f:
+            done_ids = {json.loads(line)['id'] for line in f if line.strip()}
+    else:
+        meta = {'world': es.world, 'created': time.strftime('%Y-%m-%d %H:%M:%S'),
+                'cameras': {c: {'K': pr.cams[c].K.tolist(), 'D': pr.cams[c].D.tolist(),
+                                'R_base_opt': pr.cams[c].R.tolist(), 't_base_opt': pr.cams[c].t.tolist(),
+                                'size': [pr.cams[c].width, pr.cams[c].height]} for c in CAMS},
+                'note': 'GT yalnız değerlendirme içindir (plan R2); görüntüler gürültüsüz render (σ = 0)'}
+        with open(os.path.join(root, 'meta.json'), 'w') as f:
+            json.dump(meta, f, indent=1)
+    views = record_views(es, sets)
+    state = {'layout': 'bilinmiyor', 'loaded': None}      # ilk görüşte yerleşim ve yük kurulur
     n_ok = n_skip = 0
+    failed = []
     t_start = time.time()
-    with open(os.path.join(root, 'index.jsonl'), 'w') as idx:
+    with open(idx_path, 'a' if resume else 'w') as idx:
         for i, v in enumerate(views):
+            vid = f'{i:05d}'
+            if vid in done_ids:
+                continue
             p_xy, yaw = view_pose(es, v)
-            if not pr.gt.robot_footprint_ok(p_xy, yaw):
+            if not v.get('in_channel') and not pr.gt.robot_footprint_ok(p_xy, yaw):
                 n_skip += 1
                 continue
-            if v['load'] != loaded_state:
-                if v['load']:
-                    simt.fork_to(gz, pr.rg, CARRY_Q)
-                else:
-                    pr.restore_parcels()
-                    simt.fork_to(gz, pr.rg, 0.0)
-                loaded_state = v['load']
-            if v['load']:
-                pr.park(load_name)
-            pr.place(p_xy, yaw)
-            if v['load']:
-                pr.parcel_on_fork(load_name, gz.fork())
-            frames, bf, q = pr.capture()
-            rec = dict(v, id=f'{i:05d}', robot_bf={'p': bf.p.tolist(), 'R': bf.R.tolist()}, fork_q=q,
-                       parcels={n: {'p': gz.model(n).p.tolist(), 'R': gz.model(n).R.tolist()}
-                                for n, _, _ in pr.parcels if gz.model(n) is not None},
-                       stamps={SHORT[c]: frames[c][0] for c in CAMS})
+            try:
+                frames, rec = _record_one(pr, v, vid, p_xy, yaw, state)
+            except (RuntimeError, TimeoutError) as e:
+                failed.append({'id': vid, 'set': v['set'], 'error': str(e)[:160]})
+                print(f'[record {es.world}] görüş {vid} atlandı: {e}', flush=True)
+                state = {'layout': 'bilinmiyor', 'loaded': None}
+                continue
             for c in CAMS:
-                cv2.imwrite(os.path.join(root, f'{rec["id"]}_{SHORT[c]}.png'),
-                            cv2.cvtColor(frames[c][1], cv2.COLOR_RGB2BGR))
+                cv2.imwrite(os.path.join(root, f'{vid}_{SHORT[c]}.png'), cv2.cvtColor(frames[c][1], cv2.COLOR_RGB2BGR))
             idx.write(json.dumps(rec) + '\n')
+            idx.flush()
             n_ok += 1
             if n_ok % 25 == 0:
                 print(f'[record {es.world}] {n_ok} görüş ({time.time() - t_start:.0f} s)', flush=True)
-    if loaded_state:
+    if state['loaded']:
         pr.restore_parcels()
         simt.fork_to(gz, pr.rg, 0.0)
-    res['record'] = {'dir': root, 'views': n_ok, 'skipped_collision': n_skip,
-                     'by_set': {s: sum(1 for v in views if v['set'] == s) for s in ('stations', 'loaded', 'lanes')},
+    res['record'] = {'dir': root, 'views_recorded_now': n_ok, 'resumed_from': len(done_ids),
+                     'skipped_collision': n_skip, 'failed': len(failed), 'failed_views': failed,
+                     'by_set': {s: sum(1 for v in views if v['set'] == s) for s in sorted({v['set'] for v in views})},
                      'seconds': round(time.time() - t_start, 1)}
+
+
+def _record_one(pr, v, vid, p_xy, yaw, state):
+    """Tek görüş: koli yerleşimi, çatal ve yük, robot, kare. Dönüş: (kareler, kayıt)."""
+    gz = pr.gz
+    load_name = 'parcel_source_1'
+    cfg = v.get('parcels_at')
+    if v['load'] != state['loaded'] or cfg != state['layout']:
+        pr.restore_parcels()
+        if cfg is not None:
+            place_parcels(pr, cfg)
+        simt.fork_to(gz, pr.rg, CARRY_Q if v['load'] else 0.0)
+        state['layout'], state['loaded'] = cfg, v['load']
+    if v['load']:
+        pr.park(load_name)
+    pr.place(p_xy, yaw)
+    if v['load']:
+        pr.parcel_on_fork(load_name, gz.fork())
+    frames, bf, q = pr.capture()
+    rec = dict(v, id=vid, robot_bf={'p': bf.p.tolist(), 'R': bf.R.tolist()}, fork_q=q,
+               parcels={n: {'p': gz.model(n).p.tolist(), 'R': gz.model(n).R.tolist()}
+                        for n, _, _ in pr.parcels if gz.model(n) is not None},
+               stamps={SHORT[c]: frames[c][0] for c in CAMS})
+    return frames, rec
 
 
 # =============================================================================
@@ -467,6 +566,8 @@ def main():
     ap.add_argument('--tasks', default='overlay,occlusion,sign,odom')
     ap.add_argument('--out', default=os.path.expanduser('~/cv_forklift_ws/docs/logs/cv/f1'))
     ap.add_argument('--data', default=os.path.expanduser('~/cv_forklift_ws/data/f1'))
+    ap.add_argument('--sets', default='f1', help='record kümeleri: f1 | f2 | küme adları (virgülle)')
+    ap.add_argument('--resume', action='store_true', help='record: kaydedilmiş görüşleri atla, ekle')
     ap.add_argument('--cpu', action='store_true', help='yalnız CPU bütçesi (simülasyonsuz)')
     ap.add_argument('--gui', action='store_true')
     a = ap.parse_args()
@@ -498,7 +599,7 @@ def main():
             pr = Probe(es, gz, ros)
             res['spike_rclpy_gz_same_process'] = 'çalıştı: rclpy (görüntü, camera_info, TF) + gz-transport aynı süreçte'
             fns = {'overlay': task_overlay, 'occlusion': task_occlusion, 'sign': task_sign, 'odom': task_odom,
-                   'record': lambda p, r: task_record(p, r, a.data)}
+                   'record': lambda p, r: task_record(p, r, a.data, a.sets.split(','), a.resume)}
             for t in tasks:
                 print(f'[f1 {a.world}] {t} başlıyor', flush=True)
                 try:

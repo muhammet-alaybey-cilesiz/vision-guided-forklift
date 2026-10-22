@@ -11,6 +11,8 @@ kalibrasyon dosyasıyla çalışır (docs/PLAN_CV_AUTONOMY.md, R3).
 Piksel kuralı OpenCV'ninki: (u, v) = (sütun, satır), (0, 0) sol üst pikselin merkezi.
 """
 
+import math
+
 import cv2
 import numpy as np
 
@@ -31,6 +33,18 @@ class CameraModel:
     def from_camera_info(cls, info, R_base_opt, t_base_opt):
         """sensor_msgs/CameraInfo (veya aynı alanlara sahip nesne) + dışsal poz."""
         return cls(info.k, info.d, info.width, info.height, R_base_opt, t_base_opt)
+
+    def with_intrinsics(self, K, D):
+        """Aynı dışsal poz, kalibrasyon dosyasından gelen K ve D (D-59: camera_info'nun yerine)."""
+        return CameraModel(K, D, self.width, self.height, self.R, self.t)
+
+    def pitched(self, angle, pivot_x):
+        """Robot gövdesi y ekseni etrafında, zemindeki pivot_x noktası çevresinde angle kadar dönmüş
+        (pozitif = burun yukarı) iken kameranın düz zemin çerçevesindeki modeli."""
+        c, s_ = math.cos(-angle), math.sin(-angle)
+        Rp = np.array([[c, 0.0, s_], [0.0, 1.0, 0.0], [-s_, 0.0, c]])
+        P = np.array([pivot_x, 0.0, 0.0])
+        return CameraModel(self.K, self.D, self.width, self.height, Rp @ self.R, P + Rp @ (self.t - P))
 
     @property
     def distorted(self):
