@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+  imu.xacro — gövdeye sabit IMU çerçevesi (imu_link). Kütlesi ve görseli yok (şasinin içinde).
+  Sensörün kendisi yalnız simülasyonda: gazebo/forklift.gazebo.xacro (DECISIONS D-67).
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="imu_frame" params="prefix cfg">
+    <xacro:property name="imu" value="${cfg.imu}"/>
+    <link name="${prefix}imu_link"/>
+    <joint name="${prefix}imu_joint" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}imu_link"/>
+      <origin xyz="${imu.x} ${imu.y} ${imu.ground_z - cfg.drive_wheel.radius}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+</robot>

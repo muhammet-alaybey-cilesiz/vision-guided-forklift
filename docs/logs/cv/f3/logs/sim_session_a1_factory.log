@@ -1,0 +1,248 @@
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-24-12-09-57-844926-muhammet61-18513
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gazebo-1]: process started with pid [18689]
+[INFO] [image_bridge-2]: process started with pid [18690]
+[INFO] [robot_state_publisher-3]: process started with pid [18692]
+[INFO] [create-4]: process started with pid [18693]
+[INFO] [parameter_bridge-5]: process started with pid [18694]
+[INFO] [twist_mux-6]: process started with pid [18695]
+[INFO] [cmd_vel_gate-7]: process started with pid [18698]
+[INFO] [create-8]: process started with pid [18712]
+[robot_state_publisher-3] [WARN] [1792832998.647016947] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[robot_state_publisher-3] [WARN] [1792832998.647038870] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[cmd_vel_gate-7] [WARN] [1792832998.668646766] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[cmd_vel_gate-7] [WARN] [1792832998.668666473] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-4] [WARN] [1792832998.671241845] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-4] [WARN] [1792832998.671277044] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[twist_mux-6] [WARN] [1792832998.678551149] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[twist_mux-6] [WARN] [1792832998.678575163] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[parameter_bridge-5] [WARN] [1792832998.680649672] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[parameter_bridge-5] [WARN] [1792832998.680669531] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[robot_state_publisher-3] [INFO] [1792832998.693406199] [robot_state_publisher]: Robot initialized
+[image_bridge-2] [WARN] [1792832998.701942312] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[image_bridge-2] [WARN] [1792832998.701968993] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-8] [WARN] [1792832998.707349825] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-8] [WARN] [1792832998.707377849] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[cmd_vel_gate-7] [INFO] [1792832998.721759939] [cmd_vel_gate]: /cmd_vel/mux -> /cmd_vel (e-stop: /e_stop, girdi zaman aşımı 0.20 s, kilit 0.50 s)
+[create-4] [INFO] [1792832998.723460349] [ros_gz_sim]: Requesting list of world names.
+[twist_mux-6] [INFO] [1792832998.726494892] [twist_mux]: Topic handler 'topics.auto' subscribed to topic '/cmd_vel/auto': timeout = 0.500000s , priority = 50.
+[twist_mux-6] [INFO] [1792832998.731961960] [twist_mux]: Topic handler 'topics.teleop' subscribed to topic '/cmd_vel/teleop': timeout = 0.500000s , priority = 100.
+[twist_mux-6] [INFO] [1792832998.732621847] [twist_mux]: Topic handler 'locks.e_stop' subscribed to topic '/e_stop': timeout = 0.500000s , priority = 255.
+[cmd_vel_gate-7] [WARN] [1792832998.741894400] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SdfEntityCreator.cc:939] [0m[1;33mCustom material scripts are not supported.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SystemLoader.cc:75] [0m[1;33mTrying to load deprecated plugin [[0m[1;33mignition-gazebo-joint-controller-system[0m[1;33m]. Using [[0m[1;33mgz-sim-joint-controller-system[0m[1;33m] instead.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SystemLoader.cc:136] [0m[1;33mTrying to load deprecated plugin name [[0m[1;33mignition::gazebo::systems::JointController[0m[1;33m]. Using [[0m[1;33mgz::sim::systems::JointController[0m[1;33m] instead.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SystemLoader.cc:75] [0m[1;33mTrying to load deprecated plugin [[0m[1;33mignition-gazebo-joint-controller-system[0m[1;33m]. Using [[0m[1;33mgz-sim-joint-controller-system[0m[1;33m] instead.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SystemLoader.cc:136] [0m[1;33mTrying to load deprecated plugin name [[0m[1;33mignition::gazebo::systems::JointController[0m[1;33m]. Using [[0m[1;33mgz::sim::systems::JointController[0m[1;33m] instead.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SystemLoader.cc:75] [0m[1;33mTrying to load deprecated plugin [[0m[1;33mlibignition-gazebo-performer-detector-system.so[0m[1;33m]. Using [[0m[1;33mlibgz-sim-performer-detector-system.so[0m[1;33m] instead.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SystemLoader.cc:136] [0m[1;33mTrying to load deprecated plugin name [[0m[1;33mignition::gazebo::systems::PerformerDetector[0m[1;33m]. Using [[0m[1;33mgz::sim::systems::PerformerDetector[0m[1;33m] instead.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SystemLoader.cc:75] [0m[1;33mTrying to load deprecated plugin [[0m[1;33mlibignition-gazebo-performer-detector-system.so[0m[1;33m]. Using [[0m[1;33mlibgz-sim-performer-detector-system.so[0m[1;33m] instead.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [SystemLoader.cc:136] [0m[1;33mTrying to load deprecated plugin name [[0m[1;33mignition::gazebo::systems::PerformerDetector[0m[1;33m]. Using [[0m[1;33mgz::sim::systems::PerformerDetector[0m[1;33m] instead.[0m[1;33m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mGazebo Sim Server v[0m[1;32m8.15.0[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mLoading SDF world file[[0m[1;32m/home/muhammet61/cv_forklift_ws/install/forklift_gazebo/share/forklift_gazebo/worlds/factory.sdf[0m[1;32m].[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServing entity system service on [[0m[1;32m/[0m[1;32mentity/system/add[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mCreate[0m[1;32m service on [[0m[1;32m/world/factory/create_multiple[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mCreate[0m[1;32m service on [[0m[1;32m/world/factory/create_multiple/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mRemove[0m[1;32m service on [[0m[1;32m/world/factory/remove[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mRemove[0m[1;32m service on [[0m[1;32m/world/factory/remove/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPose[0m[1;32m service on [[0m[1;32m/world/factory/set_pose[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPose[0m[1;32m service on [[0m[1;32m/world/factory/set_pose/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPose[0m[1;32m service on [[0m[1;32m/world/factory/set_pose_vector[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPose[0m[1;32m service on [[0m[1;32m/world/factory/set_pose_vector/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mLight configuration[0m[1;32m service on [[0m[1;32m/world/factory/light_config[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mLight configuration[0m[1;32m service on [[0m[1;32m/world/factory/light_config/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPhysics[0m[1;32m service on [[0m[1;32m/world/factory/set_physics[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPhysics[0m[1;32m service on [[0m[1;32m/world/factory/set_physics/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mSphericalCoordinates[0m[1;32m service on [[0m[1;32m/world/factory/set_spherical_coordinates[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mSphericalCoordinates[0m[1;32m service on [[0m[1;32m/world/factory/set_spherical_coordinates/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mEnable collision[0m[1;32m service on [[0m[1;32m/world/factory/enable_collision[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mEnable collision[0m[1;32m service on [[0m[1;32m/world/factory/enable_collision/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mDisable collision[0m[1;32m service on [[0m[1;32m/world/factory/disable_collision[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mDisable collision[0m[1;32m service on [[0m[1;32m/world/factory/disable_collision/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mMaterial[0m[1;32m service on [[0m[1;32m/world/factory/visual_config[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mMaterial[0m[1;32m service on [[0m[1;32m/world/factory/visual_config/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mMaterial[0m[1;32m service on [[0m[1;32m/world/factory/wheel_slip[0m[1;32m] (async)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mMaterial[0m[1;32m service on [[0m[1;32m/world/factory/wheel_slip/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mJoint velocity initialized to [[0m[1;32m1[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mJointController subscribing to Double messages on [[0m[1;32m/model/hall/joint/fan1_joint/cmd_vel[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mJoint velocity initialized to [[0m[1;32m2[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mJointController subscribing to Double messages on [[0m[1;32m/model/hall/joint/fan2_joint/cmd_vel[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPerformerDetector publishing messages on [0m[1;32m[[0m[1;32m/subt_performer_detector[0m[1;32m][0m[1;32m[0m
+[create-8] [INFO] [1792832999.443988511] [spawn_source]: Entity creation successful.
+[create-4] [INFO] [1792832999.545528943] [ros_gz_sim]: Waiting messages on topic [robot_description].
+[INFO] [create-8]: process has finished cleanly [pid 18712]
+[INFO] [create-9]: process started with pid [19126]
+[create-4] [INFO] [1792832999.557093964] [ros_gz_sim]: Entity creation successful.
+[create-9] [WARN] [1792832999.567560504] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-9] [WARN] [1792832999.567572097] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[INFO] [create-4]: process has finished cleanly [pid 18693]
+[parameter_bridge-5] [INFO] [1792832999.707914974] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792832999.708606988] [ros_gz_bridge]: Creating ROS->GZ Bridge: [/cmd_vel (geometry_msgs/msg/Twist) -> /cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792832999.710628882] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/odom (gz.msgs.Odometry) -> /odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792832999.711725896] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/tf (gz.msgs.Pose_V) -> /tf (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792832999.712771429] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/joint_states (gz.msgs.Model) -> /joint_states (sensor_msgs/msg/JointState)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792832999.713789927] [ros_gz_bridge]: Creating ROS->GZ Bridge: [/fork/cmd_height (std_msgs/msg/Float64) -> /fork/cmd_height (gz.msgs.Double)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792832999.714247090] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/front_camera/camera_info (gz.msgs.CameraInfo) -> /front_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792832999.714706762] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/lane_camera/camera_info (gz.msgs.CameraInfo) -> /lane_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1792832999.715011507] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/imu (gz.msgs.IMU) -> /imu (sensor_msgs/msg/Imu)] (Lazy 0)
+[create-9] [INFO] [1792832999.778714521] [spawn_dest_red]: Entity creation successful.
+[parameter_bridge-5] [INFO] [1792832999.801975156] [ros_gz_bridge]: Passing message from ROS geometry_msgs/msg/Twist to Gazebo gz.msgs.Twist (showing msg only once per type)
+[INFO] [create-9]: process has finished cleanly [pid 19126]
+[INFO] [create-10]: process started with pid [19186]
+[create-10] [WARN] [1792833000.139770049] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-10] [WARN] [1792833000.139779478] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-10] [INFO] [1792833000.349306571] [spawn_dest_green]: Entity creation successful.
+[INFO] [create-10]: process has finished cleanly [pid 19186]
+[INFO] [create-11]: process started with pid [19206]
+[create-11] [WARN] [1792833000.473776821] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-11] [WARN] [1792833000.473789982] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-11] [INFO] [1792833000.786001274] [spawn_dest_blue]: Entity creation successful.
+[gazebo-1] [1;33m[Wrn] [ColladaLoader.cc:2676] [0m[1;33mTriangle input semantic: '[0m[1;33mCOLOR[0m[1;33m' is currently[0m[1;33m not supported[0m[1;33m[0m
+[INFO] [create-11]: process has finished cleanly [pid 19206]
+[INFO] [create-12]: process started with pid [19297]
+[create-12] [WARN] [1792833001.047222043] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-12] [WARN] [1792833001.047236375] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[gazebo-1] libEGL warning: pci id for fd 67: 10de:2d18, driver (null)
+[gazebo-1] 
+[gazebo-1] pci id for fd 70: 10de:2d18, driver (null)
+[gazebo-1] pci id for fd 71: 10de:2d18, driver (null)
+[gazebo-1] libEGL warning: egl: failed to create dri2 screen
+[gazebo-1] libEGL warning: pci id for fd 67: 10de:2d18, driver (null)
+[gazebo-1] 
+[gazebo-1] pci id for fd 70: 10de:2d18, driver (null)
+[gazebo-1] pci id for fd 71: 10de:2d18, driver (null)
+[gazebo-1] libEGL warning: egl: failed to create dri2 screen
+[gazebo-1] libEGL warning: pci id for fd 67: 10de:2d18, driver (null)
+[gazebo-1] 
+[gazebo-1] [1;33m[Wrn] [ColladaLoader.cc:2130] [0m[1;33memission texture not supported[0m[1;33m[0m
+[create-12] [INFO] [1792833001.360797207] [spawn_parcel_source_0]: Entity creation successful.
+[INFO] [create-12]: process has finished cleanly [pid 19297]
+[INFO] [create-13]: process started with pid [19578]
+[create-13] [WARN] [1792833001.490295195] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-13] [WARN] [1792833001.490310942] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[gazebo-1] [1;33m[Wrn] [ColladaLoader.cc:2130] [0m[1;33memission texture not supported[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [ColladaLoader.cc:2130] [0m[1;33memission texture not supported[0m[1;33m[0m
+[create-13] [INFO] [1792833001.703614247] [spawn_parcel_source_1]: Entity creation successful.
+[INFO] [create-13]: process has finished cleanly [pid 19578]
+[INFO] [create-14]: process started with pid [19694]
+[create-14] [WARN] [1792833001.842606269] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[create-14] [WARN] [1792833001.842632204] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[create-14] [INFO] [1792833002.164123668] [spawn_parcel_source_2]: Entity creation successful.
+[INFO] [create-14]: process has finished cleanly [pid 19694]
+[INFO] [launch.user]: stations.launch: 7 model eklendi (factory)
+[gazebo-1] [1;33m[Wrn] [ColladaLoader.cc:2676] [0m[1;33mTriangle input semantic: '[0m[1;33mCOLOR[0m[1;33m' is currently[0m[1;33m not supported[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [ColladaLoader.cc:2676] [0m[1;33mTriangle input semantic: '[0m[1;33mCOLOR[0m[1;33m' is currently[0m[1;33m not supported[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [Ogre2Camera.cc:423] [0m[1;33mOgre2Camera::SetVisibilityMask: Mask bits [0m[1;33mc0000000[0m[1;33m are set but will be ignored as they conflict with the [0m[1;33mreserved bits used internally by the ogre2 backend.[0m[1;33m[0m
+[gazebo-1] [1;33m[Wrn] [Ogre2Camera.cc:423] [0m[1;33mOgre2Camera::SetVisibilityMask: Mask bits [0m[1;33mc0000000[0m[1;33m are set but will be ignored as they conflict with the [0m[1;33mreserved bits used internally by the ogre2 backend.[0m[1;33m[0m
+[parameter_bridge-5] [INFO] [1792833022.693256015] [ros_gz_bridge]: Passing message from ROS std_msgs/msg/Float64 to Gazebo gz.msgs.Double (showing msg only once per type)
+[cmd_vel_gate-7] [INFO] [1792833022.736896385] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833050.881940377] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833060.005672480] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833091.981927755] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833101.116230599] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833136.701922437] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[gazebo-1] [1;32m[Msg] [0m[1;32mPerformerDetector publishing messages on [0m[1;32m[[0m[1;32m/subt_performer_detector[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mLoaded level [[0m[1;32mdefault[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServing world controls on [[0m[1;32m/world/factory[0m[1;32m/control], [[0m[1;32m/world/factory[0m[1;32m/control/state] and [[0m[1;32m/world/factory[0m[1;32m/playback/control][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServing GUI information on [[0m[1;32m/world/factory[0m[1;32m/[0m[1;32mgui/info[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mWorld [[0m[1;32mfactory[0m[1;32m] initialized with [[0m[1;32mdart_1ms[0m[1;32m] physics profile.[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServing world SDF generation service on [[0m[1;32m/world/factory[0m[1;32m/[0m[1;32mgenerate_world_sdf[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServing world names on [[0m[1;32m/gazebo/worlds[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mResource path add service on [[0m[1;32m/gazebo/resource_paths/add[0m[1;32m].[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mResource path get service on [[0m[1;32m/gazebo/resource_paths/get[0m[1;32m].[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mResource path resolve service on [[0m[1;32m/gazebo/resource_paths/resolve[0m[1;32m].[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mResource paths published on [[0m[1;32m/gazebo/resource_paths[0m[1;32m].[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServer control service on [[0m[1;32m/server_control[0m[1;32m].[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mFound no publishers on /stats, adding root stats topic[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mFound no publishers on /clock, adding root clock topic[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mDiffDrive subscribing to twist messages on [[0m[1;32m/cmd_vel[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mJointPositionController subscribing to Double messages on [[0m[1;32m/fork/cmd_height[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mgz-rendering-ogre2[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServing scene information on [[0m[1;32m/world/factory[0m[1;32m/[0m[1;32mscene/info[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServing graph information on [[0m[1;32m/world/factory[0m[1;32m/[0m[1;32mscene/graph[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServing full state on [[0m[1;32m/world/factory[0m[1;32m/[0m[1;32mstate[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mServing full state (async) on [[0m[1;32m/world/factory[0m[1;32m/[0m[1;32mstate_async[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPublishing scene information on [[0m[1;32m/world/factory/scene/info[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPublishing entity deletions on [[0m[1;32m/world/factory/scene/deletion[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPublishing state changes on [[0m[1;32m/world/factory/state[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPublishing pose messages on [[0m[1;32m/world/factory[0m[1;32m/[0m[1;32mpose/info[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mPublishing dynamic pose messages on [[0m[1;32m/world/factory[0m[1;32m/[0m[1;32mdynamic_pose/info[0m[1;32m][0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mGrayscale emissive texture detected. Converting to RGB: [0m[1;32mgz_ROOF_Emissive.png[0m[1;32m[0m
+[gazebo-1] [1;32m[Msg] [0m[1;32mGrayscale emissive texture detected. Converting to RGB: [0m[1;32mgz_INTERCOM_Emissive.png[0m[1;32m[0m
+[gazebo-1] NodeShared::RecvSrvRequest() error sending response: Host unreachable
+[cmd_vel_gate-7] [INFO] [1792833151.646422196] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833184.661982917] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833193.825480879] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833235.141995710] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833244.128484961] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833273.521968841] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833282.807219485] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833309.022075228] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833318.209887289] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833351.001926356] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833360.110084859] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833395.721981869] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833404.833399987] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833435.241901769] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833444.492742258] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833474.742054211] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833483.858253540] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833513.761977617] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833522.946879081] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833548.221926287] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833557.315756829] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833589.541922583] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833598.734275449] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833632.402439339] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833642.178271319] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833681.081937349] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833691.209316317] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833722.621906849] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[cmd_vel_gate-7] [INFO] [1792833731.868254138] [cmd_vel_gate]: Komut iletimi devam ediyor
+[cmd_vel_gate-7] [WARN] [1792833757.901905721] [cmd_vel_gate]: Durdurma: e-stop etkin/eski ya da girdi yok; sıfır komut
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [cmd_vel_gate-7]: sending signal 'SIGINT' to process[cmd_vel_gate-7]
+[INFO] [twist_mux-6]: sending signal 'SIGINT' to process[twist_mux-6]
+[INFO] [parameter_bridge-5]: sending signal 'SIGINT' to process[parameter_bridge-5]
+[INFO] [robot_state_publisher-3]: sending signal 'SIGINT' to process[robot_state_publisher-3]
+[INFO] [image_bridge-2]: sending signal 'SIGINT' to process[image_bridge-2]
+[ERROR] [twist_mux-6]: process has died [pid 18695, exit code -2, cmd '/opt/ros/jazzy/lib/twist_mux/twist_mux --ros-args -r __node:=twist_mux --params-file /home/muhammet61/cv_forklift_ws/install/forklift_safety/share/forklift_safety/config/twist_mux.yaml -r cmd_vel_out:=/cmd_vel/mux'].
+[INFO] [gazebo-1]: sending signal 'SIGINT' to process[gazebo-1]
+[cmd_vel_gate-7] [INFO] [1792833760.540962655] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ERROR] [robot_state_publisher-3]: process has died [pid 18692, exit code -2, cmd '/opt/ros/jazzy/lib/robot_state_publisher/robot_state_publisher --ros-args --params-file /tmp/launch_params_gx6fpn3d'].
+[twist_mux-6] [INFO] [1792833760.540984587] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[parameter_bridge-5] [INFO] [1792833760.541002711] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-3] [INFO] [1792833760.541015822] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[image_bridge-2] [INFO] [1792833760.541036750] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[cmd_vel_gate-7] [INFO] [1792833760.544163522] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[image_bridge-2] [FATAL] [1792833760.545512863] [image_bridge]: Call to publish() on an invalid image_transport::Publisher
+[parameter_bridge-5] [INFO] [1792833760.545860178] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[image_bridge-2] [INFO] [1792833760.547826299] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [cmd_vel_gate-7]: process has finished cleanly [pid 18698]
+[INFO] [parameter_bridge-5]: process has finished cleanly [pid 18694]
+[INFO] [image_bridge-2]: process has finished cleanly [pid 18690]
+[ERROR] [gazebo-1]: process has died [pid 18689, exit code -2, cmd 'ruby /opt/ros/jazzy/opt/gz_tools_vendor/bin/gz sim -r -s -v 3 /home/muhammet61/cv_forklift_ws/install/forklift_gazebo/share/forklift_gazebo/worlds/factory.sdf --headless-rendering --force-version 8'].
+[INFO] [launch]: process[gazebo-1] was required: shutting down launched system

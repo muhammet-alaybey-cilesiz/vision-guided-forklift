@@ -93,6 +93,18 @@ struct GuiConfig
     double releaseHold{0.0};  // [s]
   } safety;
 
+  // Görev yöneticisi (D-57): durum topic'i, servis adları, çevrimdışı eşiği.
+  struct Autonomy
+  {
+    QString stateTopic;
+    QString modeService;
+    QString startService;
+    QString pauseService;
+    QString resumeService;
+    QString cancelService;
+    double offlineAfter{0.0};  // [s] durum mesajı bu süre gelmezse çevrimdışı
+  } autonomy;
+
   struct Telemetry
   {
     double uiMaxRate{0.0};  // [Hz]

@@ -56,6 +56,19 @@ struct DetectionSet
   qint64 receivedNs{0};  // alım anı, monoton saat [ns]
 };
 
+// Görev yöneticisinin durumu (/autonomy/state, D-57).
+struct AutonomyStatus
+{
+  int mode{0};          // 0 Manuel, 1 Otonom
+  QString state;        // IDLE, OBSERVE, ..., PAUSED, DONE, FAULT
+  QString detail;       // görev yöneticisinin Türkçe açıklaması
+  QString targetColor;  // hedef bölmedeki mühür rengi (yoksa boş)
+  QString fault;        // FAULT'ta sebep
+  int parcelsDone{0};
+  int parcelsTotal{0};
+  qint64 receivedNs{0};  // alım anı, monoton saat [ns]
+};
+
 // Kamera karesinin üst bilgisi; kare ayrıca QVideoFrame olarak taşınır.
 struct FrameMeta
 {
@@ -109,5 +122,6 @@ Q_DECLARE_METATYPE(forklift_gui::DetectionSet)
 Q_DECLARE_METATYPE(forklift_gui::FrameMeta)
 Q_DECLARE_METATYPE(forklift_gui::LogEntry)
 Q_DECLARE_METATYPE(forklift_gui::GraphStatus)
+Q_DECLARE_METATYPE(forklift_gui::AutonomyStatus)
 
 #endif  // FORKLIFT_GUI__CORE__TYPES_HPP_

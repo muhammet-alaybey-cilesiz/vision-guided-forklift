@@ -17,6 +17,8 @@ find_package(sensor_msgs REQUIRED)
 find_package(rosgraph_msgs REQUIRED)
 find_package(rcl_interfaces REQUIRED)
 find_package(vision_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
+find_package(forklift_interfaces REQUIRED)
 
 # Sistem Qt 6.4 (apt; DECISIONS D-22). AUTOMOC ve GNUInstallDirs ayarlanir.
 find_package(Qt6 6.4 REQUIRED COMPONENTS
@@ -38,6 +40,7 @@ set(CORE_SOURCES
   include/forklift_gui/core/ports/IRobotStatePort.hpp
   include/forklift_gui/core/ports/ICameraPort.hpp
   include/forklift_gui/core/ports/ILogPort.hpp
+  include/forklift_gui/core/ports/IAutonomyPort.hpp
   include/forklift_gui/core/TeleopController.hpp
   src/core/TeleopController.cpp
   include/forklift_gui/core/ForkController.hpp
@@ -54,6 +57,8 @@ set(CORE_SOURCES
   src/core/CameraStream.cpp
   include/forklift_gui/core/DatasetRecorder.hpp
   src/core/DatasetRecorder.cpp
+  include/forklift_gui/core/AutonomyController.hpp
+  src/core/AutonomyController.cpp
   include/forklift_gui/core/Backend.hpp
   src/core/Backend.cpp
 )
@@ -99,7 +104,9 @@ target_link_libraries(forklift_gui_ros PUBLIC
   ${sensor_msgs_TARGETS}
   ${rosgraph_msgs_TARGETS}
   ${rcl_interfaces_TARGETS}
-  ${vision_msgs_TARGETS})
+  ${vision_msgs_TARGETS}
+  ${std_srvs_TARGETS}
+  ${forklift_interfaces_TARGETS})
 
 # ----------------------------------------------------------- uygulama --
 set(QML_FILES
@@ -126,6 +133,7 @@ set(QML_FILES
   qml/panels/LogPanel.qml
   qml/panels/DatasetPanel.qml
   qml/panels/BottomTabs.qml
+  qml/panels/AutonomyPanel.qml
 )
 set_source_files_properties(qml/theme/Theme.qml qml/UiState.qml
   PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
@@ -168,7 +176,7 @@ if(BUILD_TESTING)
 
   # Core birim testleri (QtTest, mock adaptor, offscreen); U1-U8 ve
   # ek testler (telemetri kisma/RTF, log modeli, kamera akisi).
-  set(CORE_TESTS teleop safety fork health dataset telemetry log camera)
+  set(CORE_TESTS teleop safety fork health dataset telemetry log camera autonomy)
   foreach(name IN LISTS CORE_TESTS)
     qt_add_executable(test_${name}
       test/core/test_${name}.cpp

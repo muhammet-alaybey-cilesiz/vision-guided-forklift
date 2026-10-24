@@ -38,6 +38,17 @@ class CameraModel:
         """Aynı dışsal poz, kalibrasyon dosyasından gelen K ve D (D-59: camera_info'nun yerine)."""
         return CameraModel(K, D, self.width, self.height, self.R, self.t)
 
+    def tilted(self, pitch, roll, pivot):
+        """Gövde, zemindeki pivot noktası çevresinde pitch (burun yukarı +) ve roll (sol yukarı +) kadar
+        dönmüşken kameranın düz zemin çerçevesindeki modeli."""
+        cp, sp = math.cos(-pitch), math.sin(-pitch)
+        cr, sr = math.cos(roll), math.sin(roll)
+        Ry = np.array([[cp, 0.0, sp], [0.0, 1.0, 0.0], [-sp, 0.0, cp]])
+        Rx = np.array([[1.0, 0.0, 0.0], [0.0, cr, -sr], [0.0, sr, cr]])
+        Rt = Ry @ Rx
+        P = np.asarray(pivot, float)
+        return CameraModel(self.K, self.D, self.width, self.height, Rt @ self.R, P + Rt @ (self.t - P))
+
     def pitched(self, angle, pivot_x):
         """Robot gövdesi y ekseni etrafında, zemindeki pivot_x noktası çevresinde angle kadar dönmüş
         (pozitif = burun yukarı) iken kameranın düz zemin çerçevesindeki modeli."""

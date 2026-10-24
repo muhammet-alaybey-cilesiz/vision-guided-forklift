@@ -1,0 +1,778 @@
+{
+ "world": "station_test",
+ "test": "a1",
+ "transit_method": "sign",
+ "started": "2026-10-24 12:09:57",
+ "trials": [
+  {
+   "bay": 0,
+   "start": {
+    "d": 0.9,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür red))",
+   "fault": "",
+   "seconds": 27.7,
+   "deepest": {
+    "carriage_front_x": -0.012099951661083658,
+    "carriage_lateral": 0.003679060664654735,
+    "yaw_deg": 0.9042724621523561,
+    "pitch_deg": -0.20557643939532833
+   },
+   "parcel_in_robot": [
+    0.2521999643848555,
+    -0.005325535617343391,
+    0.1850587253575544
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {}
+  },
+  {
+   "bay": 0,
+   "start": {
+    "d": 1.3,
+    "lateral": 0.15,
+    "yaw_deg": 10
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür red))",
+   "fault": "",
+   "seconds": 32.2,
+   "deepest": {
+    "carriage_front_x": -0.012210366279654328,
+    "carriage_lateral": 0.002721310315144007,
+    "yaw_deg": 0.4408531235884968,
+    "pitch_deg": -0.20504924595886748
+   },
+   "parcel_in_robot": [
+    0.25234525227100657,
+    -0.003387552585217779,
+    0.1850566465626961
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {}
+  },
+  {
+   "bay": 0,
+   "start": {
+    "d": 1.3,
+    "lateral": -0.15,
+    "yaw_deg": -10
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür red))",
+   "fault": "",
+   "seconds": 35.1,
+   "deepest": {
+    "carriage_front_x": -0.012674066582085225,
+    "carriage_lateral": 0.0035516014039314375,
+    "yaw_deg": 0.7988919347803963,
+    "pitch_deg": -0.2051763434080295
+   },
+   "parcel_in_robot": [
+    0.2527875699298935,
+    -0.004975836632653774,
+    0.18503782949214378
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {}
+  },
+  {
+   "bay": 0,
+   "start": {
+    "d": 1.0,
+    "lateral": 0.1,
+    "yaw_deg": -5
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür red))",
+   "fault": "",
+   "seconds": 34.0,
+   "deepest": {
+    "carriage_front_x": -0.01298768720311122,
+    "carriage_lateral": 0.0036349562759527337,
+    "yaw_deg": 0.6634582072216043,
+    "pitch_deg": -0.20470856841753343
+   },
+   "parcel_in_robot": [
+    0.25311244247719833,
+    -0.0047748920156507335,
+    0.18505216386609055
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {}
+  },
+  {
+   "bay": 0,
+   "start": {
+    "d": 1.0,
+    "lateral": -0.1,
+    "yaw_deg": 5
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür red))",
+   "fault": "",
+   "seconds": 33.0,
+   "deepest": {
+    "carriage_front_x": -0.012699073000649014,
+    "carriage_lateral": 0.003462148843195201,
+    "yaw_deg": 0.650379413675219,
+    "pitch_deg": -0.20486186579095822
+   },
+   "parcel_in_robot": [
+    0.25281924619137197,
+    -0.0045779780938777215,
+    0.1850520225629333
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {}
+  },
+  {
+   "bay": 0,
+   "start": {
+    "d": 1.5,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür red))",
+   "fault": "",
+   "seconds": 29.0,
+   "deepest": {
+    "carriage_front_x": -0.012795989792602158,
+    "carriage_lateral": 0.00363336742214547,
+    "yaw_deg": 0.7660346514605677,
+    "pitch_deg": -0.2048599614320218
+   },
+   "parcel_in_robot": [
+    0.2529114553824001,
+    -0.004988940811680498,
+    0.18506739945406425
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {}
+  },
+  {
+   "bay": 1,
+   "start": {
+    "d": 0.9,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür green))",
+   "fault": "",
+   "seconds": 25.8,
+   "deepest": {
+    "carriage_front_x": -0.012872922999384556,
+    "carriage_lateral": 0.00015989154919742162,
+    "yaw_deg": -0.0636719998639339,
+    "pitch_deg": -0.4094292020317883
+   },
+   "parcel_in_robot": [
+    0.25321230897081093,
+    -2.3570957334558083e-05,
+    0.18506316257218736
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0
+   }
+  },
+  {
+   "bay": 1,
+   "start": {
+    "d": 1.3,
+    "lateral": 0.15,
+    "yaw_deg": 10
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür green))",
+   "fault": "",
+   "seconds": 32.3,
+   "deepest": {
+    "carriage_front_x": -0.013621799002354107,
+    "carriage_lateral": 0.0004962619577249752,
+    "yaw_deg": 0.06892341909540561,
+    "pitch_deg": -0.4094246618077215
+   },
+   "parcel_in_robot": [
+    0.25395632699851944,
+    -0.0006467719008542076,
+    0.18507109373593628
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0
+   }
+  },
+  {
+   "bay": 1,
+   "start": {
+    "d": 1.3,
+    "lateral": -0.15,
+    "yaw_deg": -10
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür green))",
+   "fault": "",
+   "seconds": 35.6,
+   "deepest": {
+    "carriage_front_x": -0.012743585195493984,
+    "carriage_lateral": 0.000824114892543227,
+    "yaw_deg": 0.1526109873521059,
+    "pitch_deg": -0.40942728476182594
+   },
+   "parcel_in_robot": [
+    0.2530792349186609,
+    -0.0011504974074753524,
+    0.18503672194524562
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0
+   }
+  },
+  {
+   "bay": 1,
+   "start": {
+    "d": 1.0,
+    "lateral": 0.1,
+    "yaw_deg": -5
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür green))",
+   "fault": "",
+   "seconds": 31.0,
+   "deepest": {
+    "carriage_front_x": -0.01325640839393799,
+    "carriage_lateral": -0.0001511705006508152,
+    "yaw_deg": -0.10272264220512242,
+    "pitch_deg": -0.4094264904552682
+   },
+   "parcel_in_robot": [
+    0.2535941535566114,
+    0.00037161545132002524,
+    0.18504956045900375
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0
+   }
+  },
+  {
+   "bay": 1,
+   "start": {
+    "d": 1.0,
+    "lateral": -0.1,
+    "yaw_deg": 5
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür green))",
+   "fault": "",
+   "seconds": 30.8,
+   "deepest": {
+    "carriage_front_x": -0.013127574852115242,
+    "carriage_lateral": 0.00011470932847251056,
+    "yaw_deg": -0.033996073137968576,
+    "pitch_deg": -0.4094274322464261
+   },
+   "parcel_in_robot": [
+    0.2534636320562369,
+    -4.061952341341134e-05,
+    0.1850513048196246
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0
+   }
+  },
+  {
+   "bay": 1,
+   "start": {
+    "d": 1.5,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür green))",
+   "fault": "",
+   "seconds": 29.7,
+   "deepest": {
+    "carriage_front_x": -0.013196637259135946,
+    "carriage_lateral": -7.956035286565364e-05,
+    "yaw_deg": -0.10501829352303245,
+    "pitch_deg": -0.40942652020865916
+   },
+   "parcel_in_robot": [
+    0.2535342087890321,
+    0.0003051521962740022,
+    0.185069270964378
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0
+   }
+  },
+  {
+   "bay": 2,
+   "start": {
+    "d": 0.9,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür blue))",
+   "fault": "",
+   "seconds": 24.8,
+   "deepest": {
+    "carriage_front_x": -0.01354024597673173,
+    "carriage_lateral": -0.0015626128745451038,
+    "yaw_deg": -0.44383310446808427,
+    "pitch_deg": -0.205404798981851
+   },
+   "parcel_in_robot": [
+    0.2536755626783621,
+    0.002232865484243729,
+    0.18506571433652508
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0,
+    "parcel_source_1": 0.0
+   }
+  },
+  {
+   "bay": 2,
+   "start": {
+    "d": 1.3,
+    "lateral": 0.15,
+    "yaw_deg": 10
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür blue))",
+   "fault": "",
+   "seconds": 31.3,
+   "deepest": {
+    "carriage_front_x": -0.011477117537807474,
+    "carriage_lateral": -0.0020052977277659582,
+    "yaw_deg": -0.4705029674570414,
+    "pitch_deg": -0.20484984195752973
+   },
+   "parcel_in_robot": [
+    0.25161243878886463,
+    0.0027248354894761073,
+    0.18505186453439137
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0,
+    "parcel_source_1": 0.0
+   }
+  },
+  {
+   "bay": 2,
+   "start": {
+    "d": 1.3,
+    "lateral": -0.15,
+    "yaw_deg": -10
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür blue))",
+   "fault": "",
+   "seconds": 31.2,
+   "deepest": {
+    "carriage_front_x": -0.012623572905663877,
+    "carriage_lateral": -0.0015413690697844752,
+    "yaw_deg": -0.29951562158852496,
+    "pitch_deg": -0.20484628233708002
+   },
+   "parcel_in_robot": [
+    0.2527650882042284,
+    0.0019145861084151061,
+    0.18507018856164817
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0,
+    "parcel_source_1": 0.0
+   }
+  },
+  {
+   "bay": 2,
+   "start": {
+    "d": 1.0,
+    "lateral": 0.1,
+    "yaw_deg": -5
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür blue))",
+   "fault": "",
+   "seconds": 32.1,
+   "deepest": {
+    "carriage_front_x": -0.012501220920153239,
+    "carriage_lateral": -0.0016010456723456036,
+    "yaw_deg": -0.35715051196573633,
+    "pitch_deg": -0.20485081542706657
+   },
+   "parcel_in_robot": [
+    0.25264015255144556,
+    0.002086872780080573,
+    0.1850506505726858
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0,
+    "parcel_source_1": 0.0
+   }
+  },
+  {
+   "bay": 2,
+   "start": {
+    "d": 1.0,
+    "lateral": -0.1,
+    "yaw_deg": 5
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür blue))",
+   "fault": "",
+   "seconds": 32.8,
+   "deepest": {
+    "carriage_front_x": -0.012498520455642648,
+    "carriage_lateral": -0.001359561935250476,
+    "yaw_deg": -0.24858363688557836,
+    "pitch_deg": -0.205414785241213
+   },
+   "parcel_in_robot": [
+    0.2526357893342338,
+    0.0016178308905669958,
+    0.18506602124314867
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0,
+    "parcel_source_1": 0.0
+   }
+  },
+  {
+   "bay": 2,
+   "start": {
+    "d": 1.5,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür blue))",
+   "fault": "",
+   "seconds": 30.5,
+   "deepest": {
+    "carriage_front_x": -0.012393856715051166,
+    "carriage_lateral": -0.0012624951241853753,
+    "yaw_deg": -0.24890642397385251,
+    "pitch_deg": -0.20484547989287963
+   },
+   "parcel_in_robot": [
+    0.25252753148347573,
+    0.0015142010241386838,
+    0.1850709368207108
+   ],
+   "picked": true,
+   "neighbours_moved_mm": {
+    "parcel_source_0": 0.0,
+    "parcel_source_1": 0.0
+   }
+  }
+ ],
+ "A1": {
+  "trials": 18,
+  "done_and_picked": 18,
+  "lateral_mm_max": 3.679060664654735,
+  "yaw_deg_max": 0.9042724621523561,
+  "carriage_front_x_mm": [
+   -13.6,
+   -11.5
+  ],
+  "neighbours_moved_mm_max": 0.0,
+  "faults": [],
+  "status": "GEÇTİ"
+ },
+ "finished": "2026-10-24 12:22:53"
+}

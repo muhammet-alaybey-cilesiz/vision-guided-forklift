@@ -101,6 +101,64 @@ RosCommandAdapter::RosCommandAdapter(
 {
 }
 
+RosAutonomyAdapter::RosAutonomyAdapter(
+  rclcpp::Node & node, const GuiConfig::Autonomy & config, QObject * parent)
+: IAutonomyPort(parent),
+  mode_(node.create_client<forklift_interfaces::srv::SetMode>(config.modeService.toStdString()))
+{
+  const std::pair<int, QString> names[] = {
+    {Start, config.startService},
+    {Pause, config.pauseService},
+    {Resume, config.resumeService},
+    {Cancel, config.cancelService}};
+  for (const auto & [cmd, name] : names) {
+    triggers_[cmd] = node.create_client<std_srvs::srv::Trigger>(name.toStdString());
+  }
+}
+
+void RosAutonomyAdapter::request(Command command)
+{
+  using SetMode = forklift_interfaces::srv::SetMode;
+  using Trigger = std_srvs::srv::Trigger;
+  const int cmd = command;
+  if (command == SetManual || command == SetAuto) {
+    if (!mode_->service_is_ready()) {
+      finish(cmd, false, tr("servis yok"));
+      return;
+    }
+    auto req = std::make_shared<SetMode::Request>();
+    req->mode = command == SetAuto ? SetMode::Request::MODE_AUTO : SetMode::Request::MODE_MANUAL;
+    mode_->async_send_request(req, [this, cmd](rclcpp::Client<SetMode>::SharedFuture f) {
+      const auto r = f.get();
+      finish(cmd, r->success, QString::fromStdString(r->message));
+    });
+    return;
+  }
+  auto it = triggers_.find(cmd);
+  if (it == triggers_.end() || !it->second->service_is_ready()) {
+    finish(cmd, false, tr("servis yok"));
+    return;
+  }
+  it->second->async_send_request(
+    std::make_shared<Trigger::Request>(), [this, cmd](rclcpp::Client<Trigger>::SharedFuture f) {
+      const auto r = f.get();
+      finish(cmd, r->success, QString::fromStdString(r->message));
+    });
+}
+
+void RosAutonomyAdapter::finish(int command, bool ok, const QString & message)
+{
+  QMetaObject::invokeMethod(
+    this, [this, command, ok, message]() { emit commandFinished(command, ok, message); },
+    Qt::QueuedConnection);
+}
+
+void RosAutonomyAdapter::postStatus(const AutonomyStatus & status)
+{
+  QMetaObject::invokeMethod(
+    this, [this, status]() { emit statusReceived(status); }, Qt::QueuedConnection);
+}
+
 void RosCommandAdapter::publishVelocity(double linear, double angular)
 {
   geometry_msgs::msg::Twist msg;
@@ -187,6 +245,7 @@ RosBridge::RosBridge(rclcpp::Node::SharedPtr node, const GuiConfig & config)
   state_ = std::make_unique<RosStateAdapter>(counters_, nullptr);
   camera_ = std::make_unique<RosCameraAdapter>(nullptr);
   log_ = std::make_unique<RosLogAdapter>(node_->get_logger(), nullptr);
+  autonomy_ = std::make_unique<RosAutonomyAdapter>(*node_, config_.autonomy, nullptr);
   for (const CameraConfig & cam : config_.cameras.list) {
     if (cam.detections && detectionCamera_.isEmpty()) {
       detectionCamera_ = cam.id;
@@ -205,6 +264,7 @@ RosBridge::~RosBridge()
   state_.reset();
   camera_.reset();
   log_.reset();
+  autonomy_.reset();
 }
 
 int RosBridge::counterFor(const QString & topic) const
@@ -250,6 +310,9 @@ void RosBridge::start()
   detectionSub_ = node_->create_subscription<vision_msgs::msg::Detection2DArray>(
     t.detections.toStdString(), rclcpp::SensorDataQoS(),
     [this](const vision_msgs::msg::Detection2DArray & m) { onDetections(m); }, stateOpts);
+  autonomySub_ = node_->create_subscription<forklift_interfaces::msg::AutonomyState>(
+    config_.autonomy.stateTopic.toStdString(), rclcpp::QoS(5),
+    [this](const forklift_interfaces::msg::AutonomyState & m) { onAutonomyState(m); }, stateOpts);
   rosoutSub_ = node_->create_subscription<rcl_interfaces::msg::Log>(
     t.rosout.toStdString(), rosoutQos(),
     [this](const rcl_interfaces::msg::Log & m) { onRosout(m); }, logOpts);
@@ -303,11 +366,26 @@ void RosBridge::stop()
   clockSub_.reset();
   detectionSub_.reset();
   rosoutSub_.reset();
+  autonomySub_.reset();
   // CameraIo nesneleri yıkıma kadar kalır (bekleyen teslimler işaret eder).
   for (auto & cam : cameras_) {
     cam->image.reset();
     cam->info.reset();
   }
+}
+
+void RosBridge::onAutonomyState(const forklift_interfaces::msg::AutonomyState & msg)
+{
+  AutonomyStatus s;
+  s.mode = msg.mode;
+  s.state = QString::fromStdString(msg.state);
+  s.detail = QString::fromStdString(msg.detail);
+  s.targetColor = QString::fromStdString(msg.target_color);
+  s.fault = QString::fromStdString(msg.fault);
+  s.parcelsDone = static_cast<int>(msg.parcels_done);
+  s.parcelsTotal = static_cast<int>(msg.parcels_total);
+  s.receivedNs = steadyNowNs();
+  autonomy_->postStatus(s);
 }
 
 void RosBridge::onOdom(const nav_msgs::msg::Odometry & msg)

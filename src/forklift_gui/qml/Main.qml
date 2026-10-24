@@ -94,11 +94,16 @@ ApplicationWindow {
 
                     TelemetryPanel {
                         SplitView.fillHeight: true
-                        SplitView.minimumHeight: 200
+                        SplitView.minimumHeight: 150
+                    }
+
+                    AutonomyPanel {
+                        SplitView.preferredHeight: 172
+                        SplitView.minimumHeight: 165
                     }
 
                     ForkPanel {
-                        SplitView.preferredHeight: 255
+                        SplitView.preferredHeight: 285
                         SplitView.minimumHeight: 235
                     }
                 }

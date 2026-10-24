@@ -9,6 +9,7 @@
 #include <QMutexLocker>
 #include <QPainter>
 #include <QPolygonF>
+#include <QStringList>
 #include <QVideoFrameFormat>
 #include <algorithm>
 #include <cmath>
@@ -283,6 +284,79 @@ void FrameWorker::render()
 
 // ------------------------------------------------------------ sahte robot --
 
+namespace
+{
+const QStringList kMockSteps = {
+  QStringLiteral("OBSERVE"),  QStringLiteral("SELECT_BAY"), QStringLiteral("ALIGN"),
+  QStringLiteral("SETTLE"),   QStringLiteral("ENTER"),      QStringLiteral("LIFT"),
+  QStringLiteral("BACK_OUT"), QStringLiteral("VERIFY"),     QStringLiteral("DONE")};
+}  // namespace
+
+MockAutonomyPort::MockAutonomyPort(ClockFn clock, QObject * parent)
+: IAutonomyPort(parent), clock_(std::move(clock))
+{
+  status_.state = QStringLiteral("IDLE");
+  status_.detail = tr("Hazır (mock)");
+  status_.parcelsTotal = 1;
+}
+
+void MockAutonomyPort::request(Command command)
+{
+  requests_.append(command);
+  bool ok = !reject_;
+  QString msg = ok ? tr("tamam (mock)") : tr("reddedildi (mock)");
+  if (ok) {
+    switch (command) {
+      case SetManual:
+        status_.mode = 0;
+        if (kMockSteps.contains(status_.state) && status_.state != QStringLiteral("DONE")) {
+          pausedFrom_ = status_.state;
+          status_.state = QStringLiteral("PAUSED");
+        }
+        break;
+      case SetAuto:
+        status_.mode = 1;
+        break;
+      case Start:
+        status_.state = kMockSteps.first();
+        status_.parcelsDone = 0;
+        break;
+      case Pause:
+        pausedFrom_ = status_.state;
+        status_.state = QStringLiteral("PAUSED");
+        break;
+      case Resume:
+        status_.state = pausedFrom_.isEmpty() ? kMockSteps.first() : pausedFrom_;
+        break;
+      case Cancel:
+        status_.state = QStringLiteral("IDLE");
+        break;
+    }
+    status_.detail = status_.state + tr(" (mock)");
+  }
+  emit commandFinished(command, ok, msg);
+  publish();
+}
+
+void MockAutonomyPort::publish()
+{
+  status_.receivedNs = clock_();
+  emit statusReceived(status_);
+}
+
+void MockAutonomyPort::advance()
+{
+  const int i = kMockSteps.indexOf(status_.state);
+  if (status_.mode != 1 || i < 0 || i + 1 >= kMockSteps.size()) {
+    return;
+  }
+  status_.state = kMockSteps.at(i + 1);
+  status_.detail = status_.state + tr(" (mock)");
+  if (status_.state == QStringLiteral("DONE")) {
+    status_.parcelsDone = 1;
+  }
+}
+
 MockRobotAdapter::MockRobotAdapter(const GuiConfig & config, ClockFn clock, QObject * parent)
 : QObject(parent),
   config_(config),
@@ -290,8 +364,17 @@ MockRobotAdapter::MockRobotAdapter(const GuiConfig & config, ClockFn clock, QObj
   command_(new MockCommandPort(clock_, this)),
   state_(new MockStatePort(this)),
   camera_(new MockCameraPort(this)),
-  log_(new MockLogPort(this))
+  log_(new MockLogPort(this)),
+  autonomy_(new MockAutonomyPort(clock_, this))
 {
+  // Sahte görev yöneticisi: 5 Hz durum; görev her 1.6 s'de bir durum ilerler.
+  autonomyTimer_.setInterval(200);
+  connect(&autonomyTimer_, &QTimer::timeout, this, [this]() {
+    if (++autonomyTicks_ % 8 == 0) {
+      autonomy_->advance();
+    }
+    autonomy_->publish();
+  });
   connect(command_, &MockCommandPort::velocityCommanded, this, [this](double v, double w) {
     cmdLinear_ = v;
     cmdAngular_ = w;
@@ -317,6 +400,7 @@ void MockRobotAdapter::start()
 {
   startNs_ = clock_();
   lastStepNs_ = startNs_;
+  autonomyTimer_.start();
   GraphStatus graph;
   graph.up = true;
   graph.mock = true;
@@ -345,6 +429,7 @@ void MockRobotAdapter::stop()
   stepTimer_.stop();
   clockTimer_.stop();
   logTimer_.stop();
+  autonomyTimer_.stop();
   if (workerThread_.isRunning()) {
     QMetaObject::invokeMethod(worker_, &FrameWorker::end, Qt::BlockingQueuedConnection);
     workerThread_.quit();

@@ -18,9 +18,10 @@ from rclpy.node import Node
 from rclpy.parameter import Parameter
 from rclpy.qos import qos_profile_sensor_data
 from rclpy.time import Time
-from sensor_msgs.msg import CameraInfo, Image
+from sensor_msgs.msg import CameraInfo, Image, Imu
 from tf2_ros import Buffer, TransformListener
 
+from forklift_perception.core.attitude import AttitudeEstimator
 from forklift_perception.core.camera_model import CameraModel
 
 BASE_FRAME = 'base_footprint'
@@ -61,6 +62,9 @@ class RosCams:
             self.node.create_subscription(Image, img_t, self._img_cb(name), qos_profile_sensor_data)
             self.node.create_subscription(CameraInfo, info_t, self._info_cb(name), qos_profile_sensor_data)
         self.node.create_subscription(Odometry, '/odom', self._odom_cb, qos_profile_sensor_data)
+        # IMU → algılamanın kestiricisinin aynısı (detectors.yaml attitude ile aynı sabitler verilir)
+        self.att = None
+        self.node.create_subscription(Imu, '/imu', self._imu_cb, qos_profile_sensor_data)
         self.executor = SingleThreadedExecutor()
         self.executor.add_node(self.node)
         self.thread = threading.Thread(target=self.executor.spin, daemon=True)
@@ -78,6 +82,21 @@ class RosCams:
             with self.lock:
                 self.infos[name] = msg
         return cb
+
+    def start_attitude(self, tau, level_samples, acc_tol=None, gyro_tol=None):
+        """Kestiriciyi başlatır: robot şu an düz zeminde olmalı (seviye kalibrasyonu)."""
+        with self.lock:
+            self.att = AttitudeEstimator(tau, level_samples, acc_tol, gyro_tol)
+
+    def attitude(self):
+        with self.lock:
+            return None if self.att is None else self.att.value()
+
+    def _imu_cb(self, m):
+        with self.lock:
+            if self.att is not None:
+                a, w = m.linear_acceleration, m.angular_velocity
+                self.att.update(stamp_s(m.header.stamp), (a.x, a.y, a.z), (w.x, w.y, w.z))
 
     def _odom_cb(self, msg):
         with self.lock:

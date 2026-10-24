@@ -1,0 +1,36 @@
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-23-19-23-54-181021-muhammet61-66782
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mission_manager-1]: process started with pid [66795]
+[mission_manager-1] [WARN] [1792772634.735196266] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[mission_manager-1] [WARN] [1792772634.735211363] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[mission_manager-1] [INFO] [1792772634.864342403] [mission_manager]: görev yöneticisi hazır (mod: Manuel)
+[mission_manager-1] [INFO] [1792772647.552955552] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792772647.593642345] [mission_manager]: görev başladı
+[mission_manager-1] [INFO] [1792772647.761349086] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792772649.170710267] [mission_manager]: SELECT_BAY:  [bölme giriş 0.901,0.001 θ -0.01°]
+[mission_manager-1] [INFO] [1792772649.171065516] [mission_manager]: ALIGN: bölme 3/3 (soldan), mühür red [bölme giriş 0.901,0.001 θ -0.01°]
+[mission_manager-1] [INFO] [1792772651.585112047] [mission_manager]: SETTLE:  [bölme giriş 0.901,0.001 θ 0.02°]
+[mission_manager-1] [INFO] [1792772652.415027528] [mission_manager]: ENTER: giriş (yanal -1 mm, yön -0.08°, mesafe 0.75 m) [bölme giriş 0.899,0.001 θ -0.02°]
+[mission_manager-1] [INFO] [1792772656.462956860] [mission_manager]: TRIM: yanal 0.2 mm, yön 0.26° [bölme giriş 0.900,0.000 θ -0.09°]
+[mission_manager-1] [INFO] [1792772657.266477756] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 0.898,0.000 θ 0.04°]
+[mission_manager-1] [INFO] [1792772662.337062187] [mission_manager]: LIFT: tam giriş (CV mesafesi 0.144 m) [bölme giriş 0.901,0.002 θ -0.07°]
+[mission_manager-1] [INFO] [1792772663.553806547] [mission_manager]: BACK_OUT:  [bölme giriş 0.902,0.002 θ -0.07°]
+[mission_manager-1] [INFO] [1792772668.841328292] [mission_manager]: VERIFY:  [bölme giriş 0.899,0.001 θ -0.05°]
+[mission_manager-1] [INFO] [1792772669.649949130] [mission_manager]: görev bitti: Görev tamam
+[mission_manager-1] [INFO] [1792772669.650540552] [mission_manager]: DONE: koli çatalda [bölme giriş 0.900,0.000 θ 0.03°]
+[mission_manager-1] [INFO] [1792772669.660210713] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792772674.042338569] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792772674.082869699] [mission_manager]: görev başladı
+[mission_manager-1] [INFO] [1792772674.132204571] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792772675.743759808] [mission_manager]: SELECT_BAY:  [bölme giriş 1.515,-0.360 θ -9.12°]
+[mission_manager-1] [INFO] [1792772675.744116438] [mission_manager]: ALIGN: bölme 3/3 (soldan), mühür red [bölme giriş 1.515,-0.360 θ -9.12°]
+[mission_manager-1] [INFO] [1792772684.451913400] [mission_manager]: SETTLE:  [bölme giriş 1.515,-0.361 θ -9.23°]
+[mission_manager-1] [INFO] [1792772685.263179613] [mission_manager]: ENTER: giriş (yanal 1 mm, yön -0.05°, mesafe 0.75 m) [bölme giriş 1.515,-0.361 θ -9.20°]
+[mission_manager-1] [INFO] [1792772689.283043349] [mission_manager]: TRIM: yanal 0.2 mm, yön 0.18° [bölme giriş 1.518,-0.362 θ -9.26°]
+[mission_manager-1] [INFO] [1792772690.286297156] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 1.515,-0.361 θ -9.26°]
+[mission_manager-1] [INFO] [1792772695.359500201] [mission_manager]: LIFT: tam giriş (CV mesafesi 0.144 m) [bölme giriş 1.520,-0.361 θ -9.36°]
+[mission_manager-1] [INFO] [1792772696.561385234] [mission_manager]: BACK_OUT:  [bölme giriş 1.519,-0.361 θ -9.36°]
+[mission_manager-1] [INFO] [1792772701.761774728] [mission_manager]: VERIFY:  [bölme giriş 1.519,-0.362 θ -9.25°]
+[mission_manager-1] [INFO] [1792772702.161397945] [mission_manager]: görev bitti: Görev tamam
+[mission_manager-1] [INFO] [1792772702.161680068] [mission_manager]: DONE: koli çatalda [bölme giriş 1.520,-0.362 θ -9.22°]
+[mission_manager-1] [INFO] [1792772702.166192351] [mission_manager]: mod: Manuel

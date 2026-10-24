@@ -117,6 +117,22 @@ cameras:
     topic: /lane_camera/image_raw
     camera_info_topic: /lane_camera/camera_info
 
+# ----------------------------------------------------------------- IMU -----
+# Gövdeye sabit (base_link'e sabit eklem, eksenleri base_link ile aynı). Gövde eğimini
+# ölçer: tekerlekler istasyonun 2 mm'lik önlük plakasındayken ~0.41° (D-46, D-67).
+# Gürültü tipik bir MEMS IMU'ya göre (ivme ~150 µg/√Hz, jiroskop ~0.01 °/s/√Hz, 100 Hz).
+# Algılama yalnız ivme ve açısal hızı kullanır (gerçek IMU gibi); gz'nin hatasız
+# yönelim alanı kullanılmaz.
+imu:
+  x: -0.12                # base_link'e göre (şasi ortası)
+  y: 0.0
+  ground_z: 0.10
+  update_rate: 100.0      # [Hz]
+  topic: /imu
+  noise:
+    accel: {stddev: 0.02, bias_mean: 0.01, bias_stddev: 0.005}     # [m/s²]
+    gyro: {stddev: 0.002, bias_mean: 0.0005, bias_stddev: 0.0002}  # [rad/s]
+
 # ------------------------------------------------ görünüm (yalnız visual) ---
 # Kütle, atalet, collision, eklem ve TF'i ETKİLEMEZ; yalnız <visual> ekler
 # (DECISIONS D-54). Konumlar base_footprint çerçevesinde (x ileri, zemin z).

@@ -24,6 +24,8 @@
   <depend>rosgraph_msgs</depend>
   <depend>rcl_interfaces</depend>
   <depend>vision_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>forklift_interfaces</depend>
 
   <!-- Sistem Qt 6 (apt); qt6-base-dev araçları ve QPA eklentilerini,
        qt6-declarative-dev QML araçlarını (qmllint, qmlcachegen) bağımlılık olarak getirir -->

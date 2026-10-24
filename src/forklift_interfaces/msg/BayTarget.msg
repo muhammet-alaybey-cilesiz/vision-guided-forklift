@@ -10,4 +10,6 @@ geometry_msgs/Pose2D entry_in_base    # bölme girişi (çıkıntı ön çizgisi
 bool yaw_valid                        # theta ölçüldü mü (tek etiket: hayır, robot yaw'ı varsayılır)
 float32 distance                      # base_footprint'ten ön çizgiye, bölme ekseni boyunca [m]
 float32 baseline_measured             # çift: iki hedef arası [m] (katalog 0.216); etiket: 0
+geometry_msgs/Point anchor_in_base    # ölçülen nokta: çift → iki hedefin orta noktası (hedef düzleminde);
+                                      # etiket → etiket merkezi. Giriş = anchor − eksen · |anchor − giriş|
 geometry_msgs/Point[2] targets_px     # çift: sol ve sağ hedef merkezi; etiket: [merkez, merkez] (x = u, y = v)

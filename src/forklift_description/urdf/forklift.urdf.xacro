@@ -31,6 +31,7 @@
   <xacro:include filename="components/mast.xacro"/>
   <xacro:include filename="components/fork_carriage.xacro"/>
   <xacro:include filename="components/camera.xacro"/>
+  <xacro:include filename="components/imu.xacro"/>
   <xacro:include filename="components/appearance.xacro"/>
 
   <!-- gövde ve yürüyüş -->
@@ -45,6 +46,7 @@
   <xacro:fork_carriage prefix="${prefix}" cfg="${cfg}"/>
   <xacro:mast_camera prefix="${prefix}" name="front_camera" cfg="${cfg}"/>
   <xacro:mast_camera prefix="${prefix}" name="lane_camera" cfg="${cfg}"/>
+  <xacro:imu_frame prefix="${prefix}" cfg="${cfg}"/>
 
   <!-- yalnızca simülasyon: plugin'ler, sürtünme, sensör blokları -->
   <xacro:if value="$(arg use_sim)">

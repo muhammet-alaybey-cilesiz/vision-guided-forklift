@@ -1413,7 +1413,168 @@ visible over the parcel, the alternative is decided at gate K-2.
   at ≤ 3 m) cannot be met by the sign alone. Proposal: the sign gives identity, bearing and coarse
   distance; the precise station pose comes from the bullseye pairs, visible from about 1.4 m.
 
+## D-67 IMU on the robot; attitude from accelerometer and gyro (Accepted, owner decision 2026-10-23)
+Owner: solve with vision where possible, but if a real robot needs an IMU, use one in the
+simulation too. A real robot measures its body tilt with an IMU, so the robot now has one.
+* `forklift_description`: `imu_link` fixed to `base_link` (x −0.12, z 0.10 above ground, axes
+  of `base_link`), an IMU sensor at 100 Hz on `/imu` with MEMS-like noise (accelerometer
+  σ 0.02 m/s², gyro σ 0.002 rad/s, small biases; `forklift_params.yaml → imu`), and
+  `gz-sim-imu-system` attached to the robot model (no world change). Bridged as
+  `sensor_msgs/Imu`. Unlike the cameras (D-51), the IMU noise is applied (measured σ 0.020 m/s²).
+* Perception uses only the accelerometer and the gyro (not gz's error-free orientation field):
+  a complementary filter (τ 0.3 s) with a level calibration at start-up (the robot must stand on
+  level floor; it removes the accelerometer bias, measured −0.05°). Measured on the apron: pitch
+  0.42° vs 0.41° ground truth (middle bay) and roll 0.33° vs 0.34° (end bay, one wheel on the
+  plate), which the vision heuristic of D-65 cannot see.
+* The lane pipeline tilts the camera model by the IMU pitch and roll about the ground contact
+  (caster when nose-up, lower wheel when rolled) and returns results in the body frame;
+  `detectors.yaml → attitude.source: imu | cv | none` (`cv` = D-65, the fallback without an IMU).
+* Teleporting in the recorded sets hides the rotation from the gyro, so the filter converges only
+  from the accelerometer; recordings wait 5 τ per view. Driving is continuous and unaffected.
+* **Motion gate (F3, factory A1).** While driving, the accelerometer also measures acceleration
+  (1 m/s² reads as ~6° of pitch), which shifted the tracked bay axis by up to 10 mm. The
+  accelerometer correction is skipped while |‖a‖ − g| > `acc_tol` (0.05 m/s²) or ‖ω‖ > `gyro_tol`
+  (0.02 rad/s); then only the gyro integral runs. τ is back to 1.0 s. The autonomy also ignores
+  bay measurements while turning faster than `max_meas_yaw_rate` (0.15 rad/s).
+* **Robust level calibration.** The Gazebo IMU now and then publishes a near-zero acceleration
+  sample (~0.5 %, around teleports and at start-up). With a mean, three such samples in the
+  calibration gave g = 9.67 instead of 9.81; the gate then never opened and the filter drifted on
+  gyro bias (~2°/min), which failed most A1 trials. g is now the median of the calibration
+  samples, and samples off by more than `acc_tol` are left out of the level offset. Real IMUs have
+  dropouts too.
+
+## D-68 Autonomy: ROS-free core, odometry-frame tracking, final yaw trim (Accepted)
+* `forklift_autonomy` mirrors the perception layout: `core/` (SE2 maths, bay tracker, motion
+  primitives, bay-axis servo, mission state machine) without ROS, and `node.py`
+  (`mission_manager`). Configuration in `config/autonomy.yaml`; robot dimensions from
+  `forklift_params.yaml`. Kinematic tests (`test/test_core.py`) run the state machine and the
+  controllers against a unicycle model with perfect perception.
+* **Tracking.** Bay entries are moved into the odometry frame with TF at the image stamp, then
+  associated (10 cm, bay pitch 0.30 m) and filtered (exponential, α 0.3). Only bullseye pairs open
+  tracks and update the axis direction. A bay label updates the entry along the tracked axis; it
+  changes the lateral position only when no pair was seen for 0.3 s (labels reconstruct the entry
+  from their own two-label yaw, up to 1.8° off, which shifted the axis by several millimetres and
+  made the servo end with ~1.5° heading error). `BayTarget.anchor_in_base` carries the measured
+  point for this.
+* **Pick flow:** OBSERVE → SELECT_BAY (leftmost occupied, K10) → ALIGN (turn–drive–turn to the
+  bay axis at 0.75 m) → SETTLE (fresh measurement; re-align if > 2 cm or > 1.5°) → ENTER (Stanley
+  servo on the bay axis; at 0.45 m, before the fork tips reach the front line, a stop and an
+  in-place yaw trim to 0.15°) → LIFT → BACK_OUT 0.5 m → VERIFY (load check) → DONE. The stop is
+  decided from the camera distance (D-62), the carriage front 15 mm before the ledges.
+* Commands: `/cmd_vel/auto` at 20 Hz in Auto mode (zeros while idle or paused), `/fork/cmd_height`
+  on change. E-stop rising edge, a stale `/e_stop` (0.6 s), teleop input or Manual mode pause the
+  mission and hold the fork at the measured height (D-32); only `/autonomy/resume` continues (K7).
+
+## D-69 GUI Manual / Auto mode panel (Accepted, owner request 2026-10-21)
+* New port `IAutonomyPort` (core), adapters in `RosBridge` (`/autonomy/state` subscription,
+  `SetMode` and `Trigger` clients, replies queued to the GUI thread) and in the mock adapter (a
+  fake mission that steps through the states). `AutonomyController` owns the rules: offline after
+  `autonomy.offline_after` (1.5 s) without a state message; Auto and the mission buttons are
+  disabled while offline; Start needs Auto and a released e-stop; the fork panel is disabled while
+  Auto is active; any drive input (keys or joystick) requests Manual mode. Topic and service names
+  are in `gui_params.yaml → autonomy` (no defaults in code, D-29).
+* QML `AutonomyPanel` (right column, between Telemetry and Fork): Manuel / Otonom, Görevi başlat /
+  Duraklat / Devam / İptal, state and detail line, target seal and parcel count, last reply.
+* `bringup.launch.py` starts perception and the mission manager by default (`perception`,
+  `autonomy` arguments).
+
+## D-70 Acceptance criteria after gate K-2 (Accepted, owner decision 2026-10-23)
+* C1 sign: no wrong colour, no detection away from every station (> 1 m), pose at ≤ 1.5 m within
+  10 cm / 10°; the precise station pose comes from the bullseye pairs (D-66).
+* C2 / C3 lanes: heading criterion on lanes with ≥ 25 cm visible length; 15–25 cm pieces are
+  reported for information.
+* C4 alignment: pairing ≥ 90 % per frame (the tracker bridges missed frames), no false pair,
+  correct order; axis ≤ 2 mm and distance ≤ 5 mm (unloaded 0.3–1.2 m, loaded 0.575–1.2 m); yaw ≤ 0.6°
+  in the final-alignment range (unloaded 0.3–0.9 m).
+* C6 load: ground truth is "a parcel over the fork region" (silhouette overlap ≥ 0.7; 0.3–0.7
+  ambiguous and excluded); pick success is checked after backing out.
+* C9 final approach: detection 100 %, distance ≤ 6 mm, lateral ≤ 3 mm, with the configured attitude
+  source.
+
 ---
+
+## D-71 Bay selection waits for a stable observation and only for bays that can change the choice (Accepted, F3 A1 fix)
+* Found in the factory A1 grid (16/18): the bay was chosen 1.6 s after start, when only one or two of the
+  three bays were confirmed. "Leftmost occupied" then picked the wrong bay (one trial pushed the
+  neighbouring parcel 0.5 m); in another trial parcels seen before their bay was confirmed were dropped.
+* `BayTracker.settled()`: no new track for `stable_s` (1.0 s) and every recently seen track confirmed.
+  Parcels are associated with all tracks, confirmed or not.
+* "Empty" needs evidence: `min_empty_votes` frames in which the bay was inside the front camera's field
+  of view (half FOV − 5°, 0.5–3 m) without a parcel. A bay never seen is unknown, not empty.
+* `SELECT_BAY` walks the policy order (pick: left to right; drop: middle, then left, then right, K10) and
+  waits up to `select_wait_s` only if an unknown bay comes before the first match. A side bay outside the
+  view does not delay a drop into an empty middle bay.
+* `REPOSITION` (plan §7.2, "target lost → search again"): from two factory start poses the bullseye pair of
+  an end bay is never detected, while the front camera sees its parcel. A parcel not associated with any
+  bay track ("orphan") that is left of the chosen bay — or any orphan when no occupied bay was found —
+  makes the robot drive in front of it (align distance + 0.15 m) and observe again (at most twice).
+  "Source empty" is concluded only when no orphan parcel remains. The bullseye miss itself is a
+  perception limit already seen in C4 (pairing 92.6 %, losses near ±8° yaw); not fixed in F4.
+
+## D-72 Transit by station sign: stop-and-look legs, final pose from the bullseye pairs (Accepted, F4)
+* `FIND_STATION`: look (0.6 s, standing still), else turn 20° and look again; full turn → FAULT. The look
+  also accepts sign measurements taken while the robot slowed down at the end of the turn (the node drops
+  measurements above 0.15 rad/s). Reason (measured): with noise-free rendering the neutral source sign is
+  detected at some headings and not at others 10° away, and all frames of a standing robot are identical;
+  with 40° steps the search missed the source from dest_red in both worlds.
+* `TRANSIT` (station_test, K4): sign pose is fused in the odometry frame (1/r² weighted mean around the
+  median, outlier gate 0.4 m; a gate around the mean rejected every measurement after a few scattered
+  oblique ones). Farther than 1.5 m the sign yaw is not used (D-66): drive at most 1.0 m towards the sign,
+  stop, look again. Within 1.5 m: turn–drive–turn to the point 0.8 m in front of the station on its axis
+  (the sign axis is trusted up to 60° from the viewing direction; returns to the source are ~45° oblique).
+  The last good estimate is kept in the odometry frame; up to two empty looks continue with it.
+* `PRE_DOCK`: the station axis is re-measured from the bullseye pairs (median bay for the centre, mean
+  bay axis for the yaw) and the pose corrected at most twice (tolerances 3 cm / 5 cm / 2°). Without
+  pairs in 4 s the sign pose is accepted.
+
+## D-73 Transit by floor lane: candidate association and short-memory line (Accepted, F4)
+* `LANE_JOIN` / `LANE_FOLLOW` (factory): lane points of the target colour (kind FLOOR) are moved to the
+  odometry frame and de-duplicated on a 2 cm grid; a line is fitted (PCA; curves out of scope).
+* Perception reports the apron's bay lanes (±0.30 m) and the perimeter band edges (±0.42 m) near the
+  station as floor lanes of the same colour (G7). Candidates farther than 8 cm (median) from the tracked
+  line are rejected; before a line exists the candidate whose line passes closest to the target sign is
+  taken (lanes lead to their station; the distractors are 0.30–0.42 m off its axis). While following,
+  points seen farther than 1.6 m are not used; when joining they are (the lane is then 1.2–2.4 m away).
+  Measured: lane RMS 17–24 mm → 4 mm.
+* While following, the line uses only the last 0.5 s of points (a long memory tilted the line by ~1.4°
+  through odometry yaw drift); the full memory is the fallback when the lane leaves the view.
+* Lane colour per station: the station colour, except the neutral source whose lane is yellow
+  (`lane_color: {neutral: yellow}`, catalog `colors.lane_neutral`). Without it every return to the source
+  silently fell back to the sign method; the kinematic test shared the mistake and now asserts lane
+  following on every leg.
+* Stop 0.40 m before the stop bar (site rule in `autonomy.yaml`, base 0.8 m from the station front),
+  then `PRE_DOCK` as in D-72.
+
+## D-74 Drop flow, task parameter, command acceleration limit (Accepted, F4)
+* The docking code is shared: drop enters with the fork at 0.06 and ends with `LOWER` to 0, then backs out
+  and checks that the fork is empty. Parcels closer than the fork tip + 0.10 m are our own load and are not
+  associated with bays.
+* `mission_manager` parameters `task` (pick | drop | transit | full) and `target` are read at
+  `/autonomy/start`; the GUI always runs `full` (default). `full` chains go(source) → pick →
+  go(seal colour) → drop → … until the source is empty (DONE). Resume after a pause from
+  ALIGN/SETTLE/ENTER/TRIM restarts at OBSERVE (plan §7.1).
+* `/cmd_vel/auto` is slew-limited (0.5 m/s², 1.5 rad/s²) against parcel slip in loaded turns.
+* `transit_method` (sign | lane) is a launch argument; bringup selects `lane` for the factory world.
+* A2 test placement: the carried parcel is put where a pick leaves it (base + stop distance + nominal
+  x in the bay = 0.255 m, A1 measured 0.2525 m), so teleporting does not add an artificial offset.
+* Test parking spots for unused parcels moved to the corners between stations (±1.6, ±1.6). The old spot
+  (0.6, −1.6) was on the pre-entry pose of dest_green's left bay; the carried parcel rubbed against the
+  parked one and slid 6–8 mm on the forks (A2 offset 15.4 mm). Slower loaded turns were tried first, had no
+  effect and were reverted.
+
+## D-75 Perception nodes survive a bad frame (Accepted, F4 finding)
+* In two A2 factory runs `front_perception` stopped after ~13 trials with
+  `** On entry to DLASCL parameter number 4 had an illegal value` and "process has finished cleanly"
+  (exit code 0). From then on the mission manager had no parcel stream, no bay could be called empty
+  and every drop ended in "no empty bay". Earlier this looked like a world- or order-dependent autonomy bug.
+* Cause: the sign pose Gauss–Newton checked the residual for NaN but not the finite-difference Jacobian.
+  When a perturbed corner falls behind the camera, `J` contains NaN and `numpy.linalg.lstsq` raises
+  `LinAlgError`; the exception left `rclpy.spin` and the node shut down cleanly. Reproduced with the old
+  code in a unit test (same LAPACK message).
+* Fix: the fit returns "failed" for a non-finite Jacobian or a `LinAlgError`; both perception nodes catch
+  any exception per frame, log it (throttled, cumulative count) and skip the frame.
+* Test harness, same phase: the robot waits 5 τ of the attitude filter after each teleport (the gyro does
+  not see a teleport; the first trial of a run had a ~1° bay yaw error after a 1 s wait).
 
 ## Spec deviations (summary)
 | ID | What | Status |

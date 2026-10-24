@@ -49,7 +49,9 @@ class LanePipeline:
         self.lanes = LaneDetector(self.colors, cfg['lanes'])
         self.load = LoadDetector(self.colors, robot_geometry, cfg['load'])
 
-    def process(self, rgb, cam, q):
+    def process(self, rgb, cam, q, attitude=None):
+        """attitude: IMU'dan (pitch, roll) [rad] ya da None. Kaynak detectors.yaml → attitude.source:
+        imu (verilirse IMU, yoksa CV yedeği) | cv (önlük + komşu bölme sezgisi, D-65) | none."""
         loaded, kraft = self.load.detect(rgb, cam, q)
         parts = self.rg.fork_boxes(q) + ([self.rg.carried_parcel_box(q)] if loaded else [])
         self_mask = hull_mask(cam, parts, dilate=2)
@@ -58,13 +60,23 @@ class LanePipeline:
         # tekerlekler istasyonun önlük plakasındaysa gövde sarhoş teker etrafında burun yukarı döner
         # (D-46; S6'da −0.41° ölçüldü). Ön çizgiye CV mesafesi önlük derinliğinden kısaysa ölçüm
         # eğimli kamera modeliyle yinelenir.
-        pitch = self.apron_pitch(pairs, labels)
-        if pitch:
-            camp = cam.pitched(pitch, self.rg.caster_x)
+        src = self.cfg['attitude']['source']
+        pitch = roll = 0.0
+        if src == 'imu' and attitude is not None:
+            pitch, roll = attitude
+            used = 'imu'
+        elif src in ('imu', 'cv'):
+            pitch = self.apron_pitch(pairs, labels)
+            used = 'cv'
+        else:
+            used = 'none'
+        if abs(pitch) > 1e-5 or abs(roll) > 1e-5:
+            pivot = self.rg.tilt_pivot(pitch, roll)
+            camp = cam.tilted(pitch, roll, pivot)
             pairs, _ = self.targets.detect(rgb, camp, ~self_mask)
             labels = self.labels.detect(rgb, camp, ~self_mask)
             # düz zemin çerçevesinden gövde çerçevesine (çatallar ve odometri gövdeyle döner)
-            to_body = _level_to_body(pitch, self.rg.caster_x)
+            to_body = _level_to_body(pitch, roll, pivot)
             for p in pairs:
                 p.left.p, p.right.p = to_body(p.left.p), to_body(p.right.p)
                 p.entry_xy = to_body(np.array([*p.entry_xy, 0.0]))[:2]
@@ -74,7 +86,7 @@ class LanePipeline:
         segs, _ = self.lanes.detect(rgb, cam, self_mask)
         segs = self.classify(segs, pairs, cam)
         return {'pairs': pairs, 'labels': labels, 'lanes': segs, 'loaded': loaded, 'kraft_fraction': kraft,
-                'pitch': pitch}
+                'pitch': pitch, 'roll': roll, 'attitude_source': used}
 
     def apron_pitch(self, pairs, labels):
         """Önlükteyse beklenen gövde eğimi [rad], değilse 0.
@@ -131,12 +143,14 @@ class LanePipeline:
         return out
 
 
-def _level_to_body(angle, pivot_x):
-    """Düz zemin çerçevesindeki nokta → pivot_x etrafında angle (burun yukarı) dönmüş gövde çerçevesi."""
-    c, s_ = math.cos(-angle), math.sin(-angle)
-    Rp = np.array([[c, 0.0, s_], [0.0, 1.0, 0.0], [-s_, 0.0, c]])
-    P = np.array([pivot_x, 0.0, 0.0])
-    return lambda p: P + Rp.T @ (np.asarray(p, float) - P)
+def _level_to_body(pitch, roll, pivot):
+    """Düz zemin çerçevesindeki nokta → pivot çevresinde (pitch, roll) dönmüş gövde çerçevesi."""
+    cp, sp = math.cos(-pitch), math.sin(-pitch)
+    cr, sr = math.cos(roll), math.sin(roll)
+    Rt = np.array([[cp, 0.0, sp], [0.0, 1.0, 0.0], [-sp, 0.0, cp]]) @ \
+        np.array([[1.0, 0.0, 0.0], [0.0, cr, -sr], [0.0, sr, cr]])
+    P = np.asarray(pivot, float)
+    return lambda p: P + Rt.T @ (np.asarray(p, float) - P)
 
 
 def _replane(cam, pts_xy, z0, z1):

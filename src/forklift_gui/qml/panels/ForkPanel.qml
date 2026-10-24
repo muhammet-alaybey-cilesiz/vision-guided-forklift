@@ -21,7 +21,7 @@ PanelFrame {
     title: qsTr("Çatal")
     headerExtras: [
         Text {
-            text: !Backend.fork.enabled ? qsTr("devre dışı (E-STOP)") : Backend.fork.timedOut ? qsTr("UYARI") : Backend.fork.reached ? qsTr("● HEDEFE ULAŞILDI") : (Backend.fork.hasTarget ? qsTr("hareket ediyor") : "")
+            text: !Backend.fork.enabled ? (Backend.autonomy.autoMode ? qsTr("devre dışı (OTONOM)") : qsTr("devre dışı (E-STOP)")) : Backend.fork.timedOut ? qsTr("UYARI") : Backend.fork.reached ? qsTr("● HEDEFE ULAŞILDI") : (Backend.fork.hasTarget ? qsTr("hareket ediyor") : "")
             color: !Backend.fork.enabled ? Theme.danger : Backend.fork.timedOut ? Theme.warn : Backend.fork.reached ? Theme.ok : Theme.info
             font.pixelSize: Theme.fontXs
             font.bold: true

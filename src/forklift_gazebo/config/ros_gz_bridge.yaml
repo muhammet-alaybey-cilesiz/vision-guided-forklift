@@ -53,3 +53,10 @@
   ros_type_name: sensor_msgs/msg/CameraInfo
   gz_type_name: gz.msgs.CameraInfo
   direction: GZ_TO_ROS
+
+# IMU (D-67): ivme ve açısal hız; gövde eğimi algılamada (yönelim alanı kullanılmaz)
+- ros_topic_name: /imu
+  gz_topic_name: /imu
+  ros_type_name: sensor_msgs/msg/Imu
+  gz_type_name: gz.msgs.IMU
+  direction: GZ_TO_ROS

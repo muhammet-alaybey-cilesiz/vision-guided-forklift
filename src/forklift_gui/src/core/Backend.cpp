@@ -33,6 +33,7 @@ Backend::Backend(
     cameras_.append(new CameraStream(cam, config.cameras, config.health.updateRate, clock, this));
   }
   dataset_ = new DatasetRecorder(config, cameras_, telemetry_, fork_, clock, this);
+  autonomy_ = new AutonomyController(config.autonomy, ports.autonomy, clock, this);
 
   // E-stop: önce sürüş ve çatal durdurulur (senkron), sonra kilit yayınlanır;
   // etkin olduğu sürece sürüş ve çatal kontrolleri devre dışı (D-31, D-32).
@@ -42,10 +43,21 @@ Backend::Backend(
   });
   connect(safety_, &SafetyController::engagedChanged, this, [this](bool engaged) {
     teleop_->setEnabled(!engaged);
-    fork_->setEnabled(!engaged);
+    autonomy_->setEStopEngaged(engaged);
+    updateForkEnabled();
   });
   teleop_->setEnabled(!safety_->engaged());
-  fork_->setEnabled(!safety_->engaged());
+  autonomy_->setEStopEngaged(safety_->engaged());
+  // Otonom modda çatala tek kaynak (görev yöneticisi) komut verir; operatör sürüş girdisi
+  // Otonom modu bırakır (D-57).
+  connect(
+    autonomy_, &AutonomyController::autoActiveChanged, this, [this](bool) { updateForkEnabled(); });
+  connect(teleop_, &TeleopController::activeChanged, this, [this]() {
+    if (teleop_->active()) {
+      autonomy_->teleopTakeover();
+    }
+  });
+  updateForkEnabled();
 
   // Port → model. Port sinyalleri GUI thread'inde yayılır (doğrudan bağlantı).
   connect(ports.state, &IRobotStatePort::odometryReceived, telemetry_, &TelemetryModel::onOdometry);
@@ -84,6 +96,12 @@ Backend::Backend(
   connect(safety_, &SafetyController::event, this, &Backend::onEvent);
   connect(health_, &TopicHealthModel::event, this, &Backend::onEvent);
   connect(dataset_, &DatasetRecorder::event, this, &Backend::onEvent);
+  connect(autonomy_, &AutonomyController::logEvent, this, &Backend::onEvent);
+}
+
+void Backend::updateForkEnabled()
+{
+  fork_->setEnabled(!safety_->engaged() && !autonomy_->autoActive());
 }
 
 Backend::~Backend()
@@ -208,6 +226,7 @@ void Backend::start()
   safety_->start();
   telemetry_->start();
   health_->start();
+  autonomy_->startTicking(200);
   for (CameraStream * cam : std::as_const(cameras_)) {
     cam->start();
   }
@@ -227,6 +246,7 @@ void Backend::stop()
   safety_->stop();
   telemetry_->stop();
   health_->stop();
+  autonomy_->stopTicking();
   for (CameraStream * cam : std::as_const(cameras_)) {
     cam->stop();
   }

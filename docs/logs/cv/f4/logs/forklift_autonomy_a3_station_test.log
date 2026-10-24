@@ -1,0 +1,275 @@
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-24-12-40-43-718535-muhammet61-27866
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mission_manager-1]: process started with pid [27910]
+[mission_manager-1] [WARN] [1792834844.271395557] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[mission_manager-1] [WARN] [1792834844.271410331] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[mission_manager-1] [INFO] [1792834844.404821799] [mission_manager]: görev yöneticisi hazır (mod: Manuel, transit: sign)
+[mission_manager-1] [INFO] [1792834864.825195154] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792834864.886271653] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792834864.907103031] [mission_manager]: görev başladı (transit red)
+[mission_manager-1] [INFO] [1792834865.024951236] [mission_manager]: FIND_STATION: hedef: red
+[mission_manager-1] [INFO] [1792834865.681217235] [mission_manager]: FIND_STATION: bakış 1: yön 0°, görülen {'neutral': 11}
+[mission_manager-1] [INFO] [1792834868.618190721] [mission_manager]: FIND_STATION: bakış 2: yön 20°, görülen {'neutral': 33}
+[mission_manager-1] [INFO] [1792834871.544084150] [mission_manager]: FIND_STATION: bakış 3: yön 40°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792834874.181008334] [mission_manager]: FIND_STATION: bakış 4: yön 60°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792834877.033015590] [mission_manager]: FIND_STATION: bakış 5: yön 80°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792834879.908041223] [mission_manager]: TRANSIT: tabela red: 2.53 m, yön 12°
+[mission_manager-1] [INFO] [1792834880.798561776] [mission_manager]: TRANSIT: ayak 1: 2.53 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792834892.114989802] [mission_manager]: TRANSIT: ön-yanaşma: 1.43 m, eksen 99.3°
+[mission_manager-1] [INFO] [1792834902.018278349] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792834903.786311000] [mission_manager]: PRE_DOCK: düzeltme: yanal -171 mm, mesafe 47 mm, yön -9.5°
+[mission_manager-1] [INFO] [1792834917.401103917] [mission_manager]: görev bitti: Görev tamam (red ön-yanaşmada (yanal -4 mm, yön -0.1°))
+[mission_manager-1] [INFO] [1792834917.513653432] [mission_manager]: DONE: red ön-yanaşmada (yanal -4 mm, yön -0.1°)
+[mission_manager-1] [INFO] [1792834917.550427762] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792834930.254914782] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792834930.315114716] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792834930.335475527] [mission_manager]: görev başladı (transit red)
+[mission_manager-1] [INFO] [1792834930.498541186] [mission_manager]: FIND_STATION: hedef: red
+[mission_manager-1] [INFO] [1792834931.164903730] [mission_manager]: FIND_STATION: bakış 1: yön 90°, görülen {'neutral': 13}
+[mission_manager-1] [INFO] [1792834933.878133486] [mission_manager]: FIND_STATION: bakış 2: yön 110°, görülen {'neutral': 30}
+[mission_manager-1] [INFO] [1792834936.811377055] [mission_manager]: FIND_STATION: bakış 3: yön 130°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792834939.649332741] [mission_manager]: FIND_STATION: bakış 4: yön 150°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792834942.647825804] [mission_manager]: FIND_STATION: bakış 5: yön 170°, görülen {'neutral': 1}
+[mission_manager-1] [INFO] [1792834945.666318237] [mission_manager]: TRANSIT: tabela red: 2.49 m, yön 10°
+[mission_manager-1] [INFO] [1792834946.324332469] [mission_manager]: TRANSIT: ayak 1: 2.47 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792834957.427240706] [mission_manager]: TRANSIT: ön-yanaşma: 1.44 m, eksen 176.5°
+[mission_manager-1] [INFO] [1792834969.632864942] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792834971.387736551] [mission_manager]: PRE_DOCK: düzeltme: yanal 50 mm, mesafe 53 mm, yön 1.3°
+[mission_manager-1] [INFO] [1792834986.470600428] [mission_manager]: görev bitti: Görev tamam (red ön-yanaşmada (yanal 2 mm, yön 0.1°))
+[mission_manager-1] [INFO] [1792834986.580330483] [mission_manager]: DONE: red ön-yanaşmada (yanal 2 mm, yön 0.1°)
+[mission_manager-1] [INFO] [1792834986.623523210] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792834999.270654294] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792834999.331293778] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792834999.351943363] [mission_manager]: görev başladı (transit red)
+[mission_manager-1] [INFO] [1792834999.469195075] [mission_manager]: FIND_STATION: hedef: red
+[mission_manager-1] [INFO] [1792835000.141690485] [mission_manager]: FIND_STATION: bakış 1: yön 178°, görülen {'neutral': 8}
+[mission_manager-1] [INFO] [1792835003.035814650] [mission_manager]: FIND_STATION: bakış 2: yön -162°, görülen {'neutral': 28}
+[mission_manager-1] [INFO] [1792835005.919778013] [mission_manager]: FIND_STATION: bakış 3: yön -142°, görülen {'neutral': 1}
+[mission_manager-1] [INFO] [1792835008.808591382] [mission_manager]: FIND_STATION: bakış 4: yön -122°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835011.838334345] [mission_manager]: FIND_STATION: bakış 5: yön -102°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835014.856747883] [mission_manager]: TRANSIT: tabela red: 2.56 m, yön 13°
+[mission_manager-1] [INFO] [1792835015.501338331] [mission_manager]: TRANSIT: ayak 1: 2.56 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792835026.826848971] [mission_manager]: TRANSIT: ön-yanaşma: 1.43 m, eksen -76.4°
+[mission_manager-1] [INFO] [1792835034.993262176] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835036.540536646] [mission_manager]: PRE_DOCK: düzeltme: yanal -262 mm, mesafe 31 mm, yön -13.9°
+[mission_manager-1] [INFO] [1792835050.043960388] [mission_manager]: görev bitti: Görev tamam (red ön-yanaşmada (yanal -3 mm, yön -0.1°))
+[mission_manager-1] [INFO] [1792835050.107517253] [mission_manager]: DONE: red ön-yanaşmada (yanal -3 mm, yön -0.1°)
+[mission_manager-1] [INFO] [1792835050.136885201] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835062.991511827] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835063.053853774] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792835063.074109194] [mission_manager]: görev başladı (transit green)
+[mission_manager-1] [INFO] [1792835063.226098268] [mission_manager]: FIND_STATION: hedef: green
+[mission_manager-1] [INFO] [1792835063.880291841] [mission_manager]: FIND_STATION: bakış 1: yön -90°, görülen {'neutral': 13}
+[mission_manager-1] [INFO] [1792835066.808765764] [mission_manager]: FIND_STATION: bakış 2: yön -70°, görülen {'neutral': 32}
+[mission_manager-1] [INFO] [1792835069.790481531] [mission_manager]: FIND_STATION: bakış 3: yön -50°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835072.661049507] [mission_manager]: FIND_STATION: bakış 4: yön -30°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835075.564957407] [mission_manager]: FIND_STATION: bakış 5: yön -10°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835078.510869080] [mission_manager]: FIND_STATION: bakış 6: yön 9°, görülen {'neutral': 0, 'red': 28}
+[mission_manager-1] [INFO] [1792835081.377174313] [mission_manager]: FIND_STATION: bakış 7: yön 29°, görülen {'neutral': 0, 'red': 34}
+[mission_manager-1] [INFO] [1792835084.032698687] [mission_manager]: FIND_STATION: bakış 8: yön 49°, görülen {'neutral': 0, 'red': 18}
+[mission_manager-1] [INFO] [1792835086.864522169] [mission_manager]: FIND_STATION: bakış 9: yön 69°, görülen {'neutral': 0, 'red': 0, 'blue': 23}
+[mission_manager-1] [INFO] [1792835089.829515011] [mission_manager]: FIND_STATION: bakış 10: yön 89°, görülen {'neutral': 0, 'red': 0, 'blue': 29}
+[mission_manager-1] [INFO] [1792835092.672943449] [mission_manager]: FIND_STATION: bakış 11: yön 109°, görülen {'neutral': 0, 'red': 0, 'blue': 34}
+[mission_manager-1] [INFO] [1792835095.581307204] [mission_manager]: FIND_STATION: bakış 12: yön 129°, görülen {'neutral': 0, 'red': 0, 'blue': 0}
+[mission_manager-1] [INFO] [1792835098.478633674] [mission_manager]: TRANSIT: tabela green: 2.57 m, yön 11°
+[mission_manager-1] [INFO] [1792835099.351803417] [mission_manager]: TRANSIT: ayak 1: 2.58 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792835109.546269713] [mission_manager]: TRANSIT: ön-yanaşma: 1.47 m, eksen 173.1°
+[mission_manager-1] [INFO] [1792835119.181532410] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835120.581509285] [mission_manager]: PRE_DOCK: düzeltme: yanal 119 mm, mesafe 74 mm, yön 6.8°
+[mission_manager-1] [INFO] [1792835133.709330691] [mission_manager]: görev bitti: Görev tamam (green ön-yanaşmada (yanal 5 mm, yön 0.3°))
+[mission_manager-1] [INFO] [1792835133.809326111] [mission_manager]: DONE: green ön-yanaşmada (yanal 5 mm, yön 0.3°)
+[mission_manager-1] [INFO] [1792835133.838979073] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835145.318733997] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835145.379338413] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792835145.399639559] [mission_manager]: görev başladı (transit green)
+[mission_manager-1] [INFO] [1792835145.542381729] [mission_manager]: FIND_STATION: hedef: green
+[mission_manager-1] [INFO] [1792835146.148054911] [mission_manager]: FIND_STATION: bakış 1: yön 180°, görülen {'neutral': 19}
+[mission_manager-1] [INFO] [1792835148.754028113] [mission_manager]: FIND_STATION: bakış 2: yön -161°, görülen {'neutral': 37}
+[mission_manager-1] [INFO] [1792835151.159284937] [mission_manager]: FIND_STATION: bakış 3: yön -141°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835153.764502421] [mission_manager]: FIND_STATION: bakış 4: yön -121°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835156.369069770] [mission_manager]: FIND_STATION: bakış 5: yön -101°, görülen {'neutral': 3}
+[mission_manager-1] [INFO] [1792835158.971643767] [mission_manager]: FIND_STATION: bakış 6: yön -81°, görülen {'neutral': 0, 'red': 38}
+[mission_manager-1] [INFO] [1792835161.575271900] [mission_manager]: FIND_STATION: bakış 7: yön -61°, görülen {'neutral': 0, 'red': 39}
+[mission_manager-1] [INFO] [1792835163.980358908] [mission_manager]: FIND_STATION: bakış 8: yön -41°, görülen {'neutral': 0, 'red': 4}
+[mission_manager-1] [INFO] [1792835166.584897719] [mission_manager]: FIND_STATION: bakış 9: yön -21°, görülen {'neutral': 0, 'red': 0, 'blue': 38}
+[mission_manager-1] [INFO] [1792835169.190193690] [mission_manager]: FIND_STATION: bakış 10: yön -1°, görülen {'neutral': 0, 'red': 0, 'blue': 40}
+[mission_manager-1] [INFO] [1792835171.796294765] [mission_manager]: FIND_STATION: bakış 11: yön 19°, görülen {'neutral': 0, 'red': 0, 'blue': 46}
+[mission_manager-1] [INFO] [1792835174.407706071] [mission_manager]: FIND_STATION: bakış 12: yön 39°, görülen {'neutral': 1, 'red': 0, 'blue': 0}
+[mission_manager-1] [INFO] [1792835177.009019026] [mission_manager]: TRANSIT: tabela green: 2.63 m, yön 9°
+[mission_manager-1] [INFO] [1792835177.608879151] [mission_manager]: TRANSIT: ayak 1: 2.64 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792835187.628697325] [mission_manager]: TRANSIT: ayak 2: 1.50 m → 0.20 m ileri
+[mission_manager-1] [INFO] [1792835191.432422454] [mission_manager]: TRANSIT: ön-yanaşma: 1.33 m, eksen 89.9°
+[mission_manager-1] [INFO] [1792835202.043946671] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835203.645290000] [mission_manager]: PRE_DOCK: düzeltme: yanal -53 mm, mesafe 85 mm, yön -2.2°
+[mission_manager-1] [INFO] [1792835218.134330969] [mission_manager]: görev bitti: Görev tamam (green ön-yanaşmada (yanal -3 mm, yön -0.1°))
+[mission_manager-1] [INFO] [1792835218.283911512] [mission_manager]: DONE: green ön-yanaşmada (yanal -3 mm, yön -0.1°)
+[mission_manager-1] [INFO] [1792835218.325634456] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835229.660855123] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835229.721535699] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792835229.741942814] [mission_manager]: görev başladı (transit green)
+[mission_manager-1] [INFO] [1792835229.813232616] [mission_manager]: FIND_STATION: hedef: green
+[mission_manager-1] [INFO] [1792835230.412953711] [mission_manager]: FIND_STATION: bakış 1: yön 88°, görülen {'neutral': 17}
+[mission_manager-1] [INFO] [1792835233.031502286] [mission_manager]: FIND_STATION: bakış 2: yön 108°, görülen {'neutral': 39}
+[mission_manager-1] [INFO] [1792835235.645792666] [mission_manager]: FIND_STATION: bakış 3: yön 127°, görülen {'neutral': 4}
+[mission_manager-1] [INFO] [1792835238.254522223] [mission_manager]: FIND_STATION: bakış 4: yön 147°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835240.658788717] [mission_manager]: FIND_STATION: bakış 5: yön 167°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835243.284878476] [mission_manager]: FIND_STATION: bakış 6: yön -173°, görülen {'neutral': 0, 'red': 40}
+[mission_manager-1] [INFO] [1792835245.887528108] [mission_manager]: FIND_STATION: bakış 7: yön -153°, görülen {'neutral': 0, 'red': 54}
+[mission_manager-1] [INFO] [1792835248.490130078] [mission_manager]: FIND_STATION: bakış 8: yön -133°, görülen {'neutral': 0, 'red': 38}
+[mission_manager-1] [INFO] [1792835251.093057966] [mission_manager]: FIND_STATION: bakış 9: yön -113°, görülen {'neutral': 0, 'red': 0, 'blue': 47}
+[mission_manager-1] [INFO] [1792835253.696402727] [mission_manager]: FIND_STATION: bakış 10: yön -93°, görülen {'neutral': 0, 'red': 0, 'blue': 38}
+[mission_manager-1] [INFO] [1792835256.099538238] [mission_manager]: FIND_STATION: bakış 11: yön -73°, görülen {'neutral': 0, 'red': 0, 'blue': 52}
+[mission_manager-1] [INFO] [1792835258.699602702] [mission_manager]: FIND_STATION: bakış 12: yön -53°, görülen {'neutral': 0, 'red': 0, 'blue': 0}
+[mission_manager-1] [INFO] [1792835261.308605986] [mission_manager]: TRANSIT: tabela green: 2.50 m, yön 14°
+[mission_manager-1] [INFO] [1792835261.908433541] [mission_manager]: TRANSIT: ayak 1: 2.56 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792835272.135100034] [mission_manager]: TRANSIT: ön-yanaşma: 1.47 m, eksen -0.9°
+[mission_manager-1] [INFO] [1792835282.963612609] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835284.568622301] [mission_manager]: PRE_DOCK: düzeltme: yanal -3 mm, mesafe 92 mm, yön 0.7°
+[mission_manager-1] [INFO] [1792835300.840540694] [mission_manager]: görev bitti: Görev tamam (green ön-yanaşmada (yanal 0 mm, yön -0.1°))
+[mission_manager-1] [INFO] [1792835300.990457965] [mission_manager]: DONE: green ön-yanaşmada (yanal 0 mm, yön -0.1°)
+[mission_manager-1] [INFO] [1792835301.009820849] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835312.432302101] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835312.493056307] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792835312.513419388] [mission_manager]: görev başladı (transit blue)
+[mission_manager-1] [INFO] [1792835312.704978585] [mission_manager]: FIND_STATION: hedef: blue
+[mission_manager-1] [INFO] [1792835313.308981687] [mission_manager]: FIND_STATION: bakış 1: yön -0°, görülen {'neutral': 20}
+[mission_manager-1] [INFO] [1792835315.912792695] [mission_manager]: FIND_STATION: bakış 2: yön 20°, görülen {'neutral': 39}
+[mission_manager-1] [INFO] [1792835318.324731407] [mission_manager]: FIND_STATION: bakış 3: yön 40°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835320.933431550] [mission_manager]: FIND_STATION: bakış 4: yön 59°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835323.536454830] [mission_manager]: FIND_STATION: bakış 5: yön 79°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835326.146802320] [mission_manager]: FIND_STATION: bakış 6: yön 99°, görülen {'neutral': 0, 'red': 41}
+[mission_manager-1] [INFO] [1792835328.754083559] [mission_manager]: FIND_STATION: bakış 7: yön 119°, görülen {'neutral': 0, 'red': 44}
+[mission_manager-1] [INFO] [1792835331.356664102] [mission_manager]: FIND_STATION: bakış 8: yön 139°, görülen {'neutral': 0, 'red': 23}
+[mission_manager-1] [INFO] [1792835333.959028267] [mission_manager]: TRANSIT: tabela blue: 3.24 m, yön 21°
+[mission_manager-1] [INFO] [1792835334.559037382] [mission_manager]: TRANSIT: ayak 1: 3.22 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792835345.176377685] [mission_manager]: TRANSIT: ayak 2: 2.18 m → 0.88 m ileri
+[mission_manager-1] [INFO] [1792835352.987618561] [mission_manager]: TRANSIT: ön-yanaşma: 1.26 m, eksen 175.3°
+[mission_manager-1] [INFO] [1792835360.192591053] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835361.594110157] [mission_manager]: PRE_DOCK: düzeltme: yanal 90 mm, mesafe 27 mm, yön 4.3°
+[mission_manager-1] [INFO] [1792835373.656229291] [mission_manager]: görev bitti: Görev tamam (blue ön-yanaşmada (yanal 3 mm, yön -0.0°))
+[mission_manager-1] [INFO] [1792835373.806198080] [mission_manager]: DONE: blue ön-yanaşmada (yanal 3 mm, yön -0.0°)
+[mission_manager-1] [INFO] [1792835373.854668258] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835385.442932882] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835385.503523692] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792835385.523930041] [mission_manager]: görev başladı (transit blue)
+[mission_manager-1] [INFO] [1792835385.722085598] [mission_manager]: FIND_STATION: hedef: blue
+[mission_manager-1] [INFO] [1792835386.321925177] [mission_manager]: FIND_STATION: bakış 1: yön 180°, görülen {'neutral': 17}
+[mission_manager-1] [INFO] [1792835388.928165840] [mission_manager]: FIND_STATION: bakış 2: yön -160°, görülen {'neutral': 38}
+[mission_manager-1] [INFO] [1792835391.336610331] [mission_manager]: FIND_STATION: bakış 3: yön -140°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835393.941686209] [mission_manager]: FIND_STATION: bakış 4: yön -121°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835396.545825754] [mission_manager]: FIND_STATION: bakış 5: yön -101°, görülen {'neutral': 3}
+[mission_manager-1] [INFO] [1792835399.151061677] [mission_manager]: FIND_STATION: bakış 6: yön -81°, görülen {'neutral': 0, 'red': 41}
+[mission_manager-1] [INFO] [1792835401.755410664] [mission_manager]: FIND_STATION: bakış 7: yön -61°, görülen {'neutral': 0, 'red': 37}
+[mission_manager-1] [INFO] [1792835404.357988509] [mission_manager]: FIND_STATION: bakış 8: yön -41°, görülen {'neutral': 0, 'red': 6}
+[mission_manager-1] [INFO] [1792835406.759493268] [mission_manager]: TRANSIT: tabela blue: 3.21 m, yön 20°
+[mission_manager-1] [INFO] [1792835407.559874589] [mission_manager]: TRANSIT: ayak 1: 3.17 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792835417.993759187] [mission_manager]: TRANSIT: ayak 2: 2.17 m → 0.87 m ileri
+[mission_manager-1] [INFO] [1792835426.017744599] [mission_manager]: TRANSIT: ön-yanaşma: 1.27 m, eksen -7.5°
+[mission_manager-1] [INFO] [1792835433.227805728] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835434.835631775] [mission_manager]: PRE_DOCK: düzeltme: yanal 105 mm, mesafe 23 mm, yön 5.1°
+[mission_manager-1] [INFO] [1792835446.608108005] [mission_manager]: görev bitti: Görev tamam (blue ön-yanaşmada (yanal 2 mm, yön -0.0°))
+[mission_manager-1] [INFO] [1792835446.659676974] [mission_manager]: DONE: blue ön-yanaşmada (yanal 2 mm, yön -0.0°)
+[mission_manager-1] [INFO] [1792835446.662652661] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835458.190270839] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835458.251572409] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792835458.271744352] [mission_manager]: görev başladı (transit blue)
+[mission_manager-1] [INFO] [1792835458.370583120] [mission_manager]: FIND_STATION: hedef: blue
+[mission_manager-1] [INFO] [1792835458.973911005] [mission_manager]: FIND_STATION: bakış 1: yön -2°, görülen {'neutral': 17}
+[mission_manager-1] [INFO] [1792835461.578563976] [mission_manager]: FIND_STATION: bakış 2: yön 18°, görülen {'neutral': 39}
+[mission_manager-1] [INFO] [1792835464.182362585] [mission_manager]: FIND_STATION: bakış 3: yön 37°, görülen {'neutral': 4}
+[mission_manager-1] [INFO] [1792835466.583744645] [mission_manager]: FIND_STATION: bakış 4: yön 57°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835469.186323565] [mission_manager]: FIND_STATION: bakış 5: yön 77°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792835471.795716618] [mission_manager]: FIND_STATION: bakış 6: yön 97°, görülen {'neutral': 0, 'red': 37}
+[mission_manager-1] [INFO] [1792835474.403715167] [mission_manager]: FIND_STATION: bakış 7: yön 117°, görülen {'neutral': 0, 'red': 62}
+[mission_manager-1] [INFO] [1792835477.010483788] [mission_manager]: FIND_STATION: bakış 8: yön 137°, görülen {'neutral': 0, 'red': 39}
+[mission_manager-1] [INFO] [1792835479.615593412] [mission_manager]: TRANSIT: tabela blue: 3.21 m, yön 21°
+[mission_manager-1] [INFO] [1792835480.215347514] [mission_manager]: TRANSIT: ayak 1: 3.17 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792835490.631997530] [mission_manager]: TRANSIT: ayak 2: 2.22 m → 0.92 m ileri
+[mission_manager-1] [INFO] [1792835499.247019349] [mission_manager]: TRANSIT: ön-yanaşma: 1.22 m, eksen -179.4°
+[mission_manager-1] [INFO] [1792835504.857077671] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835506.315167626] [mission_manager]: görev bitti: Görev tamam (blue ön-yanaşmada (yanal -18 mm, yön -0.8°))
+[mission_manager-1] [INFO] [1792835506.464846716] [mission_manager]: DONE: blue ön-yanaşmada (yanal -18 mm, yön -0.8°)
+[mission_manager-1] [INFO] [1792835506.515808681] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835515.874797777] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835515.935794288] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792835515.955925802] [mission_manager]: görev başladı (transit neutral)
+[mission_manager-1] [INFO] [1792835516.111289170] [mission_manager]: FIND_STATION: hedef: neutral
+[mission_manager-1] [INFO] [1792835516.714597466] [mission_manager]: FIND_STATION: bakış 1: yön -180°, görülen {'red': 17}
+[mission_manager-1] [INFO] [1792835519.123484434] [mission_manager]: FIND_STATION: bakış 2: yön -160°, görülen {'red': 40}
+[mission_manager-1] [INFO] [1792835521.726811267] [mission_manager]: FIND_STATION: bakış 3: yön -140°, görülen {'red': 0}
+[mission_manager-1] [INFO] [1792835524.330403226] [mission_manager]: FIND_STATION: bakış 4: yön -120°, görülen {'red': 0}
+[mission_manager-1] [INFO] [1792835526.934669778] [mission_manager]: FIND_STATION: bakış 5: yön -100°, görülen {'red': 0}
+[mission_manager-1] [INFO] [1792835529.540664299] [mission_manager]: FIND_STATION: bakış 6: yön -80°, görülen {'red': 0, 'blue': 35}
+[mission_manager-1] [INFO] [1792835532.147924867] [mission_manager]: FIND_STATION: bakış 7: yön -60°, görülen {'red': 0, 'blue': 37}
+[mission_manager-1] [INFO] [1792835534.549399241] [mission_manager]: FIND_STATION: bakış 8: yön -40°, görülen {'red': 0, 'blue': 43}
+[mission_manager-1] [INFO] [1792835537.151943484] [mission_manager]: FIND_STATION: bakış 9: yön -20°, görülen {'red': 0, 'blue': 0}
+[mission_manager-1] [INFO] [1792835539.755506050] [mission_manager]: FIND_STATION: bakış 10: yön -0°, görülen {'red': 0, 'blue': 0}
+[mission_manager-1] [INFO] [1792835542.373407303] [mission_manager]: FIND_STATION: bakış 11: yön 19°, görülen {'red': 0, 'blue': 0}
+[mission_manager-1] [INFO] [1792835544.978361580] [mission_manager]: FIND_STATION: neutral tabelası: 2 ölçüm, kestirim yok (yayılım [0.01, 0.0] m)
+[mission_manager-1] [INFO] [1792835544.978672751] [mission_manager]: FIND_STATION: bakış 12: yön 39°, görülen {'red': 0, 'blue': 0, 'neutral': 2}
+[mission_manager-1] [INFO] [1792835547.381981662] [mission_manager]: FIND_STATION: neutral tabelası: 1 ölçüm, kestirim yok (yayılım [0.0, 0.0] m)
+[mission_manager-1] [INFO] [1792835547.382349546] [mission_manager]: FIND_STATION: bakış 13: yön 59°, görülen {'red': 0, 'blue': 0, 'neutral': 1}
+[mission_manager-1] [INFO] [1792835549.984474267] [mission_manager]: TRANSIT: tabela neutral: 2.26 m, yön -35°
+[mission_manager-1] [INFO] [1792835550.585835846] [mission_manager]: TRANSIT: tabela görülmedi, saklı kestirimle (1)
+[mission_manager-1] [INFO] [1792835550.586120749] [mission_manager]: TRANSIT: ayak 1: 2.26 m → 0.96 m ileri
+[mission_manager-1] [INFO] [1792835561.397671416] [mission_manager]: TRANSIT: ön-yanaşma: 1.32 m, eksen 92.5°
+[mission_manager-1] [INFO] [1792835575.631106660] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835577.232054716] [mission_manager]: PRE_DOCK: düzeltme: yanal -98 mm, mesafe 52 mm, yön -2.0°
+[mission_manager-1] [INFO] [1792835590.000357916] [mission_manager]: görev bitti: Görev tamam (neutral ön-yanaşmada (yanal -3 mm, yön -0.1°))
+[mission_manager-1] [INFO] [1792835590.049876693] [mission_manager]: DONE: neutral ön-yanaşmada (yanal -3 mm, yön -0.1°)
+[mission_manager-1] [INFO] [1792835590.080620471] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835598.025182806] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835598.086187112] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792835598.106806039] [mission_manager]: görev başladı (transit neutral)
+[mission_manager-1] [INFO] [1792835598.258361910] [mission_manager]: FIND_STATION: hedef: neutral
+[mission_manager-1] [INFO] [1792835598.860835847] [mission_manager]: FIND_STATION: bakış 1: yön 90°, görülen {'green': 18}
+[mission_manager-1] [INFO] [1792835601.474496438] [mission_manager]: FIND_STATION: bakış 2: yön 110°, görülen {'green': 38}
+[mission_manager-1] [INFO] [1792835603.880620736] [mission_manager]: FIND_STATION: bakış 3: yön 130°, görülen {'green': 0}
+[mission_manager-1] [INFO] [1792835606.487331212] [mission_manager]: FIND_STATION: bakış 4: yön 150°, görülen {'green': 0}
+[mission_manager-1] [INFO] [1792835609.099641324] [mission_manager]: FIND_STATION: bakış 5: yön 170°, görülen {'green': 0}
+[mission_manager-1] [INFO] [1792835611.703172764] [mission_manager]: FIND_STATION: bakış 6: yön -170°, görülen {'green': 0}
+[mission_manager-1] [INFO] [1792835614.305339527] [mission_manager]: TRANSIT: tabela neutral: 2.23 m, yön 17°
+[mission_manager-1] [INFO] [1792835614.905160154] [mission_manager]: TRANSIT: ayak 1: 2.24 m → 0.94 m ileri
+[mission_manager-1] [INFO] [1792835624.950137940] [mission_manager]: TRANSIT: ön-yanaşma: 1.25 m, eksen -171.3°
+[mission_manager-1] [INFO] [1792835637.363503166] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835638.963441791] [mission_manager]: PRE_DOCK: düzeltme: yanal -118 mm, mesafe 18 mm, yön -8.4°
+[mission_manager-1] [INFO] [1792835650.465669933] [mission_manager]: görev bitti: Görev tamam (neutral ön-yanaşmada (yanal -24 mm, yön -0.1°))
+[mission_manager-1] [INFO] [1792835650.565696351] [mission_manager]: DONE: neutral ön-yanaşmada (yanal -24 mm, yön -0.1°)
+[mission_manager-1] [INFO] [1792835650.597372170] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835658.381206909] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792835658.441942805] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792835658.462144994] [mission_manager]: görev başladı (transit neutral)
+[mission_manager-1] [INFO] [1792835658.565103775] [mission_manager]: FIND_STATION: hedef: neutral
+[mission_manager-1] [INFO] [1792835659.165080439] [mission_manager]: FIND_STATION: bakış 1: yön -180°, görülen {'blue': 17}
+[mission_manager-1] [INFO] [1792835661.765104482] [mission_manager]: FIND_STATION: bakış 2: yön -160°, görülen {'blue': 39}
+[mission_manager-1] [INFO] [1792835664.164878430] [mission_manager]: FIND_STATION: bakış 3: yön -140°, görülen {'blue': 0}
+[mission_manager-1] [INFO] [1792835666.765067653] [mission_manager]: FIND_STATION: bakış 4: yön -120°, görülen {'blue': 0}
+[mission_manager-1] [INFO] [1792835669.365149977] [mission_manager]: FIND_STATION: bakış 5: yön -100°, görülen {'blue': 0}
+[mission_manager-1] [INFO] [1792835671.965074937] [mission_manager]: FIND_STATION: bakış 6: yön -80°, görülen {'blue': 0, 'green': 36}
+[mission_manager-1] [INFO] [1792835674.565082282] [mission_manager]: FIND_STATION: bakış 7: yön -60°, görülen {'blue': 0, 'green': 43}
+[mission_manager-1] [INFO] [1792835677.164838286] [mission_manager]: FIND_STATION: bakış 8: yön -40°, görülen {'blue': 0, 'green': 40}
+[mission_manager-1] [INFO] [1792835679.565270410] [mission_manager]: TRANSIT: tabela neutral: 3.22 m, yön 21°
+[mission_manager-1] [INFO] [1792835680.365481369] [mission_manager]: TRANSIT: ayak 1: 3.22 m → 1.00 m ileri
+[mission_manager-1] [INFO] [1792835690.765043058] [mission_manager]: TRANSIT: tabela görülmedi, saklı kestirimle (1)
+[mission_manager-1] [INFO] [1792835690.765213501] [mission_manager]: TRANSIT: ayak 2: 2.22 m → 0.92 m ileri
+[mission_manager-1] [INFO] [1792835699.166845485] [mission_manager]: TRANSIT: ön-yanaşma: 1.21 m, eksen 0.1°
+[mission_manager-1] [INFO] [1792835704.966794828] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792835706.417870245] [mission_manager]: görev bitti: Görev tamam (neutral ön-yanaşmada (yanal 4 mm, yön 0.2°))
+[mission_manager-1] [INFO] [1792835706.567794737] [mission_manager]: DONE: neutral ön-yanaşmada (yanal 4 mm, yön 0.2°)
+[mission_manager-1] [INFO] [1792835706.571207344] [mission_manager]: mod: Manuel
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [mission_manager-1]: sending signal 'SIGINT' to process[mission_manager-1]
+[mission_manager-1] Traceback (most recent call last):
+[mission_manager-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/forklift_autonomy/mission_manager", line 33, in <module>
+[mission_manager-1]     sys.exit(load_entry_point('forklift-autonomy==0.1.0', 'console_scripts', 'mission_manager')())
+[mission_manager-1]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[mission_manager-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/python3.12/site-packages/forklift_autonomy/node.py", line 357, in main
+[mission_manager-1]     node.destroy_node()
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1958, in destroy_node
+[mission_manager-1]     self.destroy_subscription(self._subscriptions[0])
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1854, in destroy_subscription
+[mission_manager-1]     subscription.destroy()
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/subscription.py", line 101, in destroy
+[mission_manager-1]     self.handle.destroy_when_not_in_use()
+[mission_manager-1] KeyboardInterrupt
+[ERROR] [mission_manager-1]: process has died [pid 27910, exit code -2, cmd '/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/forklift_autonomy/mission_manager --ros-args -r __node:=mission_manager --params-file /tmp/launch_params_tkkpalhe --params-file /tmp/launch_params_l1nebkcn'].

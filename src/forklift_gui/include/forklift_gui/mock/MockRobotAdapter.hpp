@@ -16,6 +16,7 @@
 #include "forklift_gui/core/GuiConfig.hpp"
 #include "forklift_gui/core/SteadyClock.hpp"
 #include "forklift_gui/core/Types.hpp"
+#include "forklift_gui/core/ports/IAutonomyPort.hpp"
 #include "forklift_gui/core/ports/ICameraPort.hpp"
 #include "forklift_gui/core/ports/ILogPort.hpp"
 #include "forklift_gui/core/ports/IRobotCommandPort.hpp"
@@ -151,6 +152,34 @@ private:
 // Sahte robot: DiffDrive gibi son komutu tutan tek tekerlekli kinematik,
 // 0.05 m/s çatal, RTF 1 saat, sentetik kareler/tespitler ve /rosout satırları.
 // E-stop etkinken hedef hız sıfırdır (cmd_vel_gate davranışı, D-24).
+// Sahte görev yöneticisi: komutları kaydeder, hemen yanıtlar; görev advance() ile
+// durumdan duruma ilerler (uygulamada zamanlayıcı, testlerde elle).
+class MockAutonomyPort : public IAutonomyPort
+{
+  Q_OBJECT
+
+public:
+  explicit MockAutonomyPort(ClockFn clock, QObject * parent = nullptr);
+
+  void request(Command command) override;
+  // Durumu yayınlar (uygulamada 5 Hz).
+  void publish();
+  // Görevi bir durum ilerletir.
+  void advance();
+
+  const QVector<int> & requests() const { return requests_; }
+  AutonomyStatus status() const { return status_; }
+  // Testler: yanıtın başarısız olmasını zorlar.
+  void setReject(bool reject) { reject_ = reject; }
+
+private:
+  ClockFn clock_;
+  AutonomyStatus status_;
+  QString pausedFrom_;
+  QVector<int> requests_;
+  bool reject_{false};
+};
+
 class MockRobotAdapter : public QObject
 {
   Q_OBJECT
@@ -163,6 +192,7 @@ public:
   MockStatePort * state() { return state_; }
   MockCameraPort * camera() { return camera_; }
   MockLogPort * log() { return log_; }
+  MockAutonomyPort * autonomy() { return autonomy_; }
 
   // Zamanlayıcılar ve kare iş parçacığı; birim testler çağırmaz.
   void start();
@@ -182,6 +212,9 @@ private:
   MockStatePort * state_;
   MockCameraPort * camera_;
   MockLogPort * log_;
+  MockAutonomyPort * autonomy_;
+  QTimer autonomyTimer_;
+  int autonomyTicks_{0};
 
   QTimer stepTimer_;
   QTimer clockTimer_;

@@ -24,6 +24,14 @@ class RobotGeometry:
         self.fork_top0 = fk['ground_z_bottom'] + fk['size']['z']
         self.parcel_size = parcel_size        # (x, y, z), katalogdan
         self.caster_x = params['caster']['x']  # sarhoş teker temas noktası (gövde önden kalkınca pivot)
+        self.wheel_y = params['drive_wheel']['separation'] / 2.0
+
+    def tilt_pivot(self, pitch, roll):
+        """Eğik gövdenin zeminde kalan noktası (yaklaşık): burun yukarıda sarhoş teker, aşağıda tahrik
+        tekerlekleri; yana yatıkken alçak taraftaki tahrik tekerleği."""
+        x = self.caster_x if pitch > 0 else 0.0
+        y = -self.wheel_y if roll > 0 else (self.wheel_y if roll < 0 else 0.0)
+        return np.array([x, y, 0.0])
 
     @classmethod
     def load(cls, robot_params_path, parcel_size):

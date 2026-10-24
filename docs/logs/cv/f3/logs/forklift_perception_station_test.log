@@ -1,0 +1,22 @@
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-23-19-23-54-181375-muhammet61-66781
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [front_perception-1]: process started with pid [66796]
+[INFO] [lane_perception-2]: process started with pid [66797]
+[lane_perception-2] [WARN] [1792772634.978204525] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[lane_perception-2] [WARN] [1792772634.978215697] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[front_perception-1] [WARN] [1792772635.000433370] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[front_perception-1] [WARN] [1792772635.000448312] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[front_perception-1] [INFO] [1792772637.881442599] [front_perception]: kalibrasyon: /home/muhammet61/cv_forklift_ws/install/forklift_perception/share/forklift_perception/config/calibration/sim_front_camera.yaml (cx 319.80, cy 239.52)
+[lane_perception-2] [INFO] [1792772637.954450698] [lane_perception]: kalibrasyon: /home/muhammet61/cv_forklift_ws/install/forklift_perception/share/forklift_perception/config/calibration/sim_lane_camera.yaml (cx 319.77, cy 239.38)
+[front_perception-1] [INFO] [1792772648.767194960] [front_perception]: 22.4 kare/s, ortalama 19.7 ms
+[lane_perception-2] [INFO] [1792772648.894369611] [lane_perception]: 16.0 kare/s, ortalama 66.7 ms
+[front_perception-1] [INFO] [1792772658.892104667] [front_perception]: 22.0 kare/s, ortalama 29.6 ms
+[lane_perception-2] [INFO] [1792772658.955072276] [lane_perception]: 12.4 kare/s, ortalama 79.8 ms
+[front_perception-1] [INFO] [1792772669.051405609] [front_perception]: 22.1 kare/s, ortalama 26.9 ms
+[lane_perception-2] [INFO] [1792772669.185982804] [lane_perception]: 21.6 kare/s, ortalama 44.7 ms
+[front_perception-1] [INFO] [1792772679.592921786] [front_perception]: 23.0 kare/s, ortalama 26.1 ms
+[lane_perception-2] [INFO] [1792772679.739575162] [lane_perception]: 11.3 kare/s, ortalama 92.0 ms
+[front_perception-1] [INFO] [1792772689.694923083] [front_perception]: 22.5 kare/s, ortalama 26.6 ms
+[lane_perception-2] [INFO] [1792772689.771540032] [lane_perception]: 11.4 kare/s, ortalama 86.6 ms
+[front_perception-1] [INFO] [1792772699.761594625] [front_perception]: 25.5 kare/s, ortalama 20.3 ms
+[lane_perception-2] [INFO] [1792772699.835067396] [lane_perception]: 23.7 kare/s, ortalama 36.2 ms

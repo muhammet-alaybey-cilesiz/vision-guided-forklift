@@ -342,7 +342,8 @@ def task_odom(pr, res):
 # =============================================================================
 #  record: çevrimdışı küme
 # =============================================================================
-RECORD_SETS = {'f1': ('stations', 'loaded', 'lanes'), 'f2': ('align', 'align_loaded', 'far', 'occupancy', 'entry')}
+RECORD_SETS = {'f1': ('stations', 'loaded', 'lanes'), 'f2': ('align', 'align_loaded', 'far', 'occupancy', 'entry'),
+               'f3': ('entry',)}
 
 
 def record_views(es, sets):
@@ -469,6 +470,15 @@ def task_record(pr, res, data_dir, sets=('f1',), resume=False):
         with open(os.path.join(root, 'meta.json'), 'w') as f:
             json.dump(meta, f, indent=1)
     views = record_views(es, sets)
+    # IMU eğim kestiricisi: robot başlangıç pozunda (düz zemin) seviye kalibrasyonu
+    import yaml
+    from ament_index_python.packages import get_package_share_directory
+    with open(os.path.join(get_package_share_directory('forklift_perception'), 'config', 'detectors.yaml')) as f:
+        acfg = yaml.safe_load(f)['attitude']
+    simt.place_robot(gz, (0.0, 0.0), 0.0, settle=0.5)
+    pr.ros.start_attitude(acfg['tau'], acfg['level_samples'], acfg['acc_tol'], acfg['gyro_tol'])
+    pr.att_wait = 5.0 * acfg['tau']
+    gz.wait_sim(acfg['level_samples'] / 100.0 + 1.0)
     state = {'layout': 'bilinmiyor', 'loaded': None}      # ilk görüşte yerleşim ve yük kurulur
     n_ok = n_skip = 0
     failed = []
@@ -521,8 +531,11 @@ def _record_one(pr, v, vid, p_xy, yaw, state):
     pr.place(p_xy, yaw)
     if v['load']:
         pr.parcel_on_fork(load_name, gz.fork())
+    gz.wait_sim(pr.att_wait)                 # IMU süzgeci yeni duruşa otursun (5 tau; ışınlamayı jiroskop görmez)
     frames, bf, q = pr.capture()
+    att = pr.ros.attitude()
     rec = dict(v, id=vid, robot_bf={'p': bf.p.tolist(), 'R': bf.R.tolist()}, fork_q=q,
+               imu_attitude=None if att is None else [float(att[0]), float(att[1])],
                parcels={n: {'p': gz.model(n).p.tolist(), 'R': gz.model(n).R.tolist()}
                         for n, _, _ in pr.parcels if gz.model(n) is not None},
                stamps={SHORT[c]: frames[c][0] for c in CAMS})

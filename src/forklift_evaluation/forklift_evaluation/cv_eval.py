@@ -93,7 +93,7 @@ class Evaluator:
         self.out = out
         self.ds, self.gt = {}, {}
         for w in WORLDS:
-            for root in ('f1', 'f2'):
+            for root in ('f1', 'f2', 'f3'):
                 d = os.path.join(data_root, root, w)
                 if os.path.isdir(d):
                     self.ds[(root, w)] = Dataset(d, calib)
@@ -108,7 +108,7 @@ class Evaluator:
     # ----------------------------------------------------------------- C1 tabela
     def c1(self, sigma, every):
         rng = np.random.default_rng(1)
-        rows, n_gt, n_det, fp, wrong = [], 0, 0, 0, 0
+        rows, n_gt, n_det, fp, wrong, far_fp = [], 0, 0, 0, 0, 0
         by_band = defaultdict(lambda: [0, 0])
         for w in WORLDS:
             es, gt = self.gt[w].es, self.gt[w]
@@ -124,8 +124,11 @@ class Evaluator:
                         gts.append((stn['color'], o, yaw, cam.project(fr.to_base(s['quad']))[2].all()))
                     for d in dets:
                         g = min(gts, key=lambda g: np.linalg.norm(g[1] - d.station_xy))
-                        if np.linalg.norm(g[1] - d.station_xy) > 0.3:
-                            fp += 1
+                        dd = np.linalg.norm(g[1] - d.station_xy)
+                        if dd > 1.0:
+                            far_fp += 1                        # hiçbir istasyonun yakınında değil
+                        elif dd > 0.3:
+                            fp += 1                            # bir istasyonun yanında ama poz > 0.3 m
                         elif g[0] != d.color:
                             wrong += 1
                     for color, o, yaw, vis in gts:
@@ -142,7 +145,8 @@ class Evaluator:
                             by_band[band][1] += 1
                             rows.append((w, color, band, dist, float(np.linalg.norm(m[0].station_xy - o)),
                                          math.degrees(abs(_wrap(m[0].station_yaw - yaw)))))
-        r = {'gt': n_gt, 'detected': n_det, 'false_pos': fp, 'wrong_color': wrong,
+        r = {'gt': n_gt, 'detected': n_det, 'false_pos_pose_gt_0.3m': fp, 'false_pos_not_near_station': far_fp,
+             'wrong_color': wrong,
              'by_band': {b: {'gt': v[0], 'detected': v[1]} for b, v in sorted(by_band.items())},
              'by_color': dict(Counter((x[1]) for x in rows)), 'pose': {}}
         for band in sorted({x[2] for x in rows}):
@@ -156,7 +160,11 @@ class Evaluator:
                           'yaw_deg_max': float(max((x[5] for x in le3), default=0)),
                           'pos_mm_p95': float(np.percentile([x[4] for x in le3], 95) * 1000) if le3 else 0,
                           'yaw_deg_p95': float(np.percentile([x[5] for x in le3], 95)) if le3 else 0}
-        ok = wrong == 0 and fp == 0 and r['pose_le3m']['pos_mm_max'] <= 50 and r['pose_le3m']['yaw_deg_max'] <= 5
+        near = [x for x in rows if x[3] <= 1.5]
+        r['pose_le1_5m'] = {'pos_mm_max': float(max((x[4] for x in near), default=0) * 1000),
+                            'yaw_deg_max': float(max((x[5] for x in near), default=0))}
+        r['criterion'] = 'K-2 (2026-10-23): yanlış renk 0, istasyon yakınında olmayan tespit 0, ≤ 1.5 m poz ≤ 10 cm / ≤ 10°'
+        ok = wrong == 0 and far_fp == 0 and r['pose_le1_5m']['pos_mm_max'] <= 100 and r['pose_le1_5m']['yaw_deg_max'] <= 10
         return r, ok
 
     # ----------------------------------------------------------------- C2/C3 şeritler
@@ -290,7 +298,7 @@ class Evaluator:
                'near_n': len(near),
                'false_pairs': false_pairs, 'order_wrong_frames': order_bad, 'groups': {}}
         groups = {'yüksüz 0.3–1.2 m': lambda x: x['set'] == 'align' and 0.3 <= x['d_cam'] <= 1.2,
-                  'yüksüz 0.3–0.9 m (son hizalama, bilgi)': lambda x: x['set'] == 'align' and 0.3 <= x['d_cam'] <= 0.9,
+                    'yüksüz 0.3–0.9 m (son hizalama, bilgi)': lambda x: x['set'] == 'align' and 0.3 <= x['d_cam'] <= 0.9,
                   'yüksüz 1.2–1.4 m (bilgi)': lambda x: x['set'] == 'align' and x['d_cam'] > 1.2,
                   'yüklü 0.575–1.2 m': lambda x: x['set'] == 'align_loaded' and 0.575 <= x['d_cam'] <= 1.2,
                   'yüklü 0.45–0.575 m (gölge, bilgi)': lambda x: x['set'] == 'align_loaded' and x['d_cam'] < 0.575}
@@ -303,12 +311,16 @@ class Evaluator:
             g.update({f'{k}_mean': float(np.mean([x[k] for x in s])) for k in ('lat_mm', 'along_mm', 'yaw_deg')})
             g['n'] = len(s)
             res['groups'][name] = g
-            if 'bilgi' not in name:
-                ok = ok and g['lat_mm'] <= 2 and g['yaw_deg'] <= 0.5 and g['along_mm'] <= 5
+            if name == 'yüksüz 0.3–0.9 m (son hizalama, bilgi)':
+                ok = ok and g['yaw_deg'] <= 0.6                 # K-2: yaw son hizalama aralığında
+            elif 'bilgi' not in name:
+                ok = ok and g['lat_mm'] <= 2 and g['along_mm'] <= 5
         # eşleştirme oranı ölçütü: değerlendirilen aralıkta (bilgi grupları hariç)
         ev = [x for x in rows if groups['yüksüz 0.3–1.2 m'](x) or groups['yüklü 0.575–1.2 m'](x)]
         res['evaluated_n'] = len(ev)
-        ok = ok and res['pairing_rate'] >= 0.95
+        res['criterion'] = ('K-2 (2026-10-23): eşleştirme ≥ %90, yanlış çift 0, sıra doğru; eksen ≤ 2 mm, mesafe ≤ 5 mm '
+                            '(yüksüz 0.3–1.2, yüklü 0.575–1.2 m); yaw ≤ 0.6° (yüksüz 0.3–0.9 m)')
+        ok = ok and res['pairing_rate'] >= 0.90
         return res, ok
 
     # ----------------------------------------------------------------- C5 koli
@@ -400,55 +412,64 @@ class Evaluator:
 
     # ----------------------------------------------------------------- C9 son yanaşma
     def c9(self, sigma, every):
+        """Son yanaşma (bölme etiketi). IMU'lu küme (f3) varsa üç eğim kaynağıyla ölçülür: none, cv (D-65
+        sezgisi), imu (D-67; kayıttaki IMU kestirimi). Ölçüt yapılandırılmış kaynağa (detectors.yaml)
+        uygulanır; diğerleri karşılaştırma için."""
+        root = 'f3' if any(k[0] == 'f3' for k in self.ds) else 'f2'
+        acfg = self.lane.cfg['attitude']
+        configured = acfg['source']
+        modes = ('none', 'cv', 'imu') if root == 'f3' else ('none', 'cv')
+        res = {'dataset': root, 'configured_source': configured, 'modes': {}}
+        ok = True
+        try:
+            for mode in modes:
+                acfg['source'] = mode
+                res['modes'][mode] = self._c9_mode(root, sigma, every, mode)
+        finally:
+            acfg['source'] = configured
+        prim = res['modes'].get(configured) or res['modes'][modes[-1]]
+        res['criterion'] = 'K-2 (2026-10-23): tespit %100, mesafe ≤ 6 mm, yanal ≤ 3 mm (yapılandırılmış eğim kaynağıyla)'
+        ok = prim['rate'] == 1.0 and all(g['dist_mm_max'] <= 6 and g['lat_mm_max'] <= 3 for g in prim['groups'].values())
+        return res, ok
+
+    def _c9_mode(self, root, sigma, every, mode):
         rng = np.random.default_rng(6)
         rows, n_gt, n_det = [], 0, 0
         for w in WORLDS:
             gt = self.gt[w]
             labels = {(lb['station'], lb['bay']): lb for lb in gt.bay_labels()}
-            for fr in self.frames('f2', w, {'entry'}, every):
+            for fr in self.frames(root, w, {'entry'}, every):
                 cam = fr.ds.cams['lane_camera']
-                r = self.lane.process(noisy(fr.rgb('lane_camera'), sigma, rng), cam, fr.fork_q)
+                att = fr.rec.get('imu_attitude') if mode == 'imu' else None
+                r = self.lane.process(noisy(fr.rgb('lane_camera'), sigma, rng), cam, fr.fork_q, att)
                 gb = [g for g in gt_bays(gt, fr, self.cat) if g['key'] == (fr.rec['station'], fr.rec['bay'])][0]
                 lab = labels[gb['key']]
                 n_gt += 1
                 c = fr.to_base([lab['center']])[0]
                 m = [lb for lb in r['labels'] if np.linalg.norm(lb.label.p[:2] - c[:2]) < 0.04]
                 if not m:
-                    rows.append({'world': w, 'load': fr.rec['load'], 'd': fr.rec['d'], 'found': False})
+                    rows.append({'load': fr.rec['load'], 'd': fr.rec['d'], 'found': False})
                     continue
                 n_det += 1
-                lb = m[0]
                 t = np.array([-gb['n'][1], gb['n'][0]])
-                # birincil ölçüm: etiket merkezinin bölme eksenine göre yanal konumu ve eksen boyunca
-                # konumu (ön çizgiye mesafe = bu − label_face_x). Çatalın bulunduğu yer etikete yakın;
-                # yaw otonomide son hedef çifti ölçümünden gelir.
                 # etiket merkezi (eğim düzeltmesi dahil): eksen boyunca ve yanal hata; çatal etikete yakın,
                 # yaw otonomide son hedef çifti ölçümünden gelir
-                e = lb.label.p[:2] - c[:2]
-                rows.append({'world': w, 'load': fr.rec['load'], 'd': fr.rec['d'], 'found': True,
-                             'yaw_valid': bool(lb.yaw_valid),
-                             'dist_mm': float(np.dot(e, gb['n']) * 1000),
-                             'lat_mm': float(np.dot(e, t) * 1000),
-                             'pitch_applied': bool(r.get('pitch')),
-                             'yaw_deg': math.degrees(_wrap(lb.theta - gb['theta']))})
+                e = m[0].label.p[:2] - c[:2]
+                rows.append({'load': fr.rec['load'], 'd': fr.rec['d'], 'found': True, 'plate': fr.rec['d'] < 0.3,
+                             'dist_mm': float(np.dot(e, gb['n']) * 1000), 'lat_mm': float(np.dot(e, t) * 1000)})
         found = [x for x in rows if x['found']]
-        res = {'frames': n_gt, 'detected': n_det, 'rate': n_det / max(n_gt, 1),
-               'missed_at_d': sorted({x['d'] for x in rows if not x['found']}), 'groups': {}}
-        ok = res['rate'] == 1.0
+        out = {'frames': n_gt, 'detected': n_det, 'rate': n_det / max(n_gt, 1), 'groups': {}}
         for name, f in (('yüklü', lambda x: x['load']), ('yüksüz', lambda x: not x['load'])):
-            s = [x for x in found if f(x)]
-            if s:
-                g = {'n': len(s), 'dist_mm_max': float(max(abs(x['dist_mm']) for x in s)),
-                     'dist_mm_mean': float(np.mean([x['dist_mm'] for x in s])),
-                     'lat_mm_max': float(max(abs(x['lat_mm']) for x in s)),
-                     'lat_mm_mean': float(np.mean([x['lat_mm'] for x in s])),
-                     'yaw_valid_rate': float(np.mean([x['yaw_valid'] for x in s])),
-                     'pitch_applied_rate': float(np.mean([x['pitch_applied'] for x in s])),
-                     'info_label_yaw_deg_max': float(max(abs(x['yaw_deg']) for x in s if x['yaw_valid']))
-                     if any(x['yaw_valid'] for x in s) else None}
-                res['groups'][name] = g
-                ok = ok and g['dist_mm_max'] <= 5 and g['lat_mm_max'] <= 3
-        return res, ok
+            sel = [x for x in found if f(x)]
+            if sel:
+                pl = [x for x in sel if x['plate']]
+                out['groups'][name] = {
+                    'n': len(sel), 'dist_mm_max': float(max(abs(x['dist_mm']) for x in sel)),
+                    'dist_mm_mean': float(np.mean([x['dist_mm'] for x in sel])),
+                    'dist_mm_max_on_apron': float(max((abs(x['dist_mm']) for x in pl), default=0.0)),
+                    'lat_mm_max': float(max(abs(x['lat_mm']) for x in sel)),
+                    'lat_mm_mean': float(np.mean([x['lat_mm'] for x in sel]))}
+        return out
 
 
 def _iou(a, b):

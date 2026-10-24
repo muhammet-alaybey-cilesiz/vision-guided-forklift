@@ -15,17 +15,19 @@ import time
 import cv2
 import numpy as np
 import rclpy
+from rclpy.executors import ExternalShutdownException
 from geometry_msgs.msg import Point, Pose2D
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from rclpy.time import Time
-from sensor_msgs.msg import CameraInfo, Image, JointState
+from sensor_msgs.msg import CameraInfo, Image, Imu, JointState
 from tf2_ros import Buffer, TransformListener
 from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithPose
 
 from forklift_interfaces.msg import (BayTarget, BayTargetArray, Lane, LaneArray, LoadState, Parcel,
                                      ParcelArray, StationSign, StationSignArray)
 from forklift_perception.core import calibration as cal
+from forklift_perception.core.attitude import AttitudeEstimator
 from forklift_perception.core import pipelines
 from forklift_perception.core.camera_model import CameraModel
 
@@ -67,7 +69,7 @@ class PerceptionNode(Node):
         self.create_subscription(Image, p['image_topic'], self._on_image, qos_profile_sensor_data)
         self.debug_pub = self.create_publisher(Image, f'/perception/debug/{p["camera_name"].split("_")[0]}', 1) \
             if p['publish_debug_images'] else None
-        self.stats = {'frames': 0, 'proc_s': 0.0}
+        self.stats = {'frames': 0, 'proc_s': 0.0, 'errors': 0}
         self.create_timer(10.0, self._report)
 
     def extra_params(self):
@@ -101,7 +103,13 @@ class PerceptionNode(Node):
                 self._try_model()
             return
         t0 = time.perf_counter()
-        self.process(_rgb(msg), msg.header)
+        try:
+            self.process(_rgb(msg), msg.header)
+        except Exception as e:                      # tek bir bozuk kare düğümü öldürmesin (F4 A2 bulgusu)
+            self.stats['errors'] = self.stats.get('errors', 0) + 1
+            self.get_logger().error(f'kare işlenemedi ({self.stats["errors"]}. hata): {e!r}',
+                                    throttle_duration_sec=5.0)
+            return
         self.stats['frames'] += 1
         self.stats['proc_s'] += time.perf_counter() - t0
 
@@ -109,7 +117,7 @@ class PerceptionNode(Node):
         n = self.stats['frames']
         if n:
             self.get_logger().info(f'{n / 10.0:.1f} kare/s, ortalama {1000 * self.stats["proc_s"] / n:.1f} ms')
-        self.stats = {'frames': 0, 'proc_s': 0.0}
+        self.stats = {'frames': 0, 'proc_s': 0.0, 'errors': self.stats.get('errors', 0)}
 
     def header(self, h):
         h2 = type(h)()
@@ -166,12 +174,20 @@ class LanePerception(PerceptionNode):
         super().__init__('lane_perception')
         self.q = 0.0
         self.create_subscription(JointState, self.p['joint_states_topic'], self._on_js, qos_profile_sensor_data)
+        # gövde eğimi (D-67): yalnız ivme ve açısal hız; açılışta düz zeminde seviye kalibrasyonu
+        acfg = self.lane.cfg['attitude']
+        self.att = AttitudeEstimator(acfg['tau'], acfg['level_samples'], acfg['acc_tol'], acfg['gyro_tol'])
+        self.create_subscription(Imu, self.p['imu_topic'], self._on_imu, qos_profile_sensor_data)
         self.target_pub = self.create_publisher(BayTargetArray, '/perception/bay_targets', 5)
         self.lane_pub = self.create_publisher(LaneArray, '/perception/lanes', 5)
         self.load_pub = self.create_publisher(LoadState, '/perception/load', 5)
 
     def extra_params(self):
-        return ['joint_states_topic', 'fork_joint']
+        return ['joint_states_topic', 'fork_joint', 'imu_topic']
+
+    def _on_imu(self, m):
+        a, w = m.linear_acceleration, m.angular_velocity
+        self.att.update(m.header.stamp.sec + m.header.stamp.nanosec * 1e-9, (a.x, a.y, a.z), (w.x, w.y, w.z))
 
     def _on_js(self, msg):
         for n, pos in zip(msg.name, msg.position):
@@ -179,13 +195,15 @@ class LanePerception(PerceptionNode):
                 self.q = float(pos)
 
     def process(self, rgb, header):
-        r = self.lane.process(rgb, self.cam, self.q)
+        r = self.lane.process(rgb, self.cam, self.q, self.att.value())
         hb = self.header(header)
         bt = BayTargetArray(header=hb)
         for p in r['pairs']:
             m = BayTarget(source=BayTarget.SOURCE_TARGET_PAIR, confidence=float(p.confidence), yaw_valid=True,
                           distance=float(p.distance), baseline_measured=float(p.baseline),
                           entry_in_base=Pose2D(x=float(p.entry_xy[0]), y=float(p.entry_xy[1]), theta=float(p.theta)))
+            mid = (p.left.p + p.right.p) / 2
+            m.anchor_in_base = Point(x=float(mid[0]), y=float(mid[1]), z=float(mid[2]))
             m.targets_px = [Point(x=float(p.left.uv[0]), y=float(p.left.uv[1])),
                             Point(x=float(p.right.uv[0]), y=float(p.right.uv[1]))]
             bt.bays.append(m)
@@ -193,6 +211,8 @@ class LanePerception(PerceptionNode):
             m = BayTarget(source=BayTarget.SOURCE_BAY_LABEL, confidence=float(lb.confidence),
                           yaw_valid=bool(lb.yaw_valid), distance=float(lb.distance), baseline_measured=0.0,
                           entry_in_base=Pose2D(x=float(lb.entry_xy[0]), y=float(lb.entry_xy[1]), theta=float(lb.theta)))
+            lp = lb.label.p
+            m.anchor_in_base = Point(x=float(lp[0]), y=float(lp[1]), z=float(lp[2]))
             pt = Point(x=float(lb.label.uv[0]), y=float(lb.label.uv[1]))
             m.targets_px = [pt, pt]
             bt.bays.append(m)
@@ -243,7 +263,7 @@ def _run(cls):
     node = cls()
     try:
         rclpy.spin(node)
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, ExternalShutdownException):
         pass
     finally:
         node.destroy_node()

@@ -23,5 +23,6 @@ setup(
         'color_stats = forklift_evaluation.color_stats:main',
         'cv_eval = forklift_evaluation.cv_eval:main',
         'perf_probe = forklift_evaluation.perf_probe:main',
+        'mission_acceptance = forklift_evaluation.mission_acceptance:main',
     ]},
 )

@@ -245,6 +245,13 @@ GuiConfig read(Source & source)
   c.fork.presetLabels = r.strList("fork.preset_labels");
   c.fork.presetHeights = r.dblList("fork.preset_heights");
 
+  c.autonomy.stateTopic = r.str("autonomy.state_topic");
+  c.autonomy.modeService = r.str("autonomy.mode_service");
+  c.autonomy.startService = r.str("autonomy.start_service");
+  c.autonomy.pauseService = r.str("autonomy.pause_service");
+  c.autonomy.resumeService = r.str("autonomy.resume_service");
+  c.autonomy.cancelService = r.str("autonomy.cancel_service");
+  c.autonomy.offlineAfter = r.dbl("autonomy.offline_after");
   c.safety.eStopRate = r.dbl("safety.e_stop_rate");
   c.safety.releaseHold = r.dbl("safety.release_hold");
 

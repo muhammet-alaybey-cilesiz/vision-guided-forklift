@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>forklift_autonomy</name>
+  <version>0.1.0</version>
+  <description>
+    Mission manager for the forklift: Manual / Auto mode, a state machine for approach, pick (F3)
+    and later transit and drop, motion primitives and a bay-axis servo. It drives through
+    /cmd_vel/auto (twist_mux priority 50 behind teleop) and /fork/cmd_height, and uses only
+    perception messages, wheel odometry, TF, the fork joint and operator commands
+    (docs/PLAN_CV_AUTONOMY.md, R1/R9).
+  </description>
+  <maintainer email="muhammetclsz61@gmail.com">muhammet61</maintainer>
+  <license>Apache-2.0</license>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>tf2_ros_py</exec_depend>
+  <exec_depend>forklift_interfaces</exec_depend>
+  <exec_depend>forklift_perception</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

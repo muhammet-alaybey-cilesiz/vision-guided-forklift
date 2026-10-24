@@ -23,10 +23,10 @@ $ xacro /home/muhammet61/cv_forklift_ws/install/forklift_description/share/forkl
 -->
 <robot name="forklift">
   <material name="forklift_yellow">
-    <color rgba="0.95 0.72 0.08 1.0"/>
+    <color rgba="0.78 0.45 0.02 1.0"/>
   </material>
   <material name="forklift_dark_grey">
-    <color rgba="0.20 0.20 0.22 1.0"/>
+    <color rgba="0.08 0.08 0.09 1.0"/>
   </material>
   <material name="forklift_steel">
     <color rgba="0.55 0.56 0.60 1.0"/>
@@ -36,6 +36,31 @@ $ xacro /home/muhammet61/cv_forklift_ws/install/forklift_description/share/forkl
   </material>
   <material name="forklift_camera">
     <color rgba="0.10 0.10 0.12 1.0"/>
+  </material>
+  <!-- görünüm (appearance.xacro) -->
+  <material name="forklift_graphite">
+    <color rgba="0.035 0.037 0.042 1.0"/>
+  </material>
+  <material name="forklift_counterweight">
+    <color rgba="0.06 0.062 0.068 1.0"/>
+  </material>
+  <material name="forklift_black">
+    <color rgba="0.012 0.012 0.014 1.0"/>
+  </material>
+  <material name="forklift_glass">
+    <color rgba="0.01 0.015 0.025 1.0"/>
+  </material>
+  <material name="forklift_chrome">
+    <color rgba="0.45 0.46 0.48 1.0"/>
+  </material>
+  <material name="forklift_led">
+    <color rgba="0.85 0.92 0.95 1.0"/>
+  </material>
+  <material name="forklift_amber">
+    <color rgba="0.80 0.36 0.0 1.0"/>
+  </material>
+  <material name="forklift_estop_red">
+    <color rgba="0.62 0.02 0.02 1.0"/>
   </material>
   <link name="base_footprint"/>
   <link name="base_link"/>
@@ -47,11 +72,176 @@ $ xacro /home/muhammet61/cv_forklift_ws/install/forklift_description/share/forkl
   </joint>
   <link name="chassis_link">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0.037500000000000006 0.0 0.01849999999999999"/>
       <geometry>
-        <box size="0.4 0.3 0.15"/>
+        <box size="0.325 0.292 0.09699999999999998"/>
       </geometry>
       <material name="forklift_yellow"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 -0.0525"/>
+      <geometry>
+        <box size="0.4 0.3 0.045"/>
+      </geometry>
+      <material name="forklift_graphite"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0315 0.0 0.07099999999999998"/>
+      <geometry>
+        <box size="0.313 0.26799999999999996 0.008000000000000007"/>
+      </geometry>
+      <material name="forklift_dark_grey"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.14750000000000002 0.0 0.022499999999999992"/>
+      <geometry>
+        <box size="0.04500000000000004 0.3 0.10499999999999998"/>
+      </geometry>
+      <material name="forklift_counterweight"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.18500000000000005 0.0 0.022499999999999992"/>
+      <geometry>
+        <box size="0.02999999999999997 0.24 0.10499999999999998"/>
+      </geometry>
+      <material name="forklift_counterweight"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.17000000000000004 0.12 0.022499999999999992"/>
+      <geometry>
+        <cylinder length="0.10499999999999998" radius="0.03"/>
+      </geometry>
+      <material name="forklift_counterweight"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.17000000000000004 -0.12 0.022499999999999992"/>
+      <geometry>
+        <cylinder length="0.10499999999999998" radius="0.03"/>
+      </geometry>
+      <material name="forklift_counterweight"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.20750000000000002 0.0 -0.0475"/>
+      <geometry>
+        <box size="0.015000000000000013 0.26 0.035"/>
+      </geometry>
+      <material name="forklift_black"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.0325 0.149 -0.017999999999999988"/>
+      <geometry>
+        <box size="0.175 0.006000000000000005 0.013999999999999999"/>
+      </geometry>
+      <material name="forklift_black"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0.035 0.1475 0.057999999999999996"/>
+      <geometry>
+        <box size="0.31 0.0030000000000000027 0.006000000000000005"/>
+      </geometry>
+      <material name="forklift_led"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.0325 -0.149 -0.017999999999999988"/>
+      <geometry>
+        <box size="0.175 0.006000000000000005 0.013999999999999999"/>
+      </geometry>
+      <material name="forklift_black"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0.035 -0.1475 0.057999999999999996"/>
+      <geometry>
+        <box size="0.31 0.0030000000000000027 0.006000000000000005"/>
+      </geometry>
+      <material name="forklift_led"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.15500000000000003 0.0 0.10999999999999999"/>
+      <geometry>
+        <box size="0.050000000000000044 0.12 0.07"/>
+      </geometry>
+      <material name="forklift_graphite"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.15500000000000003 0 0.1625"/>
+      <geometry>
+        <cylinder length="0.03500000000000003" radius="0.03"/>
+      </geometry>
+      <material name="forklift_black"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.15500000000000003 0 0.1625"/>
+      <geometry>
+        <cylinder length="0.01200000000000001" radius="0.031"/>
+      </geometry>
+      <material name="forklift_glass"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.18 0.11 0.07899999999999999"/>
+      <geometry>
+        <cylinder length="0.008000000000000007" radius="0.016"/>
+      </geometry>
+      <material name="forklift_black"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.18 0.11 0.0955"/>
+      <geometry>
+        <cylinder length="0.024999999999999994" radius="0.012"/>
+      </geometry>
+      <material name="forklift_amber"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.18 0.11 0.10799999999999998"/>
+      <geometry>
+        <sphere radius="0.012"/>
+      </geometry>
+      <material name="forklift_amber"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.18 -0.11 0.08399999999999999"/>
+      <geometry>
+        <box size="0.03500000000000003 0.035 0.017999999999999988"/>
+      </geometry>
+      <material name="forklift_yellow"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.18 -0.11 0.09899999999999998"/>
+      <geometry>
+        <cylinder length="0.01200000000000001" radius="0.013"/>
+      </geometry>
+      <material name="forklift_estop_red"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0.185 0.1275 -0.055"/>
+      <geometry>
+        <box size="0.03 0.035 0.03"/>
+      </geometry>
+      <material name="forklift_black"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0.185 -0.1275 -0.055"/>
+      <geometry>
+        <box size="0.03 0.035 0.03"/>
+      </geometry>
+      <material name="forklift_black"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 3.141592653589793" xyz="-0.20080000000000003 0 0.03"/>
+      <geometry>
+        <mesh filename="package://forklift_description/meshes/decals/rear_hazard.obj"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin rpy="0 0 1.5707963267948966" xyz="-0.035 0.14679999999999999 0.017"/>
+      <geometry>
+        <mesh filename="package://forklift_description/meshes/decals/side_label.obj"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin rpy="0 0 -1.5707963267948966" xyz="-0.035 -0.14679999999999999 0.017"/>
+      <geometry>
+        <mesh filename="package://forklift_description/meshes/decals/side_label.obj"/>
+      </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -79,6 +269,13 @@ $ xacro /home/muhammet61/cv_forklift_ws/install/forklift_description/share/forkl
         <cylinder length="0.03" radius="0.05"/>
       </geometry>
       <material name="forklift_rubber"/>
+    </visual>
+    <visual>
+      <origin rpy="-1.5707963267948966 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.034" radius="0.028"/>
+      </geometry>
+      <material name="forklift_yellow"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -108,6 +305,13 @@ $ xacro /home/muhammet61/cv_forklift_ws/install/forklift_description/share/forkl
         <cylinder length="0.03" radius="0.05"/>
       </geometry>
       <material name="forklift_rubber"/>
+    </visual>
+    <visual>
+      <origin rpy="-1.5707963267948966 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.034" radius="0.028"/>
+      </geometry>
+      <material name="forklift_yellow"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -197,6 +401,13 @@ $ xacro /home/muhammet61/cv_forklift_ws/install/forklift_description/share/forkl
         <box size="0.03 0.23 0.03"/>
       </geometry>
     </collision>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.023000000000000007 0 0.2"/>
+      <geometry>
+        <cylinder length="0.39999999999999997" radius="0.01"/>
+      </geometry>
+      <material name="forklift_chrome"/>
+    </visual>
     <inertial>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.2939430894308943"/>
       <mass value="1.0"/>
@@ -350,6 +561,12 @@ $ xacro /home/muhammet61/cv_forklift_ws/install/forklift_description/share/forkl
     <child link="lane_camera_optical_frame"/>
     <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0"/>
   </joint>
+  <link name="imu_link"/>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin rpy="0 0 0" xyz="-0.12 0.0 0.05"/>
+  </joint>
   <gazebo reference="left_wheel_link">
     <mu1>1.0</mu1>
     <mu2>1.0</mu2>
@@ -426,6 +643,67 @@ $ xacro /home/muhammet61/cv_forklift_ws/install/forklift_description/share/forkl
       </camera>
     </sensor>
   </gazebo>
+  <gazebo reference="imu_link">
+    <sensor name="imu" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100.0</update_rate>
+      <topic>/imu</topic>
+      <imu>
+        <angular_velocity>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.002</stddev>
+              <bias_mean>0.0005</bias_mean>
+              <bias_stddev>0.0002</bias_stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.002</stddev>
+              <bias_mean>0.0005</bias_mean>
+              <bias_stddev>0.0002</bias_stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.002</stddev>
+              <bias_mean>0.0005</bias_mean>
+              <bias_stddev>0.0002</bias_stddev>
+            </noise>
+          </z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.02</stddev>
+              <bias_mean>0.01</bias_mean>
+              <bias_stddev>0.005</bias_stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.02</stddev>
+              <bias_mean>0.01</bias_mean>
+              <bias_stddev>0.005</bias_stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.02</stddev>
+              <bias_mean>0.01</bias_mean>
+              <bias_stddev>0.005</bias_stddev>
+            </noise>
+          </z>
+        </linear_acceleration>
+      </imu>
+    </sensor>
+  </gazebo>
   <!-- ============================ 3) Kontrol ========================== -->
   <gazebo>
     <!-- Diferansiyel sürüş: /cmd_vel → tekerlek hız komutları; odometri
@@ -465,6 +743,9 @@ $ xacro /home/muhammet61/cv_forklift_ws/install/forklift_description/share/forkl
       <cmd_max>200.0</cmd_max>
       <cmd_min>-200.0</cmd_min>
     </plugin>
+    <!-- IMU sensörlerini güncelleyen sistem (dünyaya değil robota eklenir; robot kendi
+           sensörünü getirir) -->
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
     <!-- Tüm eklemlerin durumu (joint_name verilmediğinde hepsi yayınlanır) -->
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
       <topic>/joint_states</topic>

@@ -64,3 +64,20 @@ def test_ground_range_matches_hand_calculation():
     half_v = math.atan((H / 2) / F)
     assert near == pytest.approx(0.10 + 0.54 / math.tan(math.radians(45) + half_v), abs=2e-3)
     assert far == pytest.approx(0.10 + 0.54 / math.tan(math.radians(45) - half_v), abs=2e-2)
+
+
+def test_sign_pose_fit_survives_nan_jacobian():
+    """F4 A2 bulgusu: artık sonluyken sonlu farkta bir köşe kameranın arkasına düşünce Jacobian NaN oluyor,
+    lstsq istisna atıp ön algı düğümünü kapatıyordu. Uydurma artık 'başarısız' döner."""
+    from forklift_perception.core.signs import SignDetector
+    det = SignDetector.__new__(SignDetector)
+    det.block_st = np.zeros((4, 3))
+    q = np.array([[300.0, 200.0], [340.0, 200.0], [340.0, 240.0], [300.0, 240.0]])
+    calls = []
+
+    def project(cam, params, pts):                   # ilk çağrı (artık) sonlu, sonlu farklar NaN
+        calls.append(1)
+        return q + 1.0 if len(calls) == 1 else np.full_like(q, np.nan)
+    det._project = project
+    params, err = det._gauss_newton(None, q, np.zeros(3))
+    assert params is None and err == np.inf and len(calls) == 4

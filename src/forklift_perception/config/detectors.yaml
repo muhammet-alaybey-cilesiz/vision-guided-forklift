@@ -70,10 +70,10 @@ signs:                             # istasyon tabelası (ön kamera)
   min_block_area_px: 40            # renk bloğu en küçük alan
   max_reproj_px: 2.5               # blok köşeleri: 3 serbestlikli pozun yeniden izdüşüm hatası
   min_white_fraction: 0.5          # bloğun sağındaki panelde beyaz oranı (yazı ~%20)
-  edge_rows: [0.09, 0.91]
+  edge_rows: [0.09, 0.91]          # sağ kenarın arandığı satırlar (tabela yüksekliğinin oranı; yazısız)
   min_panel_area_px: 200           # panel yolu: beyaz panel en küçük alan
   panel_aspect: [1.6, 4.5]         # panel görüntüde genişlik / yükseklik (gerçek 3; açılı bakış)
-  min_block_fraction: 0.5          # sol karede çoğunluk renginin oranı          # sağ kenarın arandığı satırlar (tabela yüksekliğinin oranı; yazısız)
+  min_block_fraction: 0.5          # sol karede çoğunluk renginin oranı
 
 parcels:                           # koli ve mühür (ön kamera)
   seal_s_min: 150                  # mühür doygunluğu (ölçülen 184–196)
@@ -99,3 +99,10 @@ lane_kind:                         # şerit türü (hedef çiftlerine göre)
 apron:                             # tekerlekler önlük plakasındayken gövde eğimi (D-46)
   edge_margin: 0.005               # ön çizgiye CV mesafesi < apron_depth − bu → eğim uygulanır [m]
   neighbour_tol: 0.05              # komşu bölme: eksen bay_pitch ± bu [m] (o taraftaki teker plakada)
+
+attitude:                          # gövde eğimi kaynağı (D-67)
+  source: imu                      # imu (IMU verilirse; yoksa cv yedeği) | cv (D-65 sezgisi) | none
+  tau: 1.0                         # tamamlayıcı süzgeç zaman sabiti [s]
+  acc_tol: 0.05                    # hareket kapısı: |ivme| − g bundan büyükse ivmeölçer düzeltmesi yok [m/s²]
+  gyro_tol: 0.02                   # … ya da dönüş hızı bundan büyükse [rad/s]
+  level_samples: 200               # açılışta seviye kalibrasyonu (düz zeminde, 100 Hz'de 2 s)

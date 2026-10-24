@@ -31,3 +31,4 @@ lane_perception:
     camera_name: lane_camera
     joint_states_topic: /joint_states
     fork_joint: fork_lift_joint
+    imu_topic: /imu                  # gövde eğimi (D-67); açılışta robot düz zeminde olmalı

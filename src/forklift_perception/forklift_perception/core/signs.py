@@ -231,7 +231,14 @@ class SignDetector:
                 d = np.zeros(3)
                 d[k] = h
                 J[:, k] = (resid(params + d) - r) / h
-            step, *_ = np.linalg.lstsq(J, -r, rcond=None)
+            # sonlu farkta bir nokta kameranın arkasına düşerse J NaN olur; lstsq istisna atar ve
+            # (F4 A2'de) ön algı düğümünü kapatıyordu
+            if not np.all(np.isfinite(J)):
+                return None, np.inf
+            try:
+                step, *_ = np.linalg.lstsq(J, -r, rcond=None)
+            except np.linalg.LinAlgError:
+                return None, np.inf
             params = params + step
             if np.linalg.norm(step) < 1e-7:
                 break

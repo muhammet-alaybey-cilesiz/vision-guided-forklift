@@ -4,7 +4,7 @@
   Robotun Gazebo'ya özgü tüm içeriği bu dosyadadır; forklift.urdf.xacro bunu
   yalnızca use_sim:=true iken dahil eder. Üç bağımsız bölüm:
     1) Yüzey      : sürtünme katsayıları (<gazebo reference> → SDF <surface>)
-    2) Sensörler  : iki kamera sensörü
+    2) Sensörler  : iki kamera sensörü, IMU
     3) Kontrol    : DiffDrive, JointPositionController, JointStatePublisher
                     (gz_ros2_control'e geçişte YALNIZCA bu bölüm değişir)
   Tüm değerler forklift_params.yaml → cfg.gazebo ve cfg.cameras.
@@ -57,6 +57,23 @@
     </gazebo>
   </xacro:macro>
 
+  <!-- IMU ekseni gürültüsü (x, y, z aynı): gz-sensors ImuSensor.cc / sdformat <noise> -->
+  <xacro:macro name="imu_axes" params="n">
+    <xacro:macro name="imu_axis" params="axis">
+      <xacro:element xacro:name="${axis}">
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>${n.stddev}</stddev>
+          <bias_mean>${n.bias_mean}</bias_mean>
+          <bias_stddev>${n.bias_stddev}</bias_stddev>
+        </noise>
+      </xacro:element>
+    </xacro:macro>
+    <xacro:imu_axis axis="x"/>
+    <xacro:imu_axis axis="y"/>
+    <xacro:imu_axis axis="z"/>
+  </xacro:macro>
+
   <xacro:macro name="forklift_gazebo" params="prefix cfg">
     <xacro:property name="gzc" value="${cfg.gazebo}"/>
     <xacro:property name="itf" value="${cfg.gazebo.interface}"/>
@@ -73,6 +90,24 @@
     <!-- =========================== 2) Sensörler ========================= -->
     <xacro:gz_camera_sensor prefix="${prefix}" name="front_camera" cam="${cfg.cameras.front_camera}"/>
     <xacro:gz_camera_sensor prefix="${prefix}" name="lane_camera" cam="${cfg.cameras.lane_camera}"/>
+
+    <!-- IMU (D-67): ivme ve açısal hız, gürültülü; gz-sim-imu-system aşağıda -->
+    <xacro:property name="imu" value="${cfg.imu}"/>
+    <gazebo reference="${prefix}imu_link">
+      <sensor name="imu" type="imu">
+        <always_on>true</always_on>
+        <update_rate>${imu.update_rate}</update_rate>
+        <topic>${imu.topic}</topic>
+        <imu>
+          <angular_velocity>
+            <xacro:imu_axes n="${imu.noise.gyro}"/>
+          </angular_velocity>
+          <linear_acceleration>
+            <xacro:imu_axes n="${imu.noise.accel}"/>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+    </gazebo>
 
     <!-- ============================ 3) Kontrol ========================== -->
     <gazebo>
@@ -122,6 +157,10 @@
           <cmd_min>${-cfg.fork_lift_joint.effort}</cmd_min>
         </xacro:unless>
       </plugin>
+
+      <!-- IMU sensörlerini güncelleyen sistem (dünyaya değil robota eklenir; robot kendi
+           sensörünü getirir) -->
+      <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
 
       <!-- Tüm eklemlerin durumu (joint_name verilmediğinde hepsi yayınlanır) -->
       <plugin filename="gz-sim-joint-state-publisher-system"

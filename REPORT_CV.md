@@ -7,10 +7,10 @@
 | Faz | Durum |
 |---|---|
 | F1 Altyapı ve ölçüm | Tamamlandı (2026-10-21), K-1 onaylandı (2026-10-22) |
-| F2 Algılama | **Tamamlandı (2026-10-22), K-2 onayı bekleniyor** |
-| F3 Alma + GUI modu | Başlamadı |
-| F4 Bırakma + transit | Başlamadı |
-| F5 Görev + sürüm | Başlamadı |
+| F2 Algılama | Tamamlandı (2026-10-22), K-2 onaylandı (2026-10-23) |
+| F3 Alma + GUI modu | Tamamlandı (2026-10-24); sahip F4'e geçilmesini istedi |
+| F4 Bırakma + transit | Tamamlandı (2026-10-24), K-4 onaylandı (2026-10-24) |
+| F5 Görev + sürüm | **Başladı (2026-10-24)** |
 
 ---
 
@@ -252,3 +252,175 @@ ros2 run forklift_evaluation cv_eval --sigma 0,0.007,0.02                       
 ros2 run forklift_evaluation perf_probe --world factory                           # C8
 ros2 launch forklift_perception perception.launch.py debug:=true                  # canlı (sim açıkken)
 ```
+
+---
+
+## F3 — Yanaşma, alma ve GUI modu
+
+### F3.1 Özet
+
+- **Görev yöneticisi** (`forklift_autonomy`, D-68): ROS'tan bağımsız çekirdek (poz matematiği, odometri çerçevesinde bölme izleyici, hareket ilkeleri, bölme ekseni servosu, durum makinesi) + `mission_manager` düğümü.
+- **GUI Manuel / Otonom paneli** (D-69): mod tuşları, görev düğmeleri, durum satırı; çekirdekte kurallar, ROS ve mock adaptörleri.
+- **IMU** (D-67): eğim IMU'dan; ivme ve dönüşte ivmeölçer düzeltmesi kapalı, seviye kalibrasyonu ortancayla.
+- **A1 (σ = 0, 18 deneme × 2 dünya): GEÇTİ.** Alma 36/36, girişte yanal ≤ 3.7 mm, yaw ≤ 0.90°, komşu koliler 0 mm.
+- F3'ün ilk tam koşusunda fabrikada 16/18 vardı. Gözlem tamamlanmadan bölme seçiliyordu; F4'ün başında düzeltildi (D-71).
+
+### F3.2 A1 — yanaşma + alma
+
+Izgara: 3 bölme × 6 başlangıç (0.9–1.5 m, ±15 cm, ±10°). Hedef bölme, soldan ilk dolu olacak şekilde kurulur. Ham sonuç: `docs/logs/cv/f3/a1_<dünya>.json`.
+
+| Dünya | Başarılı alma | Girişte yanal (medyan / en çok) | Girişte yaw (medyan / en çok) | Taşıyıcı önü (hedef −15 ± 10 mm) | Komşu koli | Süre (medyan / en çok) | Sonuç |
+|---|---|---|---|---|---|---|---|
+| station_test | 18/18 | 1.6 / 3.7 mm | 0.33 / 0.90° | −13.6 … −11.5 mm | 0 mm | 31 / 36 s | **GEÇTİ** |
+| factory | 18/18 | 1.7 / 2.1 mm | 0.30 / 0.52° | −14.1 … −10.9 mm | 0 mm | 32 / 41 s | **GEÇTİ** |
+
+Ölçüt: yanal ≤ 1 cm, yaw ≤ 1°, alma başarılı, komşular < 1 mm. Fabrikada 2 denemede robot önce yeniden konumlandı (REPOSITION, D-71).
+
+**A1'in geçmişi:**
+
+| Koşu | Sonuç | Sebep | Düzeltme |
+|---|---|---|---|
+| F3 ilk tam koşu (factory) | 16/18 | Seçim 1.6 s'de, bölmelerin bir kısmı doğrulanmadan yapılıyordu. Bir denemede yanlış bölmeye girildi ve komşu koli 498 mm itildi. Bir denemede "dolu bölme görülmedi" | Gözlem tamamlanma kuralı ve kanıtlı "boş" (D-71) |
+| F4 ara koşu (factory) | 16/18 | Aynı iki poz. O pozlardan uçtaki bölmenin hedef çifti **hiç** algılanmıyor (C4'teki kayıplardan biri), ön kamera ise kolisini görüyor | Sahipsiz koli → kolinin önüne yeniden konumlan (REPOSITION, D-71) |
+| F4 ara koşu (station_test) | 18/18, yaw 1.11° (KALDI) | Koşunun ilk denemesi ışınlamadan 1 s sonra başlıyordu. IMU süzgeci oturmamıştı | Test, ışınlamadan sonra 5τ bekliyor (D-75) |
+| **Son koşu** | **36/36** | | |
+
+### F3.3 GUI
+
+- Birim ve entegrasyon testleri: **164 test, 0 hata** (`colcon test --packages-select forklift_gui`).
+- Mock adaptörle panel görüntüsü: `docs/images/cv/gui_autonomy_panel_mock.png`.
+- GUI durum adlarını sabit listeden değil `/autonomy/state`'ten okuyor; F4'ün yeni durumları için GUI değişikliği gerekmedi.
+
+---
+
+## F4 — Bırakma ve transit
+
+### F4.1 Özet
+
+- **Durum makinesi genelleştirildi** (D-74): aynı yanaşma kodu alma ve bırakmada kullanılıyor. Görevler: `pick`, `drop`, `transit`, `full`. GUI her zaman `full` çalıştırıyor; diğerleri testler için. `full` (kaynağa git → al → mühür rengindeki istasyona git → bırak → … kaynak boşalınca DONE) kinematik testte iki yöntemle de 3/3 koliyi doğru istasyonun orta bölmesine taşıyor. Simülasyonda F5'te (A4) sınanacak.
+- **Transit, station_test** (D-72): dur-bak arama, tabelaya doğru ≤ 1 m'lik ayaklar, yakında tabela ekseni, ön-yanaşmada hedef çiftleriyle inceltme (PRE_DOCK).
+- **Transit, factory** (D-73): şeride giriş (tabelaya en yakın aday), şerit ekseni servosu, durma çizgisinin 0.40 m önünde durma, PRE_DOCK.
+- **Kabul (σ = 0, iki dünya): A1 GEÇTİ (36/36), A2 GEÇTİ (36/36), A3 GEÇTİ (18/18).** Gerileme: S 6/6, T 13/13 (T2 çalıştırılamadı, sebep §F4.6'da).
+- **Hangi kodla ölçüldü:** A1/A2'nin son koşusundan sonra yalnız transit yolu değişti (yarım adım kaydırmalı ikinci arama turu, nötr istasyonun sarı şerit eşlemesi). Bu değişiklikler `pick`/`drop` görevlerinde çalışmıyor. A3 bu son kodla koşuldu (factory: şerit eşlemesinden sonra; station_test: arama turundan sonra).
+- **F4 sırasında bulunan ve düzeltilen bir algı hatası** (D-75): ön algı düğümü, tabela pozu uydururken NaN'a düşünce sessizce kapanıyordu (çıkış kodu 0). Bu, fabrikadaki "boş bölme yok" hatalarının asıl sebebiydi.
+
+### F4.2 A2 — yüklü yanaşma + bırakma
+
+Izgara: 3 hedef istasyon × 3 doluluk durumu × 2 başlangıç (0.8–1.5 m, ±15 cm, ±10°). Doluluk durumları: hepsi boş → **orta**; orta dolu → **sol**; orta ve sol dolu → **sağ** (K10). Koli, alma sonrası ölçülen yerde çatala konur (taban + 0.255 m; A1'de 0.2525 m). Ham sonuç: `docs/logs/cv/f4/a2_<dünya>.json`.
+
+| Dünya | Doğru bölmeye bırakma | Ofset (medyan / en çok) | Eğim | Taban z | Girişte yanal / yaw (en çok) | Komşu koli | Süre (medyan / en çok) | Sonuç |
+|---|---|---|---|---|---|---|---|---|
+| station_test | 18/18 | 3.5 / 4.4 mm | 0.00° | 50.0 mm | 3.0 mm / 0.57° | 0 mm | 32 / 49 s | **GEÇTİ** |
+| factory | 18/18 | 3.9 / 5.4 mm | 0.00° | 50.0 mm | 3.3 mm / 0.59° | 0 mm | 33 / 38 s | **GEÇTİ** |
+
+Ölçüt: ofset ≤ 15 mm, eğim < 2°, taban 50 ± 2 mm, doğru bölme, komşular < 1 mm. station_test'te 1 denemede robot hedef bölmenin çiftini göremedi. "Boş bölme yok" demek yerine istasyon ortasından yeniden gözledi (D-71) ve doğru bölmeye bıraktı.
+
+**A2'nin geçmişi:**
+
+| Koşu | Sonuç | Sebep | Düzeltme |
+|---|---|---|---|
+| İlk tam koşular | station_test 17/18, factory 12/18 | factory: ön algı düğümü 13. denemeden sonra çökmüş (D-75); station_test: hedef bölmenin çifti görülmüyor | D-75; karar verilemezse geniş açıdan yeniden gözlem (D-71) |
+| Ara koşu | station_test 18/18 doğru bölme, ofset 15.4 mm (KALDI) | Test düzeneği: kullanılmayan koliler yeşil istasyonun sol bölmesinin önüne park ediliyordu; taşınan koli ona sürtünüp çatalda 6–8 mm kayıyordu. Önce yüklü dönüşü yavaşlatmayı denedim, etkisi olmadı, geri aldım | Park noktaları istasyon aralarındaki köşelere (D-74) |
+| **Son koşu** | **36/36** | | |
+
+### F4.3 A3 — transit
+
+Yüklü transit: kaynağın önünden (alma + geri çıkış sonrası poz, ±3 cm, ±2°) her hedef istasyonun ön-yanaşmasına (istasyon ekseninde ön kenara 0.8 m). Bilgi amaçlı: yüksüz dönüş, her hedeften kaynağa. Ham sonuç: `docs/logs/cv/f4/a3_<dünya>.json`. Şerit izi: `docs/images/cv/f4/a3_lane_traces_factory.png`.
+
+| Dünya (yöntem) | Varış | Ön-yanaşma mesafe (en çok) | Yanal (en çok) | Yaw (en çok) | Şerit RMS (en çok) | Kolinin çatalda kayması | Süre (medyan / en çok) | Sonuç |
+|---|---|---|---|---|---|---|---|---|
+| station_test (tabela) | 9/9 | 24.6 mm | 16.8 mm | 0.78° | — (şerit yok) | ≤ 0.68 mm | 61 / 73 s | **GEÇTİ** |
+| factory (şerit) | 9/9 | 29.0 mm | 3.4 mm | 0.19° | 14.9 mm (diğer 8: 2.0–3.8) | ≤ 0.29 mm | 45 / 62 s | **GEÇTİ** |
+
+Ölçüt: ön-yanaşma ±10 cm / ±5°, şerit sapması RMS ≤ 2 cm (factory), kayma < 1 cm. 14.9 mm'lik denemede şeride giriş 44 mm sapmayla bitti (doğru, girişte uzak noktalardan uyduruluyor), robot 3 s içinde 2–3 mm'ye oturdu; RMS bu geçişi içeriyor. Fabrikadaki mesafe hatası (~25 mm) durma çizgisinin önlüğe göre konumundan geliyor: hat kuralı 0.40 m, gerçek fark biraz daha az. Ön-yanaşma toleransı 5 cm olduğu için PRE_DOCK düzeltme yapmıyor; sonraki hizalama bunu zaten kapatıyor.
+
+**Bilgi: yüksüz dönüş (hedef → kaynak), son iki koşu.**
+
+| Dünya | Varış | Mesafe / yanal / yaw (en çok) |
+|---|---|---|
+| station_test (tabela) | 6/6 | 15.5 mm / 22.2 mm / 0.3° |
+| factory (şerit) | 3/3 | 42.6 mm / 3.3 mm / 0.4° |
+
+Fabrikada iki dönüş sarı kaynak şeridini izledi (RMS 5.1 ve 2.3 mm). Kırmızıdan dönüşte şerit iki girişte de görülmedi; robot tabelayla vardı (sebebi incelenmedi, F5'te tam görevde izlenecek). Bu ölçümden önceki koşularda dönüşlerin **hiçbiri** şerit izlemiyordu. Sebep bir eşleme hatasıydı: kaynak istasyonun rengi `neutral`, şeridi ise `yellow`. Kinematik test de aynı yanlış eşlemeyi kullandığı için hatayı yakalamamıştı. Düzeltildi; test artık şerit yönteminde her bacağın şeritle gidildiğini denetliyor ve eşleme kaldırılınca kalıyor.
+
+**A3'ün geçmişi:**
+
+| Koşu | Sonuç | Sebep | Düzeltme |
+|---|---|---|---|
+| İlk duman testi (factory) | Vardı; şerit RMS 17.5 mm, son yanal 22 mm | Bölme şeritleri ve bant kenarları da "zemin şeridi" (G7); uzun bellek odometriyle eğik | Aday ilişkilendirme, takipte son 0.5 s (RMS 4 mm) |
+| İlk tam koşu (factory) | 7/9 | Uzak noktaları atınca şeride girişte şerit görülmedi | Girişte uzak noktalar, takipte yakın |
+| İlk dönüşler | 1/3 hassas | Nötr tabela bazı açılarda algılanmıyor, ortalama kapısı, 35° eşik | D-72 |
+| Ara koşu (factory dönüş) | 2/3 | 4.9 m'de yanlış pozitif "nötr tabela" | Menzil dışı ret |
+| Ara koşular (factory dönüş) | 3/3 vardı ama hiçbiri şerit izlemedi | Kaynak şeridi sarı, otonomi `neutral` arıyordu | `lane_color: {neutral: yellow}` (katalog `lane_neutral`) |
+| **Son koşu** | **18/18** (+ dönüşler station_test 6/6, factory 3/3) | | |
+
+### F4.4 Bulunan ve düzeltilen hatalar (özet)
+
+| # | Belirti | Kök neden | Düzeltme | Karar |
+|---|---|---|---|---|
+| 1 | A1'de yanlış bölme, komşu koli itildi | Gözlem tamamlanmadan seçim | Kararlı iz + kanıtlı "boş" + kararı değiştiren belirsizliği bekleme | D-71 |
+| 2 | A1/A2'de "kaynak boş", "boş bölme yok" | Bazı pozlardan uç bölmenin hedef çifti hiç algılanmıyor | REPOSITION: sahipsiz koli ya da karar yoksa yeniden konumlan ve gözle | D-71 |
+| 3 | Şerit RMS 17–24 mm, +54 mm salınım | Önlükteki bölme şeritleri ve bant kenarları da "zemin şeridi" olarak geliyor (G7); uzun bellek odometriyle eğiliyor | Aday ilişkilendirme (8 cm kapı), takipte son 0.5 s | D-73 |
+| 4 | Şeride girişte yanıltıcı şerit seçildi (kinematik test) | Doğru yokken "en yakın" kuralı | Doğrusu hedef tabelaya en yakın aday | D-73 |
+| 5 | Kaynağa dönüşte tabela bulunamadı ya da eksen 45° hatalı | Nötr tabela gürültüsüz render'da bazı açılarda hiç algılanmıyor; aykırı kapısı ortalamaya göreydi; 35° eksen eşiği eğik bakışı reddediyordu | 20° adım, yavaşlama anlarındaki ölçümler, ortanca kapı, saklı kestirim, 60° eşik, yarım adım kaydırılmış ikinci tur | D-72 |
+| 6 | Fabrikada 4.9 m'de "nötr tabela" | Yanlış pozitif | Algı menzili dışı ölçüm reddedilir | D-72 |
+| 7 | A2 factory'de toplu "boş bölme yok" | Ön algı düğümü NaN Jacobian'da istisnayla kapanıyordu | Jacobian denetimi + düğümde kare başına koruma; birim testi eski kodda aynı hatayı üretiyor | D-75 |
+| 8 | A2 ofset 15.4 mm | Test: park edilen koli robotun yolunda | Park noktaları taşındı | D-74 |
+| 9 | A1 ilk denemede yaw 1.11° | Test: ışınlamadan sonra IMU süzgeci oturmadan başlanıyordu | 5τ bekleme | D-75 |
+| 10 | Kaynağa dönüşte şerit hiç izlenmiyor | Kaynak `neutral`, şeridi `yellow`; kinematik test aynı hatayı paylaşıyordu | Renk eşlemesi; test şerit takibini denetliyor | D-73 |
+
+### F4.5 Birim testleri
+
+| Paket | Test | Sonuç |
+|---|---|---|
+| `forklift_autonomy` | 19 (kinematik: servo, GoTo, alma, tam görev iki yöntemle, bırakma politikası, transit, gözlem kuralları, REPOSITION, şerit yanıltıcıları, tabela aykırıları) | **19/19 GEÇTİ** |
+| `forklift_perception` | 11 (kamera modeli, katalog, eğim süzgeci, NaN Jacobian) | **11/11 GEÇTİ** |
+| `forklift_evaluation` | 5 | **5/5 GEÇTİ** |
+| `forklift_gui` | 164 | **164/164 GEÇTİ** |
+
+### F4.6 Gerileme
+
+| Test | Sonuç | Not |
+|---|---|---|
+| S1 xacro → SDF | **GEÇTİ** | 15/15 dosya |
+| S2 Geometri | **GEÇTİ** | 1231 denetim, 0 hata |
+| S3 Statik kararlılık | **GEÇTİ** | koli hareketi < 1e-7 mm |
+| S6 Bırakma toleransı | **GEÇTİ** | ±2.5 cm'ye kadar başarılı, ±3 cm beklendiği gibi başarısız |
+| S7 Alma | **GEÇTİ** | bağıl kayma 0.00 mm |
+| S8 Performans | **GEÇTİ** | RTF 1.001, kameralar 30 Hz |
+
+S4/S5 D-56 ile kaldırıldı (S5'in yerine C4). Ham sonuç: `docs/station_test_results.md`.
+
+Bringup değiştiği için (`transit_method` argümanı) T testleri de koşuldu:
+
+| Test | Sonuç |
+|---|---|
+| T1, T3–T14 (13 test) | **13/13 GEÇTİ** (T14 RTF 1.000; T8 yük alma senaryosu dahil) |
+| T2 `colcon build --symlink-install` | **ÇALIŞTIRILAMADI**: betik bütün çalışma alanını yerinde symlink ile derliyor. Bu çalışma alanı symlink'siz derleniyor; bu oturumun başında aynı bayrak CMake önbelleğini bozdu ve 7 paketin `build/` dizini silinip yeniden derlenmek zorunda kalındı. Yerine: değişen 5 paket normal derlemede hatasız ve uyarısız (yalnız colcon'un "underlay" bilgi uyarısı) |
+
+`docs/test_results.md` yalnız koşulan testlerle yeniden üretildi; T2 satırı o dosyada yok.
+
+### F4.7 Açık noktalar ve öneriler (K-4)
+
+| Konu | Durum | Öneri |
+|---|---|---|
+| Uç bölmenin hedef çifti bazı pozlardan hiç algılanmıyor | Otonomi yeniden konumlanarak tolere ediyor (A1'de 2, A2'de 1 deneme) | Algılayıcı tarafında incelenmeli (C4'teki %7 kayıpla aynı aile); F5'ten sonra ya da yol zorlaştırmayla birlikte |
+| Nötr (kaynak) tabelası açıya göre açık-kapalı algılanıyor | Otonomi sık bakışla tolere ediyor | Algılayıcıda koyu blok yolu (D-66 yol A) eğik bakış için incelenmeli; gürültülü render'da (σ > 0) sorun muhtemelen azalır |
+| Algılama düğümü çökmesi | Düzeltildi; test düzeneği düğümlerin yaşadığını denetlemiyordu | Kabul testleri düğüm çıkışını FAULT olarak raporlasın (F5) |
+| Yol zorlaştırma (K-2'de "F4 sonunda") | F4 düz şeritlerle bitti; viraj, silik bant ve gölge plan §1'de dilim 1 dışında | Önerim: önce F5 (tam görev, hata enjeksiyonu, sürüm), sonra ayrı bir dilimde yol zorlaştırma. Şerit mesajı çoklu çizgi olduğu için arayüz hazır; değişecek yer `LaneTracker` (doğru → eğri) |
+| `transit_method` dünyaya göre seçiliyor | Launch argümanı, bringup factory'de `lane` | Gerçek sahada "hat yapılandırması" olarak kalabilir; ya da şerit görülürse şerit, yoksa tabela (otomatik) |
+
+### F4.8 Nasıl çalıştırılır
+
+```bash
+colcon build --packages-select forklift_interfaces forklift_perception forklift_autonomy forklift_evaluation forklift_bringup
+source install/setup.bash
+python3 -m pytest -q src/forklift_autonomy/test src/forklift_perception/test src/forklift_evaluation/test   # 35 birim testi
+ros2 run forklift_evaluation mission_acceptance --test a1 --world factory --trials full
+ros2 run forklift_evaluation mission_acceptance --test a2 --world station_test --trials full
+ros2 run forklift_evaluation mission_acceptance --test a3 --world factory --trials full   # + dönüş (bilgi)
+ros2 run forklift_evaluation mission_acceptance --test a3 --world station_test --trials return
+# iki koşu aynı anda: her birine ayrı GZ_PARTITION ve ROS_DOMAIN_ID
+ros2 launch forklift_bringup bringup.launch.py world:=factory    # GUI'den Otonom → Görevi başlat (tam görev)
+```
+

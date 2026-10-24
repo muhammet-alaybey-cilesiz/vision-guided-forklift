@@ -85,18 +85,304 @@ $ gz sdf -p /home/muhammet61/cv_forklift_ws/docs/logs/T1_forklift_use_sim_false.
         </material>
       </visual>
       <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_1'>
-        <pose>-0.12 0 0.095000000000000001 0 0 0</pose>
+        <pose>-0.08249999999999999 0 0.1135 0 0 0</pose>
         <geometry>
           <box>
-            <size>0.40000000000000002 0.29999999999999999 0.14999999999999999</size>
+            <size>0.32500000000000001 0.29199999999999998 0.096999999999999975</size>
           </box>
         </geometry>
         <material>
-          <diffuse>1 0.900000036 0.099999994 1</diffuse>
-          <ambient>1 0.900000036 0.099999994 1</ambient>
+          <diffuse>0.974999964 0.5625 0.0250000004 1</diffuse>
+          <ambient>0.974999964 0.5625 0.0250000004 1</ambient>
         </material>
       </visual>
-      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_2'>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_2'>
+        <pose>-0.12 0 0.042500000000000003 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.40000000000000002 0.29999999999999999 0.044999999999999998</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0437499993 0.0462500006 0.0524999984 1</diffuse>
+          <ambient>0.0437499993 0.0462500006 0.0524999984 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_3'>
+        <pose>-0.088499999999999995 0 0.16600000000000001 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.313 0.26800000000000002 0.0080000000000000071</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.099999994 0.099999994 0.112500004 1</diffuse>
+          <ambient>0.099999994 0.099999994 0.112500004 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_4'>
+        <pose>-0.26750000000000002 0 0.11749999999999999 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04500000000000004 0.29999999999999999 0.105</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0749999955 0.0775000006 0.0850000009 1</diffuse>
+          <ambient>0.0749999955 0.0775000006 0.0850000009 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_5'>
+        <pose>-0.30499999999999999 0 0.11749999999999999 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.029999999999999971 0.23999999999999999 0.105</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0749999955 0.0775000006 0.0850000009 1</diffuse>
+          <ambient>0.0749999955 0.0775000006 0.0850000009 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_6'>
+        <pose>-0.28999999999999998 0.12 0.11749999999999999 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.105</length>
+            <radius>0.029999999999999999</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.0749999955 0.0775000006 0.0850000009 1</diffuse>
+          <ambient>0.0749999955 0.0775000006 0.0850000009 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_7'>
+        <pose>-0.28999999999999998 -0.12 0.11749999999999999 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.105</length>
+            <radius>0.029999999999999999</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.0749999955 0.0775000006 0.0850000009 1</diffuse>
+          <ambient>0.0749999955 0.0775000006 0.0850000009 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_8'>
+        <pose>-0.32750000000000001 0 0.047500000000000001 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01500000000000001 0.26000000000000001 0.035000000000000003</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0149999997 0.0149999997 0.0175000001 1</diffuse>
+          <ambient>0.0149999997 0.0149999997 0.0175000001 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_9'>
+        <pose>-0.1525 0.14899999999999999 0.077000000000000013 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.17499999999999999 0.0060000000000000053 0.014</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0149999997 0.0149999997 0.0175000001 1</diffuse>
+          <ambient>0.0149999997 0.0149999997 0.0175000001 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_10'>
+        <pose>-0.084999999999999992 0.14749999999999999 0.153 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.31 0.0030000000000000031 0.0060000000000000053</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_11'>
+        <pose>-0.1525 -0.14899999999999999 0.077000000000000013 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.17499999999999999 0.0060000000000000053 0.014</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0149999997 0.0149999997 0.0175000001 1</diffuse>
+          <ambient>0.0149999997 0.0149999997 0.0175000001 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_12'>
+        <pose>-0.084999999999999992 -0.14749999999999999 0.153 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.31 0.0030000000000000031 0.0060000000000000053</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_13'>
+        <pose>-0.27500000000000002 0 0.20499999999999999 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.050000000000000037 0.12 0.070000000000000007</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0437499993 0.0462500006 0.0524999984 1</diffuse>
+          <ambient>0.0437499993 0.0462500006 0.0524999984 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_14'>
+        <pose>-0.27500000000000002 0 0.25750000000000001 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.035000000000000031</length>
+            <radius>0.029999999999999999</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.0149999997 0.0149999997 0.0175000001 1</diffuse>
+          <ambient>0.0149999997 0.0149999997 0.0175000001 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_15'>
+        <pose>-0.27500000000000002 0 0.25750000000000001 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.012000000000000011</length>
+            <radius>0.031</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.0125000002 0.0187499989 0.03125 1</diffuse>
+          <ambient>0.0125000002 0.0187499989 0.03125 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_16'>
+        <pose>-0.29999999999999999 0.11 0.17399999999999999 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.0080000000000000071</length>
+            <radius>0.016</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.0149999997 0.0149999997 0.0175000001 1</diffuse>
+          <ambient>0.0149999997 0.0149999997 0.0175000001 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_17'>
+        <pose>-0.29999999999999999 0.11 0.1905 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.024999999999999991</length>
+            <radius>0.012</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>1 0.450000018 0 1</diffuse>
+          <ambient>1 0.450000018 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_18'>
+        <pose>-0.29999999999999999 0.11 0.20300000000000001 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.012</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <diffuse>1 0.450000018 0 1</diffuse>
+          <ambient>1 0.450000018 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_19'>
+        <pose>-0.29999999999999999 -0.11 0.17899999999999999 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.035000000000000031 0.035000000000000003 0.017999999999999992</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.974999964 0.5625 0.0250000004 1</diffuse>
+          <ambient>0.974999964 0.5625 0.0250000004 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_20'>
+        <pose>-0.29999999999999999 -0.11 0.19400000000000001 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.012000000000000011</length>
+            <radius>0.012999999999999999</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.775000036 0.0250000004 0.0250000004 1</diffuse>
+          <ambient>0.775000036 0.0250000004 0.0250000004 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_21'>
+        <pose>0.065000000000000002 0.1275 0.040000000000000001 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.029999999999999999 0.035000000000000003 0.029999999999999999</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0149999997 0.0149999997 0.0175000001 1</diffuse>
+          <ambient>0.0149999997 0.0149999997 0.0175000001 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_22'>
+        <pose>0.065000000000000002 -0.1275 0.040000000000000001 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.029999999999999999 0.035000000000000003 0.029999999999999999</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0149999997 0.0149999997 0.0175000001 1</diffuse>
+          <ambient>0.0149999997 0.0149999997 0.0175000001 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_23'>
+        <pose>-0.32079999999999997 0 0.125 0 0 3.1415926535897931</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://forklift_description/meshes/decals/rear_hazard.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_24'>
+        <pose>-0.155 0.14680000000000001 0.112 0 0 1.5707963267948959</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://forklift_description/meshes/decals/side_label.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__chassis_link_visual_25'>
+        <pose>-0.155 -0.14680000000000001 0.112 0 0 -1.5707963267948959</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://forklift_description/meshes/decals/side_label.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_26'>
         <pose>0.095000000000000001 0.10000000000000001 0.27000000000000002 0 0 0</pose>
         <geometry>
           <box>
@@ -104,11 +390,11 @@ $ gz sdf -p /home/muhammet61/cv_forklift_ws/docs/logs/T1_forklift_use_sim_false.
           </box>
         </geometry>
         <material>
-          <diffuse>0.25 0.25 0.275000006 1</diffuse>
-          <ambient>0.25 0.25 0.275000006 1</ambient>
+          <diffuse>0.099999994 0.099999994 0.112500004 1</diffuse>
+          <ambient>0.099999994 0.099999994 0.112500004 1</ambient>
         </material>
       </visual>
-      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_3'>
+      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_27'>
         <pose>0.095000000000000001 -0.10000000000000001 0.27000000000000002 0 0 0</pose>
         <geometry>
           <box>
@@ -116,11 +402,11 @@ $ gz sdf -p /home/muhammet61/cv_forklift_ws/docs/logs/T1_forklift_use_sim_false.
           </box>
         </geometry>
         <material>
-          <diffuse>0.25 0.25 0.275000006 1</diffuse>
-          <ambient>0.25 0.25 0.275000006 1</ambient>
+          <diffuse>0.099999994 0.099999994 0.112500004 1</diffuse>
+          <ambient>0.099999994 0.099999994 0.112500004 1</ambient>
         </material>
       </visual>
-      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_4'>
+      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_28'>
         <pose>0.095000000000000001 0 0.505 0 0 0</pose>
         <geometry>
           <box>
@@ -128,11 +414,24 @@ $ gz sdf -p /home/muhammet61/cv_forklift_ws/docs/logs/T1_forklift_use_sim_false.
           </box>
         </geometry>
         <material>
-          <diffuse>0.25 0.25 0.275000006 1</diffuse>
-          <ambient>0.25 0.25 0.275000006 1</ambient>
+          <diffuse>0.099999994 0.099999994 0.112500004 1</diffuse>
+          <ambient>0.099999994 0.099999994 0.112500004 1</ambient>
         </material>
       </visual>
-      <visual name='base_footprint_fixed_joint_lump__front_camera_link_visual_5'>
+      <visual name='base_footprint_fixed_joint_lump__mast_link_visual_29'>
+        <pose>0.071999999999999995 0 0.22 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.40000000000000002</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.5625 0.574999988 0.599999964 1</diffuse>
+          <ambient>0.5625 0.574999988 0.599999964 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__front_camera_link_visual_30'>
         <pose>0.090340741768687449 0 0.45258819056887628 0 0.26179940000000018 0</pose>
         <geometry>
           <box>
@@ -144,7 +443,7 @@ $ gz sdf -p /home/muhammet61/cv_forklift_ws/docs/logs/T1_forklift_use_sim_false.
           <ambient>0.125 0.125 0.149999991 1</ambient>
         </material>
       </visual>
-      <visual name='base_footprint_fixed_joint_lump__lane_camera_link_visual_6'>
+      <visual name='base_footprint_fixed_joint_lump__lane_camera_link_visual_31'>
         <pose>0.09292893244695366 0 0.54707106807068462 0 0.78539820000000005 0</pose>
         <geometry>
           <box>
@@ -210,6 +509,19 @@ $ gz sdf -p /home/muhammet61/cv_forklift_ws/docs/logs/T1_forklift_use_sim_false.
         <material>
           <diffuse>0.0625 0.0625 0.0625 1</diffuse>
           <ambient>0.0625 0.0625 0.0625 1</ambient>
+        </material>
+      </visual>
+      <visual name='left_wheel_link_visual_1'>
+        <pose>0 0 0 -1.5707963267948959 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.034000000000000002</length>
+            <radius>0.028000000000000001</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.974999964 0.5625 0.0250000004 1</diffuse>
+          <ambient>0.974999964 0.5625 0.0250000004 1</ambient>
         </material>
       </visual>
     </link>
@@ -363,6 +675,19 @@ $ gz sdf -p /home/muhammet61/cv_forklift_ws/docs/logs/T1_forklift_use_sim_false.
           <ambient>0.0625 0.0625 0.0625 1</ambient>
         </material>
       </visual>
+      <visual name='right_wheel_link_visual_1'>
+        <pose>0 0 0 -1.5707963267948959 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.034000000000000002</length>
+            <radius>0.028000000000000001</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0.974999964 0.5625 0.0250000004 1</diffuse>
+          <ambient>0.974999964 0.5625 0.0250000004 1</ambient>
+        </material>
+      </visual>
     </link>
     <frame name='caster_joint' attached_to='base_link'>
       <pose>-0.28000000000000003 0 -0.025000000000000001 0 0 0</pose>
@@ -374,6 +699,12 @@ $ gz sdf -p /home/muhammet61/cv_forklift_ws/docs/logs/T1_forklift_use_sim_false.
       <pose>-0.12 0 0.044999999999999998 0 0 0</pose>
     </frame>
     <frame name='chassis_link' attached_to='chassis_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='imu_joint' attached_to='base_link'>
+      <pose>-0.12 0 0.050000000000000003 0 0 0</pose>
+    </frame>
+    <frame name='imu_link' attached_to='imu_joint'>
       <pose>0 0 0 0 0 0</pose>
     </frame>
     <frame name='front_camera_optical_joint' attached_to='front_camera_link'>

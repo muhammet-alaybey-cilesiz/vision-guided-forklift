@@ -1,0 +1,149 @@
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-23-19-14-11-015671-muhammet61-63534
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [front_perception-1]: process started with pid [63548]
+[INFO] [lane_perception-2]: process started with pid [63549]
+[front_perception-1] [WARN] [1792772051.489239380] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[front_perception-1] [WARN] [1792772051.489248795] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[lane_perception-2] [WARN] [1792772051.497739390] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[lane_perception-2] [WARN] [1792772051.497746730] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[front_perception-1] [INFO] [1792772058.026515059] [front_perception]: kalibrasyon: /home/muhammet61/cv_forklift_ws/install/forklift_perception/share/forklift_perception/config/calibration/sim_front_camera.yaml (cx 319.80, cy 239.52)
+[lane_perception-2] [INFO] [1792772058.136390279] [lane_perception]: kalibrasyon: /home/muhammet61/cv_forklift_ws/install/forklift_perception/share/forklift_perception/config/calibration/sim_lane_camera.yaml (cx 319.77, cy 239.38)
+[front_perception-1] [INFO] [1792772068.673760484] [front_perception]: 27.6 kare/s, ortalama 12.1 ms
+[lane_perception-2] [INFO] [1792772068.776883218] [lane_perception]: 21.5 kare/s, ortalama 48.1 ms
+[front_perception-1] [INFO] [1792772078.684367173] [front_perception]: 27.9 kare/s, ortalama 13.5 ms
+[lane_perception-2] [INFO] [1792772078.687701212] [lane_perception]: 21.9 kare/s, ortalama 43.4 ms
+[front_perception-1] [INFO] [1792772088.690350904] [front_perception]: 28.6 kare/s, ortalama 13.4 ms
+[lane_perception-2] [INFO] [1792772088.767491089] [lane_perception]: 26.9 kare/s, ortalama 32.5 ms
+[front_perception-1] [INFO] [1792772099.095206261] [front_perception]: 28.4 kare/s, ortalama 11.0 ms
+[lane_perception-2] [INFO] [1792772099.175340223] [lane_perception]: 17.9 kare/s, ortalama 57.2 ms
+[front_perception-1] [INFO] [1792772109.101458316] [front_perception]: 27.9 kare/s, ortalama 11.8 ms
+[lane_perception-2] [INFO] [1792772109.132948200] [lane_perception]: 21.6 kare/s, ortalama 45.2 ms
+[front_perception-1] [INFO] [1792772119.106082156] [front_perception]: 28.5 kare/s, ortalama 13.4 ms
+[lane_perception-2] [INFO] [1792772119.189020864] [lane_perception]: 28.5 kare/s, ortalama 29.6 ms
+[front_perception-1] [INFO] [1792772129.512762474] [front_perception]: 28.0 kare/s, ortalama 13.2 ms
+[lane_perception-2] [INFO] [1792772129.600547925] [lane_perception]: 18.8 kare/s, ortalama 54.5 ms
+[front_perception-1] [INFO] [1792772139.519395104] [front_perception]: 28.2 kare/s, ortalama 12.4 ms
+[lane_perception-2] [INFO] [1792772139.582037836] [lane_perception]: 18.7 kare/s, ortalama 52.5 ms
+[front_perception-1] [INFO] [1792772149.534078201] [front_perception]: 28.2 kare/s, ortalama 14.0 ms
+[lane_perception-2] [INFO] [1792772149.588815713] [lane_perception]: 28.3 kare/s, ortalama 28.9 ms
+[front_perception-1] [INFO] [1792772159.926200653] [front_perception]: 27.9 kare/s, ortalama 12.2 ms
+[lane_perception-2] [INFO] [1792772159.982146791] [lane_perception]: 20.3 kare/s, ortalama 50.4 ms
+[front_perception-1] [INFO] [1792772169.941252213] [front_perception]: 27.9 kare/s, ortalama 12.3 ms
+[lane_perception-2] [INFO] [1792772169.983238571] [lane_perception]: 20.7 kare/s, ortalama 47.5 ms
+[front_perception-1] [INFO] [1792772179.946951952] [front_perception]: 28.3 kare/s, ortalama 14.0 ms
+[lane_perception-2] [INFO] [1792772180.004453082] [lane_perception]: 29.2 kare/s, ortalama 28.9 ms
+[front_perception-1] [INFO] [1792772190.549139902] [front_perception]: 28.1 kare/s, ortalama 12.4 ms
+[lane_perception-2] [INFO] [1792772190.647095265] [lane_perception]: 20.2 kare/s, ortalama 51.9 ms
+[front_perception-1] [INFO] [1792772200.756490060] [front_perception]: 27.9 kare/s, ortalama 12.1 ms
+[lane_perception-2] [INFO] [1792772200.838008269] [lane_perception]: 16.7 kare/s, ortalama 60.2 ms
+[front_perception-1] [INFO] [1792772210.750866335] [front_perception]: 27.1 kare/s, ortalama 13.5 ms
+[lane_perception-2] [INFO] [1792772210.769792111] [lane_perception]: 24.2 kare/s, ortalama 37.3 ms
+[front_perception-1] [INFO] [1792772221.161644246] [front_perception]: 28.4 kare/s, ortalama 12.3 ms
+[lane_perception-2] [INFO] [1792772221.265888840] [lane_perception]: 26.0 kare/s, ortalama 36.1 ms
+[front_perception-1] [INFO] [1792772231.177312145] [front_perception]: 27.9 kare/s, ortalama 12.5 ms
+[lane_perception-2] [INFO] [1792772231.264632062] [lane_perception]: 17.0 kare/s, ortalama 58.0 ms
+[front_perception-1] [INFO] [1792772241.173329249] [front_perception]: 27.7 kare/s, ortalama 22.5 ms
+[lane_perception-2] [INFO] [1792772241.212519634] [lane_perception]: 27.7 kare/s, ortalama 31.4 ms
+[front_perception-1] [INFO] [1792772251.571070527] [front_perception]: 28.2 kare/s, ortalama 14.9 ms
+[lane_perception-2] [INFO] [1792772251.653357546] [lane_perception]: 19.6 kare/s, ortalama 52.3 ms
+[front_perception-1] [INFO] [1792772261.573762875] [front_perception]: 28.1 kare/s, ortalama 12.9 ms
+[lane_perception-2] [INFO] [1792772261.642023019] [lane_perception]: 16.4 kare/s, ortalama 60.1 ms
+[front_perception-1] [INFO] [1792772271.577389982] [front_perception]: 27.9 kare/s, ortalama 22.9 ms
+[lane_perception-2] [INFO] [1792772271.599010933] [lane_perception]: 26.6 kare/s, ortalama 33.2 ms
+[front_perception-1] [INFO] [1792772281.978530919] [front_perception]: 28.7 kare/s, ortalama 12.6 ms
+[lane_perception-2] [INFO] [1792772282.110032386] [lane_perception]: 20.8 kare/s, ortalama 49.3 ms
+[front_perception-1] [INFO] [1792772291.987365797] [front_perception]: 28.4 kare/s, ortalama 12.8 ms
+[lane_perception-2] [INFO] [1792772292.088034174] [lane_perception]: 16.3 kare/s, ortalama 60.4 ms
+[front_perception-1] [INFO] [1792772302.001523831] [front_perception]: 27.8 kare/s, ortalama 22.6 ms
+[lane_perception-2] [INFO] [1792772302.007293648] [lane_perception]: 24.6 kare/s, ortalama 36.0 ms
+[front_perception-1] [INFO] [1792772312.389878154] [front_perception]: 28.3 kare/s, ortalama 13.6 ms
+[lane_perception-2] [INFO] [1792772312.468858887] [lane_perception]: 22.3 kare/s, ortalama 45.5 ms
+[front_perception-1] [INFO] [1792772322.396382789] [front_perception]: 28.7 kare/s, ortalama 14.0 ms
+[lane_perception-2] [INFO] [1792772322.461787877] [lane_perception]: 16.8 kare/s, ortalama 58.6 ms
+[front_perception-1] [INFO] [1792772332.403270252] [front_perception]: 27.2 kare/s, ortalama 22.7 ms
+[lane_perception-2] [INFO] [1792772332.446730514] [lane_perception]: 25.6 kare/s, ortalama 34.9 ms
+[front_perception-1] [INFO] [1792772342.809124962] [front_perception]: 27.8 kare/s, ortalama 13.4 ms
+[lane_perception-2] [INFO] [1792772342.893569132] [lane_perception]: 21.2 kare/s, ortalama 46.8 ms
+[front_perception-1] [INFO] [1792772352.816400304] [front_perception]: 28.4 kare/s, ortalama 12.7 ms
+[lane_perception-2] [INFO] [1792772352.899285129] [lane_perception]: 17.1 kare/s, ortalama 57.7 ms
+[front_perception-1] [INFO] [1792772362.820458201] [front_perception]: 26.3 kare/s, ortalama 23.0 ms
+[lane_perception-2] [INFO] [1792772362.872895882] [lane_perception]: 27.0 kare/s, ortalama 32.7 ms
+[front_perception-1] [INFO] [1792772373.221829992] [front_perception]: 28.5 kare/s, ortalama 12.9 ms
+[lane_perception-2] [INFO] [1792772373.310173561] [lane_perception]: 20.2 kare/s, ortalama 50.5 ms
+[front_perception-1] [INFO] [1792772383.242252480] [front_perception]: 27.7 kare/s, ortalama 13.3 ms
+[lane_perception-2] [INFO] [1792772383.332610813] [lane_perception]: 15.8 kare/s, ortalama 62.5 ms
+[front_perception-1] [INFO] [1792772393.249825811] [front_perception]: 27.0 kare/s, ortalama 24.1 ms
+[lane_perception-2] [INFO] [1792772393.301802177] [lane_perception]: 27.5 kare/s, ortalama 32.2 ms
+[front_perception-1] [INFO] [1792772403.660481829] [front_perception]: 27.8 kare/s, ortalama 13.5 ms
+[lane_perception-2] [INFO] [1792772403.738376412] [lane_perception]: 19.7 kare/s, ortalama 52.1 ms
+[front_perception-1] [INFO] [1792772413.675190449] [front_perception]: 28.2 kare/s, ortalama 13.4 ms
+[lane_perception-2] [INFO] [1792772413.678345282] [lane_perception]: 23.1 kare/s, ortalama 39.7 ms
+[front_perception-1] [INFO] [1792772423.988971612] [front_perception]: 28.2 kare/s, ortalama 13.3 ms
+[lane_perception-2] [INFO] [1792772424.094035500] [lane_perception]: 24.1 kare/s, ortalama 39.0 ms
+[front_perception-1] [INFO] [1792772434.100541819] [front_perception]: 28.0 kare/s, ortalama 11.5 ms
+[lane_perception-2] [INFO] [1792772434.175111975] [lane_perception]: 16.4 kare/s, ortalama 60.6 ms
+[front_perception-1] [INFO] [1792772444.104015481] [front_perception]: 28.3 kare/s, ortalama 12.9 ms
+[lane_perception-2] [INFO] [1792772444.106726981] [lane_perception]: 21.2 kare/s, ortalama 44.5 ms
+[front_perception-1] [INFO] [1792772454.119719644] [front_perception]: 27.2 kare/s, ortalama 13.9 ms
+[lane_perception-2] [INFO] [1792772454.213015498] [lane_perception]: 25.1 kare/s, ortalama 34.8 ms
+[front_perception-1] [INFO] [1792772464.550512167] [front_perception]: 28.1 kare/s, ortalama 13.2 ms
+[lane_perception-2] [INFO] [1792772464.610573922] [lane_perception]: 16.0 kare/s, ortalama 64.0 ms
+[front_perception-1] [INFO] [1792772474.548028838] [front_perception]: 27.3 kare/s, ortalama 11.8 ms
+[lane_perception-2] [INFO] [1792772474.613039575] [lane_perception]: 19.8 kare/s, ortalama 49.6 ms
+[front_perception-1] [INFO] [1792772484.550431130] [front_perception]: 27.1 kare/s, ortalama 14.2 ms
+[lane_perception-2] [INFO] [1792772484.621452640] [lane_perception]: 27.6 kare/s, ortalama 30.2 ms
+[front_perception-1] [INFO] [1792772494.990509206] [front_perception]: 27.6 kare/s, ortalama 14.6 ms
+[lane_perception-2] [INFO] [1792772495.020725247] [lane_perception]: 20.1 kare/s, ortalama 50.8 ms
+[front_perception-1] [INFO] [1792772504.997295234] [front_perception]: 27.5 kare/s, ortalama 15.1 ms
+[lane_perception-2] [INFO] [1792772505.067645729] [lane_perception]: 20.3 kare/s, ortalama 47.9 ms
+[front_perception-1] [INFO] [1792772514.988608028] [front_perception]: 27.0 kare/s, ortalama 25.0 ms
+[lane_perception-2] [INFO] [1792772515.032359682] [lane_perception]: 26.2 kare/s, ortalama 33.9 ms
+[front_perception-1] [INFO] [1792772525.526963836] [front_perception]: 27.6 kare/s, ortalama 15.2 ms
+[lane_perception-2] [INFO] [1792772525.604819532] [lane_perception]: 18.6 kare/s, ortalama 54.9 ms
+[front_perception-1] [INFO] [1792772535.580394084] [front_perception]: 27.3 kare/s, ortalama 14.0 ms
+[lane_perception-2] [INFO] [1792772535.669940696] [lane_perception]: 16.6 kare/s, ortalama 59.6 ms
+[front_perception-1] [INFO] [1792772546.018804060] [front_perception]: 24.5 kare/s, ortalama 21.6 ms
+[lane_perception-2] [INFO] [1792772546.084622581] [lane_perception]: 21.9 kare/s, ortalama 45.6 ms
+[front_perception-1] [INFO] [1792772556.224465199] [front_perception]: 24.2 kare/s, ortalama 19.9 ms
+[lane_perception-2] [INFO] [1792772556.359238725] [lane_perception]: 13.6 kare/s, ortalama 74.2 ms
+[front_perception-1] [INFO] [1792772566.746016486] [front_perception]: 23.2 kare/s, ortalama 19.5 ms
+[lane_perception-2] [INFO] [1792772566.915528021] [lane_perception]: 9.8 kare/s, ortalama 106.4 ms
+[front_perception-1] [INFO] [1792772576.895551607] [front_perception]: 21.3 kare/s, ortalama 19.9 ms
+[lane_perception-2] [INFO] [1792772577.028110922] [lane_perception]: 9.8 kare/s, ortalama 101.8 ms
+[front_perception-1] [INFO] [1792772587.078687630] [front_perception]: 24.6 kare/s, ortalama 22.8 ms
+[lane_perception-2] [INFO] [1792772587.127221745] [lane_perception]: 20.0 kare/s, ortalama 49.1 ms
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [lane_perception-2]: sending signal 'SIGINT' to process[lane_perception-2]
+[INFO] [front_perception-1]: sending signal 'SIGINT' to process[front_perception-1]
+[lane_perception-2] Traceback (most recent call last):
+[lane_perception-2]   File "/home/muhammet61/cv_forklift_ws/install/forklift_perception/lib/forklift_perception/lane_perception", line 33, in <module>
+[lane_perception-2]     sys.exit(load_entry_point('forklift-perception==0.1.0', 'console_scripts', 'lane_perception')())
+[lane_perception-2]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[lane_perception-2]   File "/home/muhammet61/cv_forklift_ws/install/forklift_perception/lib/python3.12/site-packages/forklift_perception/nodes.py", line 273, in lane_main
+[front_perception-1] Traceback (most recent call last):
+[front_perception-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_perception/lib/forklift_perception/front_perception", line 33, in <module>
+[lane_perception-2]     _run(LanePerception)
+[lane_perception-2]   File "/home/muhammet61/cv_forklift_ws/install/forklift_perception/lib/python3.12/site-packages/forklift_perception/nodes.py", line 263, in _run
+[lane_perception-2]     node.destroy_node()
+[lane_perception-2]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1956, in destroy_node
+[front_perception-1]     sys.exit(load_entry_point('forklift-perception==0.1.0', 'console_scripts', 'front_perception')())
+[front_perception-1]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[front_perception-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_perception/lib/python3.12/site-packages/forklift_perception/nodes.py", line 269, in front_main
+[front_perception-1]     _run(FrontPerception)
+[front_perception-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_perception/lib/python3.12/site-packages/forklift_perception/nodes.py", line 263, in _run
+[front_perception-1]     node.destroy_node()
+[front_perception-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1958, in destroy_node
+[lane_perception-2]     self.destroy_publisher(self._publishers[0])
+[lane_perception-2]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1836, in destroy_publisher
+[lane_perception-2]     publisher.destroy()
+[lane_perception-2]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/publisher.py", line 105, in destroy
+[front_perception-1]     self.destroy_subscription(self._subscriptions[0])
+[front_perception-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1854, in destroy_subscription
+[lane_perception-2]     self.__publisher.destroy_when_not_in_use()
+[lane_perception-2] KeyboardInterrupt
+[front_perception-1]     subscription.destroy()
+[front_perception-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/subscription.py", line 101, in destroy
+[front_perception-1]     self.handle.destroy_when_not_in_use()
+[front_perception-1] KeyboardInterrupt
+[ERROR] [lane_perception-2]: process has died [pid 63549, exit code -2, cmd '/home/muhammet61/cv_forklift_ws/install/forklift_perception/lib/forklift_perception/lane_perception --ros-args -r __node:=lane_perception --params-file /home/muhammet61/cv_forklift_ws/install/forklift_perception/share/forklift_perception/config/perception.yaml --params-file /tmp/launch_params_zgpy2lnl --params-file /tmp/launch_params_q5vecwsu'].
+[ERROR] [front_perception-1]: process has died [pid 63548, exit code -2, cmd '/home/muhammet61/cv_forklift_ws/install/forklift_perception/lib/forklift_perception/front_perception --ros-args -r __node:=front_perception --params-file /home/muhammet61/cv_forklift_ws/install/forklift_perception/share/forklift_perception/config/perception.yaml --params-file /tmp/launch_params_d818ivkt --params-file /tmp/launch_params_x5k7jck0'].

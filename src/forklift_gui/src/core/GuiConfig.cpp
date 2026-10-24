@@ -90,6 +90,13 @@ QStringList GuiConfig::validate() const
     }
   }
 
+  requireNonEmpty(errors, "autonomy.state_topic", autonomy.stateTopic);
+  requireNonEmpty(errors, "autonomy.mode_service", autonomy.modeService);
+  requireNonEmpty(errors, "autonomy.start_service", autonomy.startService);
+  requireNonEmpty(errors, "autonomy.pause_service", autonomy.pauseService);
+  requireNonEmpty(errors, "autonomy.resume_service", autonomy.resumeService);
+  requireNonEmpty(errors, "autonomy.cancel_service", autonomy.cancelService);
+  requirePositive(errors, "autonomy.offline_after", autonomy.offlineAfter);
   requirePositive(errors, "safety.e_stop_rate", safety.eStopRate);
   requirePositive(errors, "safety.release_hold", safety.releaseHold);
 

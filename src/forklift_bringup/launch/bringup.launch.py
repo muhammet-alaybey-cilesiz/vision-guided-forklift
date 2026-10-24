@@ -14,6 +14,9 @@ Argümanlar:
   rviz       : RViz (varsayılan true)
   control    : twist_mux + cmd_vel_gate, sim ile birlikte (varsayılan true)
   gui        : forklift_gui operatör arayüzü (varsayılan true)
+  perception : algılama düğümleri, forklift_perception (varsayılan true)
+  autonomy   : görev yöneticisi, forklift_autonomy (varsayılan true; GUI'nin Otonomi paneli)
+               Algılamanın IMU seviye kalibrasyonu açılışta yapılır: robot o an düz zeminde olmalı.
   gui_params : forklift_gui parametre dosyası
 """
 
@@ -22,7 +25,8 @@ from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDesc
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
-    AndSubstitution, EqualsSubstitution, LaunchConfiguration, NotSubstitution, PathJoinSubstitution)
+    AndSubstitution, EqualsSubstitution, LaunchConfiguration, NotSubstitution, PathJoinSubstitution,
+    PythonExpression)
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -51,6 +55,8 @@ def generate_launch_description():
         DeclareLaunchArgument('rviz', default_value='true'),
         DeclareLaunchArgument('control', default_value='true'),
         DeclareLaunchArgument('gui', default_value='true'),
+        DeclareLaunchArgument('perception', default_value='true'),
+        DeclareLaunchArgument('autonomy', default_value='true'),
         DeclareLaunchArgument(
             'gui_params',
             default_value=PathJoinSubstitution(
@@ -81,4 +87,10 @@ def generate_launch_description():
         {'params_file': LaunchConfiguration('gui_params')},
         IfCondition(LaunchConfiguration('gui')))
 
-    return LaunchDescription(declared_args + [sim, station_sim, factory_sim, gui])
+    perception = _include('forklift_perception', 'perception.launch.py', {},
+                          IfCondition(LaunchConfiguration('perception')))
+    # transit yöntemi dünyaya göre: factory'de zemin şeridi, station_test'te tabela (K4)
+    transit = PythonExpression(["'lane' if '", LaunchConfiguration('world'), "' == 'factory' else 'sign'"])
+    autonomy = _include('forklift_autonomy', 'autonomy.launch.py', {'transit_method': transit},
+                        IfCondition(LaunchConfiguration('autonomy')))
+    return LaunchDescription(declared_args + [sim, station_sim, factory_sim, gui, perception, autonomy])

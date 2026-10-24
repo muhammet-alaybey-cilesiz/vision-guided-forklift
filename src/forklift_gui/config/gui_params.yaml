@@ -76,6 +76,18 @@ forklift_gui:
       preset_heights: [0.000, 0.025, 0.060, 0.150]   # [m]
 
     # ------------------------------------------------------------ güvenlik --
+    # ---------------------------------------------------------- otonomi --
+    # Görev yöneticisi (forklift_autonomy, D-57). Mod orada tutulur; GUI istekte bulunur
+    # ve durumu gösterir. offline_after içinde durum gelmezse panel çevrimdışı gösterir.
+    autonomy:
+      state_topic: /autonomy/state       # forklift_interfaces/AutonomyState
+      mode_service: /autonomy/set_mode   # forklift_interfaces/SetMode
+      start_service: /autonomy/start     # std_srvs/Trigger
+      pause_service: /autonomy/pause
+      resume_service: /autonomy/resume
+      cancel_service: /autonomy/cancel
+      offline_after: 1.5                 # [s] (durum 5 Hz yayınlanır)
+
     safety:
       e_stop_rate: 10.0            # [Hz] /e_stop sürekli yayın (true/false); kilit zaman aşımı 0.5 s
       release_hold: 1.5            # [s] e-stop sıfırlama: butonu basılı tutma süresi (D-31)

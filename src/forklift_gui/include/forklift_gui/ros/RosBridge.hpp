@@ -22,10 +22,13 @@
 
 #include "forklift_gui/core/GuiConfig.hpp"
 #include "forklift_gui/core/Types.hpp"
+#include "forklift_gui/core/ports/IAutonomyPort.hpp"
 #include "forklift_gui/core/ports/ICameraPort.hpp"
 #include "forklift_gui/core/ports/ILogPort.hpp"
 #include "forklift_gui/core/ports/IRobotCommandPort.hpp"
 #include "forklift_gui/core/ports/IRobotStatePort.hpp"
+#include "forklift_interfaces/msg/autonomy_state.hpp"
+#include "forklift_interfaces/srv/set_mode.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "rcl_interfaces/msg/log.hpp"
@@ -36,6 +39,7 @@
 #include "sensor_msgs/msg/joint_state.hpp"
 #include "std_msgs/msg/bool.hpp"
 #include "std_msgs/msg/float64.hpp"
+#include "std_srvs/srv/trigger.hpp"
 #include "vision_msgs/msg/detection2_d_array.hpp"
 
 namespace forklift_gui
@@ -117,6 +121,25 @@ private:
   rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr eStop_;
 };
 
+// Görev yöneticisi portu (D-57): servis istemcileri; yanıtlar ve durum GUI thread'ine
+// kuyruklu çağrıyla aktarılır.
+class RosAutonomyAdapter : public IAutonomyPort
+{
+  Q_OBJECT
+
+public:
+  RosAutonomyAdapter(rclcpp::Node & node, const GuiConfig::Autonomy & config, QObject * parent);
+  void request(Command command) override;
+  // ROS thread'inden çağrılır.
+  void postStatus(const AutonomyStatus & status);
+
+private:
+  void finish(int command, bool ok, const QString & message);
+
+  rclcpp::Client<forklift_interfaces::srv::SetMode>::SharedPtr mode_;
+  std::map<int, rclcpp::Client<std_srvs::srv::Trigger>::SharedPtr> triggers_;
+};
+
 class RosStateAdapter : public IRobotStatePort
 {
   Q_OBJECT
@@ -168,6 +191,7 @@ public:
   IRobotStatePort * statePort() const { return state_.get(); }
   ICameraPort * cameraPort() const { return camera_.get(); }
   ILogPort * logPort() const { return log_.get(); }
+  IAutonomyPort * autonomyPort() const { return autonomy_.get(); }
 
   // Abonelikler ve executor thread'i; stop() iptal eder ve join eder.
   void start();
@@ -194,6 +218,7 @@ private:
   void onClock(const rosgraph_msgs::msg::Clock & msg);
   void onDetections(const vision_msgs::msg::Detection2DArray & msg);
   void onRosout(const rcl_interfaces::msg::Log & msg);
+  void onAutonomyState(const forklift_interfaces::msg::AutonomyState & msg);
   void onImage(CameraIo & cam, const sensor_msgs::msg::Image & msg);
   void onCameraInfo(CameraIo & cam, const sensor_msgs::msg::CameraInfo & msg);
   void pollGraph();
@@ -212,6 +237,7 @@ private:
   std::unique_ptr<RosStateAdapter> state_;
   std::unique_ptr<RosCameraAdapter> camera_;
   std::unique_ptr<RosLogAdapter> log_;
+  std::unique_ptr<RosAutonomyAdapter> autonomy_;
 
   rclcpp::CallbackGroup::SharedPtr stateGroup_;
   rclcpp::CallbackGroup::SharedPtr logGroup_;
@@ -220,6 +246,7 @@ private:
   rclcpp::Subscription<rosgraph_msgs::msg::Clock>::SharedPtr clockSub_;
   rclcpp::Subscription<vision_msgs::msg::Detection2DArray>::SharedPtr detectionSub_;
   rclcpp::Subscription<rcl_interfaces::msg::Log>::SharedPtr rosoutSub_;
+  rclcpp::Subscription<forklift_interfaces::msg::AutonomyState>::SharedPtr autonomySub_;
   std::vector<std::unique_ptr<CameraIo>> cameras_;
 
   int odomCounter_{-1};

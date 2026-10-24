@@ -10,6 +10,7 @@
 #include <QObject>
 #include <QQmlListProperty>
 
+#include "forklift_gui/core/AutonomyController.hpp"
 #include "forklift_gui/core/CameraStream.hpp"
 #include "forklift_gui/core/DatasetRecorder.hpp"
 #include "forklift_gui/core/ForkController.hpp"
@@ -20,6 +21,7 @@
 #include "forklift_gui/core/TelemetryModel.hpp"
 #include "forklift_gui/core/TeleopController.hpp"
 #include "forklift_gui/core/TopicHealthModel.hpp"
+#include "forklift_gui/core/ports/IAutonomyPort.hpp"
 #include "forklift_gui/core/ports/ICameraPort.hpp"
 #include "forklift_gui/core/ports/ILogPort.hpp"
 #include "forklift_gui/core/ports/IRobotCommandPort.hpp"
@@ -49,6 +51,7 @@ class Backend : public QObject
   Q_PROPERTY(forklift_gui::LogModel * log READ log CONSTANT)
   Q_PROPERTY(forklift_gui::LogFilterModel * logView READ logView CONSTANT)
   Q_PROPERTY(forklift_gui::DatasetRecorder * dataset READ dataset CONSTANT)
+  Q_PROPERTY(forklift_gui::AutonomyController * autonomy READ autonomy CONSTANT)
   Q_PROPERTY(QQmlListProperty<forklift_gui::CameraStream> cameras READ cameras CONSTANT)
   Q_PROPERTY(bool mockMode READ mockMode CONSTANT)
   Q_PROPERTY(bool helpVisible READ helpVisible WRITE setHelpVisible NOTIFY helpVisibleChanged)
@@ -60,6 +63,7 @@ public:
     IRobotStatePort * state{nullptr};
     ICameraPort * camera{nullptr};
     ILogPort * log{nullptr};
+    IAutonomyPort * autonomy{nullptr};  // yoksa panel hep çevrimdışı
   };
 
   Backend(
@@ -79,6 +83,7 @@ public:
   LogModel * log() const { return log_; }
   LogFilterModel * logView() const { return logView_; }
   DatasetRecorder * dataset() const { return dataset_; }
+  AutonomyController * autonomy() const { return autonomy_; }
   QQmlListProperty<CameraStream> cameras();
   const QList<CameraStream *> & cameraList() const { return cameras_; }
   CameraStream * camera(const QString & id) const;
@@ -117,6 +122,9 @@ private:
   LogFilterModel * logView_;
   QList<CameraStream *> cameras_;
   DatasetRecorder * dataset_;
+  AutonomyController * autonomy_;
+
+  void updateForkEnabled();
 };
 
 }  // namespace forklift_gui

@@ -213,6 +213,7 @@ void setupRos(
   rt.ports.state = rt.bridge->statePort();
   rt.ports.camera = rt.bridge->cameraPort();
   rt.ports.log = rt.bridge->logPort();
+  rt.ports.autonomy = rt.bridge->autonomyPort();
 }
 
 // --mock: ROS grafiği yok; aynı YAML rclcpp ayrıştırıcısıyla okunur.
@@ -229,6 +230,7 @@ void setupMock(Runtime & rt, const AppArgs & args, forklift_gui::GuiConfig & con
   rt.ports.state = rt.mock->state();
   rt.ports.camera = rt.mock->camera();
   rt.ports.log = rt.mock->log();
+  rt.ports.autonomy = rt.mock->autonomy();
 }
 
 }  // namespace

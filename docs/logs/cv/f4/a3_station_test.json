@@ -1,0 +1,437 @@
+{
+ "world": "station_test",
+ "test": "a3",
+ "transit_method": "sign",
+ "started": "2026-10-24 12:40:43",
+ "trials": [
+  {
+   "from": "source",
+   "to": "dest_red",
+   "loaded": true,
+   "start": {
+    "d": 0.645,
+    "lateral": 0.0,
+    "yaw_deg": 0.0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (red ön-yanaşmada (yanal -4 mm, yön -0.1°))",
+   "fault": "",
+   "seconds": 52.6,
+   "predock": {
+    "distance_err_mm": 0.6639020347640745,
+    "lateral_mm": -2.900306697763385,
+    "yaw_deg": 0.04271218451768944
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": [],
+   "slip_mm": 0.33159031559356095
+  },
+  {
+   "from": "source",
+   "to": "dest_red",
+   "loaded": true,
+   "start": {
+    "d": 0.645,
+    "lateral": 0.03,
+    "yaw_deg": 2.0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (red ön-yanaşmada (yanal 2 mm, yön 0.1°))",
+   "fault": "",
+   "seconds": 56.3,
+   "predock": {
+    "distance_err_mm": 0.18555819750609714,
+    "lateral_mm": 3.083741498742397,
+    "yaw_deg": -0.12533566481934078
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": [],
+   "slip_mm": 0.4749051816306862
+  },
+  {
+   "from": "source",
+   "to": "dest_red",
+   "loaded": true,
+   "start": {
+    "d": 0.645,
+    "lateral": -0.03,
+    "yaw_deg": -2.0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (red ön-yanaşmada (yanal -3 mm, yön -0.1°))",
+   "fault": "",
+   "seconds": 50.8,
+   "predock": {
+    "distance_err_mm": 0.21055627166144397,
+    "lateral_mm": -1.2598820376226407,
+    "yaw_deg": -0.019190178130969075
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": [],
+   "slip_mm": 0.2906717357558247
+  },
+  {
+   "from": "source",
+   "to": "dest_green",
+   "loaded": true,
+   "start": {
+    "d": 0.645,
+    "lateral": 0.0,
+    "yaw_deg": 0.0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (green ön-yanaşmada (yanal 5 mm, yön 0.3°))",
+   "fault": "",
+   "seconds": 70.7,
+   "predock": {
+    "distance_err_mm": -2.5673880897376655,
+    "lateral_mm": 5.776453521185487,
+    "yaw_deg": -0.31032258346612573
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": [],
+   "slip_mm": 0.481968422707111
+  },
+  {
+   "from": "source",
+   "to": "dest_green",
+   "loaded": true,
+   "start": {
+    "d": 0.645,
+    "lateral": 0.03,
+    "yaw_deg": 2.0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (green ön-yanaşmada (yanal -3 mm, yön -0.1°))",
+   "fault": "",
+   "seconds": 72.9,
+   "predock": {
+    "distance_err_mm": -1.3546402282622605,
+    "lateral_mm": -1.4095301919491032,
+    "yaw_deg": 0.06975072129291852
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": [],
+   "slip_mm": 0.6118885298605728
+  },
+  {
+   "from": "source",
+   "to": "dest_green",
+   "loaded": true,
+   "start": {
+    "d": 0.645,
+    "lateral": -0.03,
+    "yaw_deg": -2.0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (green ön-yanaşmada (yanal 0 mm, yön -0.1°))",
+   "fault": "",
+   "seconds": 71.2,
+   "predock": {
+    "distance_err_mm": -0.132771117919539,
+    "lateral_mm": 0.8218494740639625,
+    "yaw_deg": 0.08703557887909448
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": [],
+   "slip_mm": 0.675782472375639
+  },
+  {
+   "from": "source",
+   "to": "dest_blue",
+   "loaded": true,
+   "start": {
+    "d": 0.645,
+    "lateral": 0.0,
+    "yaw_deg": 0.0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (blue ön-yanaşmada (yanal 3 mm, yön -0.0°))",
+   "fault": "",
+   "seconds": 61.3,
+   "predock": {
+    "distance_err_mm": 0.08614449084975995,
+    "lateral_mm": 3.847354852286942,
+    "yaw_deg": -0.03506275571573445
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": [],
+   "slip_mm": 0.3837847011466971
+  },
+  {
+   "from": "source",
+   "to": "dest_blue",
+   "loaded": true,
+   "start": {
+    "d": 0.645,
+    "lateral": 0.03,
+    "yaw_deg": 2.0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (blue ön-yanaşmada (yanal 2 mm, yön -0.0°))",
+   "fault": "",
+   "seconds": 61.1,
+   "predock": {
+    "distance_err_mm": 0.7961097465714051,
+    "lateral_mm": 3.677521959497929,
+    "yaw_deg": -0.0975268928576075
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": [],
+   "slip_mm": 0.3714853274898028
+  },
+  {
+   "from": "source",
+   "to": "dest_blue",
+   "loaded": true,
+   "start": {
+    "d": 0.645,
+    "lateral": -0.03,
+    "yaw_deg": -2.0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (blue ön-yanaşmada (yanal -18 mm, yön -0.8°))",
+   "fault": "",
+   "seconds": 48.2,
+   "predock": {
+    "distance_err_mm": -24.641817034035896,
+    "lateral_mm": -16.80027189953111,
+    "yaw_deg": 0.7813547824849748
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": [],
+   "slip_mm": 0.12372585367761714
+  },
+  {
+   "from": "dest_red",
+   "to": "source",
+   "loaded": false,
+   "start": {
+    "d": 0.645,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (neutral ön-yanaşmada (yanal -3 mm, yön -0.1°))",
+   "fault": "",
+   "seconds": 74.1,
+   "predock": {
+    "distance_err_mm": -0.12053483921325991,
+    "lateral_mm": -0.8801134673138982,
+    "yaw_deg": 0.03713042243725215
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": []
+  },
+  {
+   "from": "dest_green",
+   "to": "source",
+   "loaded": false,
+   "start": {
+    "d": 0.645,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (neutral ön-yanaşmada (yanal -24 mm, yön -0.1°))",
+   "fault": "",
+   "seconds": 52.5,
+   "predock": {
+    "distance_err_mm": -0.01719341526695839,
+    "lateral_mm": -22.244099859039586,
+    "yaw_deg": 0.031132634719263863
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": []
+  },
+  {
+   "from": "dest_blue",
+   "to": "source",
+   "loaded": false,
+   "start": {
+    "d": 0.645,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (neutral ön-yanaşmada (yanal 4 mm, yön 0.2°))",
+   "fault": "",
+   "seconds": 48.1,
+   "predock": {
+    "distance_err_mm": -15.498877920770537,
+    "lateral_mm": 5.6894576615129075,
+    "yaw_deg": -0.2871724119018808
+   },
+   "lane_rms_mm": null,
+   "lane_max_mm": null,
+   "lane_trace_mm": []
+  }
+ ],
+ "A3": {
+  "trials": 9,
+  "ok": 9,
+  "predock_distance_err_mm_max": 24.641817034035896,
+  "predock_lateral_mm_max": 16.80027189953111,
+  "predock_yaw_deg_max": 0.7813547824849748,
+  "lane_rms_mm_max": null,
+  "slip_mm_max": 0.675782472375639,
+  "seconds_max": 72.9,
+  "faults": [],
+  "return_info": [
+   [
+    "dest_red",
+    "DONE",
+    {
+     "distance_err_mm": -0.12053483921325991,
+     "lateral_mm": -0.8801134673138982,
+     "yaw_deg": 0.03713042243725215
+    },
+    null,
+    74.1
+   ],
+   [
+    "dest_green",
+    "DONE",
+    {
+     "distance_err_mm": -0.01719341526695839,
+     "lateral_mm": -22.244099859039586,
+     "yaw_deg": 0.031132634719263863
+    },
+    null,
+    52.5
+   ],
+   [
+    "dest_blue",
+    "DONE",
+    {
+     "distance_err_mm": -15.498877920770537,
+     "lateral_mm": 5.6894576615129075,
+     "yaw_deg": -0.2871724119018808
+    },
+    null,
+    48.1
+   ]
+  ],
+  "status": "GEÇTİ"
+ },
+ "finished": "2026-10-24 12:55:47"
+}

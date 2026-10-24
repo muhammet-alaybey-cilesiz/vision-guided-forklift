@@ -8,16 +8,6 @@
     "details": {}
   },
   {
-    "id": "T2",
-    "name": "colcon build --symlink-install",
-    "status": "GEÇTİ",
-    "measured": "çıkış 0, 2 paket, uyarı satırı 0, stderr bölümü 0",
-    "criterion": "Hata ve uyarı yok",
-    "details": {
-      "warnings": []
-    }
-  },
-  {
     "id": "T3",
     "name": "Bekleme kararlılığı (spawn sonrası 10 s komutsuz)",
     "status": "GEÇTİ",
@@ -29,7 +19,7 @@
     "id": "T4",
     "name": "TF ağacı (view_frames)",
     "status": "GEÇTİ",
-    "measured": "15 frame (beklenen 15), kök ['odom'], optical ['front_camera_optical_frame', 'lane_camera_optical_frame'], eksik [], fazla []",
+    "measured": "16 frame (beklenen 16), kök ['odom'], optical ['front_camera_optical_frame', 'lane_camera_optical_frame'], eksik [], fazla []",
     "criterion": "Tüm link'ler + 2 optical frame, tek kök; PDF: docs/frames_sim.pdf",
     "details": {}
   },
@@ -37,7 +27,7 @@
     "id": "T5",
     "name": "Düz sürüş 0.2 m/s, 5 s",
     "status": "GEÇTİ",
-    "measured": "odometri 1.0004 m, gerçek 1.0004 m, fark %0.00, yanal sapma 0.0 mm",
+    "measured": "odometri 1.0000 m, gerçek 1.0000 m, fark %0.00, yanal sapma 0.0 mm",
     "criterion": "Odometri 1.00 m ± %5; gerçek pozla fark < %5",
     "details": {}
   },
@@ -45,7 +35,7 @@
     "id": "T6",
     "name": "Dönüş 0.5 rad/s, 2π/0.5 s",
     "status": "GEÇTİ",
-    "measured": "odometri 359.90°, gerçek 359.89°",
+    "measured": "odometri 359.90°, gerçek 359.90°",
     "criterion": "360° ± 5° (odometri ve gerçek)",
     "details": {}
   },
@@ -53,7 +43,7 @@
     "id": "T7",
     "name": "Çatal yüksüz 0 → 0.05 → 0.10 → 0 m",
     "status": "GEÇTİ",
-    "measured": "[PID modu, hız sınırı 0.05 m/s] -0.000→0.05 m: ±5 mm'ye 0.90 s, aşım 0.63 mm, son hata 0.34 mm; 0.050→0.10 m: ±5 mm'ye 0.90 s, aşım 0.63 mm, son hata 0.34 mm; 0.100→0.00 m: ±5 mm'ye 1.92 s, aşım 0.00 mm, son hata 0.00 mm",
+    "measured": "[PID modu, hız sınırı 0.05 m/s] -0.000→0.05 m: ±5 mm'ye 0.92 s, aşım 0.63 mm, son hata 0.34 mm; 0.050→0.10 m: ±5 mm'ye 0.90 s, aşım 0.63 mm, son hata 0.34 mm; 0.100→0.00 m: ±5 mm'ye 1.92 s, aşım 0.00 mm, son hata 0.00 mm",
     "criterion": "Her hedefe 3 s içinde ± 5 mm, aşım < 10 mm",
     "details": {}
   },
@@ -61,7 +51,7 @@
     "id": "T8",
     "name": "Yük alma senaryosu (D-16 seçenek A)",
     "status": "GEÇTİ",
-    "measured": "yaklaşma 1.261 m → base_link x=1.2615 m, y=-0.0 mm (hedef x=1.260); dönüşte x=1.2644, y=-3.2 mm; taşıma 26.2 s, maks bağıl kayma 0.18 mm, maks koli eğimi 0.00°; düşme yok; bırakınca koli eğimi 0.00°, taban z=0.0500 m (ray üstü 0.050), konum x=1.5031 y=-3.3 mm",
+    "measured": "yaklaşma 1.261 m → base_link x=1.2615 m, y=-0.0 mm (hedef x=1.260); dönüşte x=1.2638, y=-0.4 mm; taşıma 26.2 s, maks bağıl kayma 0.18 mm, maks koli eğimi 0.00°; düşme yok; bırakınca koli eğimi 0.00°, taban z=0.0500 m (ray üstü 0.050), konum x=1.5024 y=-0.4 mm",
     "criterion": "Taşıma boyunca bağıl kayma < 1 cm; koli düşmüyor; indirince raylarda dik",
     "details": {}
   },
@@ -69,7 +59,7 @@
     "id": "T9",
     "name": "Yüklü çatal tutması (0.06 m, 10 s)",
     "status": "GEÇTİ",
-    "measured": "eklem sarkması 0.000 mm, taşıyıcı (gerçek poz) sarkması 0.078 mm; koli tabanı z = 0.0851 m",
+    "measured": "eklem sarkması 0.000 mm, taşıyıcı (gerçek poz) sarkması 0.079 mm; koli tabanı z = 0.0851 m",
     "criterion": "Sarkma < 5 mm",
     "details": {}
   },
@@ -85,7 +75,7 @@
     "id": "T11",
     "name": "Kamera yayını",
     "status": "GEÇTİ",
-    "measured": "front_camera: 28.3 Hz duvar / 28.3 Hz sim, image frame_id=front_camera_optical_frame, camera_info frame_id=front_camera_optical_frame, fx=554.4 (beklenen 554.4), 640×480 rgb8; lane_camera: 26.7 Hz duvar / 26.7 Hz sim, image frame_id=lane_camera_optical_frame, camera_info frame_id=lane_camera_optical_frame, fx=381.5 (beklenen 381.5), 640×480 rgb8",
+    "measured": "front_camera: 29.4 Hz duvar / 29.4 Hz sim, image frame_id=front_camera_optical_frame, camera_info frame_id=front_camera_optical_frame, fx=554.4 (beklenen 554.4), 640×480 rgb8; lane_camera: 27.2 Hz duvar / 27.3 Hz sim, image frame_id=lane_camera_optical_frame, camera_info frame_id=lane_camera_optical_frame, fx=381.5 (beklenen 381.5), 640×480 rgb8",
     "criterion": "Her kamera ≥ 25 Hz (duvar saati), frame_id optical frame",
     "details": {}
   },

@@ -295,3 +295,8 @@ GT yalnız `forklift_evaluation` içinde kullanılır. Kaynaklar: gz `dynamic_po
 | 2026-10-21 | Gerçeğe geçiş üst amacı ve R1–R9 kuralları eklendi (§2) | Sahip |
 | 2026-10-22 | K-1: Sim kamerası gerçek kamera gibi dama tahtasıyla kalibre edilir, algılama `calibration_file` ile okur (D-59; ileride değişebilir) | Sahip |
 | 2026-10-22 | K-1: Hizalama gölgesiz mesafede, sonra yanaşma; bırakma kararı CV mesafe kestirimiyle (bölme etiketi, C9; D-62) | Sahip |
+| 2026-10-23 | K-2: Önerilen ölçütler kabul (C1 tabela rolü, C4 eşleştirme ≥ %90 ve yaw ≤ 0.6° (≤ 0.9 m), C9 ≤ 6 mm, şerit yönü ≥ 25 cm, C6 GT tanımı; D-70) | Sahip |
+| 2026-10-23 | K-2: Gerçekte IMU gerekiyorsa simde de IMU: robota IMU eklendi, eğim IMU'dan (CV yöntemi yedek; D-67) | Sahip |
+| 2026-10-23 | K-2: Yol zorlaştırma F4 sonunda (önerim; sahip "en uygun gördüğünü seç" dedi) | Sahip |
+| 2026-10-23 | K-3: F3'ün kapısında beklenmedi; sahip F4'e geçilmesini istedi (F3'ün açık kalan A1 hataları F4'ün başında giderildi, REPORT_CV §F3) | Sahip |
+| 2026-10-24 | K-4: Sahip commit'i ve F5'e geçişi onayladı. §F4.7'deki önerilere (yol zorlaştırmanın F5'ten sonra ayrı dilimde yapılması dahil) ayrıca yanıt verilmedi | Sahip |
