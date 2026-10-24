@@ -1,6 +1,6 @@
 """
 mission_acceptance.py — otonomi kabul testleri: A1 (yanaşma + alma), A2 (yüklü yanaşma + bırakma),
-A3 (transit); A4–A5 F5'te
+A3 (transit), A4 (tam görev); A5 F5'te
 
 Test operatör rolündedir: /e_stop'u 10 Hz "bırakılmış" yayınlar, /autonomy/set_mode ile Otonom
 moda geçer, görev türünü mission_manager'ın 'task' / 'target' parametreleriyle seçer ve
@@ -16,6 +16,8 @@ Komut zinciri açık (control:=true), algılama ve görev yöneticisi ayrı sür
       (K10: önce orta, sonra sol, sonra sağ), komşular < 1 mm
   A3  ön-yanaşma (istasyon ekseninde predock_distance) ±10 cm / ±5°; şerit sapması RMS ≤ 2 cm
       (factory); kolinin çatalda kayması < 1 cm
+  A4  tam görev (task full, merkezden): 3/3 koli mühür rengindeki istasyonun bir bölmesinde, eğim < 2°,
+      FAULT ve müdahale yok, ≤ 8 dk
 """
 
 import argparse
@@ -23,9 +25,12 @@ import json
 import math
 import os
 import signal
+import struct
 import subprocess
 import threading
 import time
+
+import cv2
 
 import numpy as np
 import rclpy
@@ -47,6 +52,8 @@ PASS, FAIL, NOT_RUN = 'GEÇTİ', 'KALDI', 'ÇALIŞTIRILAMADI'
 # ona sürtünüp çatalda 8 mm kayıyordu.
 PARK = [(1.6, -1.6), (1.6, 1.6), (-1.6, 1.6)]
 DEST = ['dest_red', 'dest_green', 'dest_blue']
+SHOTS = os.path.expanduser('~/cv_forklift_ws/docs/images/cv/f5')
+A4_LIMIT_S = 480.0                    # plan §8: tam görev ≤ 8 dk
 COLOR = {'dest_red': 'red', 'dest_green': 'green', 'dest_blue': 'blue', 'source': 'neutral'}
 
 
@@ -56,8 +63,10 @@ class Operator(Node):
     def __init__(self):
         super().__init__('a_test_operator', parameter_overrides=[rclpy.parameter.Parameter('use_sim_time', value=True)])
         self.estop_pub = self.create_publisher(Bool, '/e_stop', 10)
-        self.estop = False
-        self.create_timer(0.1, lambda: self.estop_pub.publish(Bool(data=self.estop)))
+        self.estop = False                          # None: test yayınlamaz (GUI yayınlıyor)
+        self.create_timer(0.1, lambda: self.estop is not None and self.estop_pub.publish(Bool(data=self.estop)))
+        self.estop_seen = None                      # /e_stop'ta son görülen (GUI'nin kalp atışı)
+        self.create_subscription(Bool, '/e_stop', lambda m: setattr(self, 'estop_seen', bool(m.data)), 10)
         self.state = None
         self.create_subscription(AutonomyState, '/autonomy/state', self._on_state, 10)
         self.mode_cli = self.create_client(SetMode, '/autonomy/set_mode')
@@ -93,6 +102,60 @@ class Operator(Node):
             req = Trigger.Request()
         r = self._wait(cli.call_async(req), timeout)
         return (False, 'yanıt yok') if r is None else (r.success, r.message)
+
+
+class GuiDriver:
+    """Operatör GUI'si yalıtılmış Xephyr :99 içinde; fare olayları yalnız o ekrana gider (sahibin masaüstüne
+    hiçbir girdi gitmez). Koordinatlar 1280×800 pencere, 96 dpi (Xephyr 75 dpi'de Qt içeriği küçültüyor)."""
+    DISPLAY = ':99'
+    ESTOP = (1169, 28)                    # sağ üst e-stop düğmesi (GUI entegrasyon testindeki Theme ölçüleri)
+    AUTO = (1170, 273)                    # Otonomi paneli: [Otonom]
+    START = (922, 317)                    # [Görevi başlat]
+
+    def __init__(self, logs, hold_s):
+        self.logs, self.hold_s, self.procs = logs, hold_s, []
+        self.env = dict(os.environ, DISPLAY=self.DISPLAY)
+
+    def open(self):
+        self.procs.append(subprocess.Popen(['Xephyr', self.DISPLAY, '-screen', '1600x1000', '-dpi', '96', '-nolisten', 'tcp'],
+                                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True))
+        time.sleep(2.0)
+        self.procs.append(subprocess.Popen(['ros2', 'run', 'forklift_gui', 'forklift_gui'], env=self.env,
+                                           stdout=open(os.path.join(self.logs, 'forklift_gui_a4.log'), 'w'),
+                                           stderr=subprocess.STDOUT, start_new_session=True))
+
+    def xdo(self, *args):
+        subprocess.run(['xdotool', *args], env=self.env, timeout=10, check=True)
+
+    def click(self, xy):
+        self.xdo('mousemove', str(xy[0]), str(xy[1]))
+        time.sleep(0.2)
+        self.xdo('click', '1')
+
+    def release_estop(self):
+        self.xdo('mousemove', str(self.ESTOP[0]), str(self.ESTOP[1]))
+        time.sleep(0.2)
+        self.xdo('mousedown', '1')
+        time.sleep(self.hold_s + 0.4)
+        self.xdo('mouseup', '1')
+
+    def shot(self, path):
+        d = subprocess.run(['xwd', '-root', '-silent', '-display', self.DISPLAY], capture_output=True, timeout=20).stdout
+        hs, w, h = (struct.unpack('>I', d[i:i + 4])[0] for i in (0, 16, 20))
+        bpl, bpp, ncol = struct.unpack('>I', d[48:52])[0], struct.unpack('>I', d[44:48])[0] // 8, struct.unpack('>I', d[76:80])[0]
+        a = np.frombuffer(d[hs + ncol * 12:hs + ncol * 12 + bpl * h], np.uint8).reshape(h, bpl)
+        cv2.imwrite(path, a[:, :w * bpp].reshape(h, w, bpp)[:800, :1280, :3])      # xwd BGR(X) → OpenCV BGR
+
+    def close(self):
+        for p in reversed(self.procs):
+            for sig in (signal.SIGINT, signal.SIGKILL):
+                try:
+                    os.killpg(os.getpgid(p.pid), sig)
+                    p.wait(timeout=10)
+                    break
+                except Exception:
+                    pass
+        self.procs = []
 
 
 class Rig:
@@ -384,17 +447,157 @@ def evaluate_a3(trials, lane_world):
     return s
 
 
+def _find_key(d, key):
+    """İç içe sözlükte ilk key değeri (gui_params.yaml'daki release_hold)."""
+    if isinstance(d, dict):
+        for k, v in d.items():
+            if k == key:
+                return v
+            r = _find_key(v, key)
+            if r is not None:
+                return r
+    return None
+
+
+# =============================================================================
+#  A4: tam görev
+# =============================================================================
+def trial_a4(rig, start, log, limit, gui=None, shots=None):
+    """gui: GuiDriver ise görev operatör GUI'sinden başlatılır (e-stop bırakma, [Otonom], [Görevi başlat])."""
+    gz, rg = rig.gz, rig.rg
+    rig.restore_parcels()
+    simt.fork_to(gz, rg, 0.0)
+    x, y, yaw_deg = start
+    simt.place_robot(gz, (x, y), math.radians(yaw_deg), settle=rig.att_wait)
+    rig.op.call('manual')
+    res = {'start': {'x': x, 'y': y, 'yaw_deg': yaw_deg}, 'started_from': 'gui' if gui else 'servis'}
+    if gui is not None:
+        return _a4_gui(rig, gui, res, log, limit, shots)
+    trace = []
+
+    def f(state):
+        st = rig.op.state
+        if st is not None and (not trace or trace[-1][1] != st.state):
+            trace.append((round(time.time() - t0, 1), st.state, st.detail, int(st.parcels_done)))
+    t0 = time.time()
+    res.update(rig.run('full', limit=limit, sample=f))
+    res['trace'] = trace
+    res['parcels_done_reported'] = int(rig.op.state.parcels_done) if rig.op.state else None
+    out = _a4_parcels(rig)
+    res['parcels'] = out
+    simt.fork_to(gz, rg, 0.0)
+    log(f'[A4] başlangıç {start}: {res.get("final")} ({res.get("detail")}) {res.get("seconds")} s; '
+        + '; '.join(f'{o["seal"]} → {o["station"]}/{o["bay"]} ({o["offset_mm"]:.1f} mm, {o["tilt_deg"]:.2f}°)' for o in out))
+    return res
+
+
+def _a4_parcels(rig):
+    out = []
+    for name, color, _ in rig.parcels:
+        pp = rig.gz.model(name)
+        best = None
+        for st in rig.es.layout['stations']:
+            for i in range(st['bays']):
+                rel = rig.bay_parcel_pose(st, i).inv() * pp
+                if best is None or np.linalg.norm(rel.p[:2]) < np.linalg.norm(best[2].p[:2]):
+                    best = (st['name'], i, rel)
+        stn, i, rel = best
+        out.append({'parcel': name, 'seal': color, 'station': stn, 'bay': i,
+                    'correct': bool(stn == f'dest_{color}' and np.linalg.norm(rel.p[:2]) < 0.03),
+                    'offset_mm': float(np.linalg.norm(rel.p[:2]) * 1000), 'tilt_deg': float(simt.tilt_deg(pp.R)),
+                    'base_z_mm': float((pp.p[2] - rig.P['z'] / 2.0) * 1000)})
+    return out
+
+
+def _a4_gui(rig, gui, res, log, limit, shots):
+    """Görevi GUI'den başlat ve bitene kadar izle; adımlar ve ekran görüntüleri sonuca yazılır."""
+    op = rig.op
+    op.call('cancel')
+    if not op.set_task('full'):
+        res.update({'final': NOT_RUN, 'detail': 'task parametresi ayarlanamadı'})
+        return res
+    op.estop = None                                  # e-stop'u artık GUI yayınlıyor (açılışta basılı)
+    steps = []
+    gui.open()
+    try:
+        t0 = time.time()
+        while time.time() - t0 < 60 and op.estop_seen is not True:
+            time.sleep(0.2)
+        steps.append(('GUI açıldı, e-stop basılı', op.estop_seen is True))
+        time.sleep(3.0)                              # QML yüklensin, otonomi çevrimiçi görünsün
+        gui.shot(os.path.join(shots, f'a4_gui_{rig.es.world}_0_open.png'))
+        gui.release_estop()
+        time.sleep(0.5)
+        steps.append(('e-stop bırakıldı (1.9 s basılı tutma)', op.estop_seen is False))
+        gui.click(gui.AUTO)
+        t1 = time.time()
+        while time.time() - t1 < 5 and not (op.state and op.state.mode == AutonomyState.MODE_AUTO):
+            time.sleep(0.1)
+        steps.append(('[Otonom] tıklandı → mod Otonom', bool(op.state and op.state.mode == AutonomyState.MODE_AUTO)))
+        gui.click(gui.START)
+        t1 = time.time()
+        while time.time() - t1 < 5 and not (op.state and op.state.state not in ('IDLE', 'DONE', 'FAULT')):
+            time.sleep(0.1)
+        steps.append(('[Görevi başlat] tıklandı → görev başladı', bool(op.state and op.state.state not in ('IDLE', 'DONE', 'FAULT'))))
+        res['gui_steps'] = steps
+        log(f'[A4] GUI adımları: {steps}')
+        if not all(ok for _, ok in steps):
+            res.update({'final': FAIL, 'detail': 'GUI adımı başarısız'})
+            return res
+        t0, states, shot_at = time.time(), [], {60: f'a4_gui_{rig.es.world}_1_running.png'}
+        while time.time() - t0 < limit:
+            s = op.state
+            if s is not None and (not states or states[-1] != s.state):
+                states.append(s.state)
+            for k, name in list(shot_at.items()):
+                if time.time() - t0 > k:
+                    gui.shot(os.path.join(shots, name))
+                    del shot_at[k]
+            if s is not None and s.state in ('DONE', 'FAULT'):
+                break
+            time.sleep(0.2)
+        time.sleep(1.0)
+        gui.shot(os.path.join(shots, f'a4_gui_{rig.es.world}_2_done.png'))
+        end = op.state
+        res.update({'states': states, 'final': end.state if end else None, 'detail': end.detail if end else '',
+                    'fault': end.fault if end else '', 'seconds': round(time.time() - t0, 1),
+                    'parcels_done_reported': int(end.parcels_done) if end else None})
+    finally:
+        gui.close()
+        op.estop = False
+        op.call('manual')
+        op.call('cancel')
+    res['parcels'] = _a4_parcels(rig)
+    log(f'[A4] GUI başlatma {res["start"]}: {res.get("final")} ({res.get("detail")}) {res.get("seconds")} s; '
+        + '; '.join(f'{o["seal"]} → {o["station"]}/{o["bay"]} ({o["offset_mm"]:.1f} mm, {o["tilt_deg"]:.2f}°)' for o in res['parcels']))
+    return res
+
+
+def evaluate_a4(trials, limit):
+    ok = [t for t in trials if t.get('final') == 'DONE' and all(o['correct'] and o['tilt_deg'] < 2.0 for o in t.get('parcels', []))
+          and (t.get('seconds') or 1e9) <= limit and 'PAUSED' not in t.get('states', [])]
+    allp = [o for t in trials for o in t.get('parcels', [])]
+    s = {'trials': len(trials), 'ok': len(ok),
+         'parcels_correct': sum(1 for o in allp if o['correct']), 'parcels': len(allp),
+         'offset_mm_max': max((o['offset_mm'] for o in allp if o['correct']), default=None),
+         'tilt_deg_max': max((o['tilt_deg'] for o in allp), default=None),
+         'seconds': [t.get('seconds') for t in trials],
+         'faults': [(t['start'], t.get('final'), t.get('detail')) for t in trials if t not in ok]}
+    s['status'] = PASS if len(ok) == len(trials) and trials else FAIL
+    return s
+
+
 # =============================================================================
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--test', default='a1', choices=['a1', 'a2', 'a3'])
+    ap.add_argument('--test', default='a1', choices=['a1', 'a2', 'a3', 'a4'])
     ap.add_argument('--world', default='station_test')
     ap.add_argument('--trials', default='quick', help='quick | full | smoke')
     ap.add_argument('--out', default=None, help='varsayılan: docs/logs/cv/f3 (a1) | f4 (a2, a3)')
     ap.add_argument('--gui', action='store_true')
     ap.add_argument('--only', default='', help='a1: bölme,d,yanal,yaw_deg | a2: istasyon,durum,d,yanal,yaw_deg | a3: hedef,d,yanal,yaw_deg')
     a = ap.parse_args()
-    out = a.out or os.path.expanduser(f'~/cv_forklift_ws/docs/logs/cv/{"f3" if a.test == "a1" else "f4"}')
+    out = a.out or os.path.expanduser(f'~/cv_forklift_ws/docs/logs/cv/{ {"a1": "f3", "a2": "f4", "a3": "f4"}.get(a.test, "f5")}')
     os.makedirs(out, exist_ok=True)
     es = EvalSetup(a.world, out, gui=a.gui)
     method = 'lane' if a.world == 'factory' else 'sign'
@@ -418,6 +621,11 @@ def main():
         if a.only:
             st, case, d, lat, yd = a.only.split(',')
             grid = [(st, case, (float(d), float(lat), float(yd)))]
+    elif a.test == 'a4':
+        # dünya pozu (x, y, yaw_deg): merkez (bringup'ın varsayılan doğuş pozu) ve kaynağa bakmayan bir poz
+        # 'gui': aynı tam görev, operatör GUI'sinden başlatılır (Xephyr :99)
+        grid = {'smoke': [(0.0, 0.0, 0)], 'full': [(0.0, 0.0, 0), (-0.3, 0.4, 135)],
+                'gui': [(0.0, 0.0, 0, 'gui')]}[a.trials]
     else:
         # A1 akışının bitişi: tam giriş (taşıyıcı önü + giriş boşluğu) + geri çıkış
         with open(os.path.join(get_package_share_directory('forklift_autonomy'), 'config', 'autonomy.yaml')) as f:
@@ -439,7 +647,7 @@ def main():
     def log(t):
         print(t, flush=True)
         lines.append(t)
-    tag = f'{a.test}_{a.world}'
+    tag = f'{a.test}{"gui" if a.trials == "gui" else ""}_{a.world}'
     res = {'world': a.world, 'test': a.test, 'transit_method': method,
            'started': time.strftime('%Y-%m-%d %H:%M:%S'), 'trials': []}
     with simt.SimSession(es, tag, control=True) as sess:
@@ -468,6 +676,14 @@ def main():
                         r = trial_a1(rig, es.station('source'), g[0], g[1], log)
                     elif a.test == 'a2':
                         r = trial_a2(rig, es.station(g[0]), g[1], g[2], log)
+                    elif a.test == 'a4':
+                        gd = None
+                        if len(g) > 3:
+                            with open(os.path.join(get_package_share_directory('forklift_gui'), 'config', 'gui_params.yaml')) as f:
+                                hold = _find_key(yaml.safe_load(f), 'release_hold')
+                            gd = GuiDriver(es.logs, hold)
+                            os.makedirs(SHOTS, exist_ok=True)
+                        r = trial_a4(rig, g[:3], log, A4_LIMIT_S, gd, SHOTS)
                     else:
                         r = trial_a3(rig, es.station(g[0]), es.station(g[1]), g[2], g[3], log, lane_gt)
                 except Exception as e:
@@ -481,7 +697,8 @@ def main():
                     json.dump(res, f, indent=1, ensure_ascii=False)
             rig.restore_parcels()
             key = a.test.upper()
-            res[key] = {'a1': evaluate_a1, 'a2': evaluate_a2}.get(a.test, lambda t: evaluate_a3(t, es.world == 'factory'))(res['trials'])
+            res[key] = {'a1': evaluate_a1, 'a2': evaluate_a2, 'a4': lambda t: evaluate_a4(t, A4_LIMIT_S)}.get(
+                a.test, lambda t: evaluate_a3(t, es.world == 'factory'))(res['trials'])
             log(f'[{key} {a.world}] {res[key]}')
             op.destroy_node()
             rclpy.shutdown()

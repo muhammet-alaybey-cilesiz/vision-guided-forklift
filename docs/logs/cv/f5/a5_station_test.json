@@ -1,0 +1,383 @@
+{
+ "world": "station_test",
+ "started": "2026-10-24 19:32:42",
+ "scenarios": {
+  "E1 station_test": {
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PAUSED",
+    "TRANSIT",
+    "PRE_DOCK",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (red ön-yanaşmada (düzeltildi))",
+   "fault": "",
+   "seconds": 58.3,
+   "events": {
+    "press": 32.424,
+    "v_at_press": 0.1036931019986236,
+    "paused": 0.18599999999999994,
+    "stop": 32.799,
+    "release": 35.502,
+    "resume": 38.533,
+    "resume_reply": [
+     true,
+     "devam ediliyor"
+    ]
+   },
+   "stop_s": 0.375,
+   "carried": "parcel_source_0",
+   "ok": true,
+   "expect": "e-stop → ≤ 0.6 s durma, DURAKLADI; bırakınca kendiliğinden devam yok; Devam → DONE",
+   "status": "GEÇTİ"
+  },
+  "E2 station_test": {
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "PAUSED",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür blue))",
+   "fault": "",
+   "seconds": 39.6,
+   "events": {
+    "teleop": 88.426,
+    "paused": 0.4590000000000032,
+    "resume": 91.478,
+    "resume_reply": [
+     true,
+     "devam ediliyor"
+    ]
+   },
+   "picked": true,
+   "ok": true,
+   "expect": "teleop → DURAKLADI; Devam → yeniden gözlem; alma başarılı",
+   "status": "GEÇTİ"
+  },
+  "E3 station_test": {
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "PAUSED",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı)",
+   "fault": "",
+   "seconds": 32.7,
+   "events": {
+    "manual": 125.683,
+    "manual_reply": [
+     true,
+     "Manuel"
+    ],
+    "stop": 0.3579999999999899,
+    "auto_reply": [
+     true,
+     "Otonom"
+    ],
+    "resume_reply": [
+     true,
+     "devam ediliyor"
+    ],
+    "resume": 128.744
+   },
+   "drop": {
+    "offset_mm": 1.9998854155614016,
+    "tilt_deg": 2.9869878362278614e-05,
+    "in_bay": true
+   },
+   "ok": true,
+   "expect": "Manuel → DURAKLADI, robot durur; Otonom + Devam → bırakma",
+   "status": "GEÇTİ"
+  },
+  "E4 station_test": {
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "RECOVER",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür blue))",
+   "fault": "",
+   "seconds": 44.5,
+   "events": {
+    "on": 171.402,
+    "off": 174.447
+   },
+   "picked": true,
+   "ok": true,
+   "expect": "3 s örtme → RECOVER; sonra alma başarılı",
+   "status": "GEÇTİ"
+  },
+  "E5 station_test": {
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "RECOVER",
+    "OBSERVE",
+    "RECOVER",
+    "OBSERVE",
+    "FAULT"
+   ],
+   "final": "FAULT",
+   "detail": "Hata: zaman aşımı (OBSERVE, 10 s); 2 kurtarma denemesi tükendi",
+   "fault": "zaman aşımı (OBSERVE, 10 s); 2 kurtarma denemesi tükendi",
+   "seconds": 43.8,
+   "events": {
+    "on": 221.763
+   },
+   "stopped": true,
+   "ok": true,
+   "expect": "kalıcı örtme → FAULT (kurtarma tükendi), robot duruyor",
+   "status": "GEÇTİ"
+  },
+  "E6 station_test": {
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "FAULT"
+   ],
+   "final": "FAULT",
+   "detail": "Hata: yük kaybı: taşınan koli çatalda görülmüyor",
+   "fault": "yük kaybı: taşınan koli çatalda görülmüyor",
+   "seconds": 16.0,
+   "events": {
+    "removed": 275.75,
+    "fault": 0.8460000000000036
+   },
+   "stopped": true,
+   "ok": true,
+   "expect": "koli kaldırılır → FAULT (yük kaybı), robot duruyor",
+   "status": "GEÇTİ"
+  },
+  "E7 station_test": {
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli çatalda (mühür green))",
+   "fault": "",
+   "seconds": 67.5,
+   "events": {
+    "removed": 308.424
+   },
+   "picked_next": true,
+   "ok": true,
+   "expect": "alma başarısız → yeniden deneme; soldan ilk dolu (yeşil) alınır",
+   "status": "GEÇTİ"
+  },
+  "E8 station_test": {
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "TRANSIT",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı; kaynakta koli kalmadı (son alımda görüldü))",
+   "fault": "",
+   "seconds": 467.7,
+   "parcels": [
+    {
+     "parcel": "parcel_source_0",
+     "seal": "red",
+     "station": "dest_red",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 3.769225425541257,
+     "tilt_deg": 9.477272048314227e-05,
+     "base_z_mm": 49.99992741872269
+    },
+    {
+     "parcel": "parcel_source_1",
+     "seal": "green",
+     "station": "dest_green",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 1.3174608983256366,
+     "tilt_deg": 1.7203062292734435e-05,
+     "base_z_mm": 49.99996190458922
+    },
+    {
+     "parcel": "parcel_source_2",
+     "seal": "blue",
+     "station": "dest_blue",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 2.0997846277826246,
+     "tilt_deg": 2.3319120084582497e-05,
+     "base_z_mm": 49.9999343602591
+    }
+   ],
+   "ok": true,
+   "expect": "kırmızı ↔ mavi yer değiştirmiş; tam görev, koliler renge göre doğru",
+   "status": "GEÇTİ"
+  }
+ },
+ "A5": {
+  "status": "GEÇTİ",
+  "by_scenario": {
+   "E1 station_test": "GEÇTİ",
+   "E2 station_test": "GEÇTİ",
+   "E3 station_test": "GEÇTİ",
+   "E4 station_test": "GEÇTİ",
+   "E5 station_test": "GEÇTİ",
+   "E6 station_test": "GEÇTİ",
+   "E7 station_test": "GEÇTİ",
+   "E8 station_test": "GEÇTİ"
+  }
+ },
+ "finished": "2026-10-24 19:48:43"
+}

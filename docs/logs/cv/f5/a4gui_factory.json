@@ -1,0 +1,172 @@
+{
+ "world": "factory",
+ "test": "a4",
+ "transit_method": "lane",
+ "started": "2026-10-24 20:08:59",
+ "trials": [
+  {
+   "start": {
+    "x": 0.0,
+    "y": 0.0,
+    "yaw_deg": 0
+   },
+   "started_from": "gui",
+   "gui_steps": [
+    [
+     "GUI açıldı, e-stop basılı",
+     true
+    ],
+    [
+     "e-stop bırakıldı (1.9 s basılı tutma)",
+     true
+    ],
+    [
+     "[Otonom] tıklandı → mod Otonom",
+     true
+    ],
+    [
+     "[Görevi başlat] tıklandı → görev başladı",
+     true
+    ]
+   ],
+   "states": [
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "TRANSIT",
+    "LANE_JOIN",
+    "TRANSIT",
+    "PRE_DOCK",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı; kaynakta koli kalmadı (son alımda görüldü))",
+   "fault": "",
+   "seconds": 470.3,
+   "parcels_done_reported": 3,
+   "parcels": [
+    {
+     "parcel": "parcel_source_0",
+     "seal": "red",
+     "station": "dest_red",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 2.0234933342382746,
+     "tilt_deg": 2.6466983033799646e-05,
+     "base_z_mm": 49.99994811785266
+    },
+    {
+     "parcel": "parcel_source_1",
+     "seal": "green",
+     "station": "dest_green",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 0.63630689944935,
+     "tilt_deg": 0.00013627789346666035,
+     "base_z_mm": 49.99974721179076
+    },
+    {
+     "parcel": "parcel_source_2",
+     "seal": "blue",
+     "station": "dest_blue",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 3.3030017058014027,
+     "tilt_deg": 8.293917720934193e-05,
+     "base_z_mm": 49.99978077234235
+    }
+   ]
+  }
+ ],
+ "A4": {
+  "trials": 1,
+  "ok": 1,
+  "parcels_correct": 3,
+  "parcels": 3,
+  "offset_mm_max": 3.3030017058014027,
+  "tilt_deg_max": 0.00013627789346666035,
+  "seconds": [
+   470.3
+  ],
+  "faults": [],
+  "status": "GEÇTİ"
+ },
+ "finished": "2026-10-24 20:18:04"
+}

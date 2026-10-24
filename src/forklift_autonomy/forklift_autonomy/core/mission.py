@@ -29,6 +29,14 @@ Akış:
   BACK_OUT      düz geri
   VERIFY        yük denetimi: alma sonrası koli çatalda, bırakma sonrası çatal boş
   DONE / FAULT
+
+Hata ve kurtarma (plan §7.2, F5):
+  RECOVER       hedef kayıp ya da zaman aşımı: dur, bekle, kısa geri, yeniden gözle / yeniden ara;
+                bacak başına recover_max denemeden sonra FAULT
+  ABORT         çatal takıldı: taşıma yüksekliğine çık, geri çık, FAULT
+  yük kaybı     taşırken yük denetimi koli görmüyor: dur, çatalı tut, FAULT
+  alma başarısız VERIFY'da koli yok: çatalı indir, pick_retries kez yeniden dene, sonra FAULT
+  yanlış istasyon PRE_DOCK'ta en yakın tabela başka renk: o noktayı dışla, yeniden ara
 """
 
 import math
@@ -43,11 +51,14 @@ DETAIL = {
     'LANE_JOIN': 'Şeride giriliyor', 'LANE_FOLLOW': 'Şerit izleniyor', 'PRE_DOCK': 'Ön-yanaşma',
     'OBSERVE': 'İstasyon gözleniyor', 'SELECT_BAY': 'Bölme seçiliyor',
     'ALIGN': 'Bölme eksenine hizalanıyor', 'SETTLE': 'Ölçüm tazeleniyor', 'ENTER': 'Bölmeye giriliyor',
-    'TRIM': 'Son hizalama', 'REPOSITION': 'Yeniden konumlanma', 'LIFT': 'Koli kaldırılıyor', 'LOWER': 'Koli bırakılıyor',
+    'TRIM': 'Son hizalama', 'REPOSITION': 'Yeniden konumlanma', 'RECOVER': 'Kurtarma', 'ABORT': 'Güvenli çıkış', 'LIFT': 'Koli kaldırılıyor', 'LOWER': 'Koli bırakılıyor',
     'BACK_OUT': 'Geri çıkılıyor', 'VERIFY': 'Yük denetleniyor',
     'DONE': 'Görev tamam', 'FAULT': 'Hata', 'PAUSED': 'Duraklatıldı',
 }
 SOURCE_COLOR = 'neutral'
+# zaman aşımında kurtarma denenen durumlar (diğerlerinde doğrudan FAULT; LIFT/LOWER: çatal takıldı)
+RECOVERABLE = ('TRANSIT', 'LANE_JOIN', 'LANE_FOLLOW', 'PRE_DOCK', 'OBSERVE', 'SELECT_BAY', 'REPOSITION', 'ALIGN',
+               'SETTLE', 'ENTER', 'TRIM', 'BACK_OUT')
 TASKS = ('pick', 'drop', 'transit', 'full')
 
 
@@ -76,6 +87,13 @@ class Mission:
         self.reobserve = 0
         self.sign_xy = None
         self.sign_est = None
+        self.sign_memory = {}
+        self.recovers = 0                               # bacak içindeki kurtarma sayısı
+        self.pick_retries = 0
+        self.excluded = []                              # yanlış istasyon çıkan tabela konumları (odom)
+        self.abort_why = ''
+        self.source_left = None                         # son alımda kaynakta kalan koli (bilinmiyorsa None)                           # görev içi: görülen tabelalar (odom), ipucu
+        self.hinted = False
         self.misses = 0
         self.lane_tries = 0
         self.pd_moves = 0
@@ -90,6 +108,8 @@ class Mission:
         self.reset()
         self.task = task
         self.loaded = (task == 'drop') if loaded is None else bool(loaded)
+        # transit: operatör koli çataldayken de başlatabilir; "taşıyor muyum" ilk yük ölçümlerinden (A5 E6 bulgusu)
+        self.load_known = task != 'transit' or loaded is not None
         self.fork_target = self.c['carry_q'] if self.loaded else None
         self.parcels_total = 1 if task in ('pick', 'drop') else 0
         if task == 'pick':
@@ -105,13 +125,15 @@ class Mission:
         self.goal = goal
         if goal[0] == 'go':
             self.target, self.search_steps, self.legs, self.look_t, self.prim = goal[1], 0, 0, None, None
+            self.recovers = 0
             self.search_turns = 0
-            self.sign_est, self.misses, self.lane_tries = None, 0, 0
+            self.sign_est, self.misses, self.lane_tries, self.hinted = None, 0, 0, False
             self.signs.reset()
             self._go('FIND_STATION', now, why or f'hedef: {goal[1]}')
         else:
             self.tr.reset()
             self.bay, self.align_tries, self.trimmed, self.prim = None, 0, False, None
+            self.recovers = 0
             self._go('OBSERVE', now, why)
 
     def _leg_done(self, now, why):
@@ -125,7 +147,11 @@ class Mission:
             self._begin(now, ('go', self.bay.parcel), why)
         else:
             self.parcels_done += 1
-            self._begin(now, ('go', SOURCE_COLOR), why)
+            if self.c['finish_when_source_seen_empty'] and self.source_left == 0:
+                # son alımda kaynakta başka dolu ya da belirsiz bölme, sahipsiz koli görülmedi (plan §7.1: … | DONE)
+                self._finish(now, f'{why}; kaynakta koli kalmadı (son alımda görüldü)')
+            else:
+                self._begin(now, ('go', SOURCE_COLOR), why)
 
     def _finish(self, now, why):
         self.done_why = why
@@ -161,7 +187,7 @@ class Mission:
 
     def resume_state(self, paused_from):
         """Duraklatmadan dönüş (plan §7.1): yanaşmanın ortasından ise gözlemden yeniden başla."""
-        if paused_from in ('ALIGN', 'SETTLE', 'ENTER', 'TRIM', 'REPOSITION'):
+        if paused_from in ('ALIGN', 'SETTLE', 'ENTER', 'TRIM', 'REPOSITION', 'RECOVER'):
             self.tr.reset()
             self.bay, self.align_tries, self.trimmed, self.prim = None, 0, False, None
             return 'OBSERVE'
@@ -175,15 +201,83 @@ class Mission:
         c = self.c
         if load is not None:
             self.load_hist = (self.load_hist + [bool(load)])[-c['verify_window']:]
+        if not self.load_known and len(self.load_hist) >= c['verify_window']:
+            self.load_known = True
+            self.loaded = float(np.mean(self.load_hist)) >= c['verify_ratio']
+            if self.loaded:
+                self.log.append((now, self.state, 'çatalda koli var (yük denetimi); taşıma kuralları geçerli'))
         el = now - self.t_state
         timeout = c['timeouts'].get(self.state)
         if timeout is not None and el > timeout:
-            self._fail(now, f'zaman aşımı ({self.state}, {timeout:.0f} s)')
+            why = f'zaman aşımı ({self.state}, {timeout:.0f} s)'
+            if self.state in ('LIFT', 'LOWER'):
+                self._abort(now, f'çatal takıldı (q {q if q is None else round(q * 1000, 1)} mm, hedef '
+                                 f'{self.fork_target * 1000:.0f} mm)')
+            elif self.state in RECOVERABLE:
+                self._recover(now, why)
+            else:
+                self._fail(now, why)
+        elif self._load_lost():
+            self.fork_target = q if q is not None else self.fork_target      # çatalı olduğu yerde tut
+            self._fail(now, 'yük kaybı: taşınan koli çatalda görülmüyor')
         fn = getattr(self, f'_s_{self.state.lower()}', None)
         if fn is None:
             return 0.0, 0.0, self.fork_target
         v, w = fn(now, pose, q, el)
         return v, w, self.fork_target
+
+    def _load_lost(self):
+        """Taşırken (bırakma için indirmeye başlamadan önce) yük denetimi koliyi görmüyor mu."""
+        c = self.c
+        if not self.loaded or self.state in ('LOWER', 'BACK_OUT', 'VERIFY', 'DONE', 'FAULT', 'ABORT', 'IDLE'):
+            return False
+        h = self.load_hist
+        return len(h) >= c['verify_window'] and 1.0 - float(np.mean(h)) >= c['load_loss_ratio']
+
+    def _recover(self, now, why):
+        """Plan §7.2: dur → bekle → kısa geri → yeniden gözle (istasyonda) ya da yeniden ara (transitte)."""
+        if self.recovers >= self.c['recover_max']:
+            self._fail(now, f'{why}; {self.recovers} kurtarma denemesi tükendi')
+            return
+        self.recovers += 1
+        self.prim, self.recover_why = None, why
+        self._go('RECOVER', now, f'{why} → kurtarma {self.recovers}/{self.c["recover_max"]}')
+
+    def _s_recover(self, now, pose, q, el):
+        c = self.c
+        if el < c['recover_wait_s']:
+            return 0.0, 0.0
+        if self.prim is None:
+            self.prim = Straight(pose, -c['recover_back'], c['v_back'], self.c['motion'])
+        v, w, done = self._run_prim(pose)
+        if not done:
+            return v, w
+        if self.goal[0] == 'go':
+            self.search_steps, self.look_t, self.legs, self.misses = 0, None, 0, 0
+            self._go('FIND_STATION', now, 'kurtarma: yeniden aranıyor')
+        else:
+            self.tr.reset()
+            self.bay, self.align_tries, self.trimmed = None, 0, False
+            self._go('OBSERVE', now, 'kurtarma: yeniden gözleniyor')
+        return 0.0, 0.0
+
+    def _abort(self, now, why):
+        """Çatal takıldı: taşıma yüksekliğine çık (yük varsa kolisini kurtar), geri çık, FAULT."""
+        self.abort_why, self.prim = why, None
+        self.fork_target = self.c['carry_q']
+        self._go('ABORT', now, why)
+
+    def _s_abort(self, now, pose, q, el):
+        c = self.c
+        if self.prim is None:
+            if el < c['abort_fork_wait_s'] and (q is None or abs(q - c['carry_q']) > c['fork_tol']):
+                return 0.0, 0.0                             # çatal taşıma yüksekliğine (ya da süre dolana kadar)
+            self.prim = Straight(pose, -c['back_out'], c['v_back'], self.c['motion'])
+        v, w, done = self._run_prim(pose)
+        if done:
+            self._fail(now, self.abort_why)
+            return 0.0, 0.0
+        return v, w
 
     def _run_prim(self, pose):
         v, w, done = self.prim.step(pose)
@@ -213,8 +307,15 @@ class Mission:
                 self.log.append((now, self.state, f'{self.target} tabelası: {len(o)} ölçüm, kestirim yok '
                                                   f'(yayılım {np.ptp(P, axis=0).round(2).tolist()} m)'))
         self.look_t = None
+        if est is not None and self._excluded(est[0]):
+            est = None                                      # yanlış istasyon çıkmıştı
         if est is not None:
             self.sign_est = est
+        # bakışta görülen bütün tabelalar hatırlanır: istasyonlar sabit, sonraki aramada ipucu olur
+        for color in list(self.signs.obs):
+            e = self.signs.estimate(color, now)
+            if e is not None:
+                self.sign_memory[color] = e[0]
         return est
 
     def _s_find_station(self, now, pose, q, el):
@@ -222,6 +323,15 @@ class Mission:
         if self.prim is not None:
             v, w, _ = self._run_prim(pose)
             return v, w
+        if not self.hinted and self.target in self.sign_memory:
+            # görev içinde daha önce görüldü: önce o yöne dön (yalnız ipucu; görülmezse normal arama)
+            self.hinted = True
+            d = self.sign_memory[self.target] - pose.xy
+            b = math.atan2(d[1], d[0])
+            if abs(wrap(b - pose.yaw)) > math.radians(t['hint_tol_deg']):
+                self.prim = Turn(b, self.c['motion'])
+                self.log.append((now, 'FIND_STATION', f'hafızadaki {self.target} tabelasına dön ({math.degrees(wrap(b - pose.yaw)):.0f}°)'))
+                return 0.0, 0.0
         est = self._look(now, any_time=True)
         if est == 'wait':
             return 0.0, 0.0
@@ -288,17 +398,35 @@ class Mission:
         if r > t['near_range']:
             # uzak: tabela yaw'ı güvenilmez (D-66), tabelaya doğru en çok max_leg git ve yeniden bak
             p = pose.xy + u * min(r - t['approach_range'], t['max_leg'])
-            self.prim = GoTo(p, math.atan2(u[1], u[0]), self.c['v_transit'], self.c['motion'])
+            self.prim = GoTo(p, math.atan2(u[1], u[0]), t['v_travel'], self.c['motion'])
             self.log.append((now, 'TRANSIT', f'ayak {self.legs}: {r:.2f} m → {min(r - t["approach_range"], t["max_leg"]):.2f} m ileri'))
             return 0.0, 0.0
         nv = np.array([math.cos(yaw), math.sin(yaw)])
         if np.dot(nv, u) < math.cos(math.radians(t['max_axis_dev_deg'])):
             nv, yaw = u, math.atan2(u[1], u[0])             # tutarsız yaw: bakış doğrultusunu kullan
         p = xy - nv * t['predock_distance']
-        self.prim = GoTo(p, yaw, self.c['v_transit'], self.c['motion'])
+        self.prim = GoTo(p, yaw, t['v_travel'], self.c['motion'])
         self.legs = -1
         self.log.append((now, 'TRANSIT', f'ön-yanaşma: {r:.2f} m, eksen {math.degrees(yaw):.1f}°'))
         return 0.0, 0.0
+
+    def _wrong_station(self, now, pose):
+        """Önümüzdeki (en yakın, yakın mesafedeki) tabela beklenen renk değilse (renk, konum)."""
+        t = self.c['transit']
+        best = None
+        for color in list(self.signs.obs):
+            e = self.signs.estimate(color, now)
+            if e is None:
+                continue
+            r = float(np.linalg.norm(e[0] - pose.xy))
+            if r <= t['wrong_station_range'] and (best is None or r < best[2]):
+                best = (color, e[0], r)
+        if best is None or best[0] == self.target:
+            return None
+        return best
+
+    def _excluded(self, xy):
+        return any(np.linalg.norm(np.asarray(xy) - x) < self.c['transit']['exclude_radius'] for x in self.excluded)
 
     def _lane_color(self):
         """İstasyona giden şeridin rengi: istasyon rengi; kaynak (nötr) istasyonun şeridi sarı (katalog
@@ -314,11 +442,22 @@ class Mission:
         t = self.c['transit']
         if self.prim is not None:
             v, w, done = self._run_prim(pose)
-            if done:
+            if done and self.pd_moves >= t['predock_moves']:
+                # düzeltmeden sonra yeniden ölçülmez: OBSERVE hemen ölçüyor, ALIGN bölme eksenine götürüyor
+                self._leg_done(now, f'{self.target} ön-yanaşmada (düzeltildi)')
+            elif done:
                 self.tr.reset()
                 self.t_state = now                       # yeniden ölç
             return v, w
         if el < self.c['observe_s']:
+            return 0.0, 0.0
+        wrong = self._wrong_station(now, pose)
+        if wrong is not None:
+            # plan §7.2: önümüzdeki istasyon başka renk; o noktayı dışla, geri çık, yeniden ara
+            self.excluded.append(self.sign_xy if self.sign_xy is not None else wrong[1])
+            self.sign_memory.pop(self.target, None)
+            self.sign_est, self.sign_xy = None, None
+            self._recover(now, f'yanlış istasyon: önde {wrong[0]} tabelası, beklenen {self.target}')
             return 0.0, 0.0
         conf = self.tr.confirmed()
         if not conf:
@@ -368,9 +507,15 @@ class Mission:
             self._go('TRANSIT', now, f'{self.target} şeridi görülmedi, tabelayla')
             return 0.0, 0.0
         m, d = ln
+        if est is not None:
+            off = abs(float(np.dot(est[0] - m, [-d[1], d[0]])))
+            if off > t['lane_sign_max_offset']:
+                # şerit tabelaya gitmiyor (istasyonların yeri değişmiş, zemin eski düzende): tabelayla git
+                self._go('TRANSIT', now, f'{self._lane_color()} şeridi tabelaya gitmiyor ({off:.2f} m), tabelayla')
+                return 0.0, 0.0
         s0 = float(np.dot(pose.xy - m, d))
         p = m + d * (s0 + t['join_ahead'])
-        self.prim = GoTo(p, math.atan2(d[1], d[0]), self.c['v_transit'], self.c['motion'])
+        self.prim = GoTo(p, math.atan2(d[1], d[0]), t['v_travel'], self.c['motion'])
         return 0.0, 0.0
 
     def _s_lane_follow(self, now, pose, q, el):
@@ -388,7 +533,7 @@ class Mission:
         else:
             s_stop = float(np.dot(pose.xy - m, d)) + t['lane_free_ahead']
         entry = m + d * s_stop
-        v, w, done = BayServo(t['lane_servo'], 0.0, self.c['v_transit']).step(pose, entry, theta)
+        v, w, done = BayServo(t['lane_servo'], 0.0, t['v_travel']).step(pose, entry, theta)
         if done:
             self._arrived(now, pose)
             return 0.0, 0.0
@@ -468,7 +613,10 @@ class Mission:
                 self.log.append((now, 'FAULT', tr.summary(now)))
             return 0.0, 0.0
         if pick and self.task == 'full':
-            self.parcels_total = self.parcels_done + sum(1 for b in bays if tr.occupied(b, now))
+            occ = sum(1 for b in bays if tr.occupied(b, now))
+            self.parcels_total = self.parcels_done + occ
+            # alınacak koliden sonra kaynakta kalan (belirsiz bölme ve sahipsiz koli de "kalan" sayılır)
+            self.source_left = occ - 1 + len(unknown) + len(tr.orphan_parcels(now))
         self.bay = chosen
         self.fork_target = c['pick_q'] if pick else c['carry_q']
         what = f'mühür {self.bay.parcel}' if pick else 'boş'
@@ -516,7 +664,7 @@ class Mission:
         seen = now - self.bay.last_t
         if dist > c['blind_distance'] and seen > c['lost_hold_s']:
             if seen > c['lost_fail_s']:
-                self._fail(now, f'hedef kayıp ({seen:.1f} s görülmedi)')
+                self._recover(now, f'hedef kayıp ({seen:.1f} s görülmedi)')
             return 0.0, 0.0                                     # görüş dönene kadar bekle
         if not self.trimmed and dist <= c['trim_distance']:
             self.trimmed = True
@@ -580,6 +728,13 @@ class Mission:
             if r >= c['verify_ratio']:
                 self.loaded = True
                 self._leg_done(now, f'koli çatalda (mühür {self.bay.parcel})')
+            elif self.pick_retries < c['pick_retries']:
+                # plan §7.2: indir, (geri çıkıldı), bir kez yeniden dene; seçim yeniden yapılır
+                self.pick_retries += 1
+                self.fork_target = c['pick_q']
+                self.tr.reset()
+                self.bay, self.align_tries, self.trimmed, self.prim = None, 0, False, None
+                self._go('OBSERVE', now, f'alma başarısız: çatalda koli yok → yeniden deneme {self.pick_retries}')
             else:
                 self._fail(now, 'alma başarısız: çatalda koli yok')
         else:

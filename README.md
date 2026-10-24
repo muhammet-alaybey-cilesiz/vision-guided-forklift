@@ -7,11 +7,13 @@
 [![Ubuntu 24.04](https://img.shields.io/badge/Ubuntu-24.04-E95420?logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/24.04/)
 
 A small differential-drive forklift robot in simulation, built as the platform
-for a computer-vision learning project. The workspace contains a
-simulator-agnostic robot description, a Gazebo Harmonic test bench with
-automated acceptance tests, parametric load stations with alignment targets, a
-factory world with a marked AMR cell, a fail-safe velocity command chain and a
-Qt 6 / QML operator GUI.
+for a computer-vision learning project. The robot sorts parcels on its own: it
+picks each parcel from the source station and drops it at the station of its
+seal colour, using only its two cameras, wheel odometry and an IMU. The
+workspace contains a simulator-agnostic robot description, a Gazebo Harmonic
+test bench, parametric load stations, a factory world with a marked AMR cell,
+camera-only perception, a mission manager, a fail-safe velocity command chain
+and a Qt 6 / QML operator GUI with Manual and Auto modes.
 
 <p align="center">
   <img src="docs/images/factory/cell_overview.jpg" alt="AMR cell in the factory world" width="100%">
@@ -20,6 +22,14 @@ Qt 6 / QML operator GUI.
 
 ## Highlights
 
+- **Autonomous parcel sorting from the cameras**: the mission manager finds
+  stations by their coloured signs, drives there (sign-guided legs, or the
+  coloured floor lane in the factory), picks the leftmost parcel, reads its seal
+  and drops it in the middle free bay of the matching station, until the source
+  is empty. It docks on bullseye targets and a bay label to a few millimetres
+  and reacts to faults (e-stop, operator takeover, lost target, lost load,
+  failed pick, stuck fork, wrong station). Ground truth is used only to
+  evaluate (sim-to-real rules R1–R9).
 - **Modular robot description**: xacro components (chassis, drive wheels,
   caster, mast, prismatic fork, two cameras) and a visual-only industrial body.
   Every dimension, mass and limit lives in one YAML file. Gazebo-specific
@@ -44,7 +54,8 @@ Qt 6 / QML operator GUI.
   Gazebo's DiffDrive would otherwise keep the last command forever.
 - **Operator GUI**: C++17 core in a ports-and-adapters design (no ROS in the
   core), with ROS and mock adapters and a QML view. It runs without a ROS graph
-  in mock mode.
+  in mock mode. Manual / Auto mode panel: start, pause, resume and cancel the
+  mission; any drive key hands control back to the operator.
 
 ## Factory world
 
@@ -123,6 +134,11 @@ Two 640×480 / 30 Hz cameras; every image `frame_id` is an optical frame.
   </tr>
 </table>
 
+<p align="center">
+  <img src="docs/images/cv/f5/a4_gui_factory_2_done.png" alt="Operator GUI after an autonomous mission" width="90%">
+  <br><sub>Auto mode at the end of a full mission in the factory: "Görev tamam", 3 / 3 parcels; front camera with sign and parcel detections, lane camera at the red station.</sub>
+</p>
+
 The GUI's UI language is Turkish.
 
 ## Command chain
@@ -156,6 +172,10 @@ zero. `cmd_vel_gate` turns "nothing is allowed" into "zero commanded". See
 | GUI camera display | 29.2 / 28.4 FPS average (front / lane) |
 | GUI performance cost | 18.7 % of one CPU core; simulation real-time factor unchanged (1.00) |
 | Factory world cost | RTF 1.00 and 30.3 Hz cameras as in `station_test`; +1.46 GB GPU memory with the Gazebo GUI |
+| Full autonomous mission (factory, A4) | 3/3 runs, 9/9 parcels at the right station's middle bay, 350–470 s, also started from the GUI |
+| Docking (factory, A1/A2) | Pick 18/18 (entry ≤ 2.5 mm, ≤ 0.54°); drop 18/18 (parcel offset ≤ 4.9 mm, tilt 0.00°) |
+| Transit (factory, A3) | Pre-dock pose ≤ 29 mm / 0.3°; lane-following RMS ≤ 3.9 mm with a parcel; parcel slip ≤ 0.3 mm |
+| Faults (factory, A5) | 8/8: e-stop stops in 0.38 s, operator takeover, Manual mode, occluded target (recovers / faults), lost load (0.98 s), failed pick (retries), stations moved |
 
 Full results: [docs/test_results.md](docs/test_results.md) (simulation T1–T14),
 [docs/station_test_results.md](docs/station_test_results.md) (stations S1–S8),
@@ -187,7 +207,11 @@ Plot labels are in Turkish.
 | [`forklift_gazebo`](src/forklift_gazebo) | Test worlds (`lift_test`, `station_test`) and the generated `factory` world, sealed test parcel, parametric station and parcel xacros, alignment-target and sign textures, ROS ↔ Gazebo bridges, `sim.launch.py` / `station_sim.launch.py`, the T1–T14 and S-series acceptance tests and a performance probe. |
 | [`forklift_safety`](src/forklift_safety) | Command chain: `twist_mux` config and the `cmd_vel_gate` node (unit-tested). Started by `sim.launch.py`. |
 | [`forklift_gui`](src/forklift_gui) | Operator GUI: Qt-only core, ROS and mock adapters, QML view, QtTest unit tests and an end-to-end test. |
-| [`forklift_bringup`](src/forklift_bringup) | One launch file for simulation + RViz + GUI (`world:=lift_test\|station_test\|factory`). |
+| [`forklift_interfaces`](src/forklift_interfaces) | Messages for signs, lanes, bay targets, parcels, load and autonomy state; `SetMode` service. |
+| [`forklift_perception`](src/forklift_perception) | Camera-only perception: ROS-free core (camera model, calibration, sign, parcel/seal, bullseye-pair, bay-label, lane and load detectors, IMU attitude) and two thin ROS nodes. |
+| [`forklift_autonomy`](src/forklift_autonomy) | Mission manager: ROS-free trackers, motion primitives and state machine; `mission_manager` node with Manual/Auto modes and mission services. |
+| [`forklift_evaluation`](src/forklift_evaluation) | Simulation-only evaluation (reads ground truth): perception tests C0–C9, mission tests A1–A4, fault injection A5, calibration and recording tools. |
+| [`forklift_bringup`](src/forklift_bringup) | One launch file for simulation + RViz + GUI + perception + mission manager (`world:=lift_test\|station_test\|factory`). |
 
 ## Requirements
 
@@ -208,7 +232,7 @@ source install/setup.bash
 ## Run
 
 ```bash
-# Simulation + RViz + command chain + operator GUI
+# Simulation + RViz + command chain + operator GUI + perception + mission manager
 ros2 launch forklift_bringup bringup.launch.py world:=factory        # factory hall with stations
 ros2 launch forklift_bringup bringup.launch.py world:=station_test   # plain station test world
 ros2 launch forklift_bringup bringup.launch.py                       # lift_test (default)
@@ -227,6 +251,14 @@ ros2 launch forklift_gui gui.launch.py mock:=true
 ros2 launch forklift_description display.launch.py
 ```
 
+Autonomous mission: in the GUI release the e-stop (hold 1.5 s), press
+**Otonom**, then **Görevi başlat**. The robot moves the three source parcels
+to their stations and stops when the source is empty. **Duraklat** / **Devam**
+pause and resume, **İptal** cancels; any drive key switches back to Manual.
+Single steps for testing: `ros2 param set /mission_manager task pick|drop|transit|full`
+(and `target red|green|blue|neutral` for `transit`). Add `debug:=true` for
+annotated images on `/perception/debug/front` and `/perception/debug/lane`.
+
 GUI controls: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> drive (hold),
 <kbd>R</kbd>/<kbd>F</kbd> fork ±5 mm, <kbd>1</kbd>–<kbd>4</kbd> fork presets,
 <kbd>Space</kbd> e-stop, <kbd>C</kbd> save a dataset frame pair,
@@ -240,12 +272,23 @@ ros2 run forklift_gazebo acceptance_test.py           # simulation T1–T14 (~5 
 ros2 run forklift_gazebo station_acceptance.py        # stations S1–S8 (~10 min)
 ros2 run forklift_gazebo measure_sim_performance.py   # RTF, camera rate, CPU/GPU per world (~10 min)
 ros2 run forklift_gui integration_test.py             # GUI end-to-end I1–I12
+python3 -m pytest src/forklift_autonomy/test src/forklift_perception/test src/forklift_evaluation/test
+ros2 run forklift_evaluation cv_eval                                       # perception C0–C9 (recorded sets)
+ros2 run forklift_evaluation mission_acceptance --test a1|a2|a3|a4 --world factory --trials full
+ros2 run forklift_evaluation mission_acceptance --test a4 --world factory --trials gui   # started from the GUI (Xephyr :99)
+ros2 run forklift_evaluation fault_acceptance --world factory              # fault injection E1–E8
 ```
+
+Two simulations can run at once with different `GZ_PARTITION` and
+`ROS_DOMAIN_ID`. Build without `--symlink-install` (the workspace's CMake caches
+are not symlink builds).
 
 ## Documentation
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — frames, ROS ↔ Gazebo interface, launch graph, GUI layers and thread model
-- [DECISIONS.md](DECISIONS.md) — design decision log (D-01 … D-56)
+- [DECISIONS.md](DECISIONS.md) — design decision log (D-01 … D-79)
+- [docs/PLAN_CV_AUTONOMY.md](docs/PLAN_CV_AUTONOMY.md) — computer-vision and autonomy slice plan (Turkish)
+- [REPORT_CV.md](REPORT_CV.md) — computer-vision and autonomy report, phases F1–F5 (Turkish)
 - [REPORT.md](REPORT.md) — simulation phase report (Turkish)
 - [REPORT_STATIONS.md](REPORT_STATIONS.md) — load station report (Turkish)
 - [REPORT_FACTORY.md](REPORT_FACTORY.md) — factory world and robot appearance report (Turkish)
@@ -276,10 +319,14 @@ downloading anything (switch the branch selector to `release/...`):
 |---|---|---|
 | v0.1.0 | [`release/v0.1.0`](../../tree/release/v0.1.0) | Robot description, simulation test bench (T1–T14), command chain, operator GUI |
 | v0.2.0 | [`release/v0.2.0`](../../tree/release/v0.2.0) | + Load stations with ArUco markers, `station_test` world (S1–S8) — markers later removed (D-56) |
-| v0.3.0 | [`release/v0.3.0`](../../tree/release/v0.3.0) | + Factory world, industrial station/parcel look, robot body (D-53, D-54) — same as `main` today |
+| v0.3.0 | [`release/v0.3.0`](../../tree/release/v0.3.0) | + Factory world, industrial station/parcel look, robot body (D-53, D-54) |
+| v0.4.0 | [`release/v0.4.0`](../../tree/release/v0.4.0) | + Camera-only perception, mission manager, GUI Manual/Auto mode, fault reactions (D-57 … D-79) — same as `main` today |
 
 ## Roadmap
 
-Perception (parcel and seal detection on the front camera), lane following on
-the lane camera, and autonomous pick-and-place through the `/cmd_vel/auto`
-input. None of these are implemented yet.
+Next slice: harder paths (curves, junctions, faded tape, shadows; the lane
+message is already a polyline), staged camera noise, and a learned parcel/seal
+detector trained on auto-labelled simulation data plus real images (the
+detectors are already selected by `backend:` in `detectors.yaml`; only
+`classical` exists in slice 1). Open perception limits from slice 1 are
+listed in `REPORT_CV.md` §F4.7 and §F5.

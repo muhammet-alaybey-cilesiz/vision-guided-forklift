@@ -81,3 +81,11 @@ def test_sign_pose_fit_survives_nan_jacobian():
     det._project = project
     params, err = det._gauss_newton(None, q, np.zeros(3))
     assert params is None and err == np.inf and len(calls) == 4
+
+
+def test_unknown_detector_backend_fails_loudly():
+    """Plan R4: algılayıcı uygulaması yapılandırmadan seçilir; uygulanmamış olan sessizce klasiğe düşmez."""
+    from forklift_perception.core.pipelines import _backend
+    assert _backend({'parcels': {'backend': 'classical'}}, 'parcels') == 'classical'
+    with pytest.raises(NotImplementedError):
+        _backend({'parcels': {'backend': 'onnx'}}, 'parcels')

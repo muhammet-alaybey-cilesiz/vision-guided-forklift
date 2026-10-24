@@ -1,0 +1,134 @@
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-24-19-49-16-340387-muhammet61-11664
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mission_manager-1]: process started with pid [11713]
+[mission_manager-1] [WARN] [1792860556.926835041] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[mission_manager-1] [WARN] [1792860556.926849538] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[mission_manager-1] [INFO] [1792860557.082455635] [mission_manager]: görev yöneticisi hazır (mod: Manuel, transit: sign)
+[mission_manager-1] [INFO] [1792860574.277084854] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792860584.144884794] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792860584.664308957] [mission_manager]: görev başladı (full )
+[mission_manager-1] [INFO] [1792860584.853381325] [mission_manager]: FIND_STATION: hedef: neutral
+[mission_manager-1] [INFO] [1792860585.624067693] [mission_manager]: FIND_STATION: bakış 1: yön -0°, görülen {}
+[mission_manager-1] [INFO] [1792860588.985205589] [mission_manager]: TRANSIT: tabela neutral: 1.58 m, yön -21°
+[mission_manager-1] [INFO] [1792860589.760113434] [mission_manager]: TRANSIT: ayak 1: 1.60 m → 0.30 m ileri
+[mission_manager-1] [INFO] [1792860596.827192267] [mission_manager]: TRANSIT: ön-yanaşma: 1.23 m, eksen -0.6°
+[mission_manager-1] [INFO] [1792860604.515943958] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792860606.460548563] [mission_manager]: OBSERVE: neutral ön-yanaşmada (yanal 8 mm, yön 0.4°)
+[mission_manager-1] [INFO] [1792860608.490825648] [mission_manager]: SELECT_BAY:  [bölme giriş 1.498,0.300 θ -0.00°]
+[mission_manager-1] [INFO] [1792860608.491158204] [mission_manager]: ALIGN: bölme 1/3 (soldan), mühür blue [bölme giriş 1.498,0.300 θ -0.00°]
+[mission_manager-1] [INFO] [1792860622.623514645] [mission_manager]: SETTLE:  [bölme giriş 1.489,0.301 θ -0.03°]
+[mission_manager-1] [INFO] [1792860623.645071014] [mission_manager]: ENTER: giriş (yanal -2 mm, yön -0.06°, mesafe 0.75 m) [bölme giriş 1.496,0.301 θ 0.03°]
+[mission_manager-1] [INFO] [1792860629.014004049] [mission_manager]: TRIM: yanal 0.2 mm, yön 0.03° [bölme giriş 1.500,0.300 θ 0.01°]
+[mission_manager-1] [INFO] [1792860630.028031202] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 1.498,0.300 θ 0.01°]
+[mission_manager-1] [INFO] [1792860636.637138639] [mission_manager]: LIFT: tam giriş (CV mesafesi 0.144 m) [bölme giriş 1.500,0.299 θ 0.01°]
+[mission_manager-1] [INFO] [1792860638.144789939] [mission_manager]: BACK_OUT:  [bölme giriş 1.501,0.299 θ 0.01°]
+[mission_manager-1] [INFO] [1792860644.822124409] [mission_manager]: VERIFY:  [bölme giriş 1.500,0.301 θ -0.01°]
+[mission_manager-1] [INFO] [1792860645.884521657] [mission_manager]: FIND_STATION: koli çatalda (mühür blue) [bölme giriş 1.498,0.301 θ 0.01°]
+[mission_manager-1] [INFO] [1792860646.679859473] [mission_manager]: FIND_STATION: bakış 1: yön -0°, görülen {'neutral': 13} [bölme giriş 1.497,0.301 θ 0.03°]
+[mission_manager-1] [INFO] [1792860650.038819254] [mission_manager]: FIND_STATION: bakış 2: yön 20°, görülen {'neutral': 0} [bölme giriş 1.497,0.300 θ 0.51°]
+[mission_manager-1] [INFO] [1792860653.389251018] [mission_manager]: FIND_STATION: bakış 3: yön 40°, görülen {'neutral': 0} [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860656.492396591] [mission_manager]: FIND_STATION: bakış 4: yön 60°, görülen {'neutral': 0} [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860659.849486649] [mission_manager]: FIND_STATION: bakış 5: yön 79°, görülen {'neutral': 0} [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860663.375686512] [mission_manager]: FIND_STATION: bakış 6: yön 99°, görülen {'neutral': 0, 'red': 28} [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860666.900211137] [mission_manager]: FIND_STATION: bakış 7: yön 119°, görülen {'neutral': 0, 'red': 29} [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860670.455698911] [mission_manager]: FIND_STATION: bakış 8: yön 139°, görülen {'neutral': 0, 'red': 24} [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860673.783220806] [mission_manager]: FIND_STATION: bakış 9: yön 159°, görülen {'neutral': 3, 'red': 0} [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860677.154380030] [mission_manager]: TRANSIT: tabela blue: 3.25 m, yön 6° [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860677.914701447] [mission_manager]: TRANSIT: ayak 1: 3.27 m → 1.00 m ileri [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860687.799235642] [mission_manager]: TRANSIT: ayak 2: 2.17 m → 0.87 m ileri [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860695.670619105] [mission_manager]: TRANSIT: ön-yanaşma: 1.29 m, eksen 176.4° [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860705.846760534] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860707.947789855] [mission_manager]: PRE_DOCK: düzeltme: yanal 80 mm, mesafe 36 mm, yön 3.6° [bölme giriş 1.497,0.300 θ 0.50°]
+[mission_manager-1] [INFO] [1792860722.610568772] [mission_manager]: OBSERVE: blue ön-yanaşmada (düzeltildi)
+[mission_manager-1] [INFO] [1792860724.458652165] [mission_manager]: SELECT_BAY:  [bölme giriş -2.246,-0.001 θ -180.00°]
+[mission_manager-1] [INFO] [1792860724.459123423] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş -2.246,-0.001 θ -180.00°]
+[mission_manager-1] [INFO] [1792860728.318491893] [mission_manager]: SETTLE:  [bölme giriş -2.244,-0.001 θ -179.97°]
+[mission_manager-1] [INFO] [1792860729.372377853] [mission_manager]: ENTER: giriş (yanal -1 mm, yön 0.04°, mesafe 0.75 m) [bölme giriş -2.244,-0.001 θ 179.96°]
+[mission_manager-1] [INFO] [1792860735.221213486] [mission_manager]: TRIM: yanal -0.1 mm, yön -0.19° [bölme giriş -2.251,-0.001 θ 179.97°]
+[mission_manager-1] [INFO] [1792860736.564142187] [mission_manager]: ENTER: son hizalama tamam [bölme giriş -2.248,-0.001 θ 179.97°]
+[mission_manager-1] [INFO] [1792860743.253085839] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.145 m) [bölme giriş -2.250,-0.001 θ 179.97°]
+[mission_manager-1] [INFO] [1792860744.777557269] [mission_manager]: BACK_OUT:  [bölme giriş -2.248,-0.001 θ 179.97°]
+[mission_manager-1] [INFO] [1792860751.514681851] [mission_manager]: VERIFY:  [bölme giriş -2.249,-0.001 θ 179.93°]
+[mission_manager-1] [INFO] [1792860752.740226134] [mission_manager]: FIND_STATION: koli bırakıldı [bölme giriş -2.250,-0.001 θ -179.96°]
+[mission_manager-1] [INFO] [1792860753.504228528] [mission_manager]: FIND_STATION: bakış 1: yön -180°, görülen {'blue': 10} [bölme giriş -2.249,-0.001 θ -179.99°]
+[mission_manager-1] [INFO] [1792860756.844136023] [mission_manager]: FIND_STATION: bakış 2: yön -160°, görülen {'blue': 21} [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860760.155471873] [mission_manager]: FIND_STATION: bakış 3: yön -140°, görülen {'blue': 0} [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860763.373785628] [mission_manager]: FIND_STATION: bakış 4: yön -120°, görülen {'blue': 0} [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860766.670150493] [mission_manager]: FIND_STATION: bakış 5: yön -100°, görülen {'blue': 0} [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860769.844109365] [mission_manager]: FIND_STATION: bakış 6: yön -80°, görülen {'blue': 0, 'green': 16} [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860773.087603119] [mission_manager]: FIND_STATION: bakış 7: yön -60°, görülen {'blue': 0, 'green': 26} [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860776.403604601] [mission_manager]: FIND_STATION: bakış 8: yön -41°, görülen {'blue': 0, 'green': 24} [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860779.350837340] [mission_manager]: TRANSIT: tabela neutral: 3.31 m, yön 21° [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860780.311029186] [mission_manager]: TRANSIT: ayak 1: 3.36 m → 1.00 m ileri [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860790.716958208] [mission_manager]: TRANSIT: tabela görülmedi, saklı kestirimle (1) [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860790.717815210] [mission_manager]: TRANSIT: ayak 2: 2.36 m → 1.00 m ileri [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860798.841149621] [mission_manager]: TRANSIT: tabela görülmedi, saklı kestirimle (2) [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860798.841592356] [mission_manager]: TRANSIT: ön-yanaşma: 1.36 m, eksen -3.5° [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860806.137727537] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860807.810939814] [mission_manager]: PRE_DOCK: düzeltme: yanal 48 mm, mesafe 251 mm, yön 3.4° [bölme giriş -2.247,-0.001 θ -179.98°]
+[mission_manager-1] [INFO] [1792860823.409119986] [mission_manager]: OBSERVE: neutral ön-yanaşmada (düzeltildi)
+[mission_manager-1] [INFO] [1792860825.125611726] [mission_manager]: SELECT_BAY:  [bölme giriş 1.495,0.001 θ 0.02°]
+[mission_manager-1] [INFO] [1792860825.125962494] [mission_manager]: ALIGN: bölme 2/3 (soldan), mühür green [bölme giriş 1.495,0.001 θ 0.02°]
+[mission_manager-1] [INFO] [1792860830.477432055] [mission_manager]: SETTLE:  [bölme giriş 1.490,0.001 θ -0.08°]
+[mission_manager-1] [INFO] [1792860831.317926651] [mission_manager]: ENTER: giriş (yanal 1 mm, yön -0.01°, mesafe 0.75 m) [bölme giriş 1.494,0.001 θ -0.01°]
+[mission_manager-1] [INFO] [1792860835.832677735] [mission_manager]: TRIM: yanal 0.3 mm, yön 0.14° [bölme giriş 1.497,0.000 θ 0.02°]
+[mission_manager-1] [INFO] [1792860836.669053214] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 1.498,0.000 θ 0.02°]
+[mission_manager-1] [INFO] [1792860841.803918751] [mission_manager]: LIFT: tam giriş (CV mesafesi 0.144 m) [bölme giriş 1.500,0.000 θ 0.00°]
+[mission_manager-1] [INFO] [1792860843.078602842] [mission_manager]: BACK_OUT:  [bölme giriş 1.499,0.000 θ 0.00°]
+[mission_manager-1] [INFO] [1792860848.619538798] [mission_manager]: VERIFY:  [bölme giriş 1.499,0.001 θ -0.01°]
+[mission_manager-1] [INFO] [1792860849.463852090] [mission_manager]: FIND_STATION: koli çatalda (mühür green) [bölme giriş 1.499,0.001 θ -0.00°]
+[mission_manager-1] [INFO] [1792860849.464173735] [mission_manager]: FIND_STATION: hafızadaki green tabelasına dön (-106°) [bölme giriş 1.499,0.001 θ -0.00°]
+[mission_manager-1] [INFO] [1792860854.601634255] [mission_manager]: TRANSIT: tabela green: 2.47 m, yön -1° [bölme giriş 1.499,0.001 θ 0.00°]
+[mission_manager-1] [INFO] [1792860855.454771519] [mission_manager]: TRANSIT: ayak 1: 2.47 m → 1.00 m ileri [bölme giriş 1.499,0.001 θ 0.00°]
+[mission_manager-1] [INFO] [1792860862.419252232] [mission_manager]: TRANSIT: ön-yanaşma: 1.49 m, eksen -95.0° [bölme giriş 1.499,0.001 θ 0.00°]
+[mission_manager-1] [INFO] [1792860871.608377347] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor [bölme giriş 1.499,0.001 θ 0.00°]
+[mission_manager-1] [INFO] [1792860873.091550400] [mission_manager]: PRE_DOCK: düzeltme: yanal 80 mm, mesafe 95 mm, yön 5.0° [bölme giriş 1.499,0.001 θ 0.00°]
+[mission_manager-1] [INFO] [1792860885.902085069] [mission_manager]: OBSERVE: green ön-yanaşmada (düzeltildi)
+[mission_manager-1] [INFO] [1792860887.589943094] [mission_manager]: SELECT_BAY:  [bölme giriş 0.001,-2.243 θ -90.02°]
+[mission_manager-1] [INFO] [1792860887.590266532] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 0.001,-2.243 θ -90.02°]
+[mission_manager-1] [INFO] [1792860890.447248969] [mission_manager]: SETTLE:  [bölme giriş 0.000,-2.247 θ -89.93°]
+[mission_manager-1] [INFO] [1792860891.296293705] [mission_manager]: ENTER: giriş (yanal 1 mm, yön 0.07°, mesafe 0.75 m) [bölme giriş 0.000,-2.244 θ -89.96°]
+[mission_manager-1] [INFO] [1792860895.358236186] [mission_manager]: TRIM: yanal 0.0 mm, yön 0.11° [bölme giriş 0.000,-2.248 θ -89.99°]
+[mission_manager-1] [INFO] [1792860896.198040471] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 0.000,-2.249 θ -89.99°]
+[mission_manager-1] [INFO] [1792860901.483987219] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 0.000,-2.250 θ -89.99°]
+[mission_manager-1] [INFO] [1792860902.740942254] [mission_manager]: BACK_OUT:  [bölme giriş 0.000,-2.250 θ -89.99°]
+[mission_manager-1] [INFO] [1792860908.013960341] [mission_manager]: VERIFY:  [bölme giriş 0.000,-2.250 θ -89.95°]
+[mission_manager-1] [INFO] [1792860908.848910796] [mission_manager]: FIND_STATION: koli bırakıldı [bölme giriş 0.000,-2.248 θ -90.01°]
+[mission_manager-1] [INFO] [1792860909.064030828] [mission_manager]: FIND_STATION: hafızadaki neutral tabelasına dön (136°) [bölme giriş 0.000,-2.248 θ -90.01°]
+[mission_manager-1] [INFO] [1792860914.952754156] [mission_manager]: TRANSIT: tabela neutral: 2.06 m, yön -0° [bölme giriş 0.000,-2.248 θ -90.01°]
+[mission_manager-1] [INFO] [1792860915.788135032] [mission_manager]: TRANSIT: ayak 1: 2.06 m → 0.76 m ileri [bölme giriş 0.000,-2.248 θ -90.01°]
+[mission_manager-1] [INFO] [1792860921.482849354] [mission_manager]: TRANSIT: ön-yanaşma: 1.47 m, eksen 8.2° [bölme giriş 0.000,-2.248 θ -90.01°]
+[mission_manager-1] [INFO] [1792860932.644610878] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor [bölme giriş 0.000,-2.248 θ -90.01°]
+[mission_manager-1] [INFO] [1792860934.322752481] [mission_manager]: PRE_DOCK: düzeltme: yanal -119 mm, mesafe 57 mm, yön -8.5° [bölme giriş 0.000,-2.248 θ -90.01°]
+[mission_manager-1] [INFO] [1792860945.708485382] [mission_manager]: OBSERVE: neutral ön-yanaşmada (düzeltildi)
+[mission_manager-1] [INFO] [1792860947.182138844] [mission_manager]: SELECT_BAY:  [bölme giriş 1.494,-0.298 θ -0.11°]
+[mission_manager-1] [INFO] [1792860947.182512588] [mission_manager]: ALIGN: bölme 3/3 (soldan), mühür red [bölme giriş 1.494,-0.298 θ -0.11°]
+[mission_manager-1] [INFO] [1792860957.916824626] [mission_manager]: SETTLE:  [bölme giriş 1.487,-0.299 θ -0.13°]
+[mission_manager-1] [INFO] [1792860958.755497384] [mission_manager]: ENTER: giriş (yanal 4 mm, yön 0.01°, mesafe 0.74 m) [bölme giriş 1.488,-0.299 θ -0.12°]
+[mission_manager-1] [INFO] [1792860963.017163979] [mission_manager]: TRIM: yanal -0.0 mm, yön 0.12° [bölme giriş 1.500,-0.300 θ -0.00°]
+[mission_manager-1] [INFO] [1792860963.845481512] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 1.500,-0.300 θ 0.02°]
+[mission_manager-1] [INFO] [1792860969.168548702] [mission_manager]: LIFT: tam giriş (CV mesafesi 0.143 m) [bölme giriş 1.501,-0.298 θ -0.08°]
+[mission_manager-1] [INFO] [1792860970.428054585] [mission_manager]: BACK_OUT:  [bölme giriş 1.500,-0.298 θ -0.08°]
+[mission_manager-1] [INFO] [1792860975.722200745] [mission_manager]: VERIFY:  [bölme giriş 1.497,-0.299 θ -0.33°]
+[mission_manager-1] [INFO] [1792860976.350599363] [mission_manager]: FIND_STATION: koli çatalda (mühür red) [bölme giriş 1.497,-0.299 θ -0.17°]
+[mission_manager-1] [INFO] [1792860976.565244403] [mission_manager]: FIND_STATION: hafızadaki red tabelasına dön (104°) [bölme giriş 1.498,-0.299 θ -0.17°]
+[mission_manager-1] [INFO] [1792860981.660923398] [mission_manager]: TRANSIT: tabela red: 2.82 m, yön 5° [bölme giriş 1.498,-0.299 θ -0.17°]
+[mission_manager-1] [INFO] [1792860982.282245465] [mission_manager]: TRANSIT: ayak 1: 2.84 m → 1.00 m ileri [bölme giriş 1.498,-0.299 θ -0.17°]
+[mission_manager-1] [WARN] [1792860985.664524155] [mission_manager]: duraklatıldı: e-stop
+[mission_manager-1] [INFO] [1792860985.757874687] [mission_manager]: PAUSED: e-stop [bölme giriş 1.498,-0.299 θ -0.17°]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [mission_manager-1]: sending signal 'SIGINT' to process[mission_manager-1]
+[mission_manager-1] Traceback (most recent call last):
+[mission_manager-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/forklift_autonomy/mission_manager", line 33, in <module>
+[mission_manager-1]     sys.exit(load_entry_point('forklift-autonomy==0.1.0', 'console_scripts', 'mission_manager')())
+[mission_manager-1]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[mission_manager-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/python3.12/site-packages/forklift_autonomy/node.py", line 357, in main
+[mission_manager-1]     node.destroy_node()
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1958, in destroy_node
+[mission_manager-1]     self.destroy_subscription(self._subscriptions[0])
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1854, in destroy_subscription
+[mission_manager-1]     subscription.destroy()
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/subscription.py", line 101, in destroy
+[mission_manager-1]     self.handle.destroy_when_not_in_use()
+[mission_manager-1] KeyboardInterrupt
+[ERROR] [mission_manager-1]: process has died [pid 11713, exit code -2, cmd '/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/forklift_autonomy/mission_manager --ros-args -r __node:=mission_manager --params-file /tmp/launch_params_8e2eb1qm --params-file /tmp/launch_params_a_tlw35k'].

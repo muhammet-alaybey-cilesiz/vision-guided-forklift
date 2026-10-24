@@ -2,7 +2,7 @@
  "world": "factory",
  "test": "a2",
  "transit_method": "lane",
- "started": "2026-10-24 12:23:52",
+ "started": "2026-10-24 20:25:47",
  "trials": [
   {
    "station": "dest_red",
@@ -18,6 +18,7 @@
    "states": [
     "IDLE",
     "OBSERVE",
+    "SELECT_BAY",
     "ALIGN",
     "SETTLE",
     "ENTER",
@@ -41,6 +42,10 @@
      255.0,
      -0.0
     ],
+    "SELECT_BAY": [
+     255.0,
+     -0.0
+    ],
     "ALIGN": [
      255.0,
      -0.0
@@ -58,36 +63,36 @@
      -0.0
     ],
     "LOWER": [
-     255.1,
-     0.0
+     255.0,
+     -0.0
     ],
     "BACK_OUT": [
-     256.9,
-     0.0
+     258.4,
+     -0.0
     ],
     "VERIFY": [
      751.9,
-     0.0
+     -0.0
     ],
     "DONE": [
      751.9,
-     0.0
+     -0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.012558988430348778,
-    "carriage_lateral": -0.0002537155645402076,
-    "yaw_deg": -0.18781769960051126,
-    "pitch_deg": -0.4094033843722363
+    "carriage_front_x": -0.012751277161493074,
+    "carriage_lateral": -1.3725180281949113e-05,
+    "yaw_deg": -0.46703154445454137,
+    "pitch_deg": -0.40942638513137475
    },
    "bay": 1,
    "offset_mm": [
-    2.1528900378013915,
-    -0.6617599417345623
+    1.9485866760104997,
+    -1.0371199211931665
    ],
-   "offset_norm_mm": 2.2523014308366913,
-   "tilt_deg": 6.267535996668248e-05,
-   "base_z_mm": 49.99977162596495,
+   "offset_norm_mm": 2.2073984155247937,
+   "tilt_deg": 6.261136097485706e-05,
+   "base_z_mm": 49.99977356718219,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {}
   },
@@ -105,7 +110,6 @@
    "states": [
     "IDLE",
     "OBSERVE",
-    "SELECT_BAY",
     "ALIGN",
     "SETTLE",
     "ENTER",
@@ -129,13 +133,9 @@
      255.0,
      0.0
     ],
-    "SELECT_BAY": [
-     255.0,
-     0.0
-    ],
     "ALIGN": [
      255.0,
-     -0.0
+     0.0
     ],
     "SETTLE": [
      255.0,
@@ -150,36 +150,36 @@
      0.0
     ],
     "LOWER": [
-     255.1,
-     0.0
+     255.0,
+     -0.0
     ],
     "BACK_OUT": [
-     255.5,
+     255.4,
      -0.6
     ],
     "VERIFY": [
-     752.2,
+     751.2,
      0.0
     ],
     "DONE": [
-     752.2,
+     751.2,
      0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.011134036787143392,
-    "carriage_lateral": -0.0018171096920526909,
-    "yaw_deg": -0.5864774989383613,
-    "pitch_deg": -0.20477503678872858
+    "carriage_front_x": -0.011663653791562034,
+    "carriage_lateral": -0.0007897702923980143,
+    "yaw_deg": -0.30661105037168807,
+    "pitch_deg": -0.20475558721018353
    },
    "bay": 2,
    "offset_mm": [
-    3.690668600014213,
-    -2.8504626236908193
+    3.1786222130363306,
+    -1.2150102017216557
    ],
-   "offset_norm_mm": 4.663279091389365,
-   "tilt_deg": 0.00011349410609000567,
-   "base_z_mm": 49.99958703069493,
+   "offset_norm_mm": 3.402923590604949,
+   "tilt_deg": 3.059322473554147e-05,
+   "base_z_mm": 49.99986470456014,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {
     "parcel_source_1": 0.0
@@ -213,7 +213,7 @@
    "final": "DONE",
    "detail": "Görev tamam (koli bırakıldı)",
    "fault": "",
-   "seconds": 35.9,
+   "seconds": 36.3,
    "parcel_on_fork_mm": {
     "IDLE": [
      255.0,
@@ -237,549 +237,7 @@
     ],
     "ENTER": [
      255.0,
-     -0.0
-    ],
-    "TRIM": [
-     255.0,
-     -0.0
-    ],
-    "LOWER": [
-     255.1,
      0.0
-    ],
-    "BACK_OUT": [
-     260.7,
-     0.7
-    ],
-    "VERIFY": [
-     752.1,
-     0.0
-    ],
-    "DONE": [
-     752.1,
-     0.0
-    ]
-   },
-   "deepest": {
-    "carriage_front_x": -0.011460951804074887,
-    "carriage_lateral": 0.002822314808369956,
-    "yaw_deg": 0.15210188183851348,
-    "pitch_deg": -0.204752950431171
-   },
-   "bay": 0,
-   "offset_mm": [
-    3.375847606394089,
-    2.9428481909624105
-   ],
-   "offset_norm_mm": 4.478471004332554,
-   "tilt_deg": 0.00014003189222265208,
-   "base_z_mm": 49.99951746440603,
-   "parcel_on_fork_after": false,
-   "neighbours_moved_mm": {
-    "parcel_source_1": 0.0,
-    "parcel_source_2": 0.0
-   }
-  },
-  {
-   "station": "dest_green",
-   "case": "mid",
-   "expected_bay": 1,
-   "start": {
-    "d": 1.0,
-    "lateral": 0.1,
-    "yaw_deg": -5
-   },
-   "start_ok": true,
-   "start_msg": "görev başladı",
-   "states": [
-    "IDLE",
-    "OBSERVE",
-    "ALIGN",
-    "SETTLE",
-    "ENTER",
-    "TRIM",
-    "ENTER",
-    "LOWER",
-    "BACK_OUT",
-    "VERIFY",
-    "DONE"
-   ],
-   "final": "DONE",
-   "detail": "Görev tamam (koli bırakıldı)",
-   "fault": "",
-   "seconds": 30.9,
-   "parcel_on_fork_mm": {
-    "IDLE": [
-     255.0,
-     -0.0
-    ],
-    "OBSERVE": [
-     255.0,
-     -0.0
-    ],
-    "ALIGN": [
-     255.0,
-     0.0
-    ],
-    "SETTLE": [
-     255.0,
-     0.0
-    ],
-    "ENTER": [
-     255.0,
-     -0.0
-    ],
-    "TRIM": [
-     255.0,
-     -0.0
-    ],
-    "LOWER": [
-     255.1,
-     -0.0
-    ],
-    "BACK_OUT": [
-     260.3,
-     -0.0
-    ],
-    "VERIFY": [
-     752.0,
-     -0.0
-    ],
-    "DONE": [
-     752.0,
-     -0.0
-    ]
-   },
-   "deepest": {
-    "carriage_front_x": -0.013083474205350942,
-    "carriage_lateral": 0.0002212296701803584,
-    "yaw_deg": 0.007082437087528161,
-    "pitch_deg": -0.409401716523229
-   },
-   "bay": 1,
-   "offset_mm": [
-    1.6547141742941918,
-    0.2319600158339042
-   ],
-   "offset_norm_mm": 1.6708933082503425,
-   "tilt_deg": 7.871404088081626e-06,
-   "base_z_mm": 49.99988410766698,
-   "parcel_on_fork_after": false,
-   "neighbours_moved_mm": {}
-  },
-  {
-   "station": "dest_green",
-   "case": "left",
-   "expected_bay": 2,
-   "start": {
-    "d": 1.5,
-    "lateral": 0.0,
-    "yaw_deg": 0
-   },
-   "start_ok": true,
-   "start_msg": "görev başladı",
-   "states": [
-    "IDLE",
-    "OBSERVE",
-    "ALIGN",
-    "SETTLE",
-    "ENTER",
-    "TRIM",
-    "ENTER",
-    "LOWER",
-    "BACK_OUT",
-    "VERIFY",
-    "DONE"
-   ],
-   "final": "DONE",
-   "detail": "Görev tamam (koli bırakıldı)",
-   "fault": "",
-   "seconds": 34.5,
-   "parcel_on_fork_mm": {
-    "IDLE": [
-     255.0,
-     -0.0
-    ],
-    "OBSERVE": [
-     255.0,
-     -0.0
-    ],
-    "ALIGN": [
-     255.0,
-     -0.0
-    ],
-    "SETTLE": [
-     255.0,
-     -0.0
-    ],
-    "ENTER": [
-     255.0,
-     0.0
-    ],
-    "TRIM": [
-     255.0,
-     -0.0
-    ],
-    "LOWER": [
-     255.1,
-     -0.0
-    ],
-    "BACK_OUT": [
-     255.5,
-     -0.7
-    ],
-    "VERIFY": [
-     752.3,
-     -0.0
-    ],
-    "DONE": [
-     752.3,
-     -0.0
-    ]
-   },
-   "deepest": {
-    "carriage_front_x": -0.011636038276562816,
-    "carriage_lateral": -0.0012808470556130982,
-    "yaw_deg": -0.27577346155732546,
-    "pitch_deg": -0.20475448384233394
-   },
-   "bay": 2,
-   "offset_mm": [
-    3.229740448903229,
-    -1.663708986519019
-   ],
-   "offset_norm_mm": 3.6330635776305606,
-   "tilt_deg": 0.00011298880561914569,
-   "base_z_mm": 49.999434195081626,
-   "parcel_on_fork_after": false,
-   "neighbours_moved_mm": {
-    "parcel_source_1": 0.0
-   }
-  },
-  {
-   "station": "dest_green",
-   "case": "right",
-   "expected_bay": 0,
-   "start": {
-    "d": 0.8,
-    "lateral": -0.1,
-    "yaw_deg": 5
-   },
-   "start_ok": true,
-   "start_msg": "görev başladı",
-   "states": [
-    "IDLE",
-    "OBSERVE",
-    "ALIGN",
-    "SETTLE",
-    "ENTER",
-    "TRIM",
-    "ENTER",
-    "LOWER",
-    "BACK_OUT",
-    "VERIFY",
-    "DONE"
-   ],
-   "final": "DONE",
-   "detail": "Görev tamam (koli bırakıldı)",
-   "fault": "",
-   "seconds": 34.0,
-   "parcel_on_fork_mm": {
-    "IDLE": [
-     255.0,
-     -0.0
-    ],
-    "OBSERVE": [
-     255.0,
-     -0.0
-    ],
-    "ALIGN": [
-     255.0,
-     -0.0
-    ],
-    "SETTLE": [
-     255.2,
-     0.0
-    ],
-    "ENTER": [
-     255.2,
-     0.0
-    ],
-    "TRIM": [
-     255.2,
-     0.0
-    ],
-    "LOWER": [
-     255.2,
-     -0.0
-    ],
-    "BACK_OUT": [
-     256.9,
-     0.6
-    ],
-    "VERIFY": [
-     752.2,
-     -0.0
-    ],
-    "DONE": [
-     752.3,
-     -0.0
-    ]
-   },
-   "deepest": {
-    "carriage_front_x": -0.011608516462612795,
-    "carriage_lateral": 0.002030003845650212,
-    "yaw_deg": 0.048861427464030015,
-    "pitch_deg": -0.2047520677343352
-   },
-   "bay": 0,
-   "offset_mm": [
-    3.3967608948235473,
-    1.9089386580066203
-   ],
-   "offset_norm_mm": 3.896412629154487,
-   "tilt_deg": 7.223348894110138e-05,
-   "base_z_mm": 49.99977093913835,
-   "parcel_on_fork_after": false,
-   "neighbours_moved_mm": {
-    "parcel_source_1": 0.0,
-    "parcel_source_2": 0.0
-   }
-  },
-  {
-   "station": "dest_blue",
-   "case": "mid",
-   "expected_bay": 1,
-   "start": {
-    "d": 0.9,
-    "lateral": 0.0,
-    "yaw_deg": 0
-   },
-   "start_ok": true,
-   "start_msg": "görev başladı",
-   "states": [
-    "IDLE",
-    "OBSERVE",
-    "SELECT_BAY",
-    "ALIGN",
-    "SETTLE",
-    "ENTER",
-    "TRIM",
-    "ENTER",
-    "LOWER",
-    "BACK_OUT",
-    "VERIFY",
-    "DONE"
-   ],
-   "final": "DONE",
-   "detail": "Görev tamam (koli bırakıldı)",
-   "fault": "",
-   "seconds": 26.3,
-   "parcel_on_fork_mm": {
-    "IDLE": [
-     255.0,
-     0.0
-    ],
-    "OBSERVE": [
-     255.0,
-     0.0
-    ],
-    "SELECT_BAY": [
-     255.0,
-     0.0
-    ],
-    "ALIGN": [
-     255.0,
-     0.0
-    ],
-    "SETTLE": [
-     255.0,
-     0.0
-    ],
-    "ENTER": [
-     255.0,
-     0.0
-    ],
-    "TRIM": [
-     255.0,
-     0.0
-    ],
-    "LOWER": [
-     255.0,
-     0.0
-    ],
-    "BACK_OUT": [
-     259.7,
-     0.0
-    ],
-    "VERIFY": [
-     750.9,
-     0.0
-    ],
-    "DONE": [
-     750.9,
-     0.0
-    ]
-   },
-   "deepest": {
-    "carriage_front_x": -0.011824644880187973,
-    "carriage_lateral": 0.00045912914034417044,
-    "yaw_deg": -0.09169332774944537,
-    "pitch_deg": -0.40941381979768343
-   },
-   "bay": 1,
-   "offset_mm": [
-    2.877709067806933,
-    0.26298592239937935
-   ],
-   "offset_norm_mm": 2.8897008624282376,
-   "tilt_deg": 1.0933637455190016e-05,
-   "base_z_mm": 49.99995537875829,
-   "parcel_on_fork_after": false,
-   "neighbours_moved_mm": {}
-  },
-  {
-   "station": "dest_blue",
-   "case": "left",
-   "expected_bay": 2,
-   "start": {
-    "d": 1.3,
-    "lateral": 0.15,
-    "yaw_deg": 10
-   },
-   "start_ok": true,
-   "start_msg": "görev başladı",
-   "states": [
-    "IDLE",
-    "OBSERVE",
-    "ALIGN",
-    "SETTLE",
-    "ENTER",
-    "TRIM",
-    "ENTER",
-    "LOWER",
-    "BACK_OUT",
-    "VERIFY",
-    "DONE"
-   ],
-   "final": "DONE",
-   "detail": "Görev tamam (koli bırakıldı)",
-   "fault": "",
-   "seconds": 32.5,
-   "parcel_on_fork_mm": {
-    "IDLE": [
-     255.0,
-     0.0
-    ],
-    "OBSERVE": [
-     255.0,
-     0.0
-    ],
-    "ALIGN": [
-     255.0,
-     -0.0
-    ],
-    "SETTLE": [
-     255.0,
-     0.0
-    ],
-    "ENTER": [
-     255.0,
-     0.0
-    ],
-    "TRIM": [
-     255.0,
-     0.0
-    ],
-    "LOWER": [
-     255.1,
-     0.0
-    ],
-    "BACK_OUT": [
-     255.6,
-     -0.6
-    ],
-    "VERIFY": [
-     752.2,
-     -0.0
-    ],
-    "DONE": [
-     752.2,
-     -0.0
-    ]
-   },
-   "deepest": {
-    "carriage_front_x": -0.00993093415783397,
-    "carriage_lateral": -0.0016988465784386194,
-    "yaw_deg": -0.4141198602923933,
-    "pitch_deg": -0.20476942720025332
-   },
-   "bay": 2,
-   "offset_mm": [
-    4.900277873357783,
-    -2.374514549023987
-   ],
-   "offset_norm_mm": 5.445277089335901,
-   "tilt_deg": 0.0001235112760038696,
-   "base_z_mm": 49.99948509483096,
-   "parcel_on_fork_after": false,
-   "neighbours_moved_mm": {
-    "parcel_source_1": 0.0
-   }
-  },
-  {
-   "station": "dest_blue",
-   "case": "right",
-   "expected_bay": 0,
-   "start": {
-    "d": 1.3,
-    "lateral": -0.15,
-    "yaw_deg": -10
-   },
-   "start_ok": true,
-   "start_msg": "görev başladı",
-   "states": [
-    "IDLE",
-    "OBSERVE",
-    "SELECT_BAY",
-    "ALIGN",
-    "SETTLE",
-    "ENTER",
-    "TRIM",
-    "ENTER",
-    "LOWER",
-    "BACK_OUT",
-    "VERIFY",
-    "DONE"
-   ],
-   "final": "DONE",
-   "detail": "Görev tamam (koli bırakıldı)",
-   "fault": "",
-   "seconds": 38.1,
-   "parcel_on_fork_mm": {
-    "IDLE": [
-     255.0,
-     -0.0
-    ],
-    "OBSERVE": [
-     255.0,
-     -0.0
-    ],
-    "SELECT_BAY": [
-     255.0,
-     -0.0
-    ],
-    "ALIGN": [
-     255.0,
-     0.0
-    ],
-    "SETTLE": [
-     255.0,
-     -0.0
-    ],
-    "ENTER": [
-     255.0,
-     -0.0
     ],
     "TRIM": [
      255.0,
@@ -791,31 +249,31 @@
     ],
     "BACK_OUT": [
      255.4,
-     0.7
+     0.6
     ],
     "VERIFY": [
      752.2,
-     0.0
+     -0.0
     ],
     "DONE": [
      752.2,
-     0.0
+     -0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.01157179669624242,
-    "carriage_lateral": 0.002386729004182257,
-    "yaw_deg": 0.13716130771208176,
-    "pitch_deg": -0.20475294104044947
+    "carriage_front_x": -0.012434855582952653,
+    "carriage_lateral": 0.002487473282018822,
+    "yaw_deg": 0.20210115270833778,
+    "pitch_deg": -0.20475386123195524
    },
    "bay": 0,
    "offset_mm": [
-    3.2625693462988714,
-    2.4718097403014783
+    2.4082509135681107,
+    2.6844123073007653
    ],
-   "offset_norm_mm": 4.093189725832203,
-   "tilt_deg": 0.00013887672241021248,
-   "base_z_mm": 49.99964123820655,
+   "offset_norm_mm": 3.606347445586664,
+   "tilt_deg": 4.542685595443109e-05,
+   "base_z_mm": 49.99996779257421,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {
     "parcel_source_1": 0.0,
@@ -823,7 +281,7 @@
    }
   },
   {
-   "station": "dest_red",
+   "station": "dest_green",
    "case": "mid",
    "expected_bay": 1,
    "start": {
@@ -853,15 +311,15 @@
    "parcel_on_fork_mm": {
     "IDLE": [
      255.0,
-     0.0
+     -0.0
     ],
     "OBSERVE": [
      255.0,
-     0.0
+     -0.0
     ],
     "ALIGN": [
      255.0,
-     0.0
+     -0.0
     ],
     "SETTLE": [
      255.0,
@@ -876,41 +334,41 @@
      -0.0
     ],
     "LOWER": [
-     255.0,
-     -0.0
+     255.1,
+     0.0
     ],
     "BACK_OUT": [
      255.8,
-     -0.0
+     0.0
     ],
     "VERIFY": [
-     751.9,
-     -0.0
+     752.0,
+     0.0
     ],
     "DONE": [
-     751.9,
-     -0.0
+     752.0,
+     0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.012360355416701024,
-    "carriage_lateral": 0.00038497148895945264,
-    "yaw_deg": -0.13579043104110403,
-    "pitch_deg": -0.4094140464454831
+    "carriage_front_x": -0.01240189911418274,
+    "carriage_lateral": 0.00033294981878539335,
+    "yaw_deg": -0.1594254398242875,
+    "pitch_deg": -0.4094142333008587
    },
    "bay": 1,
    "offset_mm": [
-    2.368732975317922,
-    0.08369027622819541
+    2.3275292583733176,
+    -0.0061307939204500025
    ],
-   "offset_norm_mm": 2.3702109548927597,
-   "tilt_deg": 7.871404088081626e-06,
-   "base_z_mm": 49.99988409900208,
+   "offset_norm_mm": 2.327537332722709,
+   "tilt_deg": 5.2775367232716853e-05,
+   "base_z_mm": 49.99922616909322,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {}
   },
   {
-   "station": "dest_red",
+   "station": "dest_green",
    "case": "left",
    "expected_bay": 2,
    "start": {
@@ -936,7 +394,7 @@
    "final": "DONE",
    "detail": "Görev tamam (koli bırakıldı)",
    "fault": "",
-   "seconds": 37.3,
+   "seconds": 35.7,
    "parcel_on_fork_mm": {
     "IDLE": [
      255.0,
@@ -964,42 +422,42 @@
     ],
     "LOWER": [
      255.1,
-     -0.0
+     0.0
     ],
     "BACK_OUT": [
-     255.4,
-     -0.7
+     257.0,
+     -0.6
     ],
     "VERIFY": [
-     752.2,
-     -0.0
+     751.2,
+     0.0
     ],
     "DONE": [
-     752.2,
-     -0.0
+     751.2,
+     0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.011320957487712696,
-    "carriage_lateral": -0.001417991827033779,
-    "yaw_deg": -0.3732706494957014,
-    "pitch_deg": -0.20475651127714314
+    "carriage_front_x": -0.011056192827311961,
+    "carriage_lateral": -0.0011188904519815203,
+    "yaw_deg": -0.4332352585573577,
+    "pitch_deg": -0.20478186932836323
    },
    "bay": 2,
    "offset_mm": [
-    3.543318131295159,
-    -2.0116916890569048
+    3.7884905403080538,
+    -1.823757386235858
    ],
-   "offset_norm_mm": 4.07455602874542,
-   "tilt_deg": 4.67631085055447e-05,
-   "base_z_mm": 49.99994047883447,
+   "offset_norm_mm": 4.204610752240148,
+   "tilt_deg": 9.734517300533532e-06,
+   "base_z_mm": 49.99989538257763,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {
     "parcel_source_1": 0.0
    }
   },
   {
-   "station": "dest_red",
+   "station": "dest_green",
    "case": "right",
    "expected_bay": 0,
    "start": {
@@ -1025,19 +483,19 @@
    "final": "DONE",
    "detail": "Görev tamam (koli bırakıldı)",
    "fault": "",
-   "seconds": 35.1,
+   "seconds": 34.9,
    "parcel_on_fork_mm": {
     "IDLE": [
      255.0,
-     0.0
+     -0.0
     ],
     "OBSERVE": [
      255.0,
-     0.0
+     -0.0
     ],
     "ALIGN": [
      255.0,
-     0.0
+     -0.0
     ],
     "SETTLE": [
      255.2,
@@ -1056,32 +514,32 @@
      -0.0
     ],
     "BACK_OUT": [
-     259.0,
+     255.5,
      0.6
     ],
     "VERIFY": [
-     752.4,
-     -0.0
+     751.2,
+     0.0
     ],
     "DONE": [
-     752.4,
-     -0.0
+     751.3,
+     0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.011913162906908553,
-    "carriage_lateral": 0.003256246089621297,
-    "yaw_deg": 0.2236101073463174,
-    "pitch_deg": -0.20475339354206987
+    "carriage_front_x": -0.01165997346725306,
+    "carriage_lateral": 0.00307566349681639,
+    "yaw_deg": 0.3118970934960237,
+    "pitch_deg": -0.20476630191573997
    },
    "bay": 0,
    "offset_mm": [
-    3.100498331784163,
-    3.5018517358578194
+    3.345231483517175,
+    3.526931443857795
    ],
-   "offset_norm_mm": 4.677184568234057,
-   "tilt_deg": 2.71333509435177e-05,
-   "base_z_mm": 49.99997547770757,
+   "offset_norm_mm": 4.861051232808326,
+   "tilt_deg": 6.990524271671483e-05,
+   "base_z_mm": 49.99981459876049,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {
     "parcel_source_1": 0.0,
@@ -1089,7 +547,7 @@
    }
   },
   {
-   "station": "dest_green",
+   "station": "dest_blue",
    "case": "mid",
    "expected_bay": 1,
    "start": {
@@ -1102,6 +560,7 @@
    "states": [
     "IDLE",
     "OBSERVE",
+    "SELECT_BAY",
     "ALIGN",
     "SETTLE",
     "ENTER",
@@ -1115,13 +574,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli bırakıldı)",
    "fault": "",
-   "seconds": 26.7,
+   "seconds": 26.1,
    "parcel_on_fork_mm": {
     "IDLE": [
      255.0,
      -0.0
     ],
     "OBSERVE": [
+     255.0,
+     -0.0
+    ],
+    "SELECT_BAY": [
      255.0,
      -0.0
     ],
@@ -1135,48 +598,48 @@
     ],
     "ENTER": [
      255.0,
-     0.0
+     -0.0
     ],
     "TRIM": [
      255.0,
      -0.0
     ],
     "LOWER": [
-     255.1,
-     0.0
+     255.0,
+     -0.0
     ],
     "BACK_OUT": [
-     255.8,
-     0.0
+     258.5,
+     -0.0
     ],
     "VERIFY": [
      751.9,
-     0.0
+     -0.0
     ],
     "DONE": [
      751.9,
-     0.0
+     -0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.012953279015747554,
-    "carriage_lateral": 0.0004054748808710559,
-    "yaw_deg": -0.12224473079439756,
-    "pitch_deg": -0.4094019871273385
+    "carriage_front_x": -0.012497913151976209,
+    "carriage_lateral": -7.332619829380132e-05,
+    "yaw_deg": -0.2223911388999617,
+    "pitch_deg": -0.4094516661689549
    },
    "bay": 1,
    "offset_mm": [
-    1.758868328342711,
-    0.14992142822882557
+    2.177890035947261,
+    -0.5616666596248557
    ],
-   "offset_norm_mm": 1.7652462239272042,
-   "tilt_deg": 6.2791554652946e-05,
-   "base_z_mm": 49.999770185939404,
+   "offset_norm_mm": 2.249149716051047,
+   "tilt_deg": 1.2749559400407728e-05,
+   "base_z_mm": 49.99997310336621,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {}
   },
   {
-   "station": "dest_green",
+   "station": "dest_blue",
    "case": "left",
    "expected_bay": 2,
    "start": {
@@ -1214,7 +677,554 @@
     ],
     "ALIGN": [
      255.0,
+     -0.0
+    ],
+    "SETTLE": [
+     255.0,
      0.0
+    ],
+    "ENTER": [
+     255.0,
+     0.0
+    ],
+    "TRIM": [
+     255.0,
+     0.0
+    ],
+    "LOWER": [
+     255.1,
+     0.0
+    ],
+    "BACK_OUT": [
+     258.4,
+     -0.6
+    ],
+    "VERIFY": [
+     751.2,
+     0.0
+    ],
+    "DONE": [
+     751.2,
+     0.0
+    ]
+   },
+   "deepest": {
+    "carriage_front_x": -0.011253034398744782,
+    "carriage_lateral": -0.0007899833795535528,
+    "yaw_deg": -0.2422743579983478,
+    "pitch_deg": -0.20475454932820567
+   },
+   "bay": 2,
+   "offset_mm": [
+    3.589798690478485,
+    -1.074568728173575
+   ],
+   "offset_norm_mm": 3.7471792844391127,
+   "tilt_deg": 5.2609363045101696e-05,
+   "base_z_mm": 49.999888964063985,
+   "parcel_on_fork_after": false,
+   "neighbours_moved_mm": {
+    "parcel_source_1": 0.0
+   }
+  },
+  {
+   "station": "dest_blue",
+   "case": "right",
+   "expected_bay": 0,
+   "start": {
+    "d": 1.3,
+    "lateral": -0.15,
+    "yaw_deg": -10
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı)",
+   "fault": "",
+   "seconds": 36.4,
+   "parcel_on_fork_mm": {
+    "IDLE": [
+     255.0,
+     -0.0
+    ],
+    "OBSERVE": [
+     255.0,
+     -0.0
+    ],
+    "SELECT_BAY": [
+     255.0,
+     -0.0
+    ],
+    "ALIGN": [
+     255.0,
+     0.0
+    ],
+    "SETTLE": [
+     255.0,
+     -0.0
+    ],
+    "ENTER": [
+     255.0,
+     -0.0
+    ],
+    "TRIM": [
+     255.0,
+     -0.0
+    ],
+    "LOWER": [
+     255.1,
+     -0.0
+    ],
+    "BACK_OUT": [
+     255.4,
+     0.6
+    ],
+    "VERIFY": [
+     752.2,
+     -0.0
+    ],
+    "DONE": [
+     752.2,
+     -0.0
+    ]
+   },
+   "deepest": {
+    "carriage_front_x": -0.011303264855692441,
+    "carriage_lateral": 0.0024649157060248577,
+    "yaw_deg": 0.16147451228556917,
+    "pitch_deg": -0.20476541931022144
+   },
+   "bay": 0,
+   "offset_mm": [
+    3.5241645466990157,
+    2.580420822571261
+   ],
+   "offset_norm_mm": 4.367872179193162,
+   "tilt_deg": 0.00010385902868226846,
+   "base_z_mm": 49.99936591238602,
+   "parcel_on_fork_after": false,
+   "neighbours_moved_mm": {
+    "parcel_source_1": 0.0,
+    "parcel_source_2": 0.0
+   }
+  },
+  {
+   "station": "dest_red",
+   "case": "mid",
+   "expected_bay": 1,
+   "start": {
+    "d": 1.0,
+    "lateral": 0.1,
+    "yaw_deg": -5
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı)",
+   "fault": "",
+   "seconds": 30.9,
+   "parcel_on_fork_mm": {
+    "IDLE": [
+     255.0,
+     0.0
+    ],
+    "OBSERVE": [
+     255.0,
+     0.0
+    ],
+    "ALIGN": [
+     255.0,
+     0.0
+    ],
+    "SETTLE": [
+     255.0,
+     -0.0
+    ],
+    "ENTER": [
+     255.0,
+     -0.0
+    ],
+    "TRIM": [
+     255.0,
+     -0.0
+    ],
+    "LOWER": [
+     255.1,
+     0.0
+    ],
+    "BACK_OUT": [
+     256.7,
+     0.0
+    ],
+    "VERIFY": [
+     751.0,
+     0.0
+    ],
+    "DONE": [
+     751.0,
+     0.0
+    ]
+   },
+   "deepest": {
+    "carriage_front_x": -0.01288796266435241,
+    "carriage_lateral": 0.0010045195637985525,
+    "yaw_deg": 0.06145461585270512,
+    "pitch_deg": -0.4094138968840756
+   },
+   "bay": 1,
+   "offset_mm": [
+    1.8402900808256462,
+    1.151904945559085
+   ],
+   "offset_norm_mm": 2.17107175956686,
+   "tilt_deg": 5.28029838579626e-05,
+   "base_z_mm": 49.999226494411104,
+   "parcel_on_fork_after": false,
+   "neighbours_moved_mm": {}
+  },
+  {
+   "station": "dest_red",
+   "case": "left",
+   "expected_bay": 2,
+   "start": {
+    "d": 1.5,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı)",
+   "fault": "",
+   "seconds": 35.3,
+   "parcel_on_fork_mm": {
+    "IDLE": [
+     255.0,
+     -0.0
+    ],
+    "OBSERVE": [
+     255.0,
+     -0.0
+    ],
+    "SELECT_BAY": [
+     255.0,
+     -0.0
+    ],
+    "ALIGN": [
+     255.0,
+     -0.0
+    ],
+    "SETTLE": [
+     255.0,
+     -0.0
+    ],
+    "ENTER": [
+     255.0,
+     -0.0
+    ],
+    "TRIM": [
+     255.0,
+     -0.0
+    ],
+    "LOWER": [
+     255.1,
+     0.0
+    ],
+    "BACK_OUT": [
+     258.0,
+     -0.6
+    ],
+    "VERIFY": [
+     752.1,
+     0.0
+    ],
+    "DONE": [
+     752.1,
+     0.0
+    ]
+   },
+   "deepest": {
+    "carriage_front_x": -0.011884887333765692,
+    "carriage_lateral": -0.0016360706543936487,
+    "yaw_deg": -0.4836105971802476,
+    "pitch_deg": -0.20477176718017875
+   },
+   "bay": 2,
+   "offset_mm": [
+    2.9682060938482913,
+    -2.438826772801661
+   ],
+   "offset_norm_mm": 3.8416303105963094,
+   "tilt_deg": 4.891161844499613e-05,
+   "base_z_mm": 49.999915374995375,
+   "parcel_on_fork_after": false,
+   "neighbours_moved_mm": {
+    "parcel_source_1": 0.0
+   }
+  },
+  {
+   "station": "dest_red",
+   "case": "right",
+   "expected_bay": 0,
+   "start": {
+    "d": 0.8,
+    "lateral": -0.1,
+    "yaw_deg": 5
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı)",
+   "fault": "",
+   "seconds": 35.1,
+   "parcel_on_fork_mm": {
+    "IDLE": [
+     255.0,
+     -0.0
+    ],
+    "OBSERVE": [
+     255.0,
+     -0.0
+    ],
+    "ALIGN": [
+     255.0,
+     -0.0
+    ],
+    "SETTLE": [
+     255.2,
+     -0.0
+    ],
+    "ENTER": [
+     255.2,
+     0.0
+    ],
+    "TRIM": [
+     255.2,
+     -0.0
+    ],
+    "LOWER": [
+     255.2,
+     -0.0
+    ],
+    "BACK_OUT": [
+     255.6,
+     0.6
+    ],
+    "VERIFY": [
+     752.3,
+     0.0
+    ],
+    "DONE": [
+     752.3,
+     0.0
+    ]
+   },
+   "deepest": {
+    "carriage_front_x": -0.011429335541465219,
+    "carriage_lateral": 0.002816551602759843,
+    "yaw_deg": 0.22108078622136554,
+    "pitch_deg": -0.2047530916119566
+   },
+   "bay": 0,
+   "offset_mm": [
+    3.5851528754728967,
+    3.0744059388037592
+   ],
+   "offset_norm_mm": 4.722847977339881,
+   "tilt_deg": 6.89286738855645e-05,
+   "base_z_mm": 49.99996574538898,
+   "parcel_on_fork_after": false,
+   "neighbours_moved_mm": {
+    "parcel_source_1": 0.0,
+    "parcel_source_2": 0.0
+   }
+  },
+  {
+   "station": "dest_green",
+   "case": "mid",
+   "expected_bay": 1,
+   "start": {
+    "d": 0.9,
+    "lateral": 0.0,
+    "yaw_deg": 0
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı)",
+   "fault": "",
+   "seconds": 26.3,
+   "parcel_on_fork_mm": {
+    "IDLE": [
+     255.0,
+     -0.0
+    ],
+    "OBSERVE": [
+     255.0,
+     -0.0
+    ],
+    "ALIGN": [
+     255.0,
+     -0.0
+    ],
+    "SETTLE": [
+     255.0,
+     -0.0
+    ],
+    "ENTER": [
+     255.0,
+     0.0
+    ],
+    "TRIM": [
+     255.0,
+     0.0
+    ],
+    "LOWER": [
+     255.1,
+     0.0
+    ],
+    "BACK_OUT": [
+     256.8,
+     0.0
+    ],
+    "VERIFY": [
+     751.9,
+     -0.0
+    ],
+    "DONE": [
+     751.9,
+     -0.0
+    ]
+   },
+   "deepest": {
+    "carriage_front_x": -0.012979459246667407,
+    "carriage_lateral": -2.4245638867485277e-05,
+    "yaw_deg": -0.09124204271805282,
+    "pitch_deg": -0.4094018336239318
+   },
+   "bay": 1,
+   "offset_mm": [
+    1.7342143974810043,
+    -0.22212561964548005
+   ],
+   "offset_norm_mm": 1.748381928336395,
+   "tilt_deg": 0.00012250089943095666,
+   "base_z_mm": 49.99955114492377,
+   "parcel_on_fork_after": false,
+   "neighbours_moved_mm": {}
+  },
+  {
+   "station": "dest_green",
+   "case": "left",
+   "expected_bay": 2,
+   "start": {
+    "d": 1.3,
+    "lateral": 0.15,
+    "yaw_deg": 10
+   },
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı)",
+   "fault": "",
+   "seconds": 32.2,
+   "parcel_on_fork_mm": {
+    "IDLE": [
+     255.0,
+     -0.0
+    ],
+    "OBSERVE": [
+     255.0,
+     -0.0
+    ],
+    "SELECT_BAY": [
+     255.0,
+     -0.0
+    ],
+    "ALIGN": [
+     255.0,
+     -0.0
     ],
     "SETTLE": [
      255.0,
@@ -1237,28 +1247,28 @@
      -0.6
     ],
     "VERIFY": [
-     752.1,
+     751.0,
      0.0
     ],
     "DONE": [
-     752.1,
+     751.2,
      0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.011570582778739874,
-    "carriage_lateral": -0.0012103500046421543,
-    "yaw_deg": -0.3171598858930285,
-    "pitch_deg": -0.20475585269517446
+    "carriage_front_x": -0.0118241728657974,
+    "carriage_lateral": -0.0010295921080007231,
+    "yaw_deg": -0.357064350940961,
+    "pitch_deg": -0.20476824311151126
    },
    "bay": 2,
    "offset_mm": [
-    3.2715708311767955,
-    -1.656813617484043
+    3.0078988505679582,
+    -1.5809253602857565
    ],
-   "offset_norm_mm": 3.6671797155971766,
-   "tilt_deg": 4.760505882735609e-05,
-   "base_z_mm": 49.99989207500102,
+   "offset_norm_mm": 3.3980553983186756,
+   "tilt_deg": 4.7166647622351805e-05,
+   "base_z_mm": 49.99981575322432,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {
     "parcel_source_1": 0.0
@@ -1292,7 +1302,7 @@
    "final": "DONE",
    "detail": "Görev tamam (koli bırakıldı)",
    "fault": "",
-   "seconds": 37.3,
+   "seconds": 36.1,
    "parcel_on_fork_mm": {
     "IDLE": [
      255.0,
@@ -1308,7 +1318,7 @@
     ],
     "ALIGN": [
      255.0,
-     -0.0
+     0.0
     ],
     "SETTLE": [
      255.0,
@@ -1316,7 +1326,7 @@
     ],
     "ENTER": [
      255.0,
-     -0.0
+     0.0
     ],
     "TRIM": [
      255.0,
@@ -1327,32 +1337,32 @@
      -0.0
     ],
     "BACK_OUT": [
-     257.3,
+     260.3,
      0.6
     ],
     "VERIFY": [
-     751.2,
+     752.2,
      -0.0
     ],
     "DONE": [
-     751.2,
+     752.2,
      -0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.010437196807983523,
-    "carriage_lateral": 0.0022801415602415583,
-    "yaw_deg": 0.055662382492146265,
-    "pitch_deg": -0.20475279137414407
+    "carriage_front_x": -0.01107107953910147,
+    "carriage_lateral": 0.002479172030894814,
+    "yaw_deg": 0.31172745860292267,
+    "pitch_deg": -0.20475568000626385
    },
    "bay": 0,
    "offset_mm": [
-    4.397200173910765,
-    2.1733798163714457
+    3.7708176019823902,
+    2.916510597521571
    ],
-   "offset_norm_mm": 4.904992272741277,
-   "tilt_deg": 0.00010203220201623923,
-   "base_z_mm": 49.99971080788493,
+   "offset_norm_mm": 4.76708500583699,
+   "tilt_deg": 0.00011035829405794348,
+   "base_z_mm": 49.99991439261303,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {
     "parcel_source_1": 0.0,
@@ -1373,7 +1383,6 @@
    "states": [
     "IDLE",
     "OBSERVE",
-    "SELECT_BAY",
     "ALIGN",
     "SETTLE",
     "ENTER",
@@ -1387,17 +1396,13 @@
    "final": "DONE",
    "detail": "Görev tamam (koli bırakıldı)",
    "fault": "",
-   "seconds": 31.0,
+   "seconds": 31.1,
    "parcel_on_fork_mm": {
     "IDLE": [
      255.0,
      -0.0
     ],
     "OBSERVE": [
-     255.0,
-     -0.0
-    ],
-    "SELECT_BAY": [
      255.0,
      -0.0
     ],
@@ -1418,36 +1423,36 @@
      -0.0
     ],
     "LOWER": [
-     255.0,
-     0.0
+     255.1,
+     -0.0
     ],
     "BACK_OUT": [
-     255.8,
+     260.8,
      -0.0
     ],
     "VERIFY": [
-     751.0,
-     -0.0
+     752.0,
+     0.0
     ],
     "DONE": [
-     751.0,
-     -0.0
+     752.0,
+     0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.013360954892337684,
-    "carriage_lateral": 0.00024222763964706142,
-    "yaw_deg": -0.10427543465324128,
-    "pitch_deg": -0.4094133287356058
+    "carriage_front_x": -0.012963808394691134,
+    "carriage_lateral": 0.0007947773083983702,
+    "yaw_deg": -0.16834742857012935,
+    "pitch_deg": -0.40941491365949867
    },
    "bay": 1,
    "offset_mm": [
-    1.3682380308317477,
-    0.0044382562391728055
+    1.7655449109104104,
+    0.4250313820897443
    ],
-   "offset_norm_mm": 1.3682452291649998,
-   "tilt_deg": 5.7482494266865524e-05,
-   "base_z_mm": 49.99914991177984,
+   "offset_norm_mm": 1.8159847213571945,
+   "tilt_deg": 5.2408073102140766e-05,
+   "base_z_mm": 49.99923607622342,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {}
   },
@@ -1478,63 +1483,63 @@
    "final": "DONE",
    "detail": "Görev tamam (koli bırakıldı)",
    "fault": "",
-   "seconds": 34.9,
+   "seconds": 34.8,
    "parcel_on_fork_mm": {
     "IDLE": [
      255.0,
-     -0.0
+     0.0
     ],
     "OBSERVE": [
      255.0,
-     -0.0
+     0.0
     ],
     "ALIGN": [
      255.0,
-     -0.0
+     0.0
     ],
     "SETTLE": [
      255.0,
-     -0.0
+     0.0
     ],
     "ENTER": [
      255.0,
-     -0.0
+     0.0
     ],
     "TRIM": [
      255.0,
-     -0.0
+     0.0
     ],
     "LOWER": [
      255.1,
-     -0.0
+     0.0
     ],
     "BACK_OUT": [
-     260.1,
-     -0.7
+     258.5,
+     -0.6
     ],
     "VERIFY": [
-     751.2,
-     -0.0
+     752.1,
+     0.0
     ],
     "DONE": [
-     751.2,
-     -0.0
+     752.1,
+     0.0
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.011649320057051882,
-    "carriage_lateral": -0.0016993529212067648,
-    "yaw_deg": -0.4175120750278663,
-    "pitch_deg": -0.20476945502039995
+    "carriage_front_x": -0.012706338993624139,
+    "carriage_lateral": -0.0015012340408346778,
+    "yaw_deg": -0.4161843732714772,
+    "pitch_deg": -0.20476945745116365
    },
    "bay": 2,
    "offset_mm": [
-    3.204509691214774,
-    -2.389606214257267
+    2.1479933656807226,
+    -2.168229745274586
    ],
-   "offset_norm_mm": 3.9973866738541015,
-   "tilt_deg": 5.90710184833039e-05,
-   "base_z_mm": 49.999899871957105,
+   "offset_norm_mm": 3.0520641748334674,
+   "tilt_deg": 0.00011357115137087535,
+   "base_z_mm": 49.999872698537864,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {
     "parcel_source_1": 0.0
@@ -1554,6 +1559,7 @@
    "states": [
     "IDLE",
     "OBSERVE",
+    "SELECT_BAY",
     "ALIGN",
     "SETTLE",
     "ENTER",
@@ -1567,13 +1573,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli bırakıldı)",
    "fault": "",
-   "seconds": 34.6,
+   "seconds": 29.6,
    "parcel_on_fork_mm": {
     "IDLE": [
      255.0,
      0.0
     ],
     "OBSERVE": [
+     255.0,
+     0.0
+    ],
+    "SELECT_BAY": [
      255.0,
      0.0
     ],
@@ -1598,8 +1608,8 @@
      -0.0
     ],
     "BACK_OUT": [
-     255.6,
-     0.6
+     255.5,
+     0.7
     ],
     "VERIFY": [
      752.3,
@@ -1611,19 +1621,19 @@
     ]
    },
    "deepest": {
-    "carriage_front_x": -0.011254343708729908,
-    "carriage_lateral": 0.002169195730097508,
-    "yaw_deg": 0.09557618059545359,
-    "pitch_deg": -0.2047637323424414
+    "carriage_front_x": -0.01131440931041433,
+    "carriage_lateral": 0.003066425158509909,
+    "yaw_deg": 0.039634015727097315,
+    "pitch_deg": -0.20476342355095245
    },
    "bay": 0,
    "offset_mm": [
-    3.7412076570508823,
-    2.1533579419528714
+    3.6852352490717166,
+    2.9406608322467
    ],
-   "offset_norm_mm": 4.316663660669853,
-   "tilt_deg": 0.00010576460263913904,
-   "base_z_mm": 49.99970354617839,
+   "offset_norm_mm": 4.714705183923012,
+   "tilt_deg": 9.27199752155156e-05,
+   "base_z_mm": 49.999744885239814,
    "parcel_on_fork_after": false,
    "neighbours_moved_mm": {
     "parcel_source_1": 0.0,
@@ -1634,14 +1644,14 @@
  "A2": {
   "trials": 18,
   "done_correct_bay": 18,
-  "offset_mm_max": 5.445277089335901,
-  "tilt_deg_max": 0.00014003189222265208,
-  "base_z_err_mm_max": 0.0008500882201616378,
+  "offset_mm_max": 4.861051232808326,
+  "tilt_deg_max": 0.00012250089943095666,
+  "base_z_err_mm_max": 0.0007738309067804039,
   "neighbours_moved_mm_max": 0.0,
-  "entry_lateral_mm_max": 3.256246089621297,
-  "entry_yaw_deg_max": 0.5864774989383613,
+  "entry_lateral_mm_max": 3.07566349681639,
+  "entry_yaw_deg_max": 0.4836105971802476,
   "faults": [],
   "status": "GEÇTİ"
  },
- "finished": "2026-10-24 12:38:16"
+ "finished": "2026-10-24 20:39:57"
 }

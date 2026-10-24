@@ -4,10 +4,11 @@ Status: **Phases 1–4 done**: description, simulation and load tests are implem
 **Operator GUI** (`forklift_gui`, `forklift_bringup`, `forklift_safety`): implemented (phases 1–5, 2026-10-15/16); unit tests U1–U8 and integration tests I1–I12 in `docs/gui_test_results.md`, report in `REPORT_GUI.md`. See §7.
 **Load stations** (`forklift_gazebo`): parametric multi-bay stations with bullseye alignment targets and bay lanes (ArUco markers removed, D-56), a `parcel` model and the `station_test` world (2026-10-19, updated 2026-10-21). Tests S1–S8 are in `docs/station_test_results.md`, and the report is `REPORT_STATIONS.md`. See §8.
 **Factory world and appearance** (`forklift_gazebo`, `forklift_description`): generated `factory` world in a real-scale hall, industrial station/parcel materials and a visual-only robot body (2026-10-20; D-53, D-54). Report `REPORT_FACTORY.md`. See §9.
+**Computer vision and autonomy, slice 1** (`forklift_interfaces`, `forklift_perception`, `forklift_autonomy`, `forklift_evaluation`): camera-only perception, a mission manager that moves three parcels from the source station to the stations of their seal colour, Manual/Auto mode in the GUI, fault reactions (2026-10-21…24; D-57…D-79). Plan `docs/PLAN_CV_AUTONOMY.md`, report `REPORT_CV.md`. See §10.
 
-Scope: the robot description and a simulation test bench for a small forklift
-robot. It is the platform for a computer-vision learning project. Perception,
-lane following, autonomy and the task world are out of scope.
+Scope: a small forklift robot, its simulation test bench and a first computer-vision and autonomy slice
+(straight lanes, three stations, classical detectors). Learned models, curves, shadows and maps are out of
+scope for slice 1.
 
 Target and verified environment: Ubuntu 24.04.5, ROS 2 Jazzy, Gazebo Sim
 8.15.0 (Harmonic) from the ROS vendor packages (`/opt/ros/jazzy/opt/*_vendor`),
@@ -61,6 +62,18 @@ gz-rendering 8.2.3 (ogre2), gz-transport 13.6.0, ros_gz 1.0.24, xacro 2.1.1.
             ├── generate_factory_textures.py   build step: signs, labels, stripes → model://factory_signs
             ├── generate_factory_world.py  build step: factory.sdf + factory_lanes.yaml
             └── measure_sim_performance.py RTF / camera rate / CPU / GPU per world
+    ├── forklift_interfaces/               ament_cmake (rosidl): perception messages, AutonomyState, SetMode (§10)
+    ├── forklift_perception/               ament_python, camera-only perception (§10)
+    │   ├── forklift_perception/core/      ROS-free: camera model, calibration, catalog, detectors, pipelines, attitude
+    │   ├── forklift_perception/nodes.py   front_perception, lane_perception (thin ROS wrappers)
+    │   └── config/                        perception.yaml, detectors.yaml (thresholds), calibration/*.yaml
+    ├── forklift_autonomy/                 ament_python, mission manager (§10)
+    │   ├── forklift_autonomy/core/        ROS-free: se2, tracker (bays, signs, lanes), control, mission
+    │   ├── forklift_autonomy/node.py      mission_manager: modes, services, command output
+    │   └── config/autonomy.yaml           every speed, gain, tolerance and timeout
+    └── forklift_evaluation/               ament_python, simulation-only evaluation (reads ground truth, R8)
+        └── forklift_evaluation/           world_gt, cv_eval (C0–C9), mission_acceptance (A1–A4),
+                                           fault_acceptance (A5), calibration and recording tools
 ```
 
 ### Modularity rules
@@ -727,4 +740,85 @@ forklift_params.yaml → appearance ─┬─► urdf/components/appearance.xacr
   parts are behind the camera optical centres (x = 0.10).
 * `forklift_description/package.xml` exports `gazebo_model_path="${prefix}/.."`
   so `model://forklift_description/meshes/...` resolves in Gazebo.
+
+---
+
+## 10. Perception and autonomy, slice 1 (D-57 … D-79)
+
+### 10.1 Sim-to-real boundary
+
+Perception and autonomy use only what a real robot has: the two camera images and `camera_info`, the
+calibration file, TF from the URDF, wheel odometry `/odom`, `/joint_states`, the IMU, `/e_stop` and operator
+commands (plan R1). Gazebo poses, station layout files and model names are read **only** by
+`forklift_evaluation` (R2, R8; checked by C0). The robot knows the station *catalog* (dimensions, colours;
+`station_params.yaml`) but not where stations are.
+
+### 10.2 Data flow
+
+```
+ front_camera ──► front_perception ──► /perception/signs   (StationSignArray: colour, pose in base)
+                                   └─► /perception/parcels (ParcelArray: box, seal colour, position)
+                                   └─► /cv/detections      (GUI overlay)
+ lane_camera ───► lane_perception ──► /perception/bay_targets (BayTargetArray: bullseye pairs, bay labels)
+   + IMU, /joint_states            └─► /perception/lanes       (LaneArray: polyline, stop bar)
+                                   └─► /perception/load        (LoadState)
+                                          │
+ /odom, TF ─────────────────────────────► mission_manager ──► /cmd_vel/auto (20 Hz in Auto) ─► twist_mux ─► gate
+ /e_stop, /cmd_vel/teleop ──────────────►       │           └► /fork/cmd_height
+ GUI ── /autonomy/set_mode, start, pause, resume, cancel ──► │ ──► /autonomy/state ──► GUI
+```
+
+### 10.3 Perception (`forklift_perception`, D-59…D-67, D-75)
+
+| Detector | Camera | Output | Notes |
+|---|---|---|---|
+| Station sign | front | colour, station pose (x, y, yaw) | identity and coarse pose; yaw is coarse beyond ~1.5 m (D-66) |
+| Parcel and seal | front | box, seal colour, position | classical; learned backend slot (R4) |
+| Bullseye pair | lane | bay entry pose | precise axis (≤ 2 mm, ≤ 0.6°) |
+| Bay label | lane | distance to the front line | final approach when the pair is hidden (D-62, D-65) |
+| Floor / bay lanes | lane | polyline, stop bar | bird's-eye view (D-64) |
+| Load | lane | parcel over the forks | silhouette ROI |
+
+Robot attitude comes from the IMU (D-67). Both nodes catch exceptions per frame (D-75). The load check also
+counts saturated, hue-shifted kraft under spotlights (D-79). Detectors are selected by `backend:` in
+`detectors.yaml` (only `classical` in slice 1).
+
+### 10.4 Mission manager (`forklift_autonomy`)
+
+The core is ROS-free and tested kinematically (`test/test_core.py`, 31 tests); the node only converts
+messages, keeps the mode and publishes commands.
+
+* **Trackers in the odometry frame** (D-68): bay entries (pairs open tracks; labels update distance), signs
+  (1/r² weighted around the median, plus an in-mission memory, D-72, D-76), lanes (2 cm grid, candidate
+  association, short-memory line, D-73). Measurements are moved to odom with TF at the image stamp and are
+  dropped while turning faster than 0.15 rad/s.
+* **Tasks:** `full` (GUI) and, for tests, `pick`, `drop`, `transit`; `task` / `target` parameters.
+* **State machine:**
+
+```
+FIND_STATION ─► TRANSIT (sign) ─────────────────────► PRE_DOCK ─► OBSERVE ─► SELECT_BAY ─► ALIGN ─► SETTLE ─► ENTER ⇄ TRIM
+            └─► LANE_JOIN ─► LANE_FOLLOW (factory) ─┘                 ▲          │                                   │
+                                                                      └ REPOSITION                       LIFT / LOWER ◄┘
+                                                                                                              │
+ full: go(source) → pick → go(seal colour) → drop → go(source) … → DONE        BACK_OUT ─► VERIFY ─► next leg | DONE
+ any state: e-stop / teleop / Manual / Pause ─► PAUSED ─Resume─► same state (OBSERVE if it was docking)
+ faults: RECOVER (lost target, timeout) · ABORT (fork stuck) · FAULT (load lost, retries used up) (D-77)
+```
+
+* **Bay selection** waits for a stable observation and only for unknown bays that could change the choice;
+  "empty" needs evidence in the front camera's field of view (D-71). Pick: leftmost occupied; drop: middle,
+  then left, then right (K10).
+* **Commands:** `/cmd_vel/auto` at 20 Hz in Auto mode, slew-limited (0.5 m/s², 1.5 rad/s²); fork target on
+  change; the fork is held at its measured height on pause (D-32).
+
+### 10.5 Evaluation (`forklift_evaluation`, simulation only)
+
+| Tool | Tests | Ground truth |
+|---|---|---|
+| `cv_eval` (+ `f1_probe` recordings) | C0–C9 | projected world geometry |
+| `mission_acceptance` | A1 pick, A2 drop, A3 transit, A4 full mission (also started from the GUI, D-78) | gz poses |
+| `fault_acceptance` | A5 fault injection E1–E8 | gz poses, visual occluders, teleports |
+
+Runs in parallel need separate `GZ_PARTITION` and `ROS_DOMAIN_ID`. The test teleports the robot and waits
+5 τ of the attitude filter afterwards (D-75).
 

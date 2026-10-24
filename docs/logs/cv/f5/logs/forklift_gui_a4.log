@@ -1,0 +1,12 @@
+[WARN] [1792861765.703824980] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1792861765.703951167] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[INFO] [1792861766.225647306] [forklift_gui]: ROS bağlantısı: normal
+[WARN] [1792861767.910549884] [forklift_gui]: Genel sağlık: uyarı
+[INFO] [1792861768.423021629] [forklift_gui]: Görev yöneticisi çevrimiçi
+[WARN] [1792861768.885631737] [forklift_gui]: Simülasyon saati (/clock): uyarı
+[INFO] [1792861771.106704020] [forklift_gui]: E-STOP serbest bırakıldı
+[INFO] [1792861772.189581943] [forklift_gui]: Otonom mod: Otonom
+[INFO] [1792861772.520110011] [forklift_gui]: Görevi başlat: görev başladı
+[INFO] [1792862234.914056355] [forklift_gui]: Simülasyon saati (/clock): normal
+[WARN] [1792862242.936388106] [forklift_gui]: E-STOP etkin
+forklift_gui: düzenli kapanış tamam

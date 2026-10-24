@@ -1576,6 +1576,58 @@ simulation too. A real robot measures its body tilt with an IMU, so the robot no
 * Test harness, same phase: the robot waits 5 τ of the attitude filter after each teleport (the gyro does
   not see a teleport; the first trial of a run had a ~1° bay yaw error after a 1 s wait).
 
+## D-76 Full mission within the time limit (Accepted, F5)
+* First full-mission runs delivered 3/3 parcels but took 467 s and > 480 s (limit 8 min): the search
+  (118–137 s), sign transit (139 s) and PRE_DOCK re-measurement (95 s) dominated.
+* **In-mission sign memory:** every sign estimated during a look is remembered in the odometry frame for the
+  rest of the mission; the next search first turns towards the remembered sign (hint only; the normal
+  search follows if it is not seen). Built online from the robot's own camera, nothing is read from files (R2).
+* **Travel speed:** transit legs and lane following at 0.25 m/s (`transit.v_travel`); docking speeds unchanged.
+* **PRE_DOCK:** one correction, no re-measurement after it (OBSERVE measures right away and ALIGN goes to
+  the bay axis anyway).
+* **End of mission:** if, at the last pick, the source showed no other occupied, unknown or orphan bay, the
+  mission ends after the last drop (plan §7.1 "… | DONE"); otherwise the robot returns and looks
+  (`finish_when_source_seen_empty`).
+* Result: 347–412 s.
+
+## D-77 Fault reactions of plan §7.2 (Accepted, F5)
+* `RECOVER`: target lost (2 s without the bay while entering) or a timeout in a transit or docking state:
+  stop, wait 1 s, back 0.1 m, observe again (at a station) or search again (in transit); at most 2 per leg,
+  then FAULT.
+* `ABORT`: fork does not reach its target (LIFT/LOWER timeout): fork to carry height, back out, FAULT.
+* Load loss: while carrying (before lowering) the load check is monitored; if 80 % of the last 10
+  measurements see no parcel → hold the fork where it is, FAULT("yük kaybı").
+* Pick failure: no parcel after backing out → lower the fork, observe again and select again (once).
+* Wrong station: at PRE_DOCK the nearest sign within 1.6 m must have the target colour; otherwise its
+  position is excluded (0.5 m), the remembered sign is dropped and the robot searches again.
+* Lanes that do not lead to the target sign (line > 0.5 m from it) are not used (stations moved, floor not
+  repainted).
+* Each reaction has a kinematic test (`test_core.py`) and a simulated fault injection (A5,
+  `fault_acceptance.py`).
+
+## D-78 Starting the mission from the operator GUI in tests (Accepted, F5)
+* A4 includes a run started from the real operator GUI. The GUI runs inside an isolated `Xephyr :99`
+  (1600×1000, **96 dpi**: at Xephyr's default 75 dpi Qt draws the 1280×800 content at ~0.75 scale and
+  logical click coordinates miss); `xdotool` sends events only to `DISPLAY=:99`, never to the owner's
+  desktop (see the safe-screenshot rule). The test does not publish `/e_stop` in this run; the GUI does.
+  Steps: hold the e-stop button for release_hold + 0.4 s, click [Otonom], click [Görevi başlat]; each step
+  is checked on ROS topics. Screenshots: `docs/images/cv/f5/a4_gui_*.png`.
+
+## D-79 Load check counts saturated kraft (Accepted, F5 finding)
+* With load-loss monitoring on (D-77), the factory full mission stopped with a false "yük kaybı" right
+  after the first pick: the robot stood in front of the source facing into the hall (−x). Measured at
+  eight headings with a parcel on the forks: kraft fraction 0.56 at 180° (threshold 0.5), 0.72–0.79
+  elsewhere. Under the factory spotlights the parcel top saturates (V 255) and its saturation drops below
+  the kraft class (S ≥ 120); the hue stays 17–20.
+* A first fix (H 13–20, S 50–120, V ≥ 235) raised the probed heading to 0.76, but the full mission still
+  stopped: 0.2 m further from the source and turned 30–40° more, the fraction fell to 0.24. There the top
+  face is clipped (V 255) and with the red channel at 255 the hue shifts to 20–22 (median 20 vs 18).
+* `load.classes: [kraft, kraft_highlight]`; `kraft_highlight` = H 13–22, S 50–220, V ≥ 235, used only by the
+  load check. Probed at two positions × ten headings into the hall: loaded 1.00, empty forks 0.00 at every
+  pose. The yellow lane (H ≥ 25) stays outside. C6 on the recorded sets unchanged: 1822/1822 empty and
+  780/780 loaded views correct.
+* C6's recorded views faced the stations only; this heading was never in the set.
+
 ## Spec deviations (summary)
 | ID | What | Status |
 |---|---|---|

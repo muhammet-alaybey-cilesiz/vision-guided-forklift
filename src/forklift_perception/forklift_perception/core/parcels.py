@@ -125,7 +125,11 @@ class LoadDetector:
         if roi.sum() < 50:
             return False, 0.0
         hsv = cv2.cvtColor(rgb, cv2.COLOR_RGB2HSV)
-        frac = float((self.colors.mask(hsv, 'kraft')[roi] > 0).mean())
+        m = None
+        for name in self.cfg['classes']:
+            part = self.colors.mask(hsv, name)
+            m = part if m is None else cv2.bitwise_or(m, part)
+        frac = float((m[roi] > 0).mean())
         return frac >= self.cfg['min_kraft_fraction'], frac
 
 

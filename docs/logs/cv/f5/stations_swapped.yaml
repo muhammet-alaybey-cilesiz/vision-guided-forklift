@@ -1,0 +1,61 @@
+stations:
+- name: source
+  color: neutral
+  pose:
+  - 1.5
+  - 0.0
+  - 0.0
+  bays: 3
+  bay_ids:
+  - 0
+  - 1
+  - 2
+  occupancy:
+  - red
+  - green
+  - blue
+- name: dest_red
+  color: red
+  pose:
+  - -2.25
+  - 0.0
+  - 3.141592653589793
+  bays: 3
+  bay_ids:
+  - 3
+  - 4
+  - 5
+  occupancy:
+  - null
+  - null
+  - null
+- name: dest_green
+  color: green
+  pose:
+  - 0.0
+  - -2.25
+  - -1.5707963267948966
+  bays: 3
+  bay_ids:
+  - 6
+  - 7
+  - 8
+  occupancy:
+  - null
+  - null
+  - null
+- name: dest_blue
+  color: blue
+  pose:
+  - 0.0
+  - 2.25
+  - 1.5707963267948966
+  bays: 3
+  bay_ids:
+  - 9
+  - 10
+  - 11
+  occupancy:
+  - null
+  - null
+  - null

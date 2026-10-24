@@ -10,7 +10,7 @@
 | F2 Algılama | Tamamlandı (2026-10-22), K-2 onaylandı (2026-10-23) |
 | F3 Alma + GUI modu | Tamamlandı (2026-10-24); sahip F4'e geçilmesini istedi |
 | F4 Bırakma + transit | Tamamlandı (2026-10-24), K-4 onaylandı (2026-10-24) |
-| F5 Görev + sürüm | **Başladı (2026-10-24)** |
+| F5 Görev + sürüm | **Tamamlandı (2026-10-24), K-5 onayı bekleniyor** |
 
 ---
 
@@ -422,5 +422,122 @@ ros2 run forklift_evaluation mission_acceptance --test a3 --world factory --tria
 ros2 run forklift_evaluation mission_acceptance --test a3 --world station_test --trials return
 # iki koşu aynı anda: her birine ayrı GZ_PARTITION ve ROS_DOMAIN_ID
 ros2 launch forklift_bringup bringup.launch.py world:=factory    # GUI'den Otonom → Görevi başlat (tam görev)
+```
+
+---
+
+## F5 — Tam görev, hata ve kurtarma
+
+### F5.1 Özet
+
+- **A4 tam görev: GEÇTİ.** Robot merkezden başlıyor, 3 koliyi kaynaktan alıp mühür rengindeki istasyonun orta bölmesine bırakıyor ve kaynak boşalınca bitiyor. Görev bir kez de **operatör GUI'sinden** başlatıldı (e-stop bırakma, [Otonom], [Görevi başlat]).
+- **A5 hata enjeksiyonu: 8/8 GEÇTİ.** E-stop, teleop, mod değişimi, hedefi örtme (geçici ve kalıcı), taşırken koliyi kaldırma, alma öncesi koliyi alma, yerleri değişmiş istasyonlar.
+- **Sahip kararı (2026-10-24):** kabul testleri bundan sonra yalnız asıl dünya olan **factory**'de koşuluyor (plan §11). Aşağıdaki son sonuçların hepsi factory'de ve **tek bir kod sürümüyle** alındı; A1–A3 de bu sürümle yeniden koşuldu.
+- **F5'te bulunan ve düzeltilen önemli hata:** taşırken yük denetimi eklenince fabrikada yanlış "yük kaybı" çıktı. Sebep algıda: spot ışık altında kolinin üst yüzü doyuyor, ton sarıya kayıyor (D-79). Düzeltmeden sonra yüklü 1.00 / boş 0.00 ayrım; C6'da yanlış pozitif 0.
+
+### F5.2 A4 — tam görev (factory)
+
+Ham sonuç: `docs/logs/cv/f5/a4_factory.json`, `a4gui_factory.json`. Görüntüler: `docs/images/cv/f5/a4_gui_factory_*.png`.
+
+| Deneme | Başlangıç | Sonuç | Teslim (istasyon / bölme, ofset) | Süre |
+|---|---|---|---|---|
+| 1 | merkez, 0° | DONE | kırmızı/orta 2.1 mm, yeşil/orta 0.8 mm, mavi/orta 2.2 mm | 463 s |
+| 2 | (−0.3, 0.4), 135° (kaynağa bakmıyor) | DONE | 2.2 / 0.8 / 1.6 mm | 350 s |
+| 3 (GUI'den) | merkez, 0° | DONE; 4 GUI adımı ✓ | 2.0 / 0.6 / 3.3 mm | 470 s |
+
+Ölçüt: 3/3 doğru istasyon, eğim < 2° (ölçülen 0.00°), müdahale yok, ≤ 8 dk (480 s). **GEÇTİ.**
+
+**Süre payı dar:** 350–470 s. GUI'li deneme, 3 sim paralel koşarken (RTF 0.93) 470 s sürdü. Tek sim koşusunda RTF 1.00.
+
+**A4'ün geçmişi:**
+
+| Koşu | Sonuç | Sebep | Düzeltme |
+|---|---|---|---|
+| İlk tam görev | 3/3 doğru, 467 s ve > 480 s | Zamanın çoğu arama (118–137 s), transit (120–139 s) ve PRE_DOCK (95 s) | Görev içi tabela hafızası, transit 0.25 m/s, tek PRE_DOCK düzeltmesi, son gereksiz dönüşün kaldırılması (D-76) → 347–412 s |
+| Hata tepkileri eklendikten sonra (factory) | 0/2, 70–113 s'de FAULT | Yük denetimi yanlış "yük kaybı" verdi (algı, D-79) | Parlak kraft sınıfı |
+| **Son koşu** | **3/3 deneme, 9/9 koli** | | |
+
+station_test (bilgi; sahip kararından önce, D-79'un ilk sürümüyle): A4 **1/2** (`a4_station_test.json`: 445 s geçti; ikinci deneme 480 s dolduğunda transitteydi), A5 8/8. Daha önceki bir koşuda A4 2/2 ve GUI'den 1/1 (412–441 s) vardı; o dosyaların üzerine yazıldı, yalnız konsol çıktısında kaldı. station_test'teki GUI koşusu sahip kararıyla yarıda kesildi, dosyaları silindi.
+
+### F5.3 A5 — hata enjeksiyonu (factory)
+
+Ham sonuç: `docs/logs/cv/f5/a5_factory.json`. Betik: `ros2 run forklift_evaluation fault_acceptance --world factory`.
+
+| # | Enjeksiyon | Beklenen (plan §7.2) | Ölçülen | Sonuç |
+|---|---|---|---|---|
+| E1 | Yüklü transitte e-stop | ≤ 0.6 s'de durma; DURAKLADI; bırakınca kendiliğinden devam yok; Devam → biter | Durma **0.38 s**, DURAKLADI 0.17 s'de; bırakıldıktan sonra 3 s hareket yok; Devam → ön-yanaşmada DONE | **GEÇTİ** |
+| E2 | Girişte 0.5 s teleop | DURAKLADI; Devam → yeniden gözlem; alma | DURAKLADI 0.43 s'de; OBSERVE'den yeniden; mavi koli çatalda | **GEÇTİ** |
+| E3 | Hizalamada Manuel mod | DURAKLADI, robot durur; Otonom + Devam → bırakma | Durma 0.29 s; Manuel'de hareket yok; bırakma ofseti 3.1 mm | **GEÇTİ** |
+| E4 | Hedefi 3 s örtme (görsel pano) | RECOVER, sonra alma | RECOVER → yeniden gözlem → alma | **GEÇTİ** |
+| E5 | Hedefi kalıcı örtme | FAULT (kurtarma tükendi), robot durur | 2 RECOVER → FAULT; robot duruyor | **GEÇTİ** |
+| E6 | Taşırken koliyi kaldırma | FAULT (yük kaybı), robot durur | Kaldırmadan **0.98 s** sonra FAULT; robot duruyor | **GEÇTİ** |
+| E7 | Kaldırmadan önce koliyi bölmeden alma | Yeniden deneme | Boş kaldırma → yeniden gözlem → soldaki sıradaki (yeşil) alındı | **GEÇTİ** |
+| E8 | Kırmızı ↔ mavi istasyonların yeri değişmiş (zemin şeritleri eski düzende) | Koliler renge göre doğru | 3/3 doğru istasyon (1.4 / 0.7 / 1.8 mm), 409 s | **GEÇTİ** |
+
+**A5'in geçmişi:**
+
+| Koşu | Sonuç | Sebep | Düzeltme |
+|---|---|---|---|
+| İlk koşu (iki dünya) | 6/8 | E6: `transit` görevi çatalda koli olduğunu bilmiyordu, yük izlenmiyordu; E8: test düzeneği (ikinci sim oturumunda aynı yürütücü) | Transitte yük ilk ölçümlerden anlaşılıyor; oturum başına yürütücü |
+| İkinci koşu (factory) | 5/8 | E1, E8: yanlış "yük kaybı" (D-79). E6 "GEÇTİ" görünüyordu ama FAULT enjeksiyondan **önce** gelmişti; test bunu ayırmıyordu | D-79; E6 ölçütü enjeksiyonun yapıldığını ve FAULT'un sonra geldiğini şart koşuyor; "durdu mu" ölçümü yavaşlama bittikten sonra |
+| **Son koşu** | **8/8** | | |
+
+### F5.4 A1–A3 (factory, son kod sürümü)
+
+| Test | Sonuç | Öne çıkan |
+|---|---|---|
+| A1 yanaşma + alma | **18/18 GEÇTİ** | yanal ≤ 2.5 mm, yaw ≤ 0.54°, taşıyıcı önü −12.6…−10.7 mm, 2 denemede REPOSITION |
+| A2 yüklü yanaşma + bırakma | **18/18 GEÇTİ** | ofset ≤ 4.9 mm, eğim 0.00°, taban 50.0 mm, doğru bölme 18/18 |
+| A3 transit | **9/9 GEÇTİ** | ön-yanaşma ≤ 29 mm / 0.30°, şerit RMS ≤ 3.9 mm, kayma ≤ 0.29 mm |
+| Bilgi: dönüş (hedef → kaynak) | 3/3 | ≤ 43 mm / 0.8°; ikisi sarı şeridi izledi (RMS 6.8 / 1.8 mm), biri tabelayla |
+
+Ham sonuç: `docs/logs/cv/f3/a1_factory.json`, `docs/logs/cv/f4/a2_factory.json`, `a3_factory.json`. Bu factory dosyaları artık F5 koşusunu içeriyor; §F3 ve §F4'teki factory tabloları o fazların koduyla alınmıştı. station_test dosyaları F4 dönemindedir.
+
+### F5.5 Yapılanlar
+
+| Bileşen | Ne | Karar |
+|---|---|---|
+| Hızlandırma | Görev içi tabela hafızası, transit hızı, tek PRE_DOCK düzeltmesi, son dönüşün kaldırılması | D-76 |
+| Hata tepkileri | RECOVER, ABORT, yük kaybı, alma yeniden denemesi, yanlış istasyon, tabelaya gitmeyen şerit | D-77 |
+| GUI'den başlatma testi | Yalıtılmış Xephyr :99 (96 dpi), yalnız o ekrana fare olayları | D-78 |
+| Yük algısı | Parlak / ton kaymış kraft | D-79 |
+| Algılayıcı yuvası (R4) | `detectors.yaml → signs/parcels.backend: classical`; uygulanmamış `onnx` açık hata verir. F2'de yazılmamıştı, F5'te eklendi | — |
+| Belgeler | ARCHITECTURE §10, README, DECISIONS D-71…D-79 | — |
+
+### F5.6 Birim testleri
+
+| Paket | Test | Sonuç |
+|---|---|---|
+| `forklift_autonomy` | 31 (F4'tekilere ek: kurtarma, kalıcı örtme, yük kaybı, alma yeniden denemesi, çatal takılması, yanlış istasyon ×2, yerleri değişmiş istasyonlar ×2, tabelaya gitmeyen şerit, transitte yük, hafıza, iki bitiş kipi) | **31/31 GEÇTİ** |
+| `forklift_perception` | 12 (+ algılayıcı yuvası) | **12/12 GEÇTİ** |
+| `forklift_evaluation` | 5 | **5/5 GEÇTİ** |
+
+Her yeni kinematik testin, düzeltme öncesi koda karşı **kaldığı** denetlendi (yanlış istasyon testinin ilk iki sürümü senaryoyu hiç oluşturmuyordu; düzeltildi).
+
+### F5.7 Gerileme
+
+- C6 (yük, kayıtlı kümeler): yüksüz 1822/1822, yüklü 780/780; D-79'dan sonra değişmedi.
+- GUI: F5'te GUI kodu değişmedi (164/164, F4).
+- S ve T testleri: F5'te simülasyon ve bringup değişmedi; F4'teki sonuçlar geçerli (S 6/6, T 13/13). Koşulmadı.
+
+### F5.8 Açık noktalar (K-5)
+
+| Konu | Durum | Öneri |
+|---|---|---|
+| A4 süre payı | 350–470 s (sınır 480); yük altındaki makinede sınıra yakın | Bir sonraki dilimde transit adımlarının birleştirilmesi (dur-bak sayısı) |
+| Uç bölmenin hedef çifti bazı pozlardan algılanmıyor | REPOSITION ile tolere ediliyor | Algılayıcıda incelenmeli (C4 ailesi) |
+| Nötr tabela açıya göre açık-kapalı | Sık bakışla tolere ediliyor | Gürültülü render ve algılayıcı iyileştirmesi |
+| Renk eşikleri ışığa duyarlı | Yük algısında doyma ve ton kayması bulundu (D-79) | Gerçek kamerada kalibrasyon aracı (R7); öğrenmeli yük ve koli algılayıcısı sonraki dilimde |
+| Yol zorlaştırma | Dilim 1 dışında | Sonraki dilim (README Roadmap) |
+| K-5 | — | 1) `feature/cv-autonomy` → `main` birleştirme, 2) push (ayrı onay), 3) `v0.4.0` tag + `release/v0.4.0` |
+
+### F5.9 Nasıl çalıştırılır
+
+```bash
+colcon build --packages-select forklift_interfaces forklift_perception forklift_autonomy forklift_evaluation forklift_bringup
+source install/setup.bash
+ros2 run forklift_evaluation mission_acceptance --test a4 --world factory --trials full   # tam görev (~15 dk)
+ros2 run forklift_evaluation mission_acceptance --test a4 --world factory --trials gui    # GUI'den başlatma (Xephyr :99)
+ros2 run forklift_evaluation fault_acceptance --world factory                             # E1–E8 (~15 dk)
 ```
 

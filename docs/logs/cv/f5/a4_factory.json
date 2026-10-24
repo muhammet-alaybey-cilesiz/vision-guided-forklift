@@ -1,0 +1,1287 @@
+{
+ "world": "factory",
+ "test": "a4",
+ "transit_method": "lane",
+ "started": "2026-10-24 20:08:59",
+ "trials": [
+  {
+   "start": {
+    "x": 0.0,
+    "y": 0.0,
+    "yaw_deg": 0
+   },
+   "started_from": "servis",
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "TRANSIT",
+    "LANE_JOIN",
+    "TRANSIT",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı; kaynakta koli kalmadı (son alımda görüldü))",
+   "fault": "",
+   "seconds": 463.2,
+   "trace": [
+    [
+     0.1,
+     "IDLE",
+     "Hazır",
+     0
+    ],
+    [
+     0.2,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     0
+    ],
+    [
+     0.9,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     0
+    ],
+    [
+     5.7,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     0
+    ],
+    [
+     11.5,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     0
+    ],
+    [
+     13.7,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     0
+    ],
+    [
+     15.6,
+     "SELECT_BAY",
+     "Bölme seçiliyor",
+     0
+    ],
+    [
+     15.8,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     0
+    ],
+    [
+     29.6,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     0
+    ],
+    [
+     30.6,
+     "ENTER",
+     "Bölmeye giriliyor",
+     0
+    ],
+    [
+     35.9,
+     "TRIM",
+     "Son hizalama",
+     0
+    ],
+    [
+     36.9,
+     "ENTER",
+     "Bölmeye giriliyor",
+     0
+    ],
+    [
+     43.6,
+     "LIFT",
+     "Koli kaldırılıyor",
+     0
+    ],
+    [
+     45.2,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     0
+    ],
+    [
+     52.5,
+     "VERIFY",
+     "Yük denetleniyor",
+     0
+    ],
+    [
+     53.3,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     0
+    ],
+    [
+     85.4,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     0
+    ],
+    [
+     98.7,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     0
+    ],
+    [
+     113.9,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     0
+    ],
+    [
+     116.2,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     0
+    ],
+    [
+     118.1,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     0
+    ],
+    [
+     121.8,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     0
+    ],
+    [
+     122.9,
+     "ENTER",
+     "Bölmeye giriliyor",
+     0
+    ],
+    [
+     129.1,
+     "TRIM",
+     "Son hizalama",
+     0
+    ],
+    [
+     130.3,
+     "ENTER",
+     "Bölmeye giriliyor",
+     0
+    ],
+    [
+     137.5,
+     "LOWER",
+     "Koli bırakılıyor",
+     0
+    ],
+    [
+     139.2,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     0
+    ],
+    [
+     147.0,
+     "VERIFY",
+     "Yük denetleniyor",
+     0
+    ],
+    [
+     148.4,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     1
+    ],
+    [
+     158.4,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     1
+    ],
+    [
+     164.4,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     1
+    ],
+    [
+     179.1,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     1
+    ],
+    [
+     181.0,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     1
+    ],
+    [
+     183.1,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     1
+    ],
+    [
+     186.4,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     1
+    ],
+    [
+     187.5,
+     "ENTER",
+     "Bölmeye giriliyor",
+     1
+    ],
+    [
+     193.4,
+     "TRIM",
+     "Son hizalama",
+     1
+    ],
+    [
+     194.4,
+     "ENTER",
+     "Bölmeye giriliyor",
+     1
+    ],
+    [
+     201.0,
+     "LIFT",
+     "Koli kaldırılıyor",
+     1
+    ],
+    [
+     202.6,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     1
+    ],
+    [
+     210.0,
+     "VERIFY",
+     "Yük denetleniyor",
+     1
+    ],
+    [
+     210.8,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     1
+    ],
+    [
+     255.0,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     1
+    ],
+    [
+     271.2,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     1
+    ],
+    [
+     281.3,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     1
+    ],
+    [
+     283.6,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     1
+    ],
+    [
+     285.4,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     1
+    ],
+    [
+     288.1,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     1
+    ],
+    [
+     289.1,
+     "ENTER",
+     "Bölmeye giriliyor",
+     1
+    ],
+    [
+     294.8,
+     "TRIM",
+     "Son hizalama",
+     1
+    ],
+    [
+     295.9,
+     "ENTER",
+     "Bölmeye giriliyor",
+     1
+    ],
+    [
+     302.9,
+     "LOWER",
+     "Koli bırakılıyor",
+     1
+    ],
+    [
+     304.5,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     1
+    ],
+    [
+     311.6,
+     "VERIFY",
+     "Yük denetleniyor",
+     1
+    ],
+    [
+     312.7,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     2
+    ],
+    [
+     320.6,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     2
+    ],
+    [
+     321.9,
+     "TRANSIT",
+     "İstasyona gidiliyor",
+     2
+    ],
+    [
+     329.7,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     2
+    ],
+    [
+     331.0,
+     "TRANSIT",
+     "İstasyona gidiliyor",
+     2
+    ],
+    [
+     345.2,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     2
+    ],
+    [
+     360.6,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     2
+    ],
+    [
+     362.6,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     2
+    ],
+    [
+     376.0,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     2
+    ],
+    [
+     377.0,
+     "ENTER",
+     "Bölmeye giriliyor",
+     2
+    ],
+    [
+     381.8,
+     "TRIM",
+     "Son hizalama",
+     2
+    ],
+    [
+     383.0,
+     "ENTER",
+     "Bölmeye giriliyor",
+     2
+    ],
+    [
+     389.5,
+     "LIFT",
+     "Koli kaldırılıyor",
+     2
+    ],
+    [
+     391.1,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     2
+    ],
+    [
+     397.7,
+     "VERIFY",
+     "Yük denetleniyor",
+     2
+    ],
+    [
+     398.7,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     2
+    ],
+    [
+     405.2,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     2
+    ],
+    [
+     421.5,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     2
+    ],
+    [
+     432.6,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     2
+    ],
+    [
+     434.4,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     2
+    ],
+    [
+     436.4,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     2
+    ],
+    [
+     439.5,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     2
+    ],
+    [
+     440.5,
+     "ENTER",
+     "Bölmeye giriliyor",
+     2
+    ],
+    [
+     445.7,
+     "TRIM",
+     "Son hizalama",
+     2
+    ],
+    [
+     446.7,
+     "ENTER",
+     "Bölmeye giriliyor",
+     2
+    ],
+    [
+     453.4,
+     "LOWER",
+     "Koli bırakılıyor",
+     2
+    ],
+    [
+     455.0,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     2
+    ],
+    [
+     462.1,
+     "VERIFY",
+     "Yük denetleniyor",
+     2
+    ],
+    [
+     463.3,
+     "DONE",
+     "Görev tamam (koli bırakıldı; kaynakta koli kalmadı (son alımda görüldü))",
+     3
+    ]
+   ],
+   "parcels_done_reported": 3,
+   "parcels": [
+    {
+     "parcel": "parcel_source_0",
+     "seal": "red",
+     "station": "dest_red",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 2.1267533714583857,
+     "tilt_deg": 9.521011765472039e-05,
+     "base_z_mm": 49.99974192092424
+    },
+    {
+     "parcel": "parcel_source_1",
+     "seal": "green",
+     "station": "dest_green",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 0.8332020354624216,
+     "tilt_deg": 1.7455443435103742e-05,
+     "base_z_mm": 49.999962613588494
+    },
+    {
+     "parcel": "parcel_source_2",
+     "seal": "blue",
+     "station": "dest_blue",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 2.164318573655723,
+     "tilt_deg": 8.182875916794223e-05,
+     "base_z_mm": 49.99977383466631
+    }
+   ]
+  },
+  {
+   "start": {
+    "x": -0.3,
+    "y": 0.4,
+    "yaw_deg": 135
+   },
+   "started_from": "servis",
+   "start_ok": true,
+   "start_msg": "görev başladı",
+   "states": [
+    "IDLE",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "SELECT_BAY",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "TRANSIT",
+    "LANE_JOIN",
+    "TRANSIT",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LIFT",
+    "BACK_OUT",
+    "VERIFY",
+    "FIND_STATION",
+    "LANE_JOIN",
+    "LANE_FOLLOW",
+    "PRE_DOCK",
+    "OBSERVE",
+    "ALIGN",
+    "SETTLE",
+    "ENTER",
+    "TRIM",
+    "ENTER",
+    "LOWER",
+    "BACK_OUT",
+    "VERIFY",
+    "DONE"
+   ],
+   "final": "DONE",
+   "detail": "Görev tamam (koli bırakıldı; kaynakta koli kalmadı (son alımda görüldü))",
+   "fault": "",
+   "seconds": 350.0,
+   "trace": [
+    [
+     0.1,
+     "IDLE",
+     "Hazır",
+     0
+    ],
+    [
+     0.3,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     0
+    ],
+    [
+     26.8,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     0
+    ],
+    [
+     36.4,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     0
+    ],
+    [
+     41.8,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     0
+    ],
+    [
+     43.5,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     0
+    ],
+    [
+     44.9,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     0
+    ],
+    [
+     55.1,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     0
+    ],
+    [
+     55.9,
+     "ENTER",
+     "Bölmeye giriliyor",
+     0
+    ],
+    [
+     59.9,
+     "TRIM",
+     "Son hizalama",
+     0
+    ],
+    [
+     60.7,
+     "ENTER",
+     "Bölmeye giriliyor",
+     0
+    ],
+    [
+     65.9,
+     "LIFT",
+     "Koli kaldırılıyor",
+     0
+    ],
+    [
+     67.1,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     0
+    ],
+    [
+     72.4,
+     "VERIFY",
+     "Yük denetleniyor",
+     0
+    ],
+    [
+     73.0,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     0
+    ],
+    [
+     80.2,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     0
+    ],
+    [
+     89.6,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     0
+    ],
+    [
+     100.6,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     0
+    ],
+    [
+     102.0,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     0
+    ],
+    [
+     103.7,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     0
+    ],
+    [
+     105.5,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     0
+    ],
+    [
+     106.3,
+     "ENTER",
+     "Bölmeye giriliyor",
+     0
+    ],
+    [
+     110.3,
+     "TRIM",
+     "Son hizalama",
+     0
+    ],
+    [
+     111.1,
+     "ENTER",
+     "Bölmeye giriliyor",
+     0
+    ],
+    [
+     116.3,
+     "LOWER",
+     "Koli bırakılıyor",
+     0
+    ],
+    [
+     117.5,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     0
+    ],
+    [
+     122.8,
+     "VERIFY",
+     "Yük denetleniyor",
+     0
+    ],
+    [
+     123.7,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     1
+    ],
+    [
+     131.0,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     1
+    ],
+    [
+     135.0,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     1
+    ],
+    [
+     145.8,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     1
+    ],
+    [
+     147.4,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     1
+    ],
+    [
+     148.8,
+     "SELECT_BAY",
+     "Bölme seçiliyor",
+     1
+    ],
+    [
+     149.0,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     1
+    ],
+    [
+     151.5,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     1
+    ],
+    [
+     152.3,
+     "ENTER",
+     "Bölmeye giriliyor",
+     1
+    ],
+    [
+     156.3,
+     "TRIM",
+     "Son hizalama",
+     1
+    ],
+    [
+     157.1,
+     "ENTER",
+     "Bölmeye giriliyor",
+     1
+    ],
+    [
+     162.1,
+     "LIFT",
+     "Koli kaldırılıyor",
+     1
+    ],
+    [
+     163.3,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     1
+    ],
+    [
+     168.7,
+     "VERIFY",
+     "Yük denetleniyor",
+     1
+    ],
+    [
+     169.3,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     1
+    ],
+    [
+     174.5,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     1
+    ],
+    [
+     187.0,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     1
+    ],
+    [
+     194.4,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     1
+    ],
+    [
+     196.0,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     1
+    ],
+    [
+     197.4,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     1
+    ],
+    [
+     200.7,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     1
+    ],
+    [
+     201.5,
+     "ENTER",
+     "Bölmeye giriliyor",
+     1
+    ],
+    [
+     205.4,
+     "TRIM",
+     "Son hizalama",
+     1
+    ],
+    [
+     206.2,
+     "ENTER",
+     "Bölmeye giriliyor",
+     1
+    ],
+    [
+     211.3,
+     "LOWER",
+     "Koli bırakılıyor",
+     1
+    ],
+    [
+     212.5,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     1
+    ],
+    [
+     217.9,
+     "VERIFY",
+     "Yük denetleniyor",
+     1
+    ],
+    [
+     218.7,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     2
+    ],
+    [
+     224.7,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     2
+    ],
+    [
+     225.7,
+     "TRANSIT",
+     "İstasyona gidiliyor",
+     2
+    ],
+    [
+     232.7,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     2
+    ],
+    [
+     233.7,
+     "TRANSIT",
+     "İstasyona gidiliyor",
+     2
+    ],
+    [
+     245.4,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     2
+    ],
+    [
+     257.2,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     2
+    ],
+    [
+     263.2,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     2
+    ],
+    [
+     273.9,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     2
+    ],
+    [
+     274.7,
+     "ENTER",
+     "Bölmeye giriliyor",
+     2
+    ],
+    [
+     278.7,
+     "TRIM",
+     "Son hizalama",
+     2
+    ],
+    [
+     279.5,
+     "ENTER",
+     "Bölmeye giriliyor",
+     2
+    ],
+    [
+     284.7,
+     "LIFT",
+     "Koli kaldırılıyor",
+     2
+    ],
+    [
+     285.9,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     2
+    ],
+    [
+     291.1,
+     "VERIFY",
+     "Yük denetleniyor",
+     2
+    ],
+    [
+     291.9,
+     "FIND_STATION",
+     "İstasyon aranıyor",
+     2
+    ],
+    [
+     305.4,
+     "LANE_JOIN",
+     "Şeride giriliyor",
+     2
+    ],
+    [
+     318.2,
+     "LANE_FOLLOW",
+     "Şerit izleniyor",
+     2
+    ],
+    [
+     326.9,
+     "PRE_DOCK",
+     "Ön-yanaşma",
+     2
+    ],
+    [
+     328.3,
+     "OBSERVE",
+     "İstasyon gözleniyor",
+     2
+    ],
+    [
+     329.9,
+     "ALIGN",
+     "Bölme eksenine hizalanıyor",
+     2
+    ],
+    [
+     332.1,
+     "SETTLE",
+     "Ölçüm tazeleniyor",
+     2
+    ],
+    [
+     332.9,
+     "ENTER",
+     "Bölmeye giriliyor",
+     2
+    ],
+    [
+     336.9,
+     "TRIM",
+     "Son hizalama",
+     2
+    ],
+    [
+     337.7,
+     "ENTER",
+     "Bölmeye giriliyor",
+     2
+    ],
+    [
+     342.7,
+     "LOWER",
+     "Koli bırakılıyor",
+     2
+    ],
+    [
+     343.9,
+     "BACK_OUT",
+     "Geri çıkılıyor",
+     2
+    ],
+    [
+     349.3,
+     "VERIFY",
+     "Yük denetleniyor",
+     2
+    ],
+    [
+     350.1,
+     "DONE",
+     "Görev tamam (koli bırakıldı; kaynakta koli kalmadı (son alımda görüldü))",
+     3
+    ]
+   ],
+   "parcels_done_reported": 3,
+   "parcels": [
+    {
+     "parcel": "parcel_source_0",
+     "seal": "red",
+     "station": "dest_red",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 2.2149043613747663,
+     "tilt_deg": 9.234184629851494e-05,
+     "base_z_mm": 49.999754097006104
+    },
+    {
+     "parcel": "parcel_source_1",
+     "seal": "green",
+     "station": "dest_green",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 0.7652697767407295,
+     "tilt_deg": 9.679699896867643e-05,
+     "base_z_mm": 49.99980703184909
+    },
+    {
+     "parcel": "parcel_source_2",
+     "seal": "blue",
+     "station": "dest_blue",
+     "bay": 1,
+     "correct": true,
+     "offset_mm": 1.6287589195348946,
+     "tilt_deg": 0.00011038801308262971,
+     "base_z_mm": 49.99968346677447
+    }
+   ]
+  }
+ ],
+ "A4": {
+  "trials": 2,
+  "ok": 2,
+  "parcels_correct": 6,
+  "parcels": 6,
+  "offset_mm_max": 2.2149043613747663,
+  "tilt_deg_max": 0.00011038801308262971,
+  "seconds": [
+   463.2,
+   350.0
+  ],
+  "faults": [],
+  "status": "GEÇTİ"
+ },
+ "finished": "2026-10-24 20:23:45"
+}

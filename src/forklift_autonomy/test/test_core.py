@@ -103,16 +103,19 @@ class FakeWorld:
     def __init__(self, occupancy):
         self.occ = {k: list(v) for k, v in occupancy.items()}   # renk → [mühür | None] × 3 (bölme 0 = −y)
         self.carry = None
+        self.blind = False                    # hata enjeksiyonu: hedef çiftleri ve etiketler görünmez (örtme)
+        self.far_label = {}
+        self.st = dict(STATIONS)              # istasyonların bu dünyadaki yeri; zemin şeritleri STATIONS'a göre boyalı                   # uzaktan (> 2 m) yanlış okunan tabela rengi: gerçek → okunan
 
     def bay(self, color, i):
-        x, y, a = STATIONS[color]
+        x, y, a = self.st[color]
         S = SE2(x, y, a)
         return S.apply((0.0, (i - 1) * PITCH)), a
 
     def sense(self, p, tr, signs, lane, t, q):
         inv = p.inv()
         ent = []
-        for color in STATIONS:
+        for color in (() if self.blind else self.st):
             for i in range(3):
                 e, a = self.bay(color, i)
                 r = inv.apply(e)
@@ -121,7 +124,7 @@ class FakeWorld:
         tr.add_entries(t, ent)
         cam = p.apply((0.10, 0.0))
         ps = []
-        for color in STATIONS:
+        for color in self.st:
             for i in range(3):
                 if self.occ[color][i]:
                     e, a = self.bay(color, i)
@@ -130,13 +133,14 @@ class FakeWorld:
                     if 0.5 < r[0] < 3.0 and abs(math.atan2(r[1], r[0] - 0.1)) < math.radians(30):
                         ps.append((f, self.occ[color][i]))
         tr.add_parcels(t, ps, view=(cam, p.yaw, math.radians(25), 0.5, 3.0))
-        for color, (x, y, a) in STATIONS.items():
+        for color, (x, y, a) in self.st.items():
             r = inv.apply((x, y))
             rng = float(np.hypot(*r))
             if 0.6 < rng < 3.5 and abs(math.atan2(r[1], r[0])) < math.radians(30):
                 err = 0.05 * rng                                   # ~5 cm/m yanal, ~4°/m yaw hatası
                 xy = SE2(x, y, a).apply((0.0, err))
-                signs.add(t, color, xy, a + math.radians(4.0 * rng), rng)
+                seen = self.far_label.get(color, color) if rng > 2.0 else color
+                signs.add(t, seen, xy, a + math.radians(4.0 * rng), rng)
         # şerit rengi istasyonun rengi; kaynağa giden şerit sarı (katalog lane_neutral)
         st = {'yellow': 'neutral'}.get(lane.color, lane.color)
         if lane.color and st in STATIONS and st != 'neutral' or lane.color == 'yellow':
@@ -164,7 +168,7 @@ class FakeWorld:
 
     def fork_event(self, p, q_prev, q):
         """Çatal kalkınca bölmedeki koli çatala, inince çatal üstündeki koli bölmeye."""
-        for color in STATIONS:
+        for color in self.st:
             for i in range(3):
                 e, a = self.bay(color, i)
                 rel = SE2(e[0], e[1], a).inv().apply(p.xy)
@@ -175,16 +179,20 @@ class FakeWorld:
                         self.occ[color][i], self.carry = self.carry, None
 
 
-def run_mission(world, method, task='full', target='', p0=SE2(0, 0, 0), steps=40000):
+def run_mission(world, method, task='full', target='', p0=SE2(0, 0, 0), steps=40000, hook=None, fork_stuck=False):
+    """hook(m, world, t): her adımda hata enjeksiyonu için. fork_stuck: çatal hiç hareket etmez."""
     tr, sg, ln = BayTracker(CFG['tracker']), SignTracker(CFG['tracker']), LaneTracker(CFG['tracker'])
     m = Mission(CFG['mission'], ROBOT, tr, sg, ln, method)
     p, q, t = p0, (CFG['mission']['carry_q'] if world.carry else 0.0), 0.0
     m.start(t, task, target)
     for k in range(steps):
         t = k * DT
+        if hook is not None:
+            hook(m, world, t)
         world.sense(p, tr, sg, ln, t, q)
         v, w, fork = m.step(t, p, q, world.carry is not None)
-        if fork is not None:
+        m.last_cmd = (v, w)
+        if fork is not None and not fork_stuck:
             q0, q = q, q + float(np.clip(fork - q, -0.05 * DT, 0.05 * DT))
             world.fork_event(p, q0, q)
         p = drive(p, v, w)
@@ -193,14 +201,22 @@ def run_mission(world, method, task='full', target='', p0=SE2(0, 0, 0), steps=40
     return m, p
 
 
-@pytest.mark.parametrize('method', ['sign', 'lane'])
-def test_full_mission_delivers_every_parcel_to_its_station(method):
+@pytest.mark.parametrize('method,finish_early', [('sign', True), ('lane', True), ('lane', False)])
+def test_full_mission_delivers_every_parcel_to_its_station(method, finish_early):
     w = FakeWorld({'neutral': ['red', 'green', 'blue'], 'red': [None] * 3, 'green': [None] * 3, 'blue': [None] * 3})
-    m, _ = run_mission(w, method)
-    assert m.state == 'DONE' and 'kaynak istasyon boş' in m.detail, m.log[-6:]
+    old = CFG['mission']['finish_when_source_seen_empty']
+    CFG['mission']['finish_when_source_seen_empty'] = finish_early
+    try:
+        m, _ = run_mission(w, method)
+    finally:
+        CFG['mission']['finish_when_source_seen_empty'] = old
+    why = 'kaynakta koli kalmadı' if finish_early else 'kaynak istasyon boş'      # son dönüş yok / var
+    assert m.state == 'DONE' and why in m.detail, m.log[-6:]
     assert m.parcels_done == 3
-    if method == 'lane':                                              # her bacak şeritle (1 + 3 × 2 transit)
-        assert sum(1 for e in m.log if e[1] == 'LANE_FOLLOW') == 7, [e for e in m.log if e[1].startswith('LANE')]
+    assert any('hafızadaki' in e[2] for e in m.log)                  # dönüşte görülmüş tabelaya önce dönülür
+    if method == 'lane':                                              # her bacak şeritle: 1 + 3 × 2 (− son dönüş)
+        n = sum(1 for e in m.log if e[1] == 'LANE_FOLLOW')
+        assert n == (6 if finish_early else 7), [e for e in m.log if e[1].startswith('LANE')]
     for c in ('red', 'green', 'blue'):
         assert w.occ[c] == [None, c, None], (c, w.occ[c])            # önce orta bölme (K10)
 
@@ -351,3 +367,133 @@ def test_drop_reobserves_when_target_bay_pair_is_missed():
             break
     assert m.state == 'ALIGN' and 'REPOSITION' in [e[1] for e in m.log], m.log
     assert abs(m.bay.entry[1] - 0.3) < 1e-6
+
+
+# =============================================================================
+#  F5: hata ve kurtarma (plan §7.2)
+# =============================================================================
+def _source_world():
+    return FakeWorld({'neutral': ['red', 'green', 'blue'], 'red': [None] * 3, 'green': [None] * 3, 'blue': [None] * 3})
+
+
+P_SOURCE = SE2(0.5, 0.0, 0.0)                        # kaynağın 1 m önü
+
+
+def test_target_occluded_briefly_recovers_and_picks():
+    w = _source_world()
+    box = {}
+
+    def hook(m, world, t):                           # girişte 3 s örtme
+        if m.state == 'ENTER' and 'on' not in box:
+            box['on'] = t
+        world.blind = 'on' in box and t - box['on'] < 3.0
+    m, _ = run_mission(w, 'sign', 'pick', p0=P_SOURCE, steps=8000, hook=hook)
+    states = [e[1] for e in m.log]
+    assert 'RECOVER' in states and m.state == 'DONE' and 'koli çatalda' in m.detail, m.log[-8:]
+
+
+def test_target_occluded_permanently_faults_and_stops():
+    w = _source_world()
+
+    def hook(m, world, t):
+        if m.state == 'ENTER':
+            world.blind = True
+    m, _ = run_mission(w, 'sign', 'pick', p0=P_SOURCE, steps=8000, hook=hook)
+    assert m.state == 'FAULT' and 'kurtarma denemesi tükendi' in m.fault, m.log[-6:]
+    assert m.last_cmd == (0.0, 0.0)
+
+
+def test_parcel_lost_while_carrying_faults():
+    w = _source_world()
+
+    def hook(m, world, t):                           # transitte koli çataldan düşer
+        if m.state == 'TRANSIT' and m.loaded:
+            world.carry = None
+    m, _ = run_mission(w, 'sign', 'full', p0=P_SOURCE, steps=20000, hook=hook)
+    assert m.state == 'FAULT' and 'yük kaybı' in m.fault, m.log[-6:]
+
+
+def test_pick_failure_retries_with_next_parcel():
+    w = _source_world()
+    done = {}
+
+    def hook(m, world, t):                           # kaldırmadan hemen önce koli bölmeden alınır
+        if m.state == 'LIFT' and 'x' not in done:
+            done['x'] = 1
+            for i in range(3):
+                if world.occ['neutral'][i] == 'blue':
+                    world.occ['neutral'][i] = None
+    m, _ = run_mission(w, 'sign', 'pick', p0=P_SOURCE, steps=12000, hook=hook)
+    assert any('yeniden deneme 1' in e[2] for e in m.log), m.log
+    assert m.state == 'DONE' and m.bay.parcel == 'green', m.log[-6:]
+
+
+def test_fork_stuck_aborts_backs_out_and_faults():
+    w = _source_world()
+    m, p = run_mission(w, 'sign', 'pick', p0=P_SOURCE, steps=8000, fork_stuck=True)
+    states = [e[1] for e in m.log]
+    assert 'ABORT' in states and m.state == 'FAULT' and 'çatal takıldı' in m.fault, m.log[-6:]
+    assert p.x < 1.5 - ROBOT['stop_distance'] - 0.4                  # bölmeden geri çıktı
+
+
+def test_wrong_station_is_excluded_and_search_continues():
+    """Uzaktan mavi istasyonun tabelası 'red' okunuyor; yakında mavi görülünce o nokta dışlanır, yeniden
+    aranır ve gerçek kırmızı bulunur (plan §7.2)."""
+    w = FakeWorld({'neutral': [None] * 3, 'red': [None] * 3, 'green': [None] * 3, 'blue': [None] * 3})
+    w.far_label = {'blue': 'red'}
+    m, p = run_mission(w, 'sign', 'transit', 'red', p0=SE2(0.5, 0.0, math.pi), steps=20000)   # maviye bakıyor
+    assert any('yanlış istasyon: önde blue' in e[2] for e in m.log), [e for e in m.log if e[1] != 'FIND_STATION']
+    x, y, a = STATIONS['red']
+    rel = SE2(x, y, a).inv() * p
+    assert m.state == 'DONE' and abs(rel.y) < 0.1 and abs(rel.x + 0.8) < 0.1, (m.log[-6:], rel)
+
+
+def test_wrong_station_without_target_in_range_faults():
+    """Gerçek hedef görüş menzilinde değilse robot dışladığı istasyona geri dönmez, arar ve FAULT verir."""
+    w = FakeWorld({'neutral': [None] * 3, 'red': [None] * 3, 'green': [None] * 3, 'blue': [None] * 3})
+    w.far_label = {'green': 'red'}
+    m, p = run_mission(w, 'sign', 'transit', 'red', p0=SE2(0.0, -0.1, -math.pi / 2), steps=20000)
+    assert any('yanlış istasyon: önde green' in e[2] for e in m.log)
+    assert m.state == 'FAULT' and 'bulunamadı' in m.fault and m.last_cmd == (0.0, 0.0)
+
+
+@pytest.mark.parametrize('method', ['sign', 'lane'])
+def test_swapped_stations_full_mission(method):
+    """A5: kırmızı ve mavi istasyonların yeri değişmiş; factory'de zemin şeritleri eski düzende boyalı.
+    Koliler yine renklerine göre doğru istasyona gider (şerit tabelaya gitmiyorsa tabelayla)."""
+    w = _source_world()
+    w.st['red'], w.st['blue'] = STATIONS['blue'], STATIONS['red']
+    m, _ = run_mission(w, method)
+    assert m.state == 'DONE' and m.parcels_done == 3, m.log[-6:]
+    for c in ('red', 'green', 'blue'):
+        assert w.occ[c] == [None, c, None], (c, w.occ[c])
+
+
+def test_lane_not_leading_to_sign_is_rejected():
+    """Şerit görünüyor ama doğrusu hedef tabelaya 2 m uzaktan geçiyor: şerit kullanılmaz, tabelayla gidilir."""
+    tr, sg, ln = BayTracker(CFG['tracker']), SignTracker(CFG['tracker']), LaneTracker(CFG['tracker'])
+    m = Mission(CFG['mission'], ROBOT, tr, sg, ln, 'lane')
+    m.start(0.0, 'transit', 'red')
+    p = SE2(0.0, 0.0, math.pi / 2)
+    m._go('LANE_JOIN', 0.0)
+    ln.reset('red')
+    for k in range(60):
+        t = k * DT
+        sg.add(t, 'red', (-2.0, 2.0), math.pi / 2, 2.8)                   # tabela sol önde
+        ln.add(t, [(0.0, 0.6 + 0.02 * i) for i in range(40)], None, [0.6 + 0.02 * i for i in range(40)])
+        m.step(t, p, 0.0, False)
+        if m.state != 'LANE_JOIN':
+            break
+    assert m.state == 'TRANSIT' and 'tabelaya gitmiyor' in m.log[-1][2], m.log[-3:]
+
+
+def test_transit_started_with_parcel_monitors_load():
+    """A5 E6 bulgusu: transit görevi koli çataldayken başlatılırsa yük ilk ölçümlerden anlaşılır ve izlenir."""
+    w = _source_world()
+    w.carry = 'red'
+
+    def hook(m, world, t):
+        if m.state == 'TRANSIT' and t > 8.0:
+            world.carry = None
+    m, _ = run_mission(w, 'sign', 'transit', 'red', p0=SE2(0.75, 0.0, 0.0), steps=12000, hook=hook)
+    assert m.state == 'FAULT' and 'yük kaybı' in m.fault, m.log[-5:]

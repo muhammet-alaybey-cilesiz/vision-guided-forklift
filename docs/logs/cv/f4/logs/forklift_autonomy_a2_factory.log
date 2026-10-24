@@ -1,313 +1,310 @@
-[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-24-12-23-53-189064-muhammet61-23459
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-24-20-25-47-371080-muhammet61-33889
 [INFO] [launch]: Default logging verbosity is set to INFO
-[INFO] [mission_manager-1]: process started with pid [23503]
-[mission_manager-1] [WARN] [1792833833.736403638] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[mission_manager-1] [WARN] [1792833833.736416185] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
-[mission_manager-1] [INFO] [1792833833.865998709] [mission_manager]: görev yöneticisi hazır (mod: Manuel, transit: lane)
-[mission_manager-1] [INFO] [1792833860.141754329] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792833860.201767966] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792833860.222346300] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792833860.310315514] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792833862.114997636] [mission_manager]: SELECT_BAY:  [bölme giriş 0.903,0.001 θ -0.06°]
-[mission_manager-1] [INFO] [1792833862.115388615] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 0.903,0.001 θ -0.06°]
-[mission_manager-1] [INFO] [1792833865.025260087] [mission_manager]: SETTLE:  [bölme giriş 0.908,0.000 θ -0.02°]
-[mission_manager-1] [INFO] [1792833865.926679012] [mission_manager]: ENTER: giriş (yanal 0 mm, yön -0.05°, mesafe 0.75 m) [bölme giriş 0.904,0.000 θ 0.04°]
-[mission_manager-1] [INFO] [1792833870.972940166] [mission_manager]: TRIM: yanal -0.0 mm, yön -0.06° [bölme giriş 0.904,0.000 θ 0.03°]
-[mission_manager-1] [INFO] [1792833871.859403667] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 0.902,0.001 θ 0.03°]
-[mission_manager-1] [INFO] [1792833877.663625899] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 0.900,0.000 θ 0.03°]
-[mission_manager-1] [INFO] [1792833879.047172279] [mission_manager]: BACK_OUT:  [bölme giriş 0.899,0.001 θ 0.03°]
-[mission_manager-1] [INFO] [1792833885.082496608] [mission_manager]: VERIFY:  [bölme giriş 0.902,0.000 θ -0.04°]
-[mission_manager-1] [INFO] [1792833886.330250795] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792833886.445635015] [mission_manager]: DONE: koli bırakıldı [bölme giriş 0.901,0.000 θ -0.06°]
-[mission_manager-1] [INFO] [1792833886.487803472] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792833898.430639504] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792833898.493397139] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792833898.514066976] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792833898.696967582] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792833900.391449455] [mission_manager]: SELECT_BAY: 
-[mission_manager-1] [INFO] [1792833900.630594785] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 1.567,-0.080 θ -10.16°]
-[mission_manager-1] [INFO] [1792833909.784499773] [mission_manager]: SETTLE:  [bölme giriş 1.572,-0.081 θ -10.17°]
-[mission_manager-1] [INFO] [1792833910.684869680] [mission_manager]: ENTER: giriş (yanal -2 mm, yön -0.07°, mesafe 0.76 m) [bölme giriş 1.570,-0.081 θ -10.19°]
-[mission_manager-1] [INFO] [1792833915.402591122] [mission_manager]: TRIM: yanal 0.1 mm, yön 0.09° [bölme giriş 1.569,-0.080 θ -10.22°]
-[mission_manager-1] [INFO] [1792833916.342799691] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 1.568,-0.080 θ -10.22°]
-[mission_manager-1] [INFO] [1792833922.210337116] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 1.568,-0.081 θ -10.22°]
-[mission_manager-1] [INFO] [1792833923.600658312] [mission_manager]: BACK_OUT:  [bölme giriş 1.569,-0.082 θ -10.22°]
-[mission_manager-1] [INFO] [1792833929.835938164] [mission_manager]: VERIFY:  [bölme giriş 1.569,-0.080 θ -10.14°]
-[mission_manager-1] [INFO] [1792833930.725666950] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792833930.780450993] [mission_manager]: DONE: koli bırakıldı [bölme giriş 1.569,-0.080 θ -10.16°]
-[mission_manager-1] [INFO] [1792833930.794456181] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792833942.495396545] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792833942.557802666] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792833942.577544367] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792833942.794493295] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792833944.471882353] [mission_manager]: SELECT_BAY: 
-[mission_manager-1] [INFO] [1792833948.027435718] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş, belirsiz atlandı: [1] [bölme giriş 2.240,-0.130 θ -0.90°]
-[mission_manager-1] [INFO] [1792833957.345558837] [mission_manager]: SETTLE:  [bölme giriş 2.235,-0.129 θ -0.86°]
-[mission_manager-1] [INFO] [1792833958.511061251] [mission_manager]: ENTER: giriş (yanal 4 mm, yön 0.21°, mesafe 0.75 m) [bölme giriş 2.236,-0.129 θ -0.80°]
-[mission_manager-1] [INFO] [1792833963.216167691] [mission_manager]: TRIM: yanal -0.3 mm, yön -0.40° [bölme giriş 2.241,-0.129 θ -0.86°]
-[mission_manager-1] [INFO] [1792833964.364461940] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 2.234,-0.129 θ -0.86°]
-[mission_manager-1] [INFO] [1792833970.134445146] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 2.239,-0.128 θ -0.86°]
-[mission_manager-1] [INFO] [1792833971.468195938] [mission_manager]: BACK_OUT:  [bölme giriş 2.239,-0.128 θ -0.86°]
-[mission_manager-1] [INFO] [1792833977.340244533] [mission_manager]: VERIFY:  [bölme giriş 2.238,-0.129 θ -0.82°]
-[mission_manager-1] [INFO] [1792833978.457822787] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792833978.458450585] [mission_manager]: DONE: koli bırakıldı [bölme giriş 2.251,-0.130 θ -0.84°]
-[mission_manager-1] [INFO] [1792833978.469890525] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792833990.141720398] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792833990.204333608] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792833990.226871555] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792833990.312762701] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792833992.123104047] [mission_manager]: SELECT_BAY:  [bölme giriş 2.589,-0.144 θ 4.40°]
-[mission_manager-1] [INFO] [1792833992.123519846] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 2.589,-0.144 θ 4.40°]
-[mission_manager-1] [INFO] [1792833999.926942859] [mission_manager]: SETTLE:  [bölme giriş 2.609,-0.143 θ 4.29°]
-[mission_manager-1] [INFO] [1792834000.836827989] [mission_manager]: ENTER: giriş (yanal 0 mm, yön -0.05°, mesafe 0.77 m) [bölme giriş 2.609,-0.143 θ 4.31°]
-[mission_manager-1] [INFO] [1792834006.099253996] [mission_manager]: TRIM: yanal -0.1 mm, yön 0.07° [bölme giriş 2.610,-0.143 θ 4.41°]
-[mission_manager-1] [INFO] [1792834007.003006234] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 2.600,-0.144 θ 4.41°]
-[mission_manager-1] [INFO] [1792834012.786690723] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.145 m) [bölme giriş 2.603,-0.144 θ 4.41°]
-[mission_manager-1] [INFO] [1792834014.134181242] [mission_manager]: BACK_OUT:  [bölme giriş 2.602,-0.144 θ 4.41°]
-[mission_manager-1] [INFO] [1792834020.042279225] [mission_manager]: VERIFY:  [bölme giriş 2.616,-0.142 θ 4.41°]
-[mission_manager-1] [INFO] [1792834021.172116563] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834021.172647775] [mission_manager]: DONE: koli bırakıldı [bölme giriş 2.609,-0.143 θ 4.37°]
-[mission_manager-1] [INFO] [1792834021.184185480] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834032.810231928] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834032.871135792] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834032.891427772] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834032.945561299] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834034.764947561] [mission_manager]: SELECT_BAY:  [bölme giriş 3.446,0.225 θ 4.12°]
-[mission_manager-1] [INFO] [1792834034.766093891] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 3.446,0.225 θ 4.12°]
-[mission_manager-1] [INFO] [1792834047.070399538] [mission_manager]: SETTLE:  [bölme giriş 3.443,0.222 θ 4.44°]
-[mission_manager-1] [INFO] [1792834047.992651419] [mission_manager]: ENTER: giriş (yanal 2 mm, yön 0.09°, mesafe 0.75 m) [bölme giriş 3.441,0.222 θ 4.34°]
-[mission_manager-1] [INFO] [1792834052.312937716] [mission_manager]: TRIM: yanal -0.0 mm, yön 0.02° [bölme giriş 3.439,0.222 θ 4.38°]
-[mission_manager-1] [INFO] [1792834053.231719373] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 3.440,0.222 θ 4.38°]
-[mission_manager-1] [INFO] [1792834058.997490009] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 3.439,0.221 θ 4.38°]
-[mission_manager-1] [INFO] [1792834060.390358257] [mission_manager]: BACK_OUT:  [bölme giriş 3.439,0.221 θ 4.38°]
-[mission_manager-1] [INFO] [1792834066.476956751] [mission_manager]: VERIFY:  [bölme giriş 3.437,0.222 θ 4.33°]
-[mission_manager-1] [INFO] [1792834067.372645982] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834067.373271195] [mission_manager]: DONE: koli bırakıldı [bölme giriş 3.437,0.222 θ 4.35°]
-[mission_manager-1] [INFO] [1792834067.385317599] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834079.205091641] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834079.266159416] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834079.286362308] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834079.485706012] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834081.097143367] [mission_manager]: SELECT_BAY:  [bölme giriş 3.601,-0.038 θ -0.89°]
-[mission_manager-1] [INFO] [1792834081.097504141] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş [bölme giriş 3.601,-0.038 θ -0.89°]
-[mission_manager-1] [INFO] [1792834092.526385157] [mission_manager]: SETTLE:  [bölme giriş 3.604,-0.038 θ -0.92°]
-[mission_manager-1] [INFO] [1792834093.459743908] [mission_manager]: ENTER: giriş (yanal 3 mm, yön 0.14°, mesafe 0.75 m) [bölme giriş 3.599,-0.037 θ -0.83°]
-[mission_manager-1] [INFO] [1792834097.902343565] [mission_manager]: TRIM: yanal -0.1 mm, yön -0.28° [bölme giriş 3.598,-0.037 θ -0.90°]
-[mission_manager-1] [INFO] [1792834099.085401746] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 3.597,-0.038 θ -0.90°]
-[mission_manager-1] [INFO] [1792834104.882240520] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.145 m) [bölme giriş 3.599,-0.036 θ -0.90°]
-[mission_manager-1] [INFO] [1792834106.275537234] [mission_manager]: BACK_OUT:  [bölme giriş 3.599,-0.036 θ -0.90°]
-[mission_manager-1] [INFO] [1792834112.176107970] [mission_manager]: VERIFY:  [bölme giriş 3.600,-0.038 θ -0.86°]
-[mission_manager-1] [INFO] [1792834113.320134789] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834113.320808426] [mission_manager]: DONE: koli bırakıldı [bölme giriş 3.598,-0.038 θ -0.84°]
-[mission_manager-1] [INFO] [1792834113.354829029] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834124.901499331] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834124.963793287] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834124.986083638] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834125.115676072] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834126.662509371] [mission_manager]: SELECT_BAY: 
-[mission_manager-1] [INFO] [1792834126.892319727] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 3.862,-0.039 θ -0.89°]
-[mission_manager-1] [INFO] [1792834129.575430703] [mission_manager]: SETTLE:  [bölme giriş 3.868,-0.040 θ -0.89°]
-[mission_manager-1] [INFO] [1792834130.482406198] [mission_manager]: ENTER: giriş (yanal 0 mm, yön -0.09°, mesafe 0.76 m) [bölme giriş 3.867,-0.040 θ -0.86°]
-[mission_manager-1] [INFO] [1792834135.058625321] [mission_manager]: TRIM: yanal 0.2 mm, yön 0.09° [bölme giriş 3.858,-0.039 θ -0.86°]
-[mission_manager-1] [INFO] [1792834135.982955513] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 3.851,-0.039 θ -0.86°]
-[mission_manager-1] [INFO] [1792834142.324523961] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.143 m) [bölme giriş 3.858,-0.039 θ -0.86°]
-[mission_manager-1] [INFO] [1792834143.692768570] [mission_manager]: BACK_OUT:  [bölme giriş 3.858,-0.039 θ -0.86°]
-[mission_manager-1] [INFO] [1792834149.910590028] [mission_manager]: VERIFY:  [bölme giriş 3.860,-0.040 θ -0.84°]
-[mission_manager-1] [INFO] [1792834151.087785029] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834151.243114577] [mission_manager]: DONE: koli bırakıldı [bölme giriş 3.857,-0.039 θ -0.92°]
-[mission_manager-1] [INFO] [1792834151.293015418] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834163.470830935] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834163.532637759] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834163.552945351] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834163.587526975] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834165.501761232] [mission_manager]: SELECT_BAY:  [bölme giriş 4.528,-0.128 θ -10.83°]
-[mission_manager-1] [INFO] [1792834165.503092884] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 4.528,-0.128 θ -10.83°]
-[mission_manager-1] [INFO] [1792834175.047585666] [mission_manager]: SETTLE:  [bölme giriş 4.529,-0.129 θ -11.03°]
-[mission_manager-1] [INFO] [1792834175.975366757] [mission_manager]: ENTER: giriş (yanal -4 mm, yön -0.16°, mesafe 0.76 m) [bölme giriş 4.530,-0.129 θ -10.97°]
-[mission_manager-1] [INFO] [1792834180.482632091] [mission_manager]: TRIM: yanal 0.4 mm, yön 0.18° [bölme giriş 4.528,-0.129 θ -10.93°]
-[mission_manager-1] [INFO] [1792834181.681220645] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 4.527,-0.128 θ -10.93°]
-[mission_manager-1] [INFO] [1792834187.525430948] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.143 m) [bölme giriş 4.527,-0.130 θ -10.93°]
-[mission_manager-1] [INFO] [1792834188.914497923] [mission_manager]: BACK_OUT:  [bölme giriş 4.526,-0.129 θ -10.93°]
-[mission_manager-1] [INFO] [1792834195.073041109] [mission_manager]: VERIFY:  [bölme giriş 4.527,-0.128 θ -10.95°]
-[mission_manager-1] [INFO] [1792834195.963059242] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834196.021017132] [mission_manager]: DONE: koli bırakıldı [bölme giriş 4.527,-0.128 θ -10.91°]
-[mission_manager-1] [INFO] [1792834196.070990464] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834208.061662643] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834208.125184176] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834208.146053811] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834208.269852354] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834210.102878572] [mission_manager]: SELECT_BAY: 
-[mission_manager-1] [INFO] [1792834214.616686376] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş, belirsiz atlandı: [1] [bölme giriş 5.198,-0.184 θ -1.34°]
-[mission_manager-1] [INFO] [1792834224.532002613] [mission_manager]: SETTLE:  [bölme giriş 5.201,-0.184 θ -1.35°]
-[mission_manager-1] [INFO] [1792834225.540200537] [mission_manager]: ENTER: giriş (yanal 2 mm, yön 0.00°, mesafe 0.76 m) [bölme giriş 5.204,-0.184 θ -1.35°]
-[mission_manager-1] [INFO] [1792834230.316981414] [mission_manager]: TRIM: yanal -0.2 mm, yön -0.21° [bölme giriş 5.196,-0.184 θ -1.38°]
-[mission_manager-1] [INFO] [1792834231.319018725] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 5.196,-0.184 θ -1.38°]
-[mission_manager-1] [INFO] [1792834237.392608033] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 5.198,-0.183 θ -1.38°]
-[mission_manager-1] [INFO] [1792834238.789221857] [mission_manager]: BACK_OUT:  [bölme giriş 5.198,-0.183 θ -1.38°]
-[mission_manager-1] [INFO] [1792834245.236997780] [mission_manager]: VERIFY:  [bölme giriş 5.208,-0.185 θ -1.31°]
-[mission_manager-1] [INFO] [1792834246.074196593] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834246.192467931] [mission_manager]: DONE: koli bırakıldı [bölme giriş 5.214,-0.185 θ -1.31°]
-[mission_manager-1] [INFO] [1792834246.225860693] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834258.044065755] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834258.105670041] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834258.125729235] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834258.297737785] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834259.878749933] [mission_manager]: SELECT_BAY:  [bölme giriş 5.542,-0.203 θ 3.82°]
-[mission_manager-1] [INFO] [1792834259.879149186] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 5.542,-0.203 θ 3.82°]
-[mission_manager-1] [INFO] [1792834267.726611383] [mission_manager]: SETTLE:  [bölme giriş 5.569,-0.202 θ 3.65°]
-[mission_manager-1] [INFO] [1792834268.642020971] [mission_manager]: ENTER: giriş (yanal -1 mm, yön -0.11°, mesafe 0.78 m) [bölme giriş 5.571,-0.202 θ 3.61°]
-[mission_manager-1] [INFO] [1792834273.912403937] [mission_manager]: TRIM: yanal -0.3 mm, yön -0.04° [bölme giriş 5.569,-0.202 θ 3.74°]
-[mission_manager-1] [INFO] [1792834274.805302910] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 5.565,-0.202 θ 3.74°]
-[mission_manager-1] [INFO] [1792834280.531579111] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 5.563,-0.202 θ 3.74°]
-[mission_manager-1] [INFO] [1792834281.883041109] [mission_manager]: BACK_OUT:  [bölme giriş 5.562,-0.202 θ 3.74°]
-[mission_manager-1] [INFO] [1792834287.933758494] [mission_manager]: VERIFY:  [bölme giriş 5.565,-0.202 θ 3.77°]
-[mission_manager-1] [INFO] [1792834289.141500216] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834289.253972574] [mission_manager]: DONE: koli bırakıldı [bölme giriş 5.566,-0.202 θ 3.63°]
-[mission_manager-1] [INFO] [1792834289.274184885] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834301.178197459] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834301.240116953] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834301.260829451] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834301.448822610] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834303.102619521] [mission_manager]: SELECT_BAY:  [bölme giriş 6.411,0.156 θ 3.42°]
-[mission_manager-1] [INFO] [1792834303.103048977] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 6.411,0.156 θ 3.42°]
-[mission_manager-1] [INFO] [1792834315.873912646] [mission_manager]: SETTLE:  [bölme giriş 6.405,0.153 θ 3.61°]
-[mission_manager-1] [INFO] [1792834316.849928956] [mission_manager]: ENTER: giriş (yanal 1 mm, yön 0.05°, mesafe 0.74 m) [bölme giriş 6.403,0.152 θ 3.61°]
-[mission_manager-1] [INFO] [1792834321.859847692] [mission_manager]: TRIM: yanal -0.2 mm, yön -0.12° [bölme giriş 6.402,0.152 θ 3.62°]
-[mission_manager-1] [INFO] [1792834322.877415951] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 6.404,0.153 θ 3.62°]
-[mission_manager-1] [INFO] [1792834329.093827300] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 6.404,0.151 θ 3.62°]
-[mission_manager-1] [INFO] [1792834330.572913350] [mission_manager]: BACK_OUT:  [bölme giriş 6.403,0.151 θ 3.62°]
-[mission_manager-1] [INFO] [1792834337.419388816] [mission_manager]: VERIFY:  [bölme giriş 6.403,0.152 θ 3.62°]
-[mission_manager-1] [INFO] [1792834338.442057991] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834338.581136210] [mission_manager]: DONE: koli bırakıldı [bölme giriş 6.403,0.152 θ 3.60°]
-[mission_manager-1] [INFO] [1792834338.589845639] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834351.444305467] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834351.505325991] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834351.525776338] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834351.621447011] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834353.539133244] [mission_manager]: SELECT_BAY:  [bölme giriş 6.562,-0.110 θ -1.70°]
-[mission_manager-1] [INFO] [1792834353.539549966] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş [bölme giriş 6.562,-0.110 θ -1.70°]
-[mission_manager-1] [INFO] [1792834365.328576442] [mission_manager]: SETTLE:  [bölme giriş 6.568,-0.110 θ -1.76°]
-[mission_manager-1] [INFO] [1792834366.328464771] [mission_manager]: ENTER: giriş (yanal 1 mm, yön -0.02°, mesafe 0.75 m) [bölme giriş 6.565,-0.109 θ -1.78°]
-[mission_manager-1] [INFO] [1792834371.183492515] [mission_manager]: TRIM: yanal -0.2 mm, yön -0.40° [bölme giriş 6.558,-0.109 θ -1.84°]
-[mission_manager-1] [INFO] [1792834372.099255401] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 6.558,-0.108 θ -1.84°]
-[mission_manager-1] [INFO] [1792834378.173206991] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 6.560,-0.107 θ -1.84°]
-[mission_manager-1] [INFO] [1792834379.532239697] [mission_manager]: BACK_OUT:  [bölme giriş 6.560,-0.107 θ -1.84°]
-[mission_manager-1] [INFO] [1792834385.522558500] [mission_manager]: VERIFY:  [bölme giriş 6.561,-0.109 θ -1.81°]
-[mission_manager-1] [INFO] [1792834386.593456720] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834386.647311218] [mission_manager]: DONE: koli bırakıldı [bölme giriş 6.572,-0.110 θ -1.73°]
-[mission_manager-1] [INFO] [1792834386.685632575] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834398.482447826] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834398.542454459] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834398.564365793] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834398.595380848] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834400.394113353] [mission_manager]: SELECT_BAY:  [bölme giriş 6.822,-0.113 θ -1.63°]
-[mission_manager-1] [INFO] [1792834400.394672743] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 6.822,-0.113 θ -1.63°]
-[mission_manager-1] [INFO] [1792834403.820967305] [mission_manager]: SETTLE:  [bölme giriş 6.828,-0.113 θ -1.51°]
-[mission_manager-1] [INFO] [1792834405.113239001] [mission_manager]: ENTER: giriş (yanal 1 mm, yön 0.09°, mesafe 0.76 m) [bölme giriş 6.824,-0.113 θ -1.50°]
-[mission_manager-1] [INFO] [1792834409.671310055] [mission_manager]: TRIM: yanal -0.0 mm, yön -0.08° [bölme giriş 6.822,-0.113 θ -1.54°]
-[mission_manager-1] [INFO] [1792834410.598956324] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 6.820,-0.112 θ -1.54°]
-[mission_manager-1] [INFO] [1792834416.499854634] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.145 m) [bölme giriş 6.819,-0.113 θ -1.54°]
-[mission_manager-1] [INFO] [1792834417.875667200] [mission_manager]: BACK_OUT:  [bölme giriş 6.820,-0.113 θ -1.54°]
-[mission_manager-1] [INFO] [1792834424.097409331] [mission_manager]: VERIFY:  [bölme giriş 6.819,-0.113 θ -1.53°]
-[mission_manager-1] [INFO] [1792834425.193309182] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834425.255255674] [mission_manager]: DONE: koli bırakıldı [bölme giriş 6.820,-0.113 θ -1.59°]
-[mission_manager-1] [INFO] [1792834425.298716949] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834437.211262482] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834437.272703687] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834437.293492901] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834437.350184399] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834439.237473538] [mission_manager]: SELECT_BAY:  [bölme giriş 7.484,-0.209 θ -11.64°]
-[mission_manager-1] [INFO] [1792834439.237902258] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 7.484,-0.209 θ -11.64°]
-[mission_manager-1] [INFO] [1792834448.603837284] [mission_manager]: SETTLE:  [bölme giriş 7.485,-0.210 θ -11.66°]
-[mission_manager-1] [INFO] [1792834449.547450770] [mission_manager]: ENTER: giriş (yanal -2 mm, yön -0.07°, mesafe 0.75 m) [bölme giriş 7.485,-0.210 θ -11.66°]
-[mission_manager-1] [INFO] [1792834454.282219799] [mission_manager]: TRIM: yanal 0.3 mm, yön 0.07° [bölme giriş 7.487,-0.210 θ -11.65°]
-[mission_manager-1] [INFO] [1792834455.230165156] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 7.475,-0.207 θ -11.65°]
-[mission_manager-1] [INFO] [1792834461.128060317] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 7.484,-0.211 θ -11.65°]
-[mission_manager-1] [INFO] [1792834462.521879283] [mission_manager]: BACK_OUT:  [bölme giriş 7.484,-0.211 θ -11.65°]
-[mission_manager-1] [INFO] [1792834468.761121877] [mission_manager]: VERIFY:  [bölme giriş 7.483,-0.209 θ -11.68°]
-[mission_manager-1] [INFO] [1792834469.635588724] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834469.694553271] [mission_manager]: DONE: koli bırakıldı [bölme giriş 7.484,-0.210 θ -11.67°]
-[mission_manager-1] [INFO] [1792834469.715431182] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834481.519059396] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834481.580695480] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834481.601157826] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834481.813343463] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834483.465689425] [mission_manager]: SELECT_BAY: 
-[mission_manager-1] [INFO] [1792834486.924214384] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş, belirsiz atlandı: [1] [bölme giriş 8.155,-0.272 θ -2.01°]
-[mission_manager-1] [INFO] [1792834496.405200591] [mission_manager]: SETTLE:  [bölme giriş 8.152,-0.272 θ -2.00°]
-[mission_manager-1] [INFO] [1792834497.349575014] [mission_manager]: ENTER: giriş (yanal 1 mm, yön 0.14°, mesafe 0.75 m) [bölme giriş 8.153,-0.272 θ -1.98°]
-[mission_manager-1] [INFO] [1792834502.309903914] [mission_manager]: TRIM: yanal 0.1 mm, yön -0.22° [bölme giriş 8.154,-0.272 θ -1.97°]
-[mission_manager-1] [INFO] [1792834503.499731206] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 8.153,-0.272 θ -1.97°]
-[mission_manager-1] [INFO] [1792834509.487643502] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.143 m) [bölme giriş 8.154,-0.270 θ -1.97°]
-[mission_manager-1] [INFO] [1792834511.034306828] [mission_manager]: BACK_OUT:  [bölme giriş 8.154,-0.270 θ -1.97°]
-[mission_manager-1] [INFO] [1792834517.676036193] [mission_manager]: VERIFY:  [bölme giriş 8.156,-0.272 θ -1.85°]
-[mission_manager-1] [INFO] [1792834518.702804964] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834518.877349950] [mission_manager]: DONE: koli bırakıldı [bölme giriş 8.162,-0.272 θ -1.93°]
-[mission_manager-1] [INFO] [1792834518.906477959] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834530.461166971] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834530.522259439] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834530.542739548] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834530.703887719] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834532.327957822] [mission_manager]: SELECT_BAY: 
-[mission_manager-1] [INFO] [1792834532.574793739] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 8.505,-0.295 θ 3.12°]
-[mission_manager-1] [INFO] [1792834540.229887470] [mission_manager]: SETTLE:  [bölme giriş 8.528,-0.294 θ 3.06°]
-[mission_manager-1] [INFO] [1792834541.187159974] [mission_manager]: ENTER: giriş (yanal -0 mm, yön -0.10°, mesafe 0.78 m) [bölme giriş 8.528,-0.294 θ 2.98°]
-[mission_manager-1] [INFO] [1792834546.384453364] [mission_manager]: TRIM: yanal 0.1 mm, yön 0.03° [bölme giriş 8.522,-0.294 θ 3.10°]
-[mission_manager-1] [INFO] [1792834547.355480785] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 8.523,-0.294 θ 3.10°]
-[mission_manager-1] [INFO] [1792834552.914689148] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.145 m) [bölme giriş 8.519,-0.294 θ 3.10°]
-[mission_manager-1] [INFO] [1792834554.310182957] [mission_manager]: BACK_OUT:  [bölme giriş 8.520,-0.294 θ 3.10°]
-[mission_manager-1] [INFO] [1792834560.458633537] [mission_manager]: VERIFY:  [bölme giriş 8.522,-0.294 θ 3.13°]
-[mission_manager-1] [INFO] [1792834561.559064727] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834561.559692504] [mission_manager]: DONE: koli bırakıldı [bölme giriş 8.520,-0.294 θ 3.11°]
-[mission_manager-1] [INFO] [1792834561.598072649] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834573.123335796] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834573.184437056] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834573.205421746] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834573.322647773] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834575.140679376] [mission_manager]: SELECT_BAY:  [bölme giriş 9.366,0.052 θ 2.87°]
-[mission_manager-1] [INFO] [1792834575.141137917] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 9.366,0.052 θ 2.87°]
-[mission_manager-1] [INFO] [1792834587.230214830] [mission_manager]: SETTLE:  [bölme giriş 9.361,0.051 θ 2.89°]
-[mission_manager-1] [INFO] [1792834588.186829462] [mission_manager]: ENTER: giriş (yanal -2 mm, yön -0.09°, mesafe 0.75 m) [bölme giriş 9.364,0.051 θ 2.89°]
-[mission_manager-1] [INFO] [1792834592.909029405] [mission_manager]: TRIM: yanal 0.2 mm, yön 0.30° [bölme giriş 9.364,0.051 θ 3.03°]
-[mission_manager-1] [INFO] [1792834594.066149589] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 9.364,0.051 θ 3.03°]
-[mission_manager-1] [INFO] [1792834599.777220586] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 9.364,0.049 θ 3.03°]
-[mission_manager-1] [INFO] [1792834601.136708008] [mission_manager]: BACK_OUT:  [bölme giriş 9.364,0.050 θ 3.03°]
-[mission_manager-1] [INFO] [1792834606.956914091] [mission_manager]: VERIFY:  [bölme giriş 9.363,0.051 θ 3.01°]
-[mission_manager-1] [INFO] [1792834607.947224663] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834608.063383163] [mission_manager]: DONE: koli bırakıldı [bölme giriş 9.363,0.051 θ 2.98°]
-[mission_manager-1] [INFO] [1792834608.091359098] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834619.692258962] [mission_manager]: mod: Manuel
-[mission_manager-1] [INFO] [1792834619.753335725] [mission_manager]: mod: Otonom
-[mission_manager-1] [INFO] [1792834619.773830404] [mission_manager]: görev başladı (drop )
-[mission_manager-1] [INFO] [1792834619.984340126] [mission_manager]: OBSERVE: 
-[mission_manager-1] [INFO] [1792834621.642258081] [mission_manager]: SELECT_BAY:  [bölme giriş 9.520,-0.214 θ -2.37°]
-[mission_manager-1] [INFO] [1792834621.642748410] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş [bölme giriş 9.520,-0.214 θ -2.37°]
-[mission_manager-1] [INFO] [1792834633.187118283] [mission_manager]: SETTLE:  [bölme giriş 9.524,-0.213 θ -2.54°]
-[mission_manager-1] [INFO] [1792834634.111598207] [mission_manager]: ENTER: giriş (yanal 2 mm, yön -0.01°, mesafe 0.75 m) [bölme giriş 9.520,-0.213 θ -2.44°]
-[mission_manager-1] [INFO] [1792834638.784910887] [mission_manager]: TRIM: yanal 0.1 mm, yön -0.14° [bölme giriş 9.516,-0.213 θ -2.42°]
-[mission_manager-1] [INFO] [1792834639.720120087] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 9.519,-0.213 θ -2.42°]
-[mission_manager-1] [INFO] [1792834645.786850184] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 9.519,-0.212 θ -2.42°]
-[mission_manager-1] [INFO] [1792834647.160745410] [mission_manager]: BACK_OUT:  [bölme giriş 9.518,-0.212 θ -2.42°]
-[mission_manager-1] [INFO] [1792834653.284625577] [mission_manager]: VERIFY:  [bölme giriş 9.525,-0.213 θ -2.33°]
-[mission_manager-1] [INFO] [1792834654.268350720] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
-[mission_manager-1] [INFO] [1792834654.380000073] [mission_manager]: DONE: koli bırakıldı [bölme giriş 9.522,-0.213 θ -2.40°]
-[mission_manager-1] [INFO] [1792834654.399542427] [mission_manager]: mod: Manuel
+[INFO] [mission_manager-1]: process started with pid [33932]
+[mission_manager-1] [WARN] [1792862747.954897653] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[mission_manager-1] [WARN] [1792862747.954912084] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[mission_manager-1] [INFO] [1792862748.083612313] [mission_manager]: görev yöneticisi hazır (mod: Manuel, transit: lane)
+[mission_manager-1] [INFO] [1792862773.136467581] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862773.199274101] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792862773.220112849] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792862773.384332836] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792862774.940633622] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792862775.172504894] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 0.902,0.001 θ -0.16°]
+[mission_manager-1] [INFO] [1792862778.356090136] [mission_manager]: SETTLE:  [bölme giriş 0.903,0.000 θ -0.11°]
+[mission_manager-1] [INFO] [1792862779.262247688] [mission_manager]: ENTER: giriş (yanal 2 mm, yön 0.01°, mesafe 0.75 m) [bölme giriş 0.902,0.000 θ -0.01°]
+[mission_manager-1] [INFO] [1792862783.777799789] [mission_manager]: TRIM: yanal 0.0 mm, yön -0.22° [bölme giriş 0.903,0.001 θ -0.10°]
+[mission_manager-1] [INFO] [1792862784.904220733] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 0.902,0.001 θ -0.10°]
+[mission_manager-1] [INFO] [1792862790.677963585] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 0.901,0.001 θ -0.10°]
+[mission_manager-1] [INFO] [1792862792.066449156] [mission_manager]: BACK_OUT:  [bölme giriş 0.901,0.001 θ -0.10°]
+[mission_manager-1] [INFO] [1792862798.089361687] [mission_manager]: VERIFY:  [bölme giriş 0.902,0.000 θ -0.04°]
+[mission_manager-1] [INFO] [1792862799.356882218] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792862799.416180402] [mission_manager]: DONE: koli bırakıldı [bölme giriş 0.900,0.000 θ -0.00°]
+[mission_manager-1] [INFO] [1792862799.431965295] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862811.169877670] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862811.231199715] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792862811.251572688] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792862811.475610959] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792862813.142373286] [mission_manager]: SELECT_BAY:  [bölme giriş 1.565,-0.083 θ -10.62°]
+[mission_manager-1] [INFO] [1792862813.143382495] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 1.565,-0.083 θ -10.62°]
+[mission_manager-1] [INFO] [1792862822.513022063] [mission_manager]: SETTLE:  [bölme giriş 1.564,-0.083 θ -10.44°]
+[mission_manager-1] [INFO] [1792862823.439478029] [mission_manager]: ENTER: giriş (yanal -1 mm, yön 0.01°, mesafe 0.75 m) [bölme giriş 1.564,-0.083 θ -10.54°]
+[mission_manager-1] [INFO] [1792862828.143686214] [mission_manager]: TRIM: yanal -0.1 mm, yön -0.00° [bölme giriş 1.566,-0.083 θ -10.55°]
+[mission_manager-1] [INFO] [1792862829.074723205] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 1.567,-0.083 θ -10.55°]
+[mission_manager-1] [INFO] [1792862834.971756271] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 1.567,-0.084 θ -10.55°]
+[mission_manager-1] [INFO] [1792862836.343817542] [mission_manager]: BACK_OUT:  [bölme giriş 1.568,-0.084 θ -10.55°]
+[mission_manager-1] [INFO] [1792862842.444594550] [mission_manager]: VERIFY:  [bölme giriş 1.572,-0.084 θ -10.53°]
+[mission_manager-1] [INFO] [1792862843.395098552] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792862843.556513582] [mission_manager]: DONE: koli bırakıldı [bölme giriş 1.569,-0.084 θ -10.52°]
+[mission_manager-1] [INFO] [1792862843.608045461] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862855.514076039] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862855.577166015] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792862855.596879761] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792862855.693354691] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792862857.602522430] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792862861.188712130] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş, belirsiz atlandı: [1] [bölme giriş 2.236,-0.131 θ -0.92°]
+[mission_manager-1] [INFO] [1792862870.457259141] [mission_manager]: SETTLE:  [bölme giriş 2.241,-0.131 θ -0.86°]
+[mission_manager-1] [INFO] [1792862871.403095080] [mission_manager]: ENTER: giriş (yanal 3 mm, yön 0.20°, mesafe 0.76 m) [bölme giriş 2.239,-0.131 θ -0.85°]
+[mission_manager-1] [INFO] [1792862876.193159721] [mission_manager]: TRIM: yanal -0.1 mm, yön -0.11° [bölme giriş 2.238,-0.131 θ -0.81°]
+[mission_manager-1] [INFO] [1792862877.122467749] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 2.240,-0.131 θ -0.81°]
+[mission_manager-1] [INFO] [1792862883.107612230] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.145 m) [bölme giriş 2.238,-0.130 θ -0.81°]
+[mission_manager-1] [INFO] [1792862884.503948628] [mission_manager]: BACK_OUT:  [bölme giriş 2.239,-0.131 θ -0.81°]
+[mission_manager-1] [INFO] [1792862890.744657616] [mission_manager]: VERIFY:  [bölme giriş 2.238,-0.131 θ -0.81°]
+[mission_manager-1] [INFO] [1792862891.844640570] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792862891.906426159] [mission_manager]: DONE: koli bırakıldı [bölme giriş 2.238,-0.131 θ -0.91°]
+[mission_manager-1] [INFO] [1792862891.950453626] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862903.458540168] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862903.520112754] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792862903.540959759] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792862903.592830114] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792862905.422454701] [mission_manager]: SELECT_BAY:  [bölme giriş 2.586,-0.146 θ 4.44°]
+[mission_manager-1] [INFO] [1792862905.422898771] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 2.586,-0.146 θ 4.44°]
+[mission_manager-1] [INFO] [1792862913.442744605] [mission_manager]: SETTLE:  [bölme giriş 2.601,-0.145 θ 4.22°]
+[mission_manager-1] [INFO] [1792862914.371935927] [mission_manager]: ENTER: giriş (yanal -0 mm, yön -0.09°, mesafe 0.77 m) [bölme giriş 2.602,-0.145 θ 4.32°]
+[mission_manager-1] [INFO] [1792862919.255580104] [mission_manager]: TRIM: yanal -0.3 mm, yön -0.13° [bölme giriş 2.604,-0.145 θ 4.39°]
+[mission_manager-1] [INFO] [1792862920.195976218] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 2.603,-0.145 θ 4.39°]
+[mission_manager-1] [INFO] [1792862925.977113342] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 2.602,-0.145 θ 4.39°]
+[mission_manager-1] [INFO] [1792862927.341273135] [mission_manager]: BACK_OUT:  [bölme giriş 2.602,-0.145 θ 4.39°]
+[mission_manager-1] [INFO] [1792862933.444321206] [mission_manager]: VERIFY:  [bölme giriş 2.603,-0.145 θ 4.49°]
+[mission_manager-1] [INFO] [1792862934.494607949] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792862934.599843979] [mission_manager]: DONE: koli bırakıldı [bölme giriş 2.605,-0.145 θ 4.51°]
+[mission_manager-1] [INFO] [1792862934.641052742] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862946.411760776] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862946.473558221] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792862946.496052394] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792862946.730992388] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792862948.352533278] [mission_manager]: SELECT_BAY:  [bölme giriş 3.438,0.219 θ 4.17°]
+[mission_manager-1] [INFO] [1792862948.352943615] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 3.438,0.219 θ 4.17°]
+[mission_manager-1] [INFO] [1792862960.868654228] [mission_manager]: SETTLE:  [bölme giriş 3.445,0.219 θ 4.25°]
+[mission_manager-1] [INFO] [1792862961.800582542] [mission_manager]: ENTER: giriş (yanal -2 mm, yön -0.07°, mesafe 0.76 m) [bölme giriş 3.442,0.219 θ 4.22°]
+[mission_manager-1] [INFO] [1792862966.553024800] [mission_manager]: TRIM: yanal 0.0 mm, yön 0.06° [bölme giriş 3.437,0.219 θ 4.21°]
+[mission_manager-1] [INFO] [1792862967.493726195] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 3.441,0.219 θ 4.21°]
+[mission_manager-1] [INFO] [1792862973.634976717] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 3.440,0.218 θ 4.21°]
+[mission_manager-1] [INFO] [1792862974.977316703] [mission_manager]: BACK_OUT:  [bölme giriş 3.439,0.217 θ 4.21°]
+[mission_manager-1] [INFO] [1792862981.007129752] [mission_manager]: VERIFY:  [bölme giriş 3.438,0.218 θ 4.26°]
+[mission_manager-1] [INFO] [1792862981.988297122] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792862982.159104204] [mission_manager]: DONE: koli bırakıldı [bölme giriş 3.441,0.219 θ 4.24°]
+[mission_manager-1] [INFO] [1792862982.175154288] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862993.887154465] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862993.949016464] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792862993.969412648] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792862994.168540455] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792862995.771816929] [mission_manager]: SELECT_BAY:  [bölme giriş 3.599,-0.042 θ -1.17°]
+[mission_manager-1] [INFO] [1792862995.772230139] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş [bölme giriş 3.599,-0.042 θ -1.17°]
+[mission_manager-1] [INFO] [1792863007.658410014] [mission_manager]: SETTLE:  [bölme giriş 3.605,-0.042 θ -1.49°]
+[mission_manager-1] [INFO] [1792863008.603980662] [mission_manager]: ENTER: giriş (yanal -1 mm, yön -0.18°, mesafe 0.75 m) [bölme giriş 3.601,-0.042 θ -1.47°]
+[mission_manager-1] [INFO] [1792863013.397892224] [mission_manager]: TRIM: yanal -0.3 mm, yön -0.19° [bölme giriş 3.600,-0.041 θ -1.24°]
+[mission_manager-1] [INFO] [1792863014.362456564] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 3.594,-0.040 θ -1.24°]
+[mission_manager-1] [INFO] [1792863020.343938580] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 3.599,-0.040 θ -1.24°]
+[mission_manager-1] [INFO] [1792863021.739793012] [mission_manager]: BACK_OUT:  [bölme giriş 3.599,-0.040 θ -1.24°]
+[mission_manager-1] [INFO] [1792863027.758832129] [mission_manager]: VERIFY:  [bölme giriş 3.598,-0.042 θ -1.18°]
+[mission_manager-1] [INFO] [1792863028.840564379] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863028.895800771] [mission_manager]: DONE: koli bırakıldı [bölme giriş 3.596,-0.042 θ -1.16°]
+[mission_manager-1] [INFO] [1792863028.928859964] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863040.653444377] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863040.714358177] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863040.735001587] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863040.896077242] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863042.517770920] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792863042.744589490] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 3.860,-0.042 θ -0.87°]
+[mission_manager-1] [INFO] [1792863045.617638916] [mission_manager]: SETTLE:  [bölme giriş 3.859,-0.042 θ -0.83°]
+[mission_manager-1] [INFO] [1792863046.582421712] [mission_manager]: ENTER: giriş (yanal -1 mm, yön -0.25°, mesafe 0.75 m) [bölme giriş 3.861,-0.042 θ -0.90°]
+[mission_manager-1] [INFO] [1792863051.070668661] [mission_manager]: TRIM: yanal -0.1 mm, yön -0.01° [bölme giriş 3.858,-0.043 θ -0.84°]
+[mission_manager-1] [INFO] [1792863052.019190035] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 3.859,-0.043 θ -0.84°]
+[mission_manager-1] [INFO] [1792863058.109290080] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.143 m) [bölme giriş 3.860,-0.043 θ -0.84°]
+[mission_manager-1] [INFO] [1792863059.477205491] [mission_manager]: BACK_OUT:  [bölme giriş 3.860,-0.042 θ -0.84°]
+[mission_manager-1] [INFO] [1792863065.525130240] [mission_manager]: VERIFY:  [bölme giriş 3.860,-0.042 θ -0.94°]
+[mission_manager-1] [INFO] [1792863066.682845641] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863066.845718543] [mission_manager]: DONE: koli bırakıldı [bölme giriş 3.874,-0.043 θ -0.91°]
+[mission_manager-1] [INFO] [1792863066.855534407] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863078.668514725] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863078.729618857] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863078.750339580] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863078.802579218] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863080.668864899] [mission_manager]: SELECT_BAY:  [bölme giriş 4.526,-0.133 θ -11.13°]
+[mission_manager-1] [INFO] [1792863080.669287119] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 4.526,-0.133 θ -11.13°]
+[mission_manager-1] [INFO] [1792863090.110763489] [mission_manager]: SETTLE:  [bölme giriş 4.524,-0.133 θ -11.21°]
+[mission_manager-1] [INFO] [1792863091.059692541] [mission_manager]: ENTER: giriş (yanal -3 mm, yön -0.08°, mesafe 0.75 m) [bölme giriş 4.527,-0.133 θ -11.15°]
+[mission_manager-1] [INFO] [1792863095.621274257] [mission_manager]: TRIM: yanal 0.1 mm, yön 0.05° [bölme giriş 4.525,-0.133 θ -11.14°]
+[mission_manager-1] [INFO] [1792863096.580524366] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 4.529,-0.133 θ -11.14°]
+[mission_manager-1] [INFO] [1792863102.868319754] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 4.526,-0.134 θ -11.14°]
+[mission_manager-1] [INFO] [1792863104.225748379] [mission_manager]: BACK_OUT:  [bölme giriş 4.526,-0.135 θ -11.14°]
+[mission_manager-1] [INFO] [1792863110.179182679] [mission_manager]: VERIFY:  [bölme giriş 4.525,-0.133 θ -11.11°]
+[mission_manager-1] [INFO] [1792863111.049675454] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863111.103180942] [mission_manager]: DONE: koli bırakıldı [bölme giriş 4.524,-0.133 θ -11.09°]
+[mission_manager-1] [INFO] [1792863111.144326615] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863122.967442616] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863123.029932739] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863123.051392377] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863123.219016647] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863124.918174573] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792863128.762571303] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş, belirsiz atlandı: [1] [bölme giriş 5.197,-0.188 θ -1.43°]
+[mission_manager-1] [INFO] [1792863138.183738257] [mission_manager]: SETTLE:  [bölme giriş 5.196,-0.188 θ -1.36°]
+[mission_manager-1] [INFO] [1792863139.188773256] [mission_manager]: ENTER: giriş (yanal 4 mm, yön 0.25°, mesafe 0.75 m) [bölme giriş 5.198,-0.188 θ -1.31°]
+[mission_manager-1] [INFO] [1792863143.689080639] [mission_manager]: TRIM: yanal -0.2 mm, yön -0.34° [bölme giriş 5.195,-0.188 θ -1.35°]
+[mission_manager-1] [INFO] [1792863144.881166473] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 5.195,-0.188 θ -1.35°]
+[mission_manager-1] [INFO] [1792863150.807017216] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.143 m) [bölme giriş 5.197,-0.187 θ -1.35°]
+[mission_manager-1] [INFO] [1792863152.228480738] [mission_manager]: BACK_OUT:  [bölme giriş 5.197,-0.187 θ -1.35°]
+[mission_manager-1] [INFO] [1792863158.481938300] [mission_manager]: VERIFY:  [bölme giriş 5.199,-0.188 θ -1.33°]
+[mission_manager-1] [INFO] [1792863159.423785082] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863159.424799026] [mission_manager]: DONE: koli bırakıldı [bölme giriş 5.197,-0.188 θ -1.37°]
+[mission_manager-1] [INFO] [1792863159.471096202] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863171.205792358] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863171.268569739] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863171.289519509] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863171.497371231] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863173.094892256] [mission_manager]: SELECT_BAY:  [bölme giriş 5.546,-0.207 θ 3.81°]
+[mission_manager-1] [INFO] [1792863173.095876465] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 5.546,-0.207 θ 3.81°]
+[mission_manager-1] [INFO] [1792863181.034707756] [mission_manager]: SETTLE:  [bölme giriş 5.571,-0.205 θ 3.72°]
+[mission_manager-1] [INFO] [1792863181.939882234] [mission_manager]: ENTER: giriş (yanal -0 mm, yön -0.08°, mesafe 0.77 m) [bölme giriş 5.567,-0.205 θ 3.67°]
+[mission_manager-1] [INFO] [1792863186.736420918] [mission_manager]: TRIM: yanal -0.1 mm, yön -0.18° [bölme giriş 5.563,-0.205 θ 3.78°]
+[mission_manager-1] [INFO] [1792863187.617273513] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 5.555,-0.206 θ 3.78°]
+[mission_manager-1] [INFO] [1792863193.578705639] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.145 m) [bölme giriş 5.563,-0.205 θ 3.78°]
+[mission_manager-1] [INFO] [1792863194.970117797] [mission_manager]: BACK_OUT:  [bölme giriş 5.563,-0.206 θ 3.78°]
+[mission_manager-1] [INFO] [1792863200.867409678] [mission_manager]: VERIFY:  [bölme giriş 5.562,-0.206 θ 3.77°]
+[mission_manager-1] [INFO] [1792863202.048694375] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863202.221534568] [mission_manager]: DONE: koli bırakıldı [bölme giriş 5.564,-0.206 θ 3.79°]
+[mission_manager-1] [INFO] [1792863202.252627128] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863213.954427235] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863214.017385041] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863214.037549631] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863214.195661272] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863215.836956494] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792863216.063284422] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 6.396,0.153 θ 3.80°]
+[mission_manager-1] [INFO] [1792863228.314839108] [mission_manager]: SETTLE:  [bölme giriş 6.398,0.153 θ 3.87°]
+[mission_manager-1] [INFO] [1792863229.237432313] [mission_manager]: ENTER: giriş (yanal -3 mm, yön -0.07°, mesafe 0.75 m) [bölme giriş 6.399,0.153 θ 3.84°]
+[mission_manager-1] [INFO] [1792863234.178561626] [mission_manager]: TRIM: yanal 0.3 mm, yön 0.01° [bölme giriş 6.400,0.154 θ 3.87°]
+[mission_manager-1] [INFO] [1792863235.101975478] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 6.396,0.153 θ 3.87°]
+[mission_manager-1] [INFO] [1792863240.940353533] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.145 m) [bölme giriş 6.402,0.153 θ 3.87°]
+[mission_manager-1] [INFO] [1792863242.317512370] [mission_manager]: BACK_OUT:  [bölme giriş 6.401,0.152 θ 3.87°]
+[mission_manager-1] [INFO] [1792863248.187383560] [mission_manager]: VERIFY:  [bölme giriş 6.402,0.154 θ 3.83°]
+[mission_manager-1] [INFO] [1792863249.315812122] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863249.316450818] [mission_manager]: DONE: koli bırakıldı [bölme giriş 6.401,0.153 θ 3.83°]
+[mission_manager-1] [INFO] [1792863249.330448084] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863261.241905473] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863261.305380808] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863261.325507918] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863261.529724591] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863263.226483877] [mission_manager]: SELECT_BAY:  [bölme giriş 6.560,-0.108 θ -1.69°]
+[mission_manager-1] [INFO] [1792863263.226928810] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş [bölme giriş 6.560,-0.108 θ -1.69°]
+[mission_manager-1] [INFO] [1792863274.807143562] [mission_manager]: SETTLE:  [bölme giriş 6.561,-0.108 θ -1.83°]
+[mission_manager-1] [INFO] [1792863275.755179248] [mission_manager]: ENTER: giriş (yanal 1 mm, yön 0.00°, mesafe 0.75 m) [bölme giriş 6.557,-0.108 θ -1.76°]
+[mission_manager-1] [INFO] [1792863280.945850303] [mission_manager]: TRIM: yanal 0.0 mm, yön -0.03° [bölme giriş 6.560,-0.108 θ -1.65°]
+[mission_manager-1] [INFO] [1792863281.859273189] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 6.552,-0.107 θ -1.65°]
+[mission_manager-1] [INFO] [1792863287.742146083] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 6.558,-0.107 θ -1.65°]
+[mission_manager-1] [INFO] [1792863289.136519996] [mission_manager]: BACK_OUT:  [bölme giriş 6.558,-0.107 θ -1.65°]
+[mission_manager-1] [INFO] [1792863295.252270710] [mission_manager]: VERIFY:  [bölme giriş 6.558,-0.108 θ -1.62°]
+[mission_manager-1] [INFO] [1792863296.213256405] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863296.379704437] [mission_manager]: DONE: koli bırakıldı [bölme giriş 6.555,-0.108 θ -1.60°]
+[mission_manager-1] [INFO] [1792863296.423124770] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863308.291398096] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863308.352560087] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863308.373832005] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863308.464398605] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863310.313367037] [mission_manager]: SELECT_BAY:  [bölme giriş 6.819,-0.112 θ -1.41°]
+[mission_manager-1] [INFO] [1792863310.313774499] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 6.819,-0.112 θ -1.41°]
+[mission_manager-1] [INFO] [1792863313.348933705] [mission_manager]: SETTLE:  [bölme giriş 6.821,-0.112 θ -1.42°]
+[mission_manager-1] [INFO] [1792863314.253768367] [mission_manager]: ENTER: giriş (yanal 0 mm, yön -0.04°, mesafe 0.75 m) [bölme giriş 6.816,-0.112 θ -1.32°]
+[mission_manager-1] [INFO] [1792863318.838844144] [mission_manager]: TRIM: yanal 0.0 mm, yön 0.05° [bölme giriş 6.822,-0.112 θ -1.33°]
+[mission_manager-1] [INFO] [1792863319.779409612] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 6.821,-0.111 θ -1.33°]
+[mission_manager-1] [INFO] [1792863325.934861175] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 6.819,-0.112 θ -1.33°]
+[mission_manager-1] [INFO] [1792863327.317133277] [mission_manager]: BACK_OUT:  [bölme giriş 6.820,-0.112 θ -1.33°]
+[mission_manager-1] [INFO] [1792863333.353815558] [mission_manager]: VERIFY:  [bölme giriş 6.819,-0.112 θ -1.41°]
+[mission_manager-1] [INFO] [1792863334.607963969] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863334.716984063] [mission_manager]: DONE: koli bırakıldı [bölme giriş 6.819,-0.112 θ -1.38°]
+[mission_manager-1] [INFO] [1792863334.742668512] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863346.397484679] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863346.458828761] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863346.479993979] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863346.605618845] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863348.194391485] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792863348.428036128] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 7.484,-0.206 θ -11.62°]
+[mission_manager-1] [INFO] [1792863357.503594418] [mission_manager]: SETTLE:  [bölme giriş 7.486,-0.207 θ -11.49°]
+[mission_manager-1] [INFO] [1792863358.656971664] [mission_manager]: ENTER: giriş (yanal 1 mm, yön 0.05°, mesafe 0.75 m) [bölme giriş 7.483,-0.207 θ -11.49°]
+[mission_manager-1] [INFO] [1792863363.127637290] [mission_manager]: TRIM: yanal -0.1 mm, yön -0.22° [bölme giriş 7.483,-0.207 θ -11.52°]
+[mission_manager-1] [INFO] [1792863364.320531397] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 7.482,-0.206 θ -11.52°]
+[mission_manager-1] [INFO] [1792863370.111098672] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 7.484,-0.208 θ -11.52°]
+[mission_manager-1] [INFO] [1792863371.472724388] [mission_manager]: BACK_OUT:  [bölme giriş 7.483,-0.208 θ -11.52°]
+[mission_manager-1] [INFO] [1792863377.518297343] [mission_manager]: VERIFY:  [bölme giriş 7.491,-0.208 θ -11.48°]
+[mission_manager-1] [INFO] [1792863378.531153267] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863378.702779839] [mission_manager]: DONE: koli bırakıldı [bölme giriş 7.486,-0.207 θ -11.46°]
+[mission_manager-1] [INFO] [1792863378.748649457] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863390.682112407] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863390.743806712] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863390.764138290] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863390.817914733] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863392.660926156] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792863396.197871250] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş, belirsiz atlandı: [1] [bölme giriş 8.156,-0.268 θ -1.87°]
+[mission_manager-1] [INFO] [1792863405.555057860] [mission_manager]: SETTLE:  [bölme giriş 8.159,-0.268 θ -1.74°]
+[mission_manager-1] [INFO] [1792863406.496618419] [mission_manager]: ENTER: giriş (yanal 5 mm, yön 0.27°, mesafe 0.75 m) [bölme giriş 8.152,-0.267 θ -1.73°]
+[mission_manager-1] [INFO] [1792863411.237832770] [mission_manager]: TRIM: yanal -0.2 mm, yön -0.13° [bölme giriş 8.152,-0.268 θ -1.80°]
+[mission_manager-1] [INFO] [1792863412.173733503] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 8.152,-0.267 θ -1.80°]
+[mission_manager-1] [INFO] [1792863418.344364795] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.143 m) [bölme giriş 8.154,-0.266 θ -1.80°]
+[mission_manager-1] [INFO] [1792863419.771022748] [mission_manager]: BACK_OUT:  [bölme giriş 8.153,-0.266 θ -1.80°]
+[mission_manager-1] [INFO] [1792863425.777279616] [mission_manager]: VERIFY:  [bölme giriş 8.150,-0.267 θ -1.78°]
+[mission_manager-1] [INFO] [1792863426.831972933] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863426.890639774] [mission_manager]: DONE: koli bırakıldı [bölme giriş 8.148,-0.267 θ -1.80°]
+[mission_manager-1] [INFO] [1792863426.931544469] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863438.351352789] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863438.412032791] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863438.432715591] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863438.461817736] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863440.266871151] [mission_manager]: SELECT_BAY:  [bölme giriş 8.500,-0.288 θ 3.64°]
+[mission_manager-1] [INFO] [1792863440.267292819] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş 8.500,-0.288 θ 3.64°]
+[mission_manager-1] [INFO] [1792863448.192915833] [mission_manager]: SETTLE:  [bölme giriş 8.514,-0.287 θ 3.39°]
+[mission_manager-1] [INFO] [1792863449.140478114] [mission_manager]: ENTER: giriş (yanal -2 mm, yön -0.18°, mesafe 0.77 m) [bölme giriş 8.516,-0.287 θ 3.36°]
+[mission_manager-1] [INFO] [1792863454.243194310] [mission_manager]: TRIM: yanal 0.0 mm, yön -0.06° [bölme giriş 8.515,-0.287 θ 3.40°]
+[mission_manager-1] [INFO] [1792863455.160400489] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 8.513,-0.287 θ 3.40°]
+[mission_manager-1] [INFO] [1792863461.061063457] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 8.519,-0.287 θ 3.40°]
+[mission_manager-1] [INFO] [1792863462.476261963] [mission_manager]: BACK_OUT:  [bölme giriş 8.519,-0.287 θ 3.40°]
+[mission_manager-1] [INFO] [1792863468.428942095] [mission_manager]: VERIFY:  [bölme giriş 8.523,-0.287 θ 3.51°]
+[mission_manager-1] [INFO] [1792863469.565077938] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863469.565768517] [mission_manager]: DONE: koli bırakıldı [bölme giriş 8.520,-0.287 θ 3.52°]
+[mission_manager-1] [INFO] [1792863469.584882336] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863481.505820732] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863481.566862988] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863481.587548720] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863481.694184388] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863483.496866992] [mission_manager]: SELECT_BAY:  [bölme giriş 9.360,0.064 θ 3.11°]
+[mission_manager-1] [INFO] [1792863483.497236444] [mission_manager]: ALIGN: bölme 1/3 (soldan), boş [bölme giriş 9.360,0.064 θ 3.11°]
+[mission_manager-1] [INFO] [1792863495.676896667] [mission_manager]: SETTLE:  [bölme giriş 9.361,0.063 θ 3.19°]
+[mission_manager-1] [INFO] [1792863496.846354046] [mission_manager]: ENTER: giriş (yanal -1 mm, yön 0.00°, mesafe 0.76 m) [bölme giriş 9.365,0.064 θ 3.23°]
+[mission_manager-1] [INFO] [1792863501.439993048] [mission_manager]: TRIM: yanal -0.0 mm, yön -0.00° [bölme giriş 9.357,0.063 θ 3.31°]
+[mission_manager-1] [INFO] [1792863502.374908847] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 9.355,0.063 θ 3.31°]
+[mission_manager-1] [INFO] [1792863508.420346578] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.145 m) [bölme giriş 9.360,0.062 θ 3.31°]
+[mission_manager-1] [INFO] [1792863509.811763585] [mission_manager]: BACK_OUT:  [bölme giriş 9.361,0.062 θ 3.31°]
+[mission_manager-1] [INFO] [1792863515.516710782] [mission_manager]: VERIFY:  [bölme giriş 9.359,0.063 θ 3.29°]
+[mission_manager-1] [INFO] [1792863516.266850850] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863516.316696221] [mission_manager]: DONE: koli bırakıldı [bölme giriş 9.359,0.063 θ 3.15°]
+[mission_manager-1] [INFO] [1792863516.363039007] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863526.620426040] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792863526.681102252] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792863526.701362262] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792863526.839309622] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792863528.240848371] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792863528.441067877] [mission_manager]: ALIGN: bölme 3/3 (soldan), boş [bölme giriş 9.511,-0.199 θ -2.07°]
+[mission_manager-1] [INFO] [1792863538.260594871] [mission_manager]: SETTLE:  [bölme giriş 9.514,-0.199 θ -2.15°]
+[mission_manager-1] [INFO] [1792863539.060663437] [mission_manager]: ENTER: giriş (yanal 2 mm, yön -0.00°, mesafe 0.75 m) [bölme giriş 9.515,-0.199 θ -2.12°]
+[mission_manager-1] [INFO] [1792863543.060788275] [mission_manager]: TRIM: yanal -0.2 mm, yön -0.64° [bölme giriş 9.512,-0.198 θ -2.23°]
+[mission_manager-1] [INFO] [1792863544.060712935] [mission_manager]: ENTER: son hizalama tamam [bölme giriş 9.514,-0.198 θ -2.23°]
+[mission_manager-1] [INFO] [1792863549.060609292] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş 9.514,-0.197 θ -2.23°]
+[mission_manager-1] [INFO] [1792863550.260545398] [mission_manager]: BACK_OUT:  [bölme giriş 9.514,-0.198 θ -2.23°]
+[mission_manager-1] [INFO] [1792863555.663886394] [mission_manager]: VERIFY:  [bölme giriş 9.514,-0.200 θ -2.11°]
+[mission_manager-1] [INFO] [1792863556.113483540] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792863556.263501032] [mission_manager]: DONE: koli bırakıldı [bölme giriş 9.513,-0.200 θ -2.07°]
+[mission_manager-1] [INFO] [1792863556.284232436] [mission_manager]: mod: Manuel
 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
 [INFO] [mission_manager-1]: sending signal 'SIGINT' to process[mission_manager-1]
 [mission_manager-1] Traceback (most recent call last):
 [mission_manager-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/forklift_autonomy/mission_manager", line 33, in <module>
 [mission_manager-1]     sys.exit(load_entry_point('forklift-autonomy==0.1.0', 'console_scripts', 'mission_manager')())
 [mission_manager-1]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[mission_manager-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/python3.12/site-packages/forklift_autonomy/node.py", line 357, in main
+[mission_manager-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/python3.12/site-packages/forklift_autonomy/node.py", line 361, in main
 [mission_manager-1]     node.destroy_node()
 [mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1958, in destroy_node
 [mission_manager-1]     self.destroy_subscription(self._subscriptions[0])
 [mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1854, in destroy_subscription
 [mission_manager-1]     subscription.destroy()
-[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/subscription.py", line 100, in destroy
-[mission_manager-1]     handler.destroy()
-[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/event_handler.py", line 135, in destroy
-[mission_manager-1]     def destroy(self):
-[mission_manager-1] 
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/subscription.py", line 101, in destroy
+[mission_manager-1]     self.handle.destroy_when_not_in_use()
 [mission_manager-1] KeyboardInterrupt
-[ERROR] [mission_manager-1]: process has died [pid 23503, exit code -2, cmd '/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/forklift_autonomy/mission_manager --ros-args -r __node:=mission_manager --params-file /tmp/launch_params_bqjaa_ul --params-file /tmp/launch_params_x0gjxc5h'].
+[ERROR] [mission_manager-1]: process has died [pid 33932, exit code -2, cmd '/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/forklift_autonomy/mission_manager --ros-args -r __node:=mission_manager --params-file /tmp/launch_params_llnjas53 --params-file /tmp/launch_params_odg3wbtt'].

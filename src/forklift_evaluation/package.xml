@@ -22,6 +22,7 @@
   <exec_depend>forklift_perception</exec_depend>
   <exec_depend>forklift_interfaces</exec_depend>
   <exec_depend>forklift_autonomy</exec_depend>
+  <exec_depend>forklift_gui</exec_depend>
   <exec_depend>rcl_interfaces</exec_depend>
   <exec_depend>python3-numpy</exec_depend>
   <exec_depend>python3-opencv</exec_depend>

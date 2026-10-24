@@ -25,14 +25,15 @@ WORLDS = ('station_test', 'factory')
 class EvalSetup:
     """sim_tools'un beklediği alanlar (world, gui, logs, robot, params) + GT dosyaları."""
 
-    def __init__(self, world, out, gui=False):
+    def __init__(self, world, out, gui=False, stations_file=None):
         if world not in WORLDS:
             raise ValueError(f'bilinmeyen dünya: {world}')
         share = get_package_share_directory('forklift_gazebo')
         cfg = os.path.join(share, 'config')
         self.world, self.gui = world, gui
         self.params = sl.load_yaml(os.path.join(cfg, 'station_params.yaml'))
-        self.layout = sl.load_yaml(os.path.join(cfg, 'stations.yaml'))
+        self.stations_file = stations_file or os.path.join(cfg, 'stations.yaml')    # A5: yerleri değişmiş
+        self.layout = sl.load_yaml(self.stations_file)
         self.markers = sl.load_yaml(os.path.join(cfg, 'markers.yaml'))
         self.factory = sl.load_yaml(os.path.join(cfg, 'factory.yaml')) if world == 'factory' else None
         self.lanes = sl.load_yaml(os.path.join(cfg, 'factory_lanes.yaml'))['lanes'] if world == 'factory' else []

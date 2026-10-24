@@ -2,7 +2,7 @@
  "world": "factory",
  "test": "a1",
  "transit_method": "lane",
- "started": "2026-10-24 12:09:57",
+ "started": "2026-10-24 20:25:47",
  "trials": [
   {
    "bay": 0,
@@ -30,17 +30,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür red))",
    "fault": "",
-   "seconds": 27.9,
+   "seconds": 28.1,
    "deepest": {
-    "carriage_front_x": -0.012006294779969423,
-    "carriage_lateral": 0.0018874102000352635,
-    "yaw_deg": 0.28813189413639795,
-    "pitch_deg": -0.20542510501307554
+    "carriage_front_x": -0.010730031481020835,
+    "carriage_lateral": 0.0019607619020274207,
+    "yaw_deg": 0.16419631253973002,
+    "pitch_deg": -0.2054266970945089
    },
    "parcel_in_robot": [
-    0.2521449627799489,
-    -0.0022253324386752316,
-    0.18506577026420065
+    0.2508719977493872,
+    -0.0020297406643870475,
+    0.1850646454488743
    ],
    "picked": true,
    "neighbours_moved_mm": {}
@@ -57,7 +57,6 @@
    "states": [
     "IDLE",
     "OBSERVE",
-    "SELECT_BAY",
     "ALIGN",
     "SETTLE",
     "ENTER",
@@ -71,17 +70,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür red))",
    "fault": "",
-   "seconds": 31.7,
+   "seconds": 32.3,
    "deepest": {
-    "carriage_front_x": -0.012568569753983072,
-    "carriage_lateral": 0.001891747889269672,
-    "yaw_deg": 0.32827442440034427,
-    "pitch_deg": -0.20484483723488642
+    "carriage_front_x": -0.011062712530807428,
+    "carriage_lateral": 0.0020998990526123885,
+    "yaw_deg": 0.22874612604388367,
+    "pitch_deg": -0.20543044351961048
    },
    "parcel_in_robot": [
-    0.25271111361477483,
-    -0.0023238027803061945,
-    0.1850443294886585
+    0.25120161475480274,
+    -0.002302397623691721,
+    0.18505080471902044
    ],
    "picked": true,
    "neighbours_moved_mm": {}
@@ -112,17 +111,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür red))",
    "fault": "",
-   "seconds": 35.4,
+   "seconds": 35.6,
    "deepest": {
-    "carriage_front_x": -0.01155199053139594,
-    "carriage_lateral": 0.0018802455114332627,
-    "yaw_deg": 0.5173168832824732,
-    "pitch_deg": -0.20517753405577965
+    "carriage_front_x": -0.011614490174150865,
+    "carriage_lateral": 0.0021896980112750767,
+    "yaw_deg": 0.2746998259112028,
+    "pitch_deg": -0.20553846082817084
    },
    "parcel_in_robot": [
-    0.25169094080941,
-    -0.002699028860563335,
-    0.18506683211072147
+    0.251752225883882,
+    -0.0024944755218961334,
+    0.18506805120590664
    ],
    "picked": true,
    "neighbours_moved_mm": {}
@@ -153,17 +152,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür red))",
    "fault": "",
-   "seconds": 32.8,
+   "seconds": 34.0,
    "deepest": {
-    "carriage_front_x": -0.013342005682758062,
-    "carriage_lateral": 0.0019011503662601267,
-    "yaw_deg": 0.3115069742774448,
-    "pitch_deg": -0.2048394324839734
+    "carriage_front_x": -0.011385402590935678,
+    "carriage_lateral": 0.0019656368717222567,
+    "yaw_deg": 0.2577441759344285,
+    "pitch_deg": -0.20483532081109715
    },
    "parcel_in_robot": [
-    0.25348173286933817,
-    -0.002301388349682465,
-    0.18507016148841862
+    0.2515285735368923,
+    -0.0022366303226992734,
+    0.18504002961233695
    ],
    "picked": true,
    "neighbours_moved_mm": {}
@@ -197,17 +196,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür red))",
    "fault": "",
-   "seconds": 41.2,
+   "seconds": 42.4,
    "deepest": {
-    "carriage_front_x": -0.011685914056027952,
-    "carriage_lateral": 0.0016281591964201533,
-    "yaw_deg": 0.33727479261494986,
-    "pitch_deg": -0.20484278285749769
+    "carriage_front_x": -0.011413069145805699,
+    "carriage_lateral": 0.002528367434658817,
+    "yaw_deg": 0.2630515946734892,
+    "pitch_deg": -0.2048469114805136
    },
    "parcel_in_robot": [
-    0.2518264977397162,
-    -0.0020662942930974038,
-    0.18506303613569774
+    0.25154456052255314,
+    -0.002806522150245405,
+    0.1850588735846813
    ],
    "picked": true,
    "neighbours_moved_mm": {}
@@ -222,7 +221,6 @@
    "start_ok": true,
    "start_msg": "görev başladı",
    "states": [
-    "IDLE",
     "OBSERVE",
     "ALIGN",
     "SETTLE",
@@ -237,17 +235,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür red))",
    "fault": "",
-   "seconds": 29.2,
+   "seconds": 29.8,
    "deepest": {
-    "carriage_front_x": -0.010977006054979588,
-    "carriage_lateral": 0.0018764345663896012,
-    "yaw_deg": 0.273598637113946,
-    "pitch_deg": -0.20483998908048817
+    "carriage_front_x": -0.01138404320126793,
+    "carriage_lateral": 0.001700395026307739,
+    "yaw_deg": 0.08787782713230817,
+    "pitch_deg": -0.20543108365388668
    },
    "parcel_in_robot": [
-    0.2511190004762932,
-    -0.002182447965807577,
-    0.185069998242406
+    0.2515246310786914,
+    -0.0016095551984818268,
+    0.1850412190365814
    ],
    "picked": true,
    "neighbours_moved_mm": {}
@@ -277,17 +275,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür green))",
    "fault": "",
-   "seconds": 26.0,
+   "seconds": 26.2,
    "deepest": {
-    "carriage_front_x": -0.011721133143362372,
-    "carriage_lateral": -6.293133507539434e-05,
-    "yaw_deg": 0.0398945787926287,
-    "pitch_deg": -0.40941706426223456
+    "carriage_front_x": -0.01140169353202733,
+    "carriage_lateral": -0.00024037770187485506,
+    "yaw_deg": -0.24651079445748228,
+    "pitch_deg": -0.4094296217707285
    },
    "parcel_in_robot": [
-    0.25206523515660073,
-    -2.2583852619270824e-05,
-    0.1850689169198599
+    0.2517369343816662,
+    0.0007627153843190035,
+    0.18505662353370336
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -319,17 +317,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür green))",
    "fault": "",
-   "seconds": 32.6,
+   "seconds": 33.2,
    "deepest": {
-    "carriage_front_x": -0.012650629002350422,
-    "carriage_lateral": -7.945639769463542e-05,
-    "yaw_deg": -0.07000394816665059,
-    "pitch_deg": -0.40942766510855905
+    "carriage_front_x": -0.012228456368815949,
+    "carriage_lateral": -4.577611814513726e-05,
+    "yaw_deg": -0.14838702602386172,
+    "pitch_deg": -0.40943032226665627
    },
    "parcel_in_robot": [
-    0.2529889573075379,
-    0.0002311978536229638,
-    0.18505029553502225
+    0.2525661117879603,
+    0.0003618733759417551,
+    0.18506087906353097
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -362,17 +360,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür green))",
    "fault": "",
-   "seconds": 35.5,
+   "seconds": 36.7,
    "deepest": {
-    "carriage_front_x": -0.013067352802391352,
-    "carriage_lateral": -0.0006830803303764451,
-    "yaw_deg": -0.1285935084729083,
-    "pitch_deg": -0.40945507722737373
+    "carriage_front_x": -0.012305662905148645,
+    "carriage_lateral": 7.551895467157047e-06,
+    "yaw_deg": 0.006156701109448334,
+    "pitch_deg": -0.40942895158760095
    },
    "parcel_in_robot": [
-    0.2534027932157812,
-    0.0009592991358643521,
-    0.185072176368887
+    0.2526496592463868,
+    -2.2628072010348843e-05,
+    0.18504791553318004
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -404,17 +402,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür green))",
    "fault": "",
-   "seconds": 30.2,
+   "seconds": 30.6,
    "deepest": {
-    "carriage_front_x": -0.014149613759946528,
-    "carriage_lateral": 0.0006266936728552763,
-    "yaw_deg": 0.16346972022932832,
-    "pitch_deg": -0.40939266323526924
+    "carriage_front_x": -0.012219133222626494,
+    "carriage_lateral": 0.00030417348904327514,
+    "yaw_deg": -0.06687694888879436,
+    "pitch_deg": -0.40942763916500025
    },
    "parcel_in_robot": [
-    0.254484583351568,
-    -0.0009804265150835738,
-    0.185071981356085
+    0.25255810388849254,
+    -0.0001622465964109675,
+    0.18505501011590422
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -433,7 +431,6 @@
    "states": [
     "IDLE",
     "OBSERVE",
-    "SELECT_BAY",
     "ALIGN",
     "SETTLE",
     "ENTER",
@@ -447,17 +444,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür green))",
    "fault": "",
-   "seconds": 30.1,
+   "seconds": 30.6,
    "deepest": {
-    "carriage_front_x": -0.012441245196861073,
-    "carriage_lateral": -1.796063109613886e-05,
-    "yaw_deg": -0.1244456200319174,
-    "pitch_deg": -0.40942679821254685
+    "carriage_front_x": -0.012618088085093682,
+    "carriage_lateral": 0.00010388435455230604,
+    "yaw_deg": -0.04508649728684055,
+    "pitch_deg": -0.4094021273167018
    },
    "parcel_in_robot": [
-    0.2527789293224332,
-    0.00028359699568382456,
-    0.1850418213257869
+    0.25295844367557396,
+    -6.857238925312998e-06,
+    0.18506811330526965
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -476,7 +473,6 @@
    "states": [
     "IDLE",
     "OBSERVE",
-    "SELECT_BAY",
     "ALIGN",
     "SETTLE",
     "ENTER",
@@ -490,17 +486,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür green))",
    "fault": "",
-   "seconds": 29.7,
+   "seconds": 30.4,
    "deepest": {
-    "carriage_front_x": -0.012860447629187532,
-    "carriage_lateral": -0.00011647261827082002,
-    "yaw_deg": -0.09282745123449734,
-    "pitch_deg": -0.4094342598616832
+    "carriage_front_x": -0.012131002094281557,
+    "carriage_lateral": 8.583686991981513e-05,
+    "yaw_deg": -0.02177019264911257,
+    "pitch_deg": -0.4094273891252977
    },
    "parcel_in_robot": [
-    0.2532001144450039,
-    0.00031433398715297696,
-    0.18504989931262691
+    0.2524737938126954,
+    -3.898494435238345e-05,
+    0.18506757830215234
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -519,6 +515,7 @@
    "states": [
     "IDLE",
     "OBSERVE",
+    "SELECT_BAY",
     "ALIGN",
     "SETTLE",
     "ENTER",
@@ -532,17 +529,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür blue))",
    "fault": "",
-   "seconds": 25.1,
+   "seconds": 25.6,
    "deepest": {
-    "carriage_front_x": -0.012051315365060516,
-    "carriage_lateral": -0.001823436184446785,
-    "yaw_deg": -0.3960557260171615,
-    "pitch_deg": -0.20484662678999596
+    "carriage_front_x": -0.010891144422952553,
+    "carriage_lateral": -0.001379247260452507,
+    "yaw_deg": -0.3489819713813023,
+    "pitch_deg": -0.2051444492338809
    },
    "parcel_in_robot": [
-    0.2521913580189431,
-    0.0023909466082912,
-    0.18506913789972054
+    0.25103491855688365,
+    0.0018379805756339462,
+    0.18507129101055536
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -575,17 +572,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür blue))",
    "fault": "",
-   "seconds": 32.0,
+   "seconds": 34.3,
    "deepest": {
-    "carriage_front_x": -0.01137528551096978,
-    "carriage_lateral": -0.0019745864272470823,
-    "yaw_deg": -0.4701356821409479,
-    "pitch_deg": -0.20485378386084646
+    "carriage_front_x": -0.011888207283430069,
+    "carriage_lateral": -0.0010912335582018387,
+    "yaw_deg": -0.4083992895929704,
+    "pitch_deg": -0.2048477991958658
    },
    "parcel_in_robot": [
-    0.25150493800024865,
-    0.002690809203753586,
-    0.18506698767945493
+    0.25201970627131975,
+    0.0016793202081328285,
+    0.18503449256237664
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -618,17 +615,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür blue))",
    "fault": "",
-   "seconds": 33.4,
+   "seconds": 33.0,
    "deepest": {
-    "carriage_front_x": -0.011735955862424235,
-    "carriage_lateral": -0.0016704801313536211,
-    "yaw_deg": -0.2892855173145585,
-    "pitch_deg": -0.20484122045154204
+    "carriage_front_x": -0.011372352059941582,
+    "carriage_lateral": -0.0012312391591120784,
+    "yaw_deg": -0.37411808587726436,
+    "pitch_deg": -0.2048513474797694
    },
    "parcel_in_robot": [
-    0.2518730072370231,
-    0.0020108080028293784,
-    0.18507142295116216
+    0.25150177344950164,
+    0.0017414891639671026,
+    0.18506928064574976
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -663,17 +660,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür blue))",
    "fault": "",
-   "seconds": 38.7,
+   "seconds": 36.0,
    "deepest": {
-    "carriage_front_x": -0.011659462061821446,
-    "carriage_lateral": -0.0016684627820353602,
-    "yaw_deg": -0.5064925444891696,
-    "pitch_deg": -0.2054331405186051
+    "carriage_front_x": -0.011890202878933415,
+    "carriage_lateral": -0.0013827466793612279,
+    "yaw_deg": -0.45980104992841037,
+    "pitch_deg": -0.20484868481315543
    },
    "parcel_in_robot": [
-    0.2517968811688208,
-    0.0024562558386140854,
-    0.18504881646588864
+    0.25202180746104486,
+    0.002080548461215692,
+    0.18504476422215796
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -709,15 +706,15 @@
    "fault": "",
    "seconds": 31.3,
    "deepest": {
-    "carriage_front_x": -0.010937924348285805,
-    "carriage_lateral": -0.0020540129574716697,
-    "yaw_deg": -0.3960495590047103,
-    "pitch_deg": -0.20484314035984555
+    "carriage_front_x": -0.011804641596810161,
+    "carriage_lateral": -0.0013474937945944327,
+    "yaw_deg": -0.5386632050794448,
+    "pitch_deg": -0.20484759177881656
    },
    "parcel_in_robot": [
-    0.2510709352387406,
-    0.002612941172328631,
-    0.18504047908528143
+    0.251934258629556,
+    0.0022142373648709746,
+    0.18507253343649963
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -750,17 +747,17 @@
    "final": "DONE",
    "detail": "Görev tamam (koli çatalda (mühür blue))",
    "fault": "",
-   "seconds": 25.8,
+   "seconds": 29.8,
    "deepest": {
-    "carriage_front_x": -0.012004422527717107,
-    "carriage_lateral": -0.0018617931252490152,
-    "yaw_deg": -0.5103591347724169,
-    "pitch_deg": -0.20543156510739702
+    "carriage_front_x": -0.011858068876529931,
+    "carriage_lateral": -0.0017197339356018859,
+    "yaw_deg": -0.5314847811070275,
+    "pitch_deg": -0.20484548580406095
    },
    "parcel_in_robot": [
-    0.25213120344306883,
-    0.0026681893674523893,
-    0.1850759419985186
+    0.2519892126875949,
+    0.0025746401767851035,
+    0.1850418675960704
    ],
    "picked": true,
    "neighbours_moved_mm": {
@@ -772,15 +769,15 @@
  "A1": {
   "trials": 18,
   "done_and_picked": 18,
-  "lateral_mm_max": 2.0540129574716697,
-  "yaw_deg_max": 0.5173168832824732,
+  "lateral_mm_max": 2.5283674346588167,
+  "yaw_deg_max": 0.5386632050794448,
   "carriage_front_x_mm": [
-   -14.1,
-   -10.9
+   -12.6,
+   -10.7
   ],
   "neighbours_moved_mm_max": 0.0,
   "faults": [],
   "status": "GEÇTİ"
  },
- "finished": "2026-10-24 12:23:20"
+ "finished": "2026-10-24 20:39:14"
 }

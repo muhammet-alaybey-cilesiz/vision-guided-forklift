@@ -29,6 +29,7 @@ accel_limits: {v: 0.5, w: 1.5}    # komut değişim sınırı [m/s², rad/s²]; 
 transit_method: sign              # sign (K4, station_test) | lane (factory); launch argümanı ezer
 
 mission:
+  finish_when_source_seen_empty: true   # son alımda kaynakta koli kalmadığı görüldüyse son bırakmadan sonra DONE
   default_task: full              # /autonomy/start'ın görevi; testler 'task' parametresiyle değiştirir
   observe_s: 1.5                  # OBSERVE: en az bu kadar dur ve izle
   observe_max_s: 6.0              # gözlem bu sürede tamamlanmazsa görülen bölmelerle seç
@@ -47,7 +48,13 @@ mission:
   trim_yaw_tol_deg: 0.15          # son hizalamada yön toleransı
   blind_distance: 0.25            # bundan yakında hedef görünmeyebilir (odometriyle sürülür) [m]
   lost_hold_s: 0.5                # bölme bu süre görülmezse dur ve bekle
-  lost_fail_s: 4.0                # … bu süre: FAULT (hedef kayıp)
+  lost_fail_s: 2.0                # … bu süre: kurtarma (hedef kayıp, plan §7.2)
+  recover_max: 2                  # bacak başına kurtarma denemesi; sonra FAULT
+  recover_wait_s: 1.0             # kurtarma: dur ve bekle
+  recover_back: 0.10              # kurtarma: geri [m]
+  pick_retries: 1                 # alma başarısız: yeniden deneme
+  load_loss_ratio: 0.8            # taşırken son verify_window yük ölçümünün bu kadarı "yok" ise yük kaybı
+  abort_fork_wait_s: 4.0          # çatal takıldı: taşıma yüksekliği için en çok bekleme
   pick_q: 0.0                     # alma girişinde çatal (üstü 0.025 < koli tabanı 0.05)
   carry_q: 0.06                   # taşıma yüksekliği (D-43)
   fork_tol: 0.003
@@ -59,8 +66,10 @@ mission:
   verify_ratio: 0.6
   timeouts: {FIND_STATION: 120.0, TRANSIT: 120.0, LANE_JOIN: 40.0, LANE_FOLLOW: 60.0, PRE_DOCK: 40.0,
              OBSERVE: 10.0, SELECT_BAY: 8.0, ALIGN: 40.0, SETTLE: 5.0, ENTER: 40.0, TRIM: 10.0, REPOSITION: 30.0, LIFT: 8.0,
-             LOWER: 8.0, BACK_OUT: 15.0, VERIFY: 5.0}
+             LOWER: 8.0, BACK_OUT: 15.0, VERIFY: 5.0, RECOVER: 15.0, ABORT: 20.0}
   transit:                         # istasyon arama ve transit (F4)
+    v_travel: 0.25                # transit ayakları ve şerit takibi [m/s] (A3: yüklü 0.15'te kayma ≤ 0.7 mm)
+    hint_tol_deg: 10.0            # hafızadaki tabela bu açıdan uzaksa önce ona dön
     look_s: 0.6                   # dur-bak: bakış süresi
     look_skip_s: 0.2              # bakışın ilk bu kadarı sayılmaz (duruş, TF)
     search_step_deg: 20           # arama adımı (ön kamera 60°; nötr tabela poza göre açık-kapalı algılanıyor, sık bak)
@@ -77,8 +86,11 @@ mission:
     predock_lat_tol: 0.03         # PRE_DOCK: bu toleranslardaysa düzeltme yok
     predock_dist_tol: 0.05
     predock_yaw_tol_deg: 2.0
-    predock_moves: 2
+    predock_moves: 1              # PRE_DOCK: en çok bu kadar düzeltme; sonuncusundan sonra yeniden ölçülmez
     lane_color: {neutral: yellow} # istasyon rengi → şerit rengi (station_params: colors.lane_neutral)
+    wrong_station_range: 1.6      # PRE_DOCK: bu mesafedeki en yakın tabela beklenen renk olmalı [m]
+    exclude_radius: 0.5           # yanlış çıkan istasyonun tabelası bu yarıçapta dışlanır [m]
+    lane_sign_max_offset: 0.5     # şerit doğrusu hedef tabelaya bundan uzak geçiyorsa şerit kullanılmaz [m]
     lane_retries: 2               # şerit görülmezse tabela ayağından sonra yeniden giriş denemesi
     lane_look_s: 1.0              # LANE_JOIN: şerit noktası toplama
     join_ahead: 0.3               # şeride robotun izdüşümünün bu kadar önünden girilir

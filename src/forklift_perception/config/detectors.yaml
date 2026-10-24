@@ -16,6 +16,7 @@ colors:
   yellow:       {h: [[25, 34]], s: [120, 255], v: [100, 255]}     # şerit ve bölme şeridi (kaynak)
   label_yellow: {h: [[19, 24]], s: [150, 255], v: [25, 255]}      # bölme etiketi
   kraft:        {h: [[13, 19]], s: [120, 220], v: [50, 255]}      # koli kartonu (üst yüz factory spotları altında V 207–255, doyuyor)
+  kraft_highlight: {h: [[13, 22]], s: [50, 220], v: [235, 255]}  # spot altında doymuş kraft: S düşer, R kırpılınca H 20–22'ye kayar; yalnız yük denetiminde (F5, D-79)
   white:        {h: [[0, 179]], s: [0, 40], v: [170, 255]}        # durma çizgisi, tabela zemini
   dark_neutral: {h: [[0, 179]], s: [0, 70], v: [10, 120]}         # kaynak tabelasının koyu bloğu
   white_sign:   {h: [[0, 179]], s: [0, 30], v: [60, 255]}         # tabela zemini (yazı hariç; gölgeli tabelada V ~90)
@@ -67,6 +68,7 @@ lanes:                             # renkli şeritler, kuş bakışı (IPM)
   stop_bar_min_area_m2: 0.004
 
 signs:                             # istasyon tabelası (ön kamera)
+  backend: classical               # classical | onnx (plan R4)
   min_block_area_px: 40            # renk bloğu en küçük alan
   max_reproj_px: 2.5               # blok köşeleri: 3 serbestlikli pozun yeniden izdüşüm hatası
   min_white_fraction: 0.5          # bloğun sağındaki panelde beyaz oranı (yazı ~%20)
@@ -76,6 +78,7 @@ signs:                             # istasyon tabelası (ön kamera)
   min_block_fraction: 0.5          # sol karede çoğunluk renginin oranı
 
 parcels:                           # koli ve mühür (ön kamera)
+  backend: classical               # classical | onnx (plan R4; onnx sonraki dilimde, yuva burada)
   seal_s_min: 150                  # mühür doygunluğu (ölçülen 184–196)
   min_seal_area_px: 30
   max_seal_aspect: 2.5             # görüntüde en / boy (açılı bakış)
@@ -86,6 +89,7 @@ parcels:                           # koli ve mühür (ön kamera)
 
 load:                              # çatalda yük (şerit kamerası)
   min_kraft_fraction: 0.5          # taşınan kolinin silüetinde kraft oranı
+  classes: [kraft, kraft_highlight] # factory'de salona bakınca üst yüz doyuyor: kraft 0.56 (eşiğe 0.06), F5 A4/A5'te yanlış "yük kaybı"
 
 lane_kind:                         # şerit türü (hedef çiftlerine göre)
   bay_lateral_tol: 0.03            # bölme şeridi: bir bölme eksenine yanal uzaklık [m]

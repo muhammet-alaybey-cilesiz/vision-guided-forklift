@@ -30,9 +30,22 @@ def load_config(path):
         return yaml.safe_load(f)
 
 
+BACKENDS = ('classical',)                # plan R4: öğrenmeli model ('onnx') sonraki dilimde aynı yuvaya takılır
+
+
+def _backend(cfg, name):
+    """Algılayıcı uygulaması (detectors.yaml → <ad>.backend). Dilim 1'de yalnız klasik vardır."""
+    b = cfg[name]['backend']
+    if b not in BACKENDS:
+        raise NotImplementedError(f'{name}.backend: {b!r} henüz uygulanmadı (dilim 1: {BACKENDS})')
+    return b
+
+
 class FrontPipeline:
     def __init__(self, catalog, cfg):
         self.colors = ColorClasses(cfg['colors'])
+        _backend(cfg, 'signs')
+        _backend(cfg, 'parcels')
         self.signs = SignDetector(catalog, self.colors, cfg['signs'])
         self.parcels = ParcelDetector(catalog, self.colors, cfg['parcels'])
 

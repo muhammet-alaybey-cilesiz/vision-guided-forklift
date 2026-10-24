@@ -1,0 +1,175 @@
+[INFO] [launch]: All log files can be found below /home/muhammet61/.ros/log/2026-10-24-20-09-00-132805-muhammet61-30039
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mission_manager-1]: process started with pid [30084]
+[mission_manager-1] [WARN] [1792861740.709218359] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[mission_manager-1] [WARN] [1792861740.709232437] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[mission_manager-1] [INFO] [1792861740.846026224] [mission_manager]: görev yöneticisi hazır (mod: Manuel, transit: lane)
+[mission_manager-1] [INFO] [1792861766.622051736] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861766.683637131] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792861766.703812372] [mission_manager]: görev başladı (transit red)
+[mission_manager-1] [INFO] [1792861766.817043540] [mission_manager]: FIND_STATION: hedef: red
+[mission_manager-1] [INFO] [1792861767.734087140] [mission_manager]: FIND_STATION: bakış 1: yön 0°, görülen {'neutral': 10}
+[mission_manager-1] [INFO] [1792861767.734495779] [mission_manager]: FIND_STATION: çatalda koli var (yük denetimi); taşıma kuralları geçerli
+[mission_manager-1] [INFO] [1792861771.339386835] [mission_manager]: FIND_STATION: bakış 2: yön 20°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792861774.958899501] [mission_manager]: FIND_STATION: bakış 3: yön 40°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792861778.468436208] [mission_manager]: FIND_STATION: bakış 4: yön 60°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792861781.828499680] [mission_manager]: FIND_STATION: bakış 5: yön 80°, görülen {'neutral': 1}
+[mission_manager-1] [INFO] [1792861785.440924838] [mission_manager]: LANE_JOIN: tabela red: 2.53 m, yön 10°
+[mission_manager-1] [INFO] [1792861802.627156791] [mission_manager]: LANE_FOLLOW: şeritte
+[mission_manager-1] [WARN] [1792861803.277944314] [mission_manager]: duraklatıldı: e-stop
+[mission_manager-1] [INFO] [1792861803.403322164] [mission_manager]: PAUSED: e-stop
+[mission_manager-1] [INFO] [1792861821.094389344] [mission_manager]: PRE_DOCK: istasyon ekseni ölçülüyor
+[mission_manager-1] [INFO] [1792861822.938831705] [mission_manager]: görev bitti: Görev tamam (red ön-yanaşmada (yanal -4 mm, yön -0.1°))
+[mission_manager-1] [INFO] [1792861822.939508394] [mission_manager]: DONE: red ön-yanaşmada (yanal -4 mm, yön -0.1°)
+[mission_manager-1] [INFO] [1792861822.951431377] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861822.989358854] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861833.372581324] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861833.440002511] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792861833.460823635] [mission_manager]: görev başladı (pick )
+[mission_manager-1] [INFO] [1792861833.650388884] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792861835.453901665] [mission_manager]: SELECT_BAY:  [bölme giriş -1.153,2.407 θ 89.92°]
+[mission_manager-1] [INFO] [1792861835.454245382] [mission_manager]: ALIGN: bölme 1/3 (soldan), mühür blue [bölme giriş -1.153,2.407 θ 89.92°]
+[mission_manager-1] [INFO] [1792861848.229210910] [mission_manager]: SETTLE:  [bölme giriş -1.153,2.422 θ 89.76°]
+[mission_manager-1] [INFO] [1792861849.279391718] [mission_manager]: ENTER: giriş (yanal -3 mm, yön -0.17°, mesafe 0.77 m) [bölme giriş -1.153,2.423 θ 89.85°]
+[mission_manager-1] [WARN] [1792861849.297661835] [mission_manager]: duraklatıldı: operatör devraldı (teleop)
+[mission_manager-1] [INFO] [1792861849.565714929] [mission_manager]: PAUSED: operatör devraldı (teleop) [bölme giriş -1.153,2.422 θ 89.86°]
+[mission_manager-1] [INFO] [1792861853.599172319] [mission_manager]: OBSERVE: devam: ENTER yarıda kaldı, yeniden gözlem
+[mission_manager-1] [INFO] [1792861855.428342044] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792861855.428886378] [mission_manager]: REPOSITION: bölmesi görülmeyen koli (blue), yeniden konumlanma 1
+[mission_manager-1] [INFO] [1792861875.949604289] [mission_manager]: OBSERVE: yeniden gözlem
+[mission_manager-1] [INFO] [1792861877.900429429] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792861878.180961542] [mission_manager]: ALIGN: bölme 1/3 (soldan), mühür blue [bölme giriş -1.153,2.424 θ 89.90°]
+[mission_manager-1] [INFO] [1792861881.223478598] [mission_manager]: SETTLE:  [bölme giriş -1.153,2.427 θ 89.92°]
+[mission_manager-1] [INFO] [1792861882.335957112] [mission_manager]: ENTER: giriş (yanal -1 mm, yön -0.12°, mesafe 0.75 m) [bölme giriş -1.153,2.425 θ 89.80°]
+[mission_manager-1] [INFO] [1792861888.037184420] [mission_manager]: TRIM: yanal -0.4 mm, yön -0.11° [bölme giriş -1.153,2.426 θ 89.95°]
+[mission_manager-1] [INFO] [1792861889.223031860] [mission_manager]: ENTER: son hizalama tamam [bölme giriş -1.153,2.428 θ 89.95°]
+[mission_manager-1] [INFO] [1792861896.272540480] [mission_manager]: LIFT: tam giriş (CV mesafesi 0.144 m) [bölme giriş -1.152,2.426 θ 89.95°]
+[mission_manager-1] [INFO] [1792861898.045762326] [mission_manager]: BACK_OUT:  [bölme giriş -1.152,2.426 θ 89.95°]
+[mission_manager-1] [INFO] [1792861905.997350157] [mission_manager]: VERIFY:  [bölme giriş -1.153,2.426 θ 89.91°]
+[mission_manager-1] [INFO] [1792861906.645995645] [mission_manager]: görev bitti: Görev tamam (koli çatalda (mühür blue))
+[mission_manager-1] [INFO] [1792861906.879293311] [mission_manager]: DONE: koli çatalda (mühür blue) [bölme giriş -1.154,2.426 θ 89.91°]
+[mission_manager-1] [INFO] [1792861906.901768301] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861906.943112561] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861922.712321923] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861922.774688391] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792861922.795569850] [mission_manager]: görev başladı (drop )
+[mission_manager-1] [INFO] [1792861923.010521882] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792861924.969958349] [mission_manager]: SELECT_BAY:  [bölme giriş -1.148,2.987 θ 89.54°]
+[mission_manager-1] [INFO] [1792861924.970429216] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş -1.148,2.987 θ 89.54°]
+[mission_manager-1] [WARN] [1792861925.448277625] [mission_manager]: duraklatıldı: Manuel moda geçildi
+[mission_manager-1] [INFO] [1792861925.448642267] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861925.535693807] [mission_manager]: PAUSED: Manuel moda geçildi [bölme giriş -1.148,2.987 θ 89.52°]
+[mission_manager-1] [INFO] [1792861929.606309852] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792861929.648596259] [mission_manager]: OBSERVE: devam: ALIGN yarıda kaldı, yeniden gözlem
+[mission_manager-1] [INFO] [1792861931.865716467] [mission_manager]: SELECT_BAY:  [bölme giriş -1.148,2.988 θ 89.52°]
+[mission_manager-1] [INFO] [1792861931.866108424] [mission_manager]: ALIGN: bölme 2/3 (soldan), boş [bölme giriş -1.148,2.988 θ 89.52°]
+[mission_manager-1] [INFO] [1792861937.036937726] [mission_manager]: SETTLE:  [bölme giriş -1.148,2.978 θ 89.53°]
+[mission_manager-1] [INFO] [1792861938.164529474] [mission_manager]: ENTER: giriş (yanal -1 mm, yön -0.05°, mesafe 0.75 m) [bölme giriş -1.147,2.985 θ 89.52°]
+[mission_manager-1] [INFO] [1792861943.694702369] [mission_manager]: TRIM: yanal -0.0 mm, yön 0.05° [bölme giriş -1.148,2.988 θ 89.53°]
+[mission_manager-1] [INFO] [1792861944.770362063] [mission_manager]: ENTER: son hizalama tamam [bölme giriş -1.148,2.982 θ 89.53°]
+[mission_manager-1] [INFO] [1792861952.162127626] [mission_manager]: LOWER: tam giriş (CV mesafesi 0.144 m) [bölme giriş -1.147,2.987 θ 89.53°]
+[mission_manager-1] [INFO] [1792861953.568128987] [mission_manager]: BACK_OUT:  [bölme giriş -1.148,2.987 θ 89.53°]
+[mission_manager-1] [INFO] [1792861960.909726761] [mission_manager]: VERIFY:  [bölme giriş -1.147,2.987 θ 89.54°]
+[mission_manager-1] [INFO] [1792861962.002175608] [mission_manager]: görev bitti: Görev tamam (koli bırakıldı)
+[mission_manager-1] [INFO] [1792861962.002688778] [mission_manager]: DONE: koli bırakıldı [bölme giriş -1.147,2.989 θ 89.59°]
+[mission_manager-1] [INFO] [1792861962.042620182] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861962.083331355] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861971.099404334] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792861971.159778032] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792861971.180751941] [mission_manager]: görev başladı (pick )
+[mission_manager-1] [INFO] [1792861971.274560755] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792861973.413232243] [mission_manager]: SELECT_BAY:  [bölme giriş -1.447,3.334 θ 89.48°]
+[mission_manager-1] [INFO] [1792861973.413738163] [mission_manager]: ALIGN: bölme 1/3 (soldan), mühür blue [bölme giriş -1.447,3.334 θ 89.48°]
+[mission_manager-1] [INFO] [1792861986.018589562] [mission_manager]: SETTLE:  [bölme giriş -1.446,3.347 θ 89.44°]
+[mission_manager-1] [INFO] [1792861987.110048467] [mission_manager]: ENTER: giriş (yanal -2 mm, yön -0.10°, mesafe 0.77 m) [bölme giriş -1.446,3.349 θ 89.46°]
+[mission_manager-1] [INFO] [1792861990.245394715] [mission_manager]: RECOVER: hedef kayıp (2.0 s görülmedi) → kurtarma 1/2 [bölme giriş -1.446,3.349 θ 89.46°]
+[mission_manager-1] [INFO] [1792861994.265225207] [mission_manager]: OBSERVE: kurtarma: yeniden gözleniyor
+[mission_manager-1] [INFO] [1792861996.517133855] [mission_manager]: SELECT_BAY:  [bölme giriş -1.446,3.347 θ 89.49°]
+[mission_manager-1] [INFO] [1792861996.517554250] [mission_manager]: ALIGN: bölme 1/2 (soldan), mühür blue [bölme giriş -1.446,3.347 θ 89.49°]
+[mission_manager-1] [INFO] [1792862000.182432598] [mission_manager]: SETTLE:  [bölme giriş -1.446,3.349 θ 89.53°]
+[mission_manager-1] [INFO] [1792862001.562774263] [mission_manager]: ENTER: giriş (yanal -1 mm, yön -0.10°, mesafe 0.76 m) [bölme giriş -1.446,3.353 θ 89.45°]
+[mission_manager-1] [INFO] [1792862007.374145182] [mission_manager]: TRIM: yanal -0.0 mm, yön 0.07° [bölme giriş -1.446,3.349 θ 89.54°]
+[mission_manager-1] [INFO] [1792862008.486150661] [mission_manager]: ENTER: son hizalama tamam [bölme giriş -1.446,3.341 θ 89.54°]
+[mission_manager-1] [INFO] [1792862015.062252085] [mission_manager]: LIFT: tam giriş (CV mesafesi 0.143 m) [bölme giriş -1.445,3.352 θ 89.54°]
+[mission_manager-1] [INFO] [1792862016.671629806] [mission_manager]: BACK_OUT:  [bölme giriş -1.444,3.351 θ 89.54°]
+[mission_manager-1] [INFO] [1792862023.950118447] [mission_manager]: VERIFY:  [bölme giriş -1.446,3.349 θ 89.52°]
+[mission_manager-1] [INFO] [1792862024.662850386] [mission_manager]: görev bitti: Görev tamam (koli çatalda (mühür blue))
+[mission_manager-1] [INFO] [1792862024.728147189] [mission_manager]: DONE: koli çatalda (mühür blue) [bölme giriş -1.446,3.344 θ 89.49°]
+[mission_manager-1] [INFO] [1792862024.769293076] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862027.103728742] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862037.584173271] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862037.645780893] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792862037.665765993] [mission_manager]: görev başladı (pick )
+[mission_manager-1] [INFO] [1792862037.905057516] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792862039.718797542] [mission_manager]: SELECT_BAY:  [bölme giriş -1.739,3.702 θ 88.98°]
+[mission_manager-1] [INFO] [1792862039.719205611] [mission_manager]: ALIGN: bölme 1/3 (soldan), mühür blue [bölme giriş -1.739,3.702 θ 88.98°]
+[mission_manager-1] [INFO] [1792862052.379734951] [mission_manager]: SETTLE:  [bölme giriş -1.738,3.710 θ 89.00°]
+[mission_manager-1] [INFO] [1792862053.469091956] [mission_manager]: ENTER: giriş (yanal -2 mm, yön -0.06°, mesafe 0.76 m) [bölme giriş -1.738,3.713 θ 88.98°]
+[mission_manager-1] [INFO] [1792862056.414324080] [mission_manager]: RECOVER: hedef kayıp (2.0 s görülmedi) → kurtarma 1/2 [bölme giriş -1.738,3.712 θ 88.98°]
+[mission_manager-1] [INFO] [1792862060.406252651] [mission_manager]: OBSERVE: kurtarma: yeniden gözleniyor
+[mission_manager-1] [INFO] [1792862073.632219368] [mission_manager]: RECOVER: zaman aşımı (OBSERVE, 10 s) → kurtarma 2/2
+[mission_manager-1] [INFO] [1792862077.472058922] [mission_manager]: OBSERVE: kurtarma: yeniden gözleniyor
+[mission_manager-1] [INFO] [1792862090.093946100] [mission_manager]: görev bitti: Hata: zaman aşımı (OBSERVE, 10 s); 2 kurtarma denemesi tükendi
+[mission_manager-1] [INFO] [1792862090.222086378] [mission_manager]: FAULT: zaman aşımı (OBSERVE, 10 s); 2 kurtarma denemesi tükendi
+[mission_manager-1] [INFO] [1792862090.263066062] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862092.891301878] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862105.604458581] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862105.665694207] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792862105.685008708] [mission_manager]: görev başladı (transit red)
+[mission_manager-1] [INFO] [1792862105.929359297] [mission_manager]: FIND_STATION: hedef: red
+[mission_manager-1] [INFO] [1792862106.719777718] [mission_manager]: FIND_STATION: bakış 1: yön 90°, görülen {'neutral': 11}
+[mission_manager-1] [INFO] [1792862106.720155510] [mission_manager]: FIND_STATION: çatalda koli var (yük denetimi); taşıma kuralları geçerli
+[mission_manager-1] [INFO] [1792862110.155136226] [mission_manager]: FIND_STATION: bakış 2: yön 110°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792862113.217942366] [mission_manager]: FIND_STATION: bakış 3: yön 130°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792862116.625126409] [mission_manager]: FIND_STATION: bakış 4: yön 149°, görülen {'neutral': 0}
+[mission_manager-1] [INFO] [1792862119.908952472] [mission_manager]: FIND_STATION: bakış 5: yön 169°, görülen {'neutral': 16}
+[mission_manager-1] [INFO] [1792862123.336157628] [mission_manager]: LANE_JOIN: tabela red: 2.53 m, yön 10°
+[mission_manager-1] [INFO] [1792862139.666872993] [mission_manager]: LANE_FOLLOW: şeritte
+[mission_manager-1] [INFO] [1792862141.009522657] [mission_manager]: görev bitti: Hata: yük kaybı: taşınan koli çatalda görülmüyor
+[mission_manager-1] [INFO] [1792862141.010108416] [mission_manager]: FAULT: yük kaybı: taşınan koli çatalda görülmüyor
+[mission_manager-1] [WARN] [1792862141.010781435] [mission_manager]: yük kaybı: son kraft oranları [0.98, 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+[mission_manager-1] [INFO] [1792862141.035422245] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862143.260750767] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862153.286744631] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862153.351377143] [mission_manager]: mod: Otonom
+[mission_manager-1] [INFO] [1792862153.370944715] [mission_manager]: görev başladı (pick )
+[mission_manager-1] [INFO] [1792862153.526116697] [mission_manager]: OBSERVE: 
+[mission_manager-1] [INFO] [1792862155.231063903] [mission_manager]: SELECT_BAY: 
+[mission_manager-1] [INFO] [1792862155.482664003] [mission_manager]: ALIGN: bölme 1/3 (soldan), mühür blue [bölme giriş -3.285,1.663 θ -179.30°]
+[mission_manager-1] [INFO] [1792862167.209395479] [mission_manager]: SETTLE:  [bölme giriş -3.305,1.660 θ -179.49°]
+[mission_manager-1] [INFO] [1792862168.179304428] [mission_manager]: ENTER: giriş (yanal -8 mm, yön -0.19°, mesafe 0.77 m) [bölme giriş -3.305,1.660 θ -179.49°]
+[mission_manager-1] [INFO] [1792862173.627719313] [mission_manager]: TRIM: yanal 0.0 mm, yön 0.29° [bölme giriş -3.310,1.660 θ -179.48°]
+[mission_manager-1] [INFO] [1792862174.944156222] [mission_manager]: ENTER: son hizalama tamam [bölme giriş -3.309,1.660 θ -179.48°]
+[mission_manager-1] [INFO] [1792862181.165593524] [mission_manager]: LIFT: tam giriş (CV mesafesi 0.144 m) [bölme giriş -3.311,1.661 θ -179.48°]
+[mission_manager-1] [INFO] [1792862182.823291419] [mission_manager]: BACK_OUT:  [bölme giriş -3.310,1.661 θ -179.48°]
+[mission_manager-1] [INFO] [1792862189.420044450] [mission_manager]: VERIFY:  [bölme giriş -3.308,1.660 θ -179.43°]
+[mission_manager-1] [INFO] [1792862190.420220866] [mission_manager]: OBSERVE: alma başarısız: çatalda koli yok → yeniden deneme 1
+[mission_manager-1] [INFO] [1792862192.152073707] [mission_manager]: SELECT_BAY:  [bölme giriş -3.314,1.960 θ -179.39°]
+[mission_manager-1] [INFO] [1792862192.152885588] [mission_manager]: ALIGN: bölme 1/1 (soldan), mühür green [bölme giriş -3.314,1.960 θ -179.39°]
+[mission_manager-1] [INFO] [1792862207.552989433] [mission_manager]: SETTLE:  [bölme giriş -3.304,1.960 θ -179.64°]
+[mission_manager-1] [INFO] [1792862208.540728794] [mission_manager]: ENTER: giriş (yanal 1 mm, yön 0.01°, mesafe 0.74 m) [bölme giriş -3.307,1.960 θ -179.50°]
+[mission_manager-1] [INFO] [1792862214.222216082] [mission_manager]: TRIM: yanal -0.1 mm, yön -0.05° [bölme giriş -3.312,1.960 θ -179.35°]
+[mission_manager-1] [INFO] [1792862215.226175126] [mission_manager]: ENTER: son hizalama tamam [bölme giriş -3.311,1.960 θ -179.35°]
+[mission_manager-1] [INFO] [1792862221.719013145] [mission_manager]: LIFT: tam giriş (CV mesafesi 0.144 m) [bölme giriş -3.313,1.961 θ -179.33°]
+[mission_manager-1] [INFO] [1792862223.287955222] [mission_manager]: BACK_OUT:  [bölme giriş -3.314,1.961 θ -179.33°]
+[mission_manager-1] [INFO] [1792862229.984630872] [mission_manager]: VERIFY:  [bölme giriş -3.315,1.960 θ -179.37°]
+[mission_manager-1] [INFO] [1792862230.977603236] [mission_manager]: görev bitti: Görev tamam (koli çatalda (mühür green))
+[mission_manager-1] [INFO] [1792862230.978813497] [mission_manager]: DONE: koli çatalda (mühür green) [bölme giriş -3.314,1.960 θ -179.39°]
+[mission_manager-1] [INFO] [1792862231.012211731] [mission_manager]: mod: Manuel
+[mission_manager-1] [INFO] [1792862231.053441341] [mission_manager]: mod: Manuel
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [mission_manager-1]: sending signal 'SIGINT' to process[mission_manager-1]
+[mission_manager-1] Traceback (most recent call last):
+[mission_manager-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/forklift_autonomy/mission_manager", line 33, in <module>
+[mission_manager-1]     sys.exit(load_entry_point('forklift-autonomy==0.1.0', 'console_scripts', 'mission_manager')())
+[mission_manager-1]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[mission_manager-1]   File "/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/python3.12/site-packages/forklift_autonomy/node.py", line 361, in main
+[mission_manager-1]     node.destroy_node()
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1958, in destroy_node
+[mission_manager-1]     self.destroy_subscription(self._subscriptions[0])
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/node.py", line 1854, in destroy_subscription
+[mission_manager-1]     subscription.destroy()
+[mission_manager-1]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/subscription.py", line 101, in destroy
+[mission_manager-1]     self.handle.destroy_when_not_in_use()
+[mission_manager-1] KeyboardInterrupt
+[ERROR] [mission_manager-1]: process has died [pid 30084, exit code -2, cmd '/home/muhammet61/cv_forklift_ws/install/forklift_autonomy/lib/forklift_autonomy/mission_manager --ros-args -r __node:=mission_manager --params-file /tmp/launch_params_8d79839u --params-file /tmp/launch_params_197w57uk'].

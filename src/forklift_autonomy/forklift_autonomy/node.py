@@ -200,6 +200,7 @@ class MissionManager(Node):
 
     def _on_load(self, m):
         self.load = bool(m.loaded)
+        self.kraft_hist = (getattr(self, 'kraft_hist', []) + [round(float(m.kraft_fraction), 2)])[-10:]
 
     def _on_estop(self, m):
         rising = bool(m.data) and not self.estop
@@ -341,6 +342,9 @@ class MissionManager(Node):
         m.bay_lateral = float('nan') if b is None or self.pose is None else float(
             -math.sin(b.theta) * (b.entry[0] - self.pose.x) + math.cos(b.theta) * (b.entry[1] - self.pose.y))
         m.fault = self.mission.fault
+        if self.mission.state == 'FAULT' and 'yük kaybı' in self.mission.fault and not getattr(self, 'kraft_logged', False):
+            self.kraft_logged = True                    # teşhis: yük kaybı anındaki son kraft oranları
+            self.get_logger().warn(f'yük kaybı: son kraft oranları {getattr(self, "kraft_hist", [])}')
         m.parcels_done = self.mission.parcels_done
         m.parcels_total = self.mission.parcels_total
         self.state_pub.publish(m)
