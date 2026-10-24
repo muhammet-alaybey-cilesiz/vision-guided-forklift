@@ -10,7 +10,7 @@
 | F2 Algılama | Tamamlandı (2026-10-22), K-2 onaylandı (2026-10-23) |
 | F3 Alma + GUI modu | Tamamlandı (2026-10-24); sahip F4'e geçilmesini istedi |
 | F4 Bırakma + transit | Tamamlandı (2026-10-24), K-4 onaylandı (2026-10-24) |
-| F5 Görev + sürüm | **Tamamlandı (2026-10-24), K-5 onayı bekleniyor** |
+| F5 Görev + sürüm | Tamamlandı (2026-10-24), K-5 onaylandı: `main`, `v0.4.0`, `release/v0.4.0` (d79afb4) |
 
 ---
 
